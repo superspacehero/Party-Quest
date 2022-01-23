@@ -597,7 +597,21 @@ PlayerSettings:
   webGLLinkerTarget: 1
   webGLThreadsSupport: 0
   webGLDecompressionFallback: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: AMPLIFY_SHADER_EDITOR;TextMeshPro;ODIN_INSPECTOR;ODIN_INSPECTOR_3
+    4: TextMeshPro
+    7: TextMeshPro
+    13: TextMeshPro
+    14: TextMeshPro
+    19: TextMeshPro
+    21: TextMeshPro
+    25: TextMeshPro
+    27: TextMeshPro
+    28: TextMeshPro
+    29: TextMeshPro
+    30: TextMeshPro
+    32: TextMeshPro
+    33: TextMeshPro
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:
@@ -687,7 +701,7 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-  activeInputHandler: 0
+  activeInputHandler: 1
   cloudProjectId: 
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []

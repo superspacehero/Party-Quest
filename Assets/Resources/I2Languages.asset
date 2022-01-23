@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f0b0c553be8edd4682e9180fdd13e37, type: 3}
+  m_Name: I2Languages
+  m_EditorClassIdentifier: 
+  mSource:
+    UserAgreesToHaveItOnTheScene: 0
+    UserAgreesToHaveItInsideThePluginsFolder: 0
+    GoogleLiveSyncIsUptoDate: 1
+    mTerms:
+    - Term: Action_Roll
+      TermType: 0
+      Description: Rolling dice
+      Languages:
+      - Roll Dice
+      - "\u30B5\u30A4\u30B3\u30ED\u3067\u6C7A\u3081\u308B"
+      - Tirar El Dado
+      - "Roulez Les D\xE9s"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Title/Title_Game
+      TermType: 0
+      Description: The name of the game
+      Languages:
+      - Party Quest
+      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
+      - "B\xFAsqueda De Fiesta"
+      - "Qu\xEAte De F\xEAte"
+      Flags: 00000000
+      Languages_Touch: []
+    CaseInsensitiveTerms: 0
+    OnMissingTranslation: 1
+    mTerm_AppName: 
+    mLanguages:
+    - Name: English
+      Code: en
+      Flags: 0
+    - Name: Japanese
+      Code: ja
+      Flags: 0
+    - Name: Spanish
+      Code: es
+      Flags: 0
+    - Name: French
+      Code: fr
+      Flags: 0
+    IgnoreDeviceLanguage: 0
+    _AllowUnloadingLanguages: 0
+    Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
+    Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
+    Google_SpreadsheetName: I2Loc - Party Quest
+    Google_LastUpdatedVersion: 
+    Google_Password: change_this
+    GoogleUpdateFrequency: 3
+    GoogleInEditorCheckFrequency: 2
+    GoogleUpdateSynchronization: 1
+    GoogleUpdateDelay: 0
+    Assets: []
+    Spreadsheet_LocalFileName: 
+    Spreadsheet_LocalCSVSeparator: ','
+    Spreadsheet_LocalCSVEncoding: utf-8
+    Spreadsheet_SpecializationAsRows: 1
