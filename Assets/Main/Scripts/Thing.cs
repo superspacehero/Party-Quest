@@ -25,6 +25,12 @@ public class Thing : LookAtObject
 
     #endregion
 
+    #region Camera
+
+        public Transform cameraPoint;
+
+    #endregion
+
     #region Rotation
 
         protected Transform meshBase
