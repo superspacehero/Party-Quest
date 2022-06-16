@@ -19,10 +19,6 @@
 
 	    protected override void Update() {
 			base.Update();
-			
-	        if (!Input.GetMouseButton(0) || !_isDragging) {
-	            value = _sound.time;
-	        }
 
 			if (_isDragging && Input.GetMouseButtonUp(0)) {
 				_isDragging = false;

@@ -61,15 +61,25 @@ namespace AmplifyShaderEditor
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "ed95fe726fd7b4644bb42f4d1ddd2bcd" );
 		}
-		[MenuItem( "Assets/Create/Amplify Shader/Universal/Experimental/2D Lit", false, 85 )]
-		public static void ApplyTemplateUniversalExperimental2DLit()
+		[MenuItem( "Assets/Create/Amplify Shader/Universal/2D Custom Lit", false, 85 )]
+		public static void ApplyTemplateUniversal2DCustomLit()
+		{
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "ece0159bad6633944bf6b818f4dd296c" );
+		}
+		[MenuItem( "Assets/Create/Amplify Shader/Universal/2D Lit", false, 85 )]
+		public static void ApplyTemplateUniversal2DLit()
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "199187dac283dbe4a8cb1ea611d70c58" );
 		}
-		[MenuItem( "Assets/Create/Amplify Shader/Universal/Experimental/2D Unlit", false, 85 )]
-		public static void ApplyTemplateUniversalExperimental2DUnlit()
+		[MenuItem( "Assets/Create/Amplify Shader/Universal/2D Unlit", false, 85 )]
+		public static void ApplyTemplateUniversal2DUnlit()
 		{
 			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "cf964e524c8e69742b1d21fbe2ebcc4a" );
+		}
+		[MenuItem( "Assets/Create/Amplify Shader/Universal/Decals", false, 85 )]
+		public static void ApplyTemplateUniversalDecals()
+		{
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "c2a467ab6d5391a4ea692226d82ffefd" );
 		}
 	}
 }
