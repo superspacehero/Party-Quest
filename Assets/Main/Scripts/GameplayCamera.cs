@@ -6,8 +6,19 @@ public class GameplayCamera : InstancedObject
 {
     #region Camera variables
 
-        new protected static GameplayCamera instance;
+        new public static GameplayCamera instance;
         public float cameraAdjustTime = 0.25f;
+        private Camera myCamera
+        {
+            get
+            {
+                if (_myCamera == null)
+                    TryGetComponent(out _myCamera);
+
+                return _myCamera;
+            }
+        }
+        private Camera _myCamera;
 
     #endregion
 
@@ -41,6 +52,27 @@ public class GameplayCamera : InstancedObject
             }
 
             instance.transform.localPosition = Vector3.zero;
+        }
+
+    #endregion
+
+    #region Rotating Things
+
+        private float previousRotation;
+
+        public static List<RotateTowardsCamera> cameraRotators = new List<RotateTowardsCamera>();
+
+        /// <summary>
+        /// Update is called every frame, if the MonoBehaviour is enabled.
+        /// </summary>
+        void Update()
+        {
+            // if (transform.hasChanged)
+            if (previousRotation != transform.eulerAngles.y)
+                foreach (RotateTowardsCamera rotator in cameraRotators)
+                    rotator.Rotate(myCamera);
+
+            previousRotation = transform.eulerAngles.y;
         }
 
     #endregion

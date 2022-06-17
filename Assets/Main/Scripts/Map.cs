@@ -5,7 +5,7 @@ using Pathfinding;
 
 public class Map : InstancedObject
 {
-    new protected static Map instance;
+    new public static Map instance;
 
     public List<Thing> things;
 

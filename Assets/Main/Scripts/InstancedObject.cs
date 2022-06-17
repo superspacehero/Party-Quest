@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InstancedObject : MonoBehaviour
 {
-    protected static InstancedObject instance;
+    public static InstancedObject instance;
 
     /// <summary>
     /// This function is called when the object becomes enabled and active.
