@@ -51,19 +51,24 @@ public class Thing : LookAtObject
 
     #region Movement
 
+        public int movesLeft;
+
         private Vector3 location, previousLocation;
 
         public GraphNode currentNode = null;
 
         public bool solid = true;
         protected bool moving;
-        public float maxStepHeight = 0.5f;
+        public float tileMoveTime = 0.2f, maxStepHeight = 0.5f;
 
         private Vector3 direction;
 
         // Move to a new node.
         public void MoveTo(Vector3 position, bool ignoreCollisions = false, bool checkHeight = true)
         {
+            if (moving || movesLeft <= 0)
+                return;
+
             GraphNode oldNode = currentNode;
             GraphNode newNode = Map.GetNode(thing:this, position:position, checkHeight:checkHeight, ignoreCollisions:ignoreCollisions);
 
@@ -73,23 +78,49 @@ public class Thing : LookAtObject
                 location = (Vector3)newNode.position;
             }
 
-            if (position != location)
+            if (previousLocation != location)
             {
-                direction = (position - location).normalized;
-                moving = true;
+                if (!moving)
+                {
+                    direction = (previousLocation - location).normalized;
+
+                    moving = true;
+                    StartCoroutine(Movement());
+
+                    UpdateThings();
+                    Rotate(direction);
+
+                    movesLeft--;
+                    previousLocation = location;
+                }
             }
             else
                 moving = false;
 
-            UpdateThings();
-            Rotate(direction);
-
-            Debug.Log("Moving to " + position);
+            // Debug.Log("Moving to " + position);
         }
 
         public void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
             MoveTo(position:location + direction, ignoreCollisions:ignoreCollisions, checkHeight:checkHeight);
+        }
+
+        private IEnumerator Movement()
+        {
+            Debug.Log("Moving " + name);
+            float time = 0;
+            Vector3 startPosition = transform.position;
+            Vector3 endPosition = location;
+
+            while (time < tileMoveTime)
+            {
+                time += Time.deltaTime;
+                transform.position = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
+                yield return null;
+            }
+
+            transform.position = endPosition;
+            moving = false;
         }
 
         private void UpdateThings()
@@ -153,8 +184,6 @@ public class Thing : LookAtObject
         [SerializeField, InfoBox("If left empty, the base object will be used."), FoldoutGroup("Rotation")]
         private Transform _meshBase;
 
-        private Vector3 previousPosition;
-
         public float gotoRotation
         {
             get { return _gotoRotation; }
@@ -182,18 +211,16 @@ public class Thing : LookAtObject
                 case MovementRotationBehavior.None:
                     return;
                 case MovementRotationBehavior.FullRotation:
+                    gotoRotation = ((Mathf.Atan2(direction.x, direction.z)) * Mathf.Rad2Deg);
                     break;
                 case MovementRotationBehavior.LeftRightRotation:
-                    direction.z = 0;
-                    
-                    if (direction.x > 0)
-                        direction.x = 1;
-                    else if (direction.x < 0)
-                        direction.x = -1;
+                    if (direction.x < 0)
+                        gotoRotation = 0;
+                    else if (direction.x > 0)
+                        gotoRotation = 180;
                     break;
             }
 
-            gotoRotation = ((Mathf.Atan2(direction.x, direction.z)) * Mathf.Rad2Deg);
         }
 
         [Button, FoldoutGroup("Rotation"), HideInEditorMode]
@@ -227,6 +254,20 @@ public class Thing : LookAtObject
             );
 
             // rotating = false;
+        }
+
+    #endregion
+
+    #region Actions
+
+        public void PrimaryAction()
+        {
+            movesLeft = Random.Range(1, 10);
+        }
+
+        public void SecondaryAction()
+        {
+            movesLeft = Random.Range(1, 10);
         }
 
     #endregion

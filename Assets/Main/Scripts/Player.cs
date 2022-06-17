@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         [HideInInspector]
         public bool updating;
 
-        public bool canControl;
+        public bool canControl = true;
 
         public float inputAdjustTime = 0.05f;
         private float currentInputTime;
@@ -41,30 +41,36 @@ public class Player : MonoBehaviour
         public void OnMove(InputValue value)
         {
             Vector2 input = value.Get<Vector2>();
-            input.x = Mathf.Abs(input.x);
-            input.y = Mathf.Abs(input.y);
-
-            if (input.magnitude > 0 && input.x != input.y)
-            {
-                if (input.x > input.y)
-                    input.y = 0;
-                else if (input.y > input.x)
-                    input.x = 0;
-            }
 
             movement = Vector2Int.RoundToInt(input);
 
             moving = movement.magnitude > 0;
+
+            // Debug.Log(movement);
         }
 
         public void OnButton1(InputValue value)
         {
             button1 = value.isPressed;
+
+            if (button1)
+                controlledThing.PrimaryAction();
         }
 
         public void OnButton2(InputValue value)
         {
             button2 = value.isPressed;
+
+            if (button2)
+                controlledThing.SecondaryAction();
+        }
+
+        /// <summary>
+        /// This function is called when the object becomes enabled and active.
+        /// </summary>
+        void OnEnable()
+        {
+            SetControlObject();
         }
 
         public void Update()
@@ -88,10 +94,13 @@ public class Player : MonoBehaviour
     #endregion
 
     [Button]
-    public void SetControlObject(Thing thingToControl, bool immediateCameraShift = false)
+    public void SetControlObject(Thing thingToControl = null, bool immediateCameraShift = false)
     {
         if (thingToControl == null)
-            return;
+            if (_controlledThing != null)
+                thingToControl = _controlledThing;
+            else
+                return;
 
         if (controlledThing != thingToControl)
             _controlledThing = thingToControl;

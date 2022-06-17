@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 
+[RequireComponent(typeof(AstarPath))]
 public class Map : InstancedObject
 {
     new public static Map instance;
 
-    public List<Thing> things;
+    public static List<Thing> things = new List<Thing>();
 
     private AstarPath pathfinder
     {
@@ -32,6 +33,9 @@ public class Map : InstancedObject
         public static GraphNode GetNode(Thing thing, Vector3 position, bool checkHeight = true, bool ignoreCollisions = false)
         {
             GraphNode newNode = AstarPath.active.GetNearest(position).node;
+            if (newNode == null)
+                return null;
+
             List<Thing> nodeThings = CheckForThingsAtPosition(newNode);
 
             if (newNode != null && newNode.Walkable)
@@ -61,7 +65,7 @@ public class Map : InstancedObject
             {
                 List<Thing> thingsAtPosition = new List<Thing>();
 
-                foreach (Thing thing in instance.things)
+                foreach (Thing thing in things)
                 {
                     if (thing.currentNode == node)
                         thingsAtPosition.Add(thing);

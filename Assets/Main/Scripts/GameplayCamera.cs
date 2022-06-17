@@ -28,12 +28,12 @@ public class GameplayCamera : InstancedObject
 
         public static void SetCameraObject(Thing thingToFollow, bool immediateCameraShift = false)
         {
-            instance.transform.SetParent(thingToFollow.cameraPoint, true);
+            // instance.transform.SetParent(thingToFollow.cameraPoint, true);
 
-            if (immediateCameraShift)
-                instance.transform.localPosition = Vector3.zero;
-            else
-                instance.StartCoroutine(CenterCamera());
+            // if (immediateCameraShift)
+            //     instance.transform.localPosition = Vector3.zero;
+            // else
+            //     instance.StartCoroutine(CenterCamera());
         }
 
         public static IEnumerator CenterCamera()
