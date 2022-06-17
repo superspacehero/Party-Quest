@@ -26,7 +26,7 @@ public class Thing : LookAtObject
 
     #endregion
 
-    #region Camera
+    #region Camera/UI
 
         public Transform cameraPoint
         {
@@ -41,6 +41,9 @@ public class Thing : LookAtObject
         [SerializeField]
         private Transform _cameraPoint;
 
+        [ReadOnly]
+        public bool useUI = false;
+
     #endregion
 
     #region Things
@@ -51,7 +54,38 @@ public class Thing : LookAtObject
 
     #region Movement
 
-        public int movesLeft;
+        /// <summary>
+        /// This function is called when the object becomes enabled and active.
+        /// </summary>
+        void OnEnable()
+        {
+            MoveTo(transform.position);
+            Map.things.Add(this);
+        }
+
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        void OnDisable()
+        {
+            Map.things.Remove(this);
+        }
+
+        public int movesLeft
+        {
+            get => _movesLeft;
+            set
+            {
+                _movesLeft = value;
+
+                if (_movesLeft < 0)
+                    _movesLeft = 0;
+
+                if (useUI)
+                    Counter.instance.count = _movesLeft;
+            }
+        }
+        private int _movesLeft;
 
         private Vector3 location, previousLocation;
 
@@ -66,8 +100,11 @@ public class Thing : LookAtObject
         // Move to a new node.
         public void MoveTo(Vector3 position, bool ignoreCollisions = false, bool checkHeight = true)
         {
-            if (moving || movesLeft <= 0)
+            if (moving)
                 return;
+
+            direction = (previousLocation - position).normalized;
+            Rotate(direction);
 
             GraphNode oldNode = currentNode;
             GraphNode newNode = Map.GetNode(thing:this, position:position, checkHeight:checkHeight, ignoreCollisions:ignoreCollisions);
@@ -82,13 +119,11 @@ public class Thing : LookAtObject
             {
                 if (!moving)
                 {
-                    direction = (previousLocation - location).normalized;
 
                     moving = true;
                     StartCoroutine(Movement());
 
                     UpdateThings();
-                    Rotate(direction);
 
                     movesLeft--;
                     previousLocation = location;
@@ -100,14 +135,31 @@ public class Thing : LookAtObject
             // Debug.Log("Moving to " + position);
         }
 
+        Vector2 absoluteMovement = Vector2.zero;
+
         public void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
+            if (movesLeft <= 0)
+                return;
+
+            absoluteMovement.x = Mathf.Abs(direction.x);
+            absoluteMovement.y = Mathf.Abs(direction.z);
+
+            // No diagonal movement allowed. If one axis is further than the other, move in that direction.
+
+            if (absoluteMovement.x > absoluteMovement.y)
+                direction.z = 0;
+            else if (absoluteMovement.x < absoluteMovement.y)
+                direction.x = 0;
+            else
+                return;
+
             MoveTo(position:location + direction, ignoreCollisions:ignoreCollisions, checkHeight:checkHeight);
         }
 
         private IEnumerator Movement()
         {
-            Debug.Log("Moving " + name);
+            // Debug.Log("Moving " + name);
             float time = 0;
             Vector3 startPosition = transform.position;
             Vector3 endPosition = location;

@@ -22,7 +22,7 @@ public class Player : MonoBehaviour
         private Thing _controlledThing;
 
         [HideInInspector]
-        public Vector2Int movement;
+        public Vector2 movement;
 
         [HideInInspector]
         public bool updating;
@@ -40,13 +40,9 @@ public class Player : MonoBehaviour
 
         public void OnMove(InputValue value)
         {
-            Vector2 input = value.Get<Vector2>();
-
-            movement = Vector2Int.RoundToInt(input);
+            movement = value.Get<Vector2>();
 
             moving = movement.magnitude > 0;
-
-            // Debug.Log(movement);
         }
 
         public void OnButton1(InputValue value)
@@ -93,20 +89,37 @@ public class Player : MonoBehaviour
 
     #endregion
 
-    [Button]
-    public void SetControlObject(Thing thingToControl = null, bool immediateCameraShift = false)
+    public void SetControlObject(Thing thingToControl, bool immediateCameraShift = false)
     {
+        if (_controlledThing != null)
+            _controlledThing.useUI = false;
+
         if (thingToControl == null)
             if (_controlledThing != null)
                 thingToControl = _controlledThing;
             else
                 return;
 
-        if (controlledThing != thingToControl)
+        if (_controlledThing != thingToControl)
             _controlledThing = thingToControl;
 
-        GameplayCamera.SetCameraObject(controlledThing, immediateCameraShift);
+        _controlledThing.useUI = true;
+
+        GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
 
         Debug.Log("Set control object to " + thingToControl.name);
+    }
+
+    [Button]
+    public void SetControlObject()
+    {
+        StartCoroutine(SettingControlObject());
+    }
+
+    IEnumerator SettingControlObject()
+    {
+        yield return null;
+
+        SetControlObject(null);
     }
 }

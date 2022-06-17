@@ -6,6 +6,18 @@ using Sirenix.OdinInspector;
 
 public class Counter : MonoBehaviour
 {
+    public static Counter instance
+    {
+        get
+        {
+            if (_instance == null)
+                _instance = FindObjectOfType<Counter>();
+
+            return _instance;
+        }
+    }
+    private static Counter _instance;
+
     public int count
     {
         get
@@ -16,7 +28,7 @@ public class Counter : MonoBehaviour
         {
             _count = (!showZeroOrBelow && value < 0) ? 0 : value;
 
-            Debug.Log("Count: " + _count);
+            // Debug.Log("Count: " + _count);
 
             FlipNumber();
         }

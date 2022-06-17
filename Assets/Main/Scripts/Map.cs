@@ -4,10 +4,8 @@ using UnityEngine;
 using Pathfinding;
 
 [RequireComponent(typeof(AstarPath))]
-public class Map : InstancedObject
+public class Map : MonoBehaviour
 {
-    new public static Map instance;
-
     public static List<Thing> things = new List<Thing>();
 
     private AstarPath pathfinder
