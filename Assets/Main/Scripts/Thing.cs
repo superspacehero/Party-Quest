@@ -89,7 +89,7 @@ public class Thing : LookAtObject
 
         private Vector3 location, previousLocation;
 
-        public GraphNode currentNode = null;
+        public GraphNode currentNode = null, nodeInFront = null;
 
         public bool solid = true;
         protected bool moving;
@@ -103,17 +103,23 @@ public class Thing : LookAtObject
             if (moving)
                 return;
 
-            direction = (previousLocation - position).normalized;
-            Rotate(direction);
-
             GraphNode oldNode = currentNode;
-            GraphNode newNode = Map.GetNode(thing:this, position:position, checkHeight:checkHeight, ignoreCollisions:ignoreCollisions);
+            GraphNode newNode = Map.GetNode(position:position);
 
-            if (newNode != null && newNode != oldNode)
+            if (newNode != oldNode && Map.TestNodeWalkable(newNode, this))
             {
                 currentNode = newNode;
                 location = (Vector3)newNode.position;
             }
+
+            direction = (position - previousLocation).normalized;
+            
+            if (Map.GetNode(position:transform.position + direction) == nodeInFront)
+                return;
+            else
+                nodeInFront = Map.GetNode(position:transform.position + direction);
+
+            Rotate(direction);
 
             if (previousLocation != location)
             {
@@ -123,8 +129,6 @@ public class Thing : LookAtObject
                     moving = true;
                     StartCoroutine(Movement());
 
-                    UpdateThings();
-
                     movesLeft--;
                     previousLocation = location;
                 }
@@ -132,7 +136,7 @@ public class Thing : LookAtObject
             else
                 moving = false;
 
-            // Debug.Log("Moving to " + position);
+            UpdateThingLists();
         }
 
         Vector2 absoluteMovement = Vector2.zero;
@@ -175,8 +179,10 @@ public class Thing : LookAtObject
             moving = false;
         }
 
-        private void UpdateThings()
+        private void UpdateThingLists()
         {
+            Debug.Log("Updating thing lists");
+
             foreach (Thing thing in overlappingThings)
                 thing.overlappingThings.Remove(this);
             overlappingThings.Clear();
@@ -187,25 +193,25 @@ public class Thing : LookAtObject
 
             if (currentNode != null)
             {
-                foreach (Thing thing in Map.CheckForThingsAtPosition(node:currentNode))
+                foreach (Thing overlappingThing in Map.CheckForThingsAtPosition(node:currentNode))
                 {
-                    if (thing != this)
+                    if (overlappingThing != this)
                     {
-                        if (thing.overlappingThings.Contains(this))
+                        if (overlappingThing.overlappingThings.Contains(this))
                             continue;
                         else
-                            thing.overlappingThings.Add(this);
+                            overlappingThing.overlappingThings.Add(this);
                     }
                 }
 
-                foreach (Thing thing in Map.CheckForThingsAtPosition(thing:this, position:location + direction))
+                foreach (Thing thingInFront in Map.CheckForThingsAtPosition(nodeInFront))
                 {
-                    if (thing != this)
+                    if (thingInFront != this)
                     {
-                        if (thing.thingsInFront.Contains(this))
+                        if (thingInFront.thingsInFront.Contains(this))
                             continue;
                         else
-                            thing.thingsInFront.Add(this);
+                            thingInFront.thingsInFront.Add(this);
                     }
                 }
             }
@@ -254,7 +260,7 @@ public class Thing : LookAtObject
         [FoldoutGroup("Rotation")]
         public float rotationTime = 0.25f;
 
-        // private bool rotating = false;
+        private Vector3 rotationDirection = Vector3.right;
 
         public void Rotate(Vector3 direction)
         {
@@ -263,16 +269,16 @@ public class Thing : LookAtObject
                 case MovementRotationBehavior.None:
                     return;
                 case MovementRotationBehavior.FullRotation:
-                    gotoRotation = ((Mathf.Atan2(direction.x, direction.z)) * Mathf.Rad2Deg);
                     break;
                 case MovementRotationBehavior.LeftRightRotation:
-                    if (direction.x < 0)
-                        gotoRotation = 0;
-                    else if (direction.x > 0)
-                        gotoRotation = 180;
+                    direction.z *= 0.5f;
+                    if (direction.x == 0)
+                        direction.x = rotationDirection.x;
                     break;
             }
 
+            rotationDirection = direction;
+            gotoRotation = ((Mathf.Atan2(rotationDirection.x, rotationDirection.z)) * Mathf.Rad2Deg) + (rotationBehavior == MovementRotationBehavior.LeftRightRotation ? -90 : 0);
         }
 
         [Button, FoldoutGroup("Rotation"), HideInEditorMode]
@@ -323,4 +329,14 @@ public class Thing : LookAtObject
         }
 
     #endregion
+
+    /// <summary>
+    /// Callback to draw gizmos that are pickable and always drawn.
+    /// </summary>
+    void OnDrawGizmos()
+    {
+        // Draw an arrow pointing in the direction of, well, direction.
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(transform.position, direction * 1.5f);
+    }
 }

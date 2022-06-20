@@ -28,33 +28,38 @@ public class Map : MonoBehaviour
 
     #region Nodes and Things
 
-        public static GraphNode GetNode(Thing thing, Vector3 position, bool checkHeight = true, bool ignoreCollisions = false)
+        public static bool TestNodeWalkable(GraphNode node, Thing referenceThing, bool checkHeight = true, bool ignoreCollisions = false)
         {
-            GraphNode newNode = AstarPath.active.GetNearest(position).node;
-            if (newNode == null)
-                return null;
-
-            List<Thing> nodeThings = CheckForThingsAtPosition(newNode);
-
-            if (newNode != null && newNode.Walkable)
+            if (node != null && node.Walkable)
             {
-                if (checkHeight && Mathf.Abs(thing.transform.position.y - ((Vector3)newNode.position).y) > thing.maxStepHeight)
-                    return null;
+                if (checkHeight && Mathf.Abs(referenceThing.transform.position.y - ((Vector3)node.position).y) > referenceThing.maxStepHeight)
+                    return false;
+
+                List<Thing> nodeThings = CheckForThingsAtPosition(node);
 
                 if (nodeThings.Count > 0)
                 {
                     if (!ignoreCollisions)
                     {
                         foreach (Thing thingInNode in nodeThings)
-                            if (thingInNode != thing && thingInNode.solid)
-                                return null;
+                            if (thingInNode != referenceThing && thingInNode.solid)
+                                return false;
                     }
                 }
+
+                return true;
             }
-            else
-                return null;
+
+            return false;
+        }
+
+        public static GraphNode GetNode(Vector3 position)
+        {
+            GraphNode newNode = AstarPath.active.GetNearest(position).node;
+            if (newNode != null)
+                return newNode;
             
-            return newNode;
+            return null;            
         }
 
         public static List<Thing> CheckForThingsAtPosition(GraphNode node)
@@ -75,10 +80,9 @@ public class Map : MonoBehaviour
             return null;
         }
 
-        public static List<Thing> CheckForThingsAtPosition(Thing thing, Vector3 position)
+        public static List<Thing> CheckForThingsAtPosition(Vector3 position)
         {
-            GraphNode testNode = GetNode(thing, position, false, false);
-            
+            GraphNode testNode = GetNode(position);
             return CheckForThingsAtPosition(testNode);
         }
 
