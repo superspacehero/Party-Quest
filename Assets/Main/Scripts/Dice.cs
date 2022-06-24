@@ -70,9 +70,13 @@ public class Dice : Thing
             value = 0;
             cameraPoint.localPosition = cameraPointOffset;
 
+            enabledEvent.Invoke();
+
+            rb.constraints = RigidbodyConstraints.FreezePosition;
+            rb.angularVelocity = Vector3.zero;
+            
             meshBase.localPosition = Vector3.zero;
             meshBase.localRotation = Quaternion.identity;
-            rb.constraints = RigidbodyConstraints.FreezePosition;
         }
 
         /// <summary>
@@ -101,7 +105,7 @@ public class Dice : Thing
             {
                 var upDir = dirs.OrderBy(x => Vector3.Angle(meshBase.TransformDirection(x), Vector3.up)).First();
 
-                value = 1 + dirs.IndexOf(upDir);
+                value = dirs.IndexOf(upDir) + 1;
                 onValueChanged.Invoke(value);
             }
         }
