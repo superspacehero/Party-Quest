@@ -39,6 +39,9 @@ public class GameplayCamera : MonoBehaviour
 
         public static void SetCameraObject(Thing thingToFollow, bool immediateCameraShift = false)
         {
+            if (!thingToFollow.moveCameraToMeWhenControlling)
+                return;
+
             instance.transform.SetParent(thingToFollow.cameraPoint, true);
 
             if (immediateCameraShift)

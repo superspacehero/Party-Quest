@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class Scenery : Thing
+public class Scenery : GridThing
 {
     [FoldoutGroup("Info")]
-    public List<Thing> items;
+    public List<GridThing> items;
 }

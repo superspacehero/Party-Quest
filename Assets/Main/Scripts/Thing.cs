@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using I2.Loc;
 using Sirenix.OdinInspector;
-using Pathfinding;
 
 public class Thing : LookAtObject
 {
@@ -41,180 +40,30 @@ public class Thing : LookAtObject
         [SerializeField]
         private Transform _cameraPoint;
 
+        public bool moveCameraToMeWhenControlling;
+
         [ReadOnly]
         public bool useUI = false;
 
     #endregion
 
-    #region Things
-
-        public List<Thing> overlappingThings, thingsInFront;
-
-    #endregion
-
     #region Movement
 
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
-        void OnEnable()
-        {
-            MoveTo(transform.position);
-            Map.things.Add(this);
-        }
-
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
-        /// </summary>
-        void OnDisable()
-        {
-            Map.things.Remove(this);
-        }
-
-        public int movesLeft
-        {
-            get => _movesLeft;
-            set
-            {
-                _movesLeft = value;
-
-                if (_movesLeft < 0)
-                    _movesLeft = 0;
-
-                if (useUI)
-                    Counter.instance.count = _movesLeft;
-            }
-        }
-        private int _movesLeft;
-
-        private Vector3 location, previousLocation;
-
-        public GraphNode currentNode = null, nodeInFront = null;
-
-        public bool solid = true;
         protected bool moving;
         public float tileMoveTime = 0.2f, maxStepHeight = 0.5f;
 
-        private Vector3 direction;
+        protected Vector3 direction;
 
         // Move to a new node.
-        public void MoveTo(Vector3 position, bool ignoreCollisions = false, bool checkHeight = true)
+        public virtual void MoveTo(Vector3 position, bool ignoreCollisions = false, bool checkHeight = true)
         {
-            if (moving)
-                return;
-
-            GraphNode oldNode = currentNode;
-            GraphNode newNode = Map.GetNode(position:position);
-
-            if (newNode != oldNode && Map.TestNodeWalkable(newNode, this))
-            {
-                currentNode = newNode;
-                location = (Vector3)newNode.position;
-            }
-
-            direction = (position - previousLocation).normalized;
-            
-            if (Map.GetNode(position:transform.position + direction) == nodeInFront)
-                return;
-            else
-                nodeInFront = Map.GetNode(position:transform.position + direction);
-
-            Rotate(direction);
-
-            if (previousLocation != location)
-            {
-                if (!moving)
-                {
-
-                    moving = true;
-                    StartCoroutine(Movement());
-
-                    movesLeft--;
-                    previousLocation = location;
-                }
-            }
-            else
-                moving = false;
-
-            UpdateThingLists();
+            direction = position - transform.position;
+            transform.position = position;
         }
 
-        Vector2 absoluteMovement = Vector2.zero;
-
-        public void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
+        public virtual void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
-            if (movesLeft <= 0)
-                return;
-
-            absoluteMovement.x = Mathf.Abs(direction.x);
-            absoluteMovement.y = Mathf.Abs(direction.z);
-
-            // No diagonal movement allowed. If one axis is further than the other, move in that direction.
-
-            if (absoluteMovement.x > absoluteMovement.y)
-                direction.z = 0;
-            else if (absoluteMovement.x < absoluteMovement.y)
-                direction.x = 0;
-            else
-                return;
-
-            MoveTo(position:location + direction, ignoreCollisions:ignoreCollisions, checkHeight:checkHeight);
-        }
-
-        private IEnumerator Movement()
-        {
-            // Debug.Log("Moving " + name);
-            float time = 0;
-            Vector3 startPosition = transform.position;
-            Vector3 endPosition = location;
-
-            while (time < tileMoveTime)
-            {
-                time += Time.deltaTime;
-                transform.position = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
-                yield return null;
-            }
-
-            transform.position = endPosition;
-            moving = false;
-        }
-
-        private void UpdateThingLists()
-        {
-            Debug.Log("Updating thing lists");
-
-            foreach (Thing thing in overlappingThings)
-                thing.overlappingThings.Remove(this);
-            overlappingThings.Clear();
-
-            foreach (Thing thing in thingsInFront)
-                thing.thingsInFront.Remove(this);
-            thingsInFront.Clear();
-
-            if (currentNode != null)
-            {
-                foreach (Thing overlappingThing in Map.CheckForThingsAtPosition(node:currentNode))
-                {
-                    if (overlappingThing != this)
-                    {
-                        if (overlappingThing.overlappingThings.Contains(this))
-                            continue;
-                        else
-                            overlappingThing.overlappingThings.Add(this);
-                    }
-                }
-
-                foreach (Thing thingInFront in Map.CheckForThingsAtPosition(nodeInFront))
-                {
-                    if (thingInFront != this)
-                    {
-                        if (thingInFront.thingsInFront.Contains(this))
-                            continue;
-                        else
-                            thingInFront.thingsInFront.Add(this);
-                    }
-                }
-            }
+            MoveTo(transform.position + direction);
         }
 
     #endregion
@@ -227,7 +76,8 @@ public class Thing : LookAtObject
             FullRotation,
             LeftRightRotation
         }
-        public MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
+        [SerializeField, FoldoutGroup("Rotation")]
+        private MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
 
         protected Transform meshBase
         {
@@ -318,14 +168,14 @@ public class Thing : LookAtObject
 
     #region Actions
 
-        public void PrimaryAction()
+        public virtual void PrimaryAction()
         {
-            movesLeft = Random.Range(1, 10);
+            
         }
 
-        public void SecondaryAction()
+        public virtual void SecondaryAction()
         {
-            movesLeft = Random.Range(1, 10);
+            
         }
 
     #endregion

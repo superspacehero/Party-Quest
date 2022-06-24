@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
-public class Character : Thing
+public class Character : GridThing
 {
     [FoldoutGroup("Inventory")]
     public List<Thing> items;
@@ -12,6 +12,4 @@ public class Character : Thing
     public Thing leftWeapon, rightWeapon;
     [FoldoutGroup("Inventory")]
     public Thing head, body, leftHand, rightHand, leftFoot, rightFoot;
-    
-    
 }
