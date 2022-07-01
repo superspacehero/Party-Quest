@@ -1,11 +1,93 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Sirenix.OdinInspector;
 
-[RequireComponent(typeof(SpriteRenderer)), ExecuteAlways]
+[ExecuteAlways]
 public class RgbSprite : MonoBehaviour
 {
+    #region Renderers
+
+        private enum RendererType
+        {
+            None,
+            Sprite,
+            Image,
+            RawImage,
+            MeshRenderer,
+            SkinnedMeshRenderer
+        }
+        [SerializeField]
+        private RendererType rendererType = RendererType.None;
+
+        private SpriteRenderer _spriteRenderer;
+        private Image _image;
+        private RawImage _rawImage;
+        private MeshRenderer _meshRenderer;
+        private SkinnedMeshRenderer _skinnedMeshRenderer;
+
+        #if UNITY_EDITOR
+
+            [SerializeField]
+            private Material rgbSprite, rgbMeshVertex;
+
+        #endif
+
+        void GetRendererType()
+        {
+            if (TryGetComponent(out _spriteRenderer))
+            {
+                rendererType = RendererType.Sprite;
+                #if UNITY_EDITOR
+                    _spriteRenderer.material = rgbSprite;
+                #endif
+            }
+            else if (TryGetComponent(out _image))
+            {
+                rendererType = RendererType.Image;
+                #if UNITY_EDITOR
+                    _image.material = rgbSprite;
+                #endif
+            }
+            
+            else if (TryGetComponent(out _rawImage))
+            {
+                rendererType = RendererType.RawImage;
+                #if UNITY_EDITOR
+                    _rawImage.material = rgbSprite;
+                #endif
+            }
+            else if (TryGetComponent(out _meshRenderer))
+            {
+                rendererType = RendererType.MeshRenderer;
+                #if UNITY_EDITOR
+                    if (useVertexColors)
+                        _meshRenderer.material = rgbMeshVertex;
+                #endif
+            }
+            else if (TryGetComponent(out _skinnedMeshRenderer))
+            {
+                rendererType = RendererType.SkinnedMeshRenderer;
+                #if UNITY_EDITOR
+                    if (useVertexColors)
+                        _meshRenderer.material = rgbMeshVertex;
+                #endif
+            }
+            else
+                rendererType = RendererType.None;
+        }
+
+        private bool isMeshRenderer
+        {
+            get => rendererType == RendererType.MeshRenderer || rendererType == RendererType.SkinnedMeshRenderer;
+        }
+
+        [SerializeField, ShowIf("isMeshRenderer")]
+        private bool useVertexColors = false;
+
+    #endregion
+
     [SerializeField, ReadOnly]
     private RgbSprite parentSprite;
 
@@ -39,6 +121,9 @@ public class RgbSprite : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
+        if (rendererType == RendererType.None)
+            GetRendererType();
+
         if (transform.parent && transform.parent.TryGetComponent(out parentSprite))
             parentSprite.childSprites.Add(this);
     }
@@ -68,29 +153,45 @@ public class RgbSprite : MonoBehaviour
     /// </summary>
     void OnValidate()
     {
+        if (spriteMaterial == null)
+            return;
+
         redColor = redColor;
         greenColor = greenColor;
         blueColor = blueColor;
     }
 
-    [SerializeField]
-    private Material rgbMaterial;
-
     private Material spriteMaterial
     {
         get
         {
-            if (_spriteRenderer == null)
+            switch (rendererType)
             {
-                if (TryGetComponent(out _spriteRenderer))
-                    _spriteRenderer.material = rgbMaterial;
+                case RendererType.Sprite:
+                    if (_spriteRenderer != null)
+                        return _spriteRenderer.material;
+                    break;
+                case RendererType.Image:
+                    if (_image != null)
+                        return _image.materialForRendering;
+                    break;
+                case RendererType.RawImage:
+                    if (_rawImage != null)
+                        return _rawImage.materialForRendering;
+                    break;
+                case RendererType.MeshRenderer:
+                    if (_meshRenderer != null)
+                        return _meshRenderer.material;
+                    break;
+                case RendererType.SkinnedMeshRenderer:
+                    if (_skinnedMeshRenderer != null)
+                        return _skinnedMeshRenderer.material;
+                    break;
             }
 
-            return _spriteRenderer.material;
+            return null;
         }
     }
-    [SerializeField]
-    private SpriteRenderer _spriteRenderer;
 
     public Color redColor
     {
@@ -99,7 +200,7 @@ public class RgbSprite : MonoBehaviour
         {
             _redColor = value;
 
-            if (spriteMaterial)
+            if (spriteMaterial != null)
                 spriteMaterial.SetColor("_RedColor", _redColor);
 
             SetChildSpriteColors();
@@ -113,7 +214,7 @@ public class RgbSprite : MonoBehaviour
         {
             _greenColor = value;
 
-            if (spriteMaterial)
+            if (spriteMaterial != null)
                 spriteMaterial.SetColor("_GreenColor", _greenColor);
 
             SetChildSpriteColors();
@@ -127,7 +228,7 @@ public class RgbSprite : MonoBehaviour
         {
             _blueColor = value;
 
-            if (spriteMaterial)
+            if (spriteMaterial != null)
                 spriteMaterial.SetColor("_BlueColor", _blueColor);
 
             SetChildSpriteColors();

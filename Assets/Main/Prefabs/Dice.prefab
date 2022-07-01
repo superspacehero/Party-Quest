@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 3649246916511779338}
   - component: {fileID: 2012962141309948856}
   - component: {fileID: 7399697699962848679}
+  - component: {fileID: 1689726577877780556}
   m_Layer: 0
   m_Name: Dice Block
   m_TagString: Untagged
@@ -219,6 +220,28 @@ MonoBehaviour:
   optionalRotationMode: 0
   optionalScrambleMode: 0
   optionalString: 
+--- !u!114 &1689726577877780556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4621630477197663025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rendererType: 4
+  rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
+  rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
+  useVertexColors: 0
+  parentSprite: {fileID: 0}
+  childSprites: []
+  getParentColors: 1
+  _redColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
+  _greenColor: {r: 0.91, g: 0.831, b: 0.686, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &3326762075039191845
 PrefabInstance:
   m_ObjectHideFlags: 0
