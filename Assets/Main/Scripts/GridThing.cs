@@ -133,7 +133,7 @@ public class GridThing : Thing
 
         private void UpdateThingLists()
         {
-            Debug.Log("Updating thing lists");
+            // Debug.Log("Updating thing lists");
 
             foreach (GridThing thing in overlappingThings)
                 thing.overlappingThings.Remove(this);

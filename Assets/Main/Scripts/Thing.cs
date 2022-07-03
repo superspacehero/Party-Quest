@@ -110,7 +110,7 @@ public class Thing : LookAtObject
         [FoldoutGroup("Rotation")]
         public float rotationTime = 0.25f;
 
-        private Vector3 rotationDirection = Vector3.right;
+        protected Vector3 rotationDirection = Vector3.right;
 
         public void Rotate(Vector3 direction)
         {

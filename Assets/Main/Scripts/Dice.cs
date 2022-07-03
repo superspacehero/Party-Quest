@@ -45,8 +45,6 @@ public class Dice : Thing
 
         [SerializeField, FoldoutGroup("Dice"), Min(0f)]
         private float stickLaunchMagnitude = 0.99f, verticalLaunchForce = 5f, launchForce = 10f, rollSpeed = 500f;
-
-        private Vector3 rotationDirection;
         
         #region Initialization
         

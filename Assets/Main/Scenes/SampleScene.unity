@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.066704996, g: 0.3737935, b: 0.988224, a: 1}
+  m_IndirectSpecularColor: {r: 0.06668252, g: 0.37378106, b: 0.9882317, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2243,7 +2243,15 @@ MonoBehaviour:
   rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
   useVertexColors: 0
   parentSprite: {fileID: 0}
-  childSprites: []
+  childSprites:
+  - {fileID: 106594623}
+  - {fileID: 188699577}
+  - {fileID: 704557458}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 1868829384}
+  - {fileID: 2043185323}
+  - {fileID: 2096450363}
   getParentColors: 1
   _redColor: {r: 0.314, g: 0.427, b: 0.31, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5705,15 +5713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8561587462237652841, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_Name
-      value: Interface
-      objectReference: {fileID: 0}
-    - target: {fileID: 8561587463186187232, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8561587463186187232, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -3.5
+      value: Game Manager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}

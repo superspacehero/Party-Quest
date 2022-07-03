@@ -66,7 +66,17 @@ public class Player : MonoBehaviour
         /// </summary>
         void OnEnable()
         {
+            GameManager.AddPlayer(this);
+
             SetControlObject();
+        }
+
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        void OnDisable()
+        {
+            GameManager.RemovePlayer(this);
         }
 
         public void Update()
