@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 [CreateAssetMenu(fileName = "New Random Sound Effect", menuName = "Random Sound Effect", order = 1)]
 public class RandomSFX : ScriptableObject
 {
     public List<AudioClip> sounds;
+
+    public AudioMixerGroup mixerGroup;
 
     private int lastSoundPlayed;
 
