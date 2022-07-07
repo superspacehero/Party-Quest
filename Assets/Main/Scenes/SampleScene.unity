@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.06668252, g: 0.37378106, b: 0.9882317, a: 1}
+  m_IndirectSpecularColor: {r: 0.06664994, g: 0.37376213, b: 0.9882401, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2252,6 +2252,14 @@ MonoBehaviour:
   - {fileID: 1868829384}
   - {fileID: 2043185323}
   - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 188699577}
+  - {fileID: 704557458}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 1868829384}
+  - {fileID: 2043185323}
+  - {fileID: 2096450363}
   getParentColors: 1
   _redColor: {r: 0.314, g: 0.427, b: 0.31, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -3020,6 +3028,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1274576905}
   - component: {fileID: 1274576906}
+  - component: {fileID: 1274576907}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -3103,6 +3112,17 @@ MonoBehaviour:
   rightHand: {fileID: 0}
   leftFoot: {fileID: 0}
   rightFoot: {fileID: 0}
+--- !u!210 &1274576907
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274576904}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!1 &1371593370
 GameObject:
   m_ObjectHideFlags: 0
