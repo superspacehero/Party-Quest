@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="UI StyleSheet.uss" />
+    <ui:VisualElement class="SafeArea">
+        <ui:VisualElement class="BottomToTop">
+            <ui:VisualElement class="LoadingBar LoadingBarBackground">
+                <ui:VisualElement class="LoadingBar LoadingBarProgress" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

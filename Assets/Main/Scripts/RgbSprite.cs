@@ -34,6 +34,7 @@ public class RgbSprite : MonoBehaviour
 
         #endif
 
+        [Button]
         void GetRendererType()
         {
             if (TryGetComponent(out _spriteRenderer))
@@ -125,7 +126,11 @@ public class RgbSprite : MonoBehaviour
             GetRendererType();
 
         if (transform.parent && transform.parent.TryGetComponent(out parentSprite))
+        {
             parentSprite.childSprites.Add(this);
+            if (parentSprite.rendererType == rendererType && getParentColors)
+                spriteMaterial = parentSprite.spriteMaterial;
+        }
     }
 
     /// <summary>
@@ -191,6 +196,33 @@ public class RgbSprite : MonoBehaviour
 
             return null;
         }
+
+        set
+        {
+            switch (rendererType)
+            {
+                case RendererType.Sprite:
+                    if (_spriteRenderer != null)
+                        _spriteRenderer.material = value;
+                    break;
+                case RendererType.Image:
+                    if (_image != null)
+                        _image.material = value;
+                    break;
+                case RendererType.RawImage:
+                    if (_rawImage != null)
+                        _rawImage.material = value;
+                    break;
+                case RendererType.MeshRenderer:
+                    if (_meshRenderer != null)
+                        _meshRenderer.material = value;
+                    break;
+                case RendererType.SkinnedMeshRenderer:
+                    if (_skinnedMeshRenderer != null)
+                        _skinnedMeshRenderer.material = value;
+                    break;
+            }
+        }
     }
 
     public Color redColor
@@ -238,4 +270,8 @@ public class RgbSprite : MonoBehaviour
 
     [SerializeField, ColorPalette]
     private Color _redColor = Color.white, _greenColor = Color.white, _blueColor = Color.white;
+
+    // // Normal map, particularly for sprites.
+    // [SerializeField]
+    // private Texture2D normalMap;
 }
