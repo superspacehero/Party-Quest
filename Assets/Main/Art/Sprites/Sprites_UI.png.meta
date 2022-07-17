@@ -1,24 +1,12 @@
 fileFormatVersion: 2
-guid: abc9742696cd82142b46a15241b74020
+guid: bbeb81684cdd565ad9d13aee1be65c5c
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -7351451919864113442
-    second: Boomerang
-  - first:
-      213: 8851434551470437518
-    second: Spear
-  - first:
-      213: 4871097102986377429
-    second: Spear Rope
-  - first:
-      213: 979709683672020721
-    second: Mallet
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 0
+    enableMipMap: 1
     sRGBTexture: 1
     linearTexture: 0
     fadeOut: 0
@@ -44,27 +32,27 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 2
     mipBias: 0
-    wrapU: 1
-    wrapV: 1
+    wrapU: 0
+    wrapV: 0
     wrapW: 0
-  nPOTScale: 0
+  nPOTScale: 1
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 0
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 300
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
-  alphaIsTransparency: 1
+  alphaIsTransparency: 0
   spriteTessellationDetail: -1
-  textureType: 8
+  textureType: 0
   textureShape: 1
   singleChannelComponent: 0
   flipbookRows: 1
@@ -135,109 +123,13 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 8192
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites:
-    - serializedVersion: 2
-      name: Boomerang
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 103
-        width: 152
-        height: 289
-      alignment: 4
-      pivot: {x: 0, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ed6d225bd656af990800000000000000
-      internalID: -7351451919864113442
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spear
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 72
-        height: 523
-      alignment: 9
-      pivot: {x: 0.5, y: 0.3824092}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e84b301e3dc96da70800000000000000
-      internalID: 8851434551470437518
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Spear Rope
-      rect:
-        serializedVersion: 2
-        x: 303
-        y: 299
-        width: 80
-        height: 103
-      alignment: 9
-      pivot: {x: 0.075, y: 0.93203884}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 5d8ffe9c10d999340800000000000000
-      internalID: 4871097102986377429
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Mallet
-      rect:
-        serializedVersion: 2
-        x: 416
-        y: 64
-        width: 274
-        height: 392
-      alignment: 9
-      pivot: {x: 0.5, y: 0.19132653}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 1f6f74e34c0a89d00800000000000000
-      internalID: 979709683672020721
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
+    sprites: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 3786a2302021dbd4cb8d90b6fb7874dc
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
