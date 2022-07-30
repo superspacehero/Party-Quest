@@ -7,6 +7,12 @@ Release Notes:
         * Unrecognized renderer for #pragma only_renderers: xboxseries
       You only need to go to the Rendering Platforms menu and deselect that specific tag.
 
+v1.8.9 rev 35:
+* Fixes:
+    * Fixed incorrect templates being imported on latest SRP 10 versions
+    * Fixed info message over 'HeightMap Texture Blend' node
+    * Prevented URL fetch on non-attributes nodes which resulted on null-pointer exception
+
 v1.8.9 rev 34:
 * New Template:
     * URP 12 2D Custom Lit

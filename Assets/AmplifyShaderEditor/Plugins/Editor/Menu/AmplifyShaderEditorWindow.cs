@@ -771,7 +771,14 @@ namespace AmplifyShaderEditor
 					}
 					else
 					{
-						Application.OpenURL( selectedNodes[ 0 ].Attributes.NodeUrl );
+						if( selectedNodes[ 0 ].Attributes != null )
+						{
+							Application.OpenURL( selectedNodes[ 0 ].Attributes.NodeUrl );
+						}
+						else
+						{
+							UIUtils.ShowMessage( "Selected node doesn't have valid attibutes to get URL from." );
+						}
 						
 					}
 				}

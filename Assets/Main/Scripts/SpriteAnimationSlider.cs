@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// [ExecuteInEditMode]
 public class SpriteAnimationSlider : MonoBehaviour
 {
     public float animationProgress
@@ -12,6 +13,7 @@ public class SpriteAnimationSlider : MonoBehaviour
         }
         set
         {
+            Debug.Log("Setting animation progress to " + value);
             _animationProgress = value;
             UpdateSprite();
         }
