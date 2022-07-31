@@ -36,7 +36,7 @@ public class GridThing : Thing
                 if (_movesLeft < 0)
                     _movesLeft = 0;
 
-                if (useUI)
+                if (useUI && Counter.instance != null)
                     Counter.instance.count = _movesLeft;
             }
         }

@@ -153,6 +153,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -1472,15 +1473,23 @@ TextureImporter:
       tessellationDetail: 0
       bones:
       - name: bone_1
+        guid: 
         position: {x: 167.50647, y: 126.53357, z: 0}
         rotation: {x: 0, y: 0, z: -0.6872164, w: 0.72645277}
         length: 14.714425
         parentId: -1
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_2
+        guid: 
         position: {x: 14.718219, y: -0.0009356222, z: 0}
         rotation: {x: 0, y: 0, z: -0.002762136, w: 0.9999962}
         length: 98.06356
         parentId: 0
+        color:
+          serializedVersion: 2
+          rgba: 0
       spriteID: 62a582b87ed774110800000000000000
       internalID: 1245102255416826406
       vertices:
@@ -11106,35 +11115,59 @@ TextureImporter:
       tessellationDetail: 0
       bones:
       - name: bone_1
+        guid: 
         position: {x: 32.54883, y: 155.67285, z: 0}
         rotation: {x: 0, y: 0, z: -0.71078044, w: 0.703414}
         length: 25.191338
         parentId: -1
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_2
+        guid: 
         position: {x: 25.191336, y: 0.0000035297849, z: 0}
         rotation: {x: 0, y: 0, z: 0.013528344, w: 0.9999085}
         length: 24.416363
         parentId: 0
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_3
+        guid: 
         position: {x: 24.416363, y: 0.000003533737, z: 0}
         rotation: {x: 0, y: 0, z: -0.0027459038, w: 0.99999624}
         length: 25.958954
         parentId: 1
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_4
+        guid: 
         position: {x: 25.958954, y: -0.0001199753, z: 0}
         rotation: {x: 0, y: 0, z: -0.010616609, w: 0.9999437}
         length: 24.587229
         parentId: 2
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_5
+        guid: 
         position: {x: 24.587227, y: -0.000026053256, z: 0}
         rotation: {x: 0, y: 0, z: 0.007495157, w: 0.9999719}
         length: 21.425861
         parentId: 3
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: bone_6
+        guid: 
         position: {x: 21.425863, y: 0.0000022529905, z: 0}
         rotation: {x: 0, y: 0, z: 0.0059568854, w: 0.9999823}
         length: 22.274696
         parentId: 4
+        color:
+          serializedVersion: 2
+          rgba: 0
       spriteID: e26a248cc28798010800000000000000
       internalID: 1191615710149912110
       vertices:
@@ -12202,10 +12235,14 @@ TextureImporter:
       tessellationDetail: 0
       bones:
       - name: bone_1
+        guid: 
         position: {x: 48.95929, y: 74.52734, z: 0}
         rotation: {x: 0, y: 0, z: -0.6998184, w: 0.7143209}
         length: 52.170185
         parentId: -1
+        color:
+          serializedVersion: 2
+          rgba: 0
       spriteID: 6d717997d38592af0800000000000000
       internalID: -420708069126236202
       vertices:
@@ -14289,15 +14326,23 @@ TextureImporter:
       tessellationDetail: 0
       bones:
       - name: Head
+        guid: 
         position: {x: 129.91235, y: 91.89807, z: 0}
         rotation: {x: 0, y: 0, z: -0.7013708, w: 0.7127966}
         length: 23.317549
         parentId: -1
+        color:
+          serializedVersion: 2
+          rgba: 0
       - name: Mouth
+        guid: 
         position: {x: 23.31755, y: -0.000002167279, z: 0}
         rotation: {x: 0, y: 0, z: -0.008088739, w: 0.99996734}
         length: 71.01049
         parentId: 0
+        color:
+          serializedVersion: 2
+          rgba: 0
       spriteID: 2825c51d7765281a0800000000000000
       internalID: -6808784614017183102
       vertices:
@@ -14743,6 +14788,50 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Heads_WideBottom: 1144097563116515360
+      Feet_Round: 1182289947543677768
+      Mouths_Small_1: -3290041253504516391
+      Noses_Round_Medium: 6531228357121144319
+      Eyes_Whites_Round: 7889349382334060062
+      Mouths_Tooth_1: 4326420970746955547
+      Noses_Pointy_Upturned: -6736830422852300760
+      Hands_Front_Fist: -420708069126236202
+      Mouths_Small_2: 5816300591723108925
+      Hands_Back_Fist: -8518731291383657922
+      Mouths_Creased_3: -1699447543494253817
+      Mouths_Beaks_Bird_Bottom: 8238306654127327138
+      Eyebrows_Thick: 3470388643870662516
+      Hands_Front_Open: 4335050091218973703
+      Mouths_Creased_: -8317661544015203906
+      Mouths_Creased_SlightFrown: -6602682916985591539
+      Ears_Elvish: 7137662954973723219
+      Heads_Flat: -6808784614017183102
+      Heads_FlatTop: 1908063300368092357
+      Eyes_Dot_Thick: 1059737622721712826
+      Bodies_NarrowTop: 2293836395335518244
+      Mouths_Tooth_3: 697595554934220738
+      Heads_Narrow: -8955986151011844936
+      Eyes_Whites_TwoThirdsDome: 1237348991192641923
+      Eyes_Dot_Thin: 3353167288358427426
+      Hands_Front_ThumbsUp: 8551288233381930403
+      Mouths_Small_SlightFrown: -1525302191403297663
+      Mouths_Small_3: -7327318825333759484
+      Shirt_Sleeve: 6565409167601744234
+      Mouths_Tooth_2: 5036975328456833940
+      Bodies_NarrowBottom: 8080007401189903990
+      Noses_Pointy_Down: 373591523585458125
+      Mouths_Creased_1: -2066977887049497810
+      Eyes_Whites_InwardPointing: -3053512730219602169
+      Eyebrows_Outline: 7414205788703214100
+      Arm: 1191615710149912110
+      Mouths_Beaks_Bird_Top: -5125568005740157941
+      Noses_Round_Big: -6098575018079240550
+      Eyebrows_Bushy: -5590487049626396842
+      Heads_Beanish: 1245102255416826406
+      Heads_Round: -1911629023880865204
+      Feet_Pointy: 7759159293830162213
+      Hands_Front_Point: 4584158014405921117
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

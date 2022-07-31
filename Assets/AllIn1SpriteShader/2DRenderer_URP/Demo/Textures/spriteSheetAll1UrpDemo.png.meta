@@ -122,6 +122,8 @@ TextureImporter:
   isReadable: 1
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -130,9 +132,9 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
-    aniso: -1
-    mipBias: -100
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
     wrapU: 1
     wrapV: 1
     wrapW: 1
@@ -153,9 +155,12 @@ TextureImporter:
   textureType: 8
   textureShape: 1
   singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  ignorePngGamma: 0
   applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
@@ -912,6 +917,40 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      BigContainer: 21300014
+      SideTube: 21300046
+      LampHead: 21300048
+      Bulb: 21300006
+      WarningSign: 21300030
+      Hook: 21300036
+      Pole: 21300032
+      RoundCover: 21300018
+      Warning: 21300028
+      spriteSheetAll1UrpDemo_21: 21300042
+      Water: 21300050
+      TopCover2: 21300004
+      FrontTube: 21300058
+      BlueChest: 21300012
+      YellowBarrel: 21300026
+      TileableTube: 21300052
+      GarageDoor: 21300056
+      FloorTile: 21300054
+      Machine: 21300060
+      Chain: 21300024
+      CurvedTube: 21300008
+      CablePole: 21300034
+      TopCover1: 21300016
+      SmallCover: 21300000
+      Claw: 21300062
+      HologramStand: 21300064
+      WarningStripe: 21300010
+      Chest: 21300044
+      ElectricityWarning: 21300038
+      Sewer2: 21300020
+      ToxicGoo: 21300040
+      Sewer1: 21300002
+      ElectricityBox: 21300022
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
