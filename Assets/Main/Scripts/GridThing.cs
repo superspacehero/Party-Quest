@@ -48,7 +48,7 @@ public class GridThing : Thing
         }
 
         public GraphNode currentNode = null, nodeInFront = null;
-        private Vector3 location, previousLocation;
+        protected Vector3 location, previousLocation;
         Vector2 absoluteMovement = Vector2.zero;
 
         // Move to a new node.
@@ -79,8 +79,6 @@ public class GridThing : Thing
             {
                 if (!moving)
                 {
-
-                    moving = true;
                     StartCoroutine(Movement());
 
                     movesLeft--;
@@ -115,6 +113,8 @@ public class GridThing : Thing
 
         private IEnumerator Movement()
         {
+            moving = true;
+
             // Debug.Log("Moving " + name);
             float time = 0;
             Vector3 startPosition = transform.position;

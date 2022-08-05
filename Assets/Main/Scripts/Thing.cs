@@ -10,18 +10,80 @@ public class Thing : LookAtObject
     // It contains the basic properties of an object, such as its localized name,
     // its localized description, its icon, and its value.
 
-    [FoldoutGroup("Info")]
-    public LocalizedString nameString;
-    [FoldoutGroup("Info")]
-    public LocalizedString descriptionString;
-    [FoldoutGroup("Info")]
-    public Sprite icon;
-    [FoldoutGroup("Info")]
-    public int value;
+    #region Metadata
+
+        [FoldoutGroup("Info")]
+        public LocalizedString nameString;
+        [FoldoutGroup("Info")]
+        public LocalizedString descriptionString;
+        [FoldoutGroup("Info")]
+        public Sprite icon;
+        [FoldoutGroup("Info")]
+        public int value;
+
+    #endregion
 
     #region Health
 
         public Health health;
+
+    #endregion
+    
+    #region Animation
+
+        protected Animator anim
+        {
+            get
+            {
+                if (_anim == null)
+                    TryGetComponent(out _anim);
+                return _anim;
+            }
+        }
+        private Animator _anim;
+
+        protected int currentAnimationState;
+
+        /// <summary>
+        /// Update is called every frame, if the MonoBehaviour is enabled.
+        /// </summary>
+        void Update()
+        {
+            previousPosition = transform.position;
+
+            if (anim == null) return;
+            var state = GetState();
+
+            if (state == currentAnimationState) return;
+            anim.CrossFade(state, 0, 0);
+            currentAnimationState = state;
+        }
+
+    
+        protected bool grounded = true;
+        private float animationLockedUntil;
+        protected bool crouching, jumpTriggered, attacked, landed;
+
+
+        private int GetState()
+        {
+            if (Time.time < animationLockedUntil) return currentAnimationState;
+
+            // Priorities
+            if (attacked) return LockState(General.Attack);
+            if (crouching) return General.Crouch;
+            if (landed) return LockState(General.Land);
+            if (jumpTriggered) return General.Jump;
+
+            if (grounded) return !moving ? General.Idle : General.Walk;
+            return transform.position.y > previousPosition.y ? General.Jump : General.Fall;
+
+            int LockState(int s)
+            {
+                animationLockedUntil = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
+                return s;
+            }
+        }
 
     #endregion
 
@@ -52,7 +114,7 @@ public class Thing : LookAtObject
         protected bool moving;
         public float tileMoveTime = 0.2f, maxStepHeight = 0.5f;
 
-        protected Vector3 direction;
+        protected Vector3 direction, previousPosition;
 
         // Move to a new node.
         public virtual void MoveTo(Vector3 position, bool ignoreCollisions = false, bool checkHeight = true)
