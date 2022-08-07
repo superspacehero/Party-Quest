@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
+using Unity.Netcode;
 
 [RequireComponent(typeof(PlayerInput))]
-public class Player : MonoBehaviour
+public class Player : NetworkBehaviour
 {   
     #region Input variables
 
@@ -13,10 +14,7 @@ public class Player : MonoBehaviour
         public Thing controlledThing
         {
             get => _controlledThing;
-            set
-            {
-                SetControlObject(value);
-            }
+            set => SetControlObject(value);
         }
         [SerializeField]
         private Thing _controlledThing;

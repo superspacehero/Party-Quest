@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.06702304, g: 0.3739672, b: 0.98811066, a: 1}
+  m_IndirectSpecularColor: {r: 0.018601952, g: 0.34584388, b: 1.0006192, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2621,7 +2621,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 15000
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: -2.6895173e-37, z: 3.0736e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -4647,74 +4647,22 @@ MonoBehaviour:
   - {fileID: 2043185323}
   - {fileID: 2043185323}
   - {fileID: 2043185323}
-  - {fileID: 1484509094}
-  - {fileID: 106594623}
-  - {fileID: 704557458}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1868829384}
-  - {fileID: 1678526468}
-  - {fileID: 1484509094}
-  - {fileID: 106594623}
-  - {fileID: 704557458}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1868829384}
-  - {fileID: 1678526468}
-  - {fileID: 1484509094}
-  - {fileID: 106594623}
-  - {fileID: 704557458}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1868829384}
-  - {fileID: 904846423}
-  - {fileID: 1678526468}
   - {fileID: 106594623}
   - {fileID: 188699577}
   - {fileID: 704557458}
-  - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
-  - {fileID: 1868829384}
-  - {fileID: 2096450363}
-  - {fileID: 904846423}
-  - {fileID: 2096450363}
-  - {fileID: 1484509094}
-  - {fileID: 1868829384}
-  - {fileID: 188699577}
-  - {fileID: 1678526468}
-  - {fileID: 106594623}
-  - {fileID: 704557458}
-  - {fileID: 904846423}
-  - {fileID: 2096450363}
-  - {fileID: 1484509094}
-  - {fileID: 1868829384}
-  - {fileID: 188699577}
-  - {fileID: 1678526468}
-  - {fileID: 106594623}
-  - {fileID: 704557458}
-  - {fileID: 1761620188}
-  - {fileID: 106594623}
-  - {fileID: 188699577}
-  - {fileID: 704557458}
-  - {fileID: 904846423}
-  - {fileID: 1484509094}
-  - {fileID: 1678526468}
-  - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
   - {fileID: 106594623}
   - {fileID: 188699577}
   - {fileID: 704557458}
-  - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
-  - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
   - {fileID: 1868829384}
   - {fileID: 188699577}
-  - {fileID: 1761620188}
   - {fileID: 106594623}
   - {fileID: 704557458}
   - {fileID: 1484509094}
@@ -4727,12 +4675,10 @@ MonoBehaviour:
   - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
-  - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
   - {fileID: 1868829384}
   - {fileID: 188699577}
-  - {fileID: 1761620188}
   - {fileID: 106594623}
   - {fileID: 704557458}
   - {fileID: 1484509094}
@@ -4766,6 +4712,69 @@ MonoBehaviour:
   - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 188699577}
+  - {fileID: 704557458}
+  - {fileID: 904846423}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 2096450363}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1868829384}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 188699577}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 188699577}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 188699577}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 188699577}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 188699577}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 1761620188}
+  - {fileID: 1868829384}
+  - {fileID: 188699577}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 106594623}
+  - {fileID: 1484509094}
+  - {fileID: 1678526468}
+  - {fileID: 704557458}
+  - {fileID: 1761620188}
   getParentColors: 1
   _redColor: {r: 0.314, g: 0.427, b: 0.31, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -5356,35 +5365,40 @@ MonoBehaviour:
   - {fileID: 942705978}
   - {fileID: 1581300366}
   - {fileID: 143511679}
+  - {fileID: 195697554}
+  - {fileID: 785869689}
+  - {fileID: 942705978}
+  - {fileID: 1581300366}
+  - {fileID: 942705978}
   - {fileID: 1581300366}
   - {fileID: 785869689}
   - {fileID: 195697554}
-  - {fileID: 942705978}
   - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
   - {fileID: 942705978}
   - {fileID: 1581300366}
+  - {fileID: 785869689}
+  - {fileID: 195697554}
   - {fileID: 143511679}
+  - {fileID: 942705978}
   - {fileID: 1581300366}
   - {fileID: 785869689}
   - {fileID: 195697554}
-  - {fileID: 942705978}
   - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
   - {fileID: 942705978}
   - {fileID: 1581300366}
+  - {fileID: 785869689}
+  - {fileID: 195697554}
   - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
   - {fileID: 942705978}
   - {fileID: 1581300366}
+  - {fileID: 785869689}
+  - {fileID: 195697554}
   - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
   - {fileID: 942705978}
   - {fileID: 1581300366}
+  - {fileID: 785869689}
+  - {fileID: 195697554}
+  - {fileID: 143511679}
   getParentColors: 1
   _redColor: {r: 0.357, g: 0.333, b: 0.278, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -7799,7 +7813,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 3000
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: -2.689554e-37, z: 3.0736e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -7892,7 +7906,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 15000
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: -2.6895173e-37, z: 3.0736e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
@@ -9232,7 +9246,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 3000
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: -2.689554e-37, z: 3.0736e-41, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
