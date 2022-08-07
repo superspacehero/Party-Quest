@@ -69,6 +69,11 @@ public class Player : NetworkBehaviour
             SetControlObject();
         }
 
+        public override void OnNetworkSpawn()
+        {
+            if (!isOwner) Destroy(this);
+        }
+
         /// <summary>
         /// This function is called when the behaviour becomes disabled or inactive.
         /// </summary>
