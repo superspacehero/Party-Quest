@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="UI StyleSheet.uss" />
+    <ui:VisualElement name="Button" class="unity-button-background" style="height: 100%;">
+        <ui:Button text="Button" style="border-left-width: 5px; border-right-width: 5px; border-top-width: 5px; border-bottom-width: 5px; color: rgb(0, 0, 0);" />
+    </ui:VisualElement>
+</ui:UXML>

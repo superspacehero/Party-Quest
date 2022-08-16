@@ -20,44 +20,64 @@ public class Player : NetworkBehaviour
         private Thing _controlledThing;
 
         [HideInInspector]
-        public Vector2 movement;
+        public Vector2 movement
+        {
+            get => _movement;
+            set
+            {
+                _movement = value;
+
+                moving = value.magnitude > 0;
+            }
+        }
+        private Vector2 _movement;
+
+        private bool moving;
 
         [HideInInspector]
-        public bool updating;
+        public bool button1
+        {
+            get => _button1;
+            set
+            {
+                _button1 = value;
+
+                if (value)
+                {
+                    if (button1)
+                        controlledThing.PrimaryAction();
+                }
+            }
+        }
+        private bool _button1;
+        
+        public bool button2
+        {
+            get => _button2;
+            set
+            {
+                _button2 = value;
+
+                if (value)
+                {
+                    if (button2)
+                        controlledThing.SecondaryAction();
+                }
+            }
+        }
+        private bool _button2;
 
         public bool canControl = true;
+
+        private NetworkVariable<Vector2> _netMovement;
+        private NetworkVariable<bool> _netButton1, _netButton2;
 
         public float inputAdjustTime = 0.05f;
         private float currentInputTime;
 
-        bool moving, button1, button2;
-
     #endregion
 
     #region Input functions
-
-        public void OnMove(InputValue value)
-        {
-            movement = value.Get<Vector2>();
-
-            moving = movement.magnitude > 0;
-        }
-
-        public void OnButton1(InputValue value)
-        {
-            button1 = value.isPressed;
-
-            if (button1)
-                controlledThing.PrimaryAction();
-        }
-
-        public void OnButton2(InputValue value)
-        {
-            button2 = value.isPressed;
-
-            if (button2)
-                controlledThing.SecondaryAction();
-        }
 
         /// <summary>
         /// This function is called when the object becomes enabled and active.
@@ -71,7 +91,22 @@ public class Player : NetworkBehaviour
 
         public override void OnNetworkSpawn()
         {
-            if (!isOwner) Destroy(this);
+            if (!IsOwner) Destroy(this);
+        }
+
+        public void OnMove(InputValue value)
+        {
+            movement = value.Get<Vector2>();
+        }
+
+        public void OnButton1(InputValue value)
+        {
+            button1 = value.isPressed;
+        }
+
+        public void OnButton2(InputValue value)
+        {
+            button2 = value.isPressed;
         }
 
         /// <summary>
@@ -84,6 +119,9 @@ public class Player : NetworkBehaviour
 
         public void Update()
         {
+            if (IsOwner) TransmitState();
+            else ConsumeState();
+
             if (canControl)
             {
                 if (moving)
@@ -100,39 +138,57 @@ public class Player : NetworkBehaviour
             }
         }
 
+        private void TransmitState()
+        {
+            _netMovement.Value = movement;
+            _netButton1.Value = button1;
+            _netButton2.Value = button2;
+        }
+
+        private void ConsumeState()
+        {
+            movement = _netMovement.Value;
+            button1 = _netButton1.Value;
+            button2 = _netButton2.Value;
+        }
+
     #endregion
 
-    public void SetControlObject(Thing thingToControl, bool immediateCameraShift = false)
-    {
-        if (_controlledThing != null)
-            _controlledThing.useUI = false;
+    #region Control Object Functions
 
-        if (thingToControl == null)
+        public void SetControlObject(Thing thingToControl, bool immediateCameraShift = false)
+        {
             if (_controlledThing != null)
-                thingToControl = _controlledThing;
-            else
-                return;
+                _controlledThing.useUI = false;
 
-        if (_controlledThing != thingToControl)
-            _controlledThing = thingToControl;
+            if (thingToControl == null)
+                if (_controlledThing != null)
+                    thingToControl = _controlledThing;
+                else
+                    return;
 
-        _controlledThing.useUI = true;
+            if (_controlledThing != thingToControl)
+                _controlledThing = thingToControl;
 
-        GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
+            _controlledThing.useUI = true;
 
-        Debug.Log("Set control object to " + thingToControl.name);
-    }
+            GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
 
-    [Button]
-    public void SetControlObject()
-    {
-        StartCoroutine(SettingControlObject());
-    }
+            Debug.Log("Set control object to " + thingToControl.name);
+        }
 
-    IEnumerator SettingControlObject()
-    {
-        yield return null;
+        [Button]
+        public void SetControlObject()
+        {
+            StartCoroutine(SettingControlObject());
+        }
 
-        SetControlObject(null);
-    }
+        IEnumerator SettingControlObject()
+        {
+            yield return null;
+
+            SetControlObject(null);
+        }
+
+    #endregion
 }

@@ -1,0 +1,54 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UIElements;
+using UnityEngine.Events;
+
+public class UIController : MonoBehaviour
+{
+    private VisualElement rootUI
+    {
+        get
+        {
+            if (_rootUI == null)
+                TryGetComponent(out _rootUI);
+            return _rootUI.rootVisualElement;
+        }
+    }
+    private UIDocument _rootUI;
+
+    [System.Serializable]
+    private class ButtonEvent
+    {
+        public string buttonName;
+        public UnityEvent onClick;
+    }
+
+    [SerializeField]
+    private List<ButtonEvent> buttonEvents = new List<ButtonEvent>();
+    [SerializeField]
+    private List<Button> buttons = new List<Button>();
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        foreach (Button queryButton in rootUI.Query<Button>().ToList())
+        {
+            buttons.Add(queryButton);
+
+            // foreach (ButtonEvent buttonEvent in buttonEvents)
+            // {
+            //     if (queryButton.name == buttonEvent.buttonName)
+            //     {
+            //         queryButton.clickable.clicked += () => buttonEvent.onClick.Invoke();
+            //         Debug.Log("Found a button for event: " + buttonEvent.buttonName);
+            //         continue;
+            //     }
+
+            //     Debug.Log("Couldn't find a button for event: " + buttonEvent.buttonName);
+            // }
+        }
+    }
+}

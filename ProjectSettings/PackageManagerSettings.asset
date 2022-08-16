@@ -31,21 +31,28 @@ MonoBehaviour:
     - com.arongranberg.astar
     m_IsDefault: 0
     m_Capabilities: 0
-  m_UserSelectedRegistryName: 
+  - m_Id: scoped:OpenUPM
+    m_Name: OpenUPM
+    m_Url: https://package.openupm.com
+    m_Scopes:
+    - dev.yarnspinner
+    m_IsDefault: 0
+    m_Capabilities: 0
+  m_UserSelectedRegistryName: OpenUPM
   m_UserAddingNewScopedRegistry: 0
   m_RegistryInfoDraft:
     m_ErrorMessage: 
     m_Original:
-      m_Id: scoped:A* Pathfinding Project
-      m_Name: A* Pathfinding Project
-      m_Url: https://arongranberg.com/packages/9f1a3523e7b4bf7967c208ee35c2874e6042513f0166d
+      m_Id: scoped:OpenUPM
+      m_Name: OpenUPM
+      m_Url: https://package.openupm.com
       m_Scopes:
-      - com.arongranberg.astar
+      - dev.yarnspinner
       m_IsDefault: 0
       m_Capabilities: 0
     m_Modified: 0
-    m_Name: A* Pathfinding Project
-    m_Url: https://arongranberg.com/packages/9f1a3523e7b4bf7967c208ee35c2874e6042513f0166d
+    m_Name: OpenUPM
+    m_Url: https://package.openupm.com
     m_Scopes:
-    - com.arongranberg.astar
+    - dev.yarnspinner
     m_SelectedScopeIndex: 0

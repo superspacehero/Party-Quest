@@ -148,8 +148,7 @@ public class RgbSprite : MonoBehaviour
     /// </summary>
     void Reset()
     {
-        OnEnable();
-        OnValidate();
+        SetUpMaterial();
     }
 
     /// <summary>
@@ -164,6 +163,13 @@ public class RgbSprite : MonoBehaviour
         redColor = redColor;
         greenColor = greenColor;
         blueColor = blueColor;
+    }
+
+    [Button("Set Up Material")]
+    void SetUpMaterial()
+    {
+        OnEnable();
+        OnValidate();
     }
 
     private Material spriteMaterial

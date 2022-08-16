@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 961176325863353216}
   - component: {fileID: 7118516577013648683}
+  - component: {fileID: 3400807001572494374}
   - component: {fileID: -7682539891266733411}
   - component: {fileID: 2702204013924378677}
-  - component: {fileID: 3400807001572494374}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -64,6 +64,22 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &3400807001572494374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 922477484306549878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 951099334
+  AlwaysReplicateAsRoot: 0
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!114 &-7682539891266733411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,8 +93,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _controlledThing: {fileID: 0}
-  movement: {x: 0, y: 0}
-  updating: 0
   canControl: 0
   inputAdjustTime: 0.05
 --- !u!95 &2702204013924378677
@@ -100,19 +114,3 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3400807001572494374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 922477484306549878}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 951099334
-  AlwaysReplicateAsRoot: 0
-  DontDestroyWithOwner: 0
-  AutoObjectParentSync: 1

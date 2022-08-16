@@ -7,21 +7,64 @@
 }
 
 .unity-button {
-    border-top-left-radius: 50%;
-    border-bottom-left-radius: 50%;
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-    flex-grow: 0;
-    height: 100px;
-    width: 100px;
-    border-left-width: 5px;
-    border-right-width: 5px;
-    border-top-width: 5px;
-    border-bottom-width: 5px;
-    border-left-color: rgb(255, 255, 255);
-    border-right-color: rgb(255, 255, 255);
-    border-top-color: rgb(255, 255, 255);
-    border-bottom-color: rgb(255, 255, 255);
+    -unity-font: url('/Assets/Main/Art/Fonts/BadComic.ttf');
+    -unity-font-definition: resource('');
+    font-size: 30px;
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-left-color: rgb(255, 167, 31);
+    border-right-color: rgb(255, 167, 31);
+    border-top-color: rgb(255, 167, 31);
+    border-bottom-color: rgb(255, 167, 31);
+    background-color: rgba(255, 199, 112, 255);
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+}
+
+.unity-button:hover {
+    margin-bottom: 10px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    -unity-font-style: bold;
+}
+
+.unity-button:active {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    -unity-font-style: normal;
+}
+
+.unity-button-background {
+    background-color: rgb(255, 155, 0);
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    border-left-width: 0;
+    border-right-width: 0;
+    border-top-width: 0;
+    border-bottom-width: 0;
+    max-height: 25%;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 }
 
 .BottomToTop {
@@ -42,17 +85,25 @@
     border-right-width: 2px;
     border-top-width: 2px;
     border-bottom-width: 2px;
-    border-left-color: rgba(255, 255, 255, 255);
-    border-right-color: rgba(255, 255, 255, 255);
-    border-top-color: rgba(255, 255, 255, 255);
-    border-bottom-color: rgba(255, 255, 255, 255);
+    border-left-color: rgb(255, 255, 255);
+    border-right-color: rgb(255, 255, 255);
+    border-top-color: rgb(255, 255, 255);
+    border-bottom-color: rgb(255, 255, 255);
 }
 
 .LoadingBarProgress {
-    background-color: rgba(255, 255, 255, 255);
+    background-color: rgb(255, 255, 255);
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     width: 75%;
+}
+
+.unity-imgui-container {
+    width: 100%;
+    height: 100%;
+}
+
+.unity-text-element {
 }
