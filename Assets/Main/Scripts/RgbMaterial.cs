@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using Sirenix.OdinInspector;
 
 [ExecuteAlways]
-public class RgbSprite : MonoBehaviour
+public class RgbMaterial : MonoBehaviour
 {
     #region Renderers
 
@@ -90,13 +90,13 @@ public class RgbSprite : MonoBehaviour
     #endregion
 
     [SerializeField, ReadOnly]
-    private RgbSprite parentSprite;
+    private RgbMaterial parentSprite;
 
     [SerializeField, ReadOnly]
-    public List<RgbSprite> childSprites = new List<RgbSprite>();
+    public List<RgbMaterial> childSprites = new List<RgbMaterial>();
 
     public bool getParentColors = true;
-    public void SetChildSpriteColors(RgbSprite child)
+    public void SetChildSpriteColors(RgbMaterial child)
     {
         if (child != null)
         {
@@ -111,7 +111,7 @@ public class RgbSprite : MonoBehaviour
 
     public void SetChildSpriteColors()
     {
-        foreach (RgbSprite child in childSprites)
+        foreach (RgbMaterial child in childSprites)
         {
             SetChildSpriteColors(child);
         }
