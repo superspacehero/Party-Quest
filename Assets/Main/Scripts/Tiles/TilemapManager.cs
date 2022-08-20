@@ -5,14 +5,34 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Sirenix.OdinInspector;
+using Pathfinding;
 
 public class TilemapManager : MonoBehaviour
 {
+    private AstarPath pathfinder
+    {
+        get
+        {
+            if (_pathfinder == null)
+                TryGetComponent(out _pathfinder);
+            return _pathfinder;
+        }
+    }
+    private AstarPath _pathfinder;
+
     [SerializeField]
     private string levelName;
     [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
 
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start()
+    {
+        LoadMap();
+    }
 
     [Button]
     public void SaveMap()
@@ -50,7 +70,7 @@ public class TilemapManager : MonoBehaviour
     public void LoadMap()
     {
         // Load the map from a file
-        ClearMap();
+        ClearMap(false);
 
         Level loadedLevel = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
         
@@ -70,10 +90,13 @@ public class TilemapManager : MonoBehaviour
         {
             _objectTilemap.SetTile(tile.position, tile.tileType);
         }
+
+        // Update the pathfinder
+        pathfinder.Scan();
     }
 
     [Button]
-    public void ClearMap()
+    public void ClearMap(bool clearPathfinder = true)
     {
         // Clear the map
 
@@ -83,6 +106,9 @@ public class TilemapManager : MonoBehaviour
 
         foreach (var map in maps)
             map.ClearAllTiles();
+
+        if (clearPathfinder)
+            pathfinder.Scan();
     }
 }
 

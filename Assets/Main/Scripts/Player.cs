@@ -119,8 +119,8 @@ public class Player : NetworkBehaviour
 
         public void Update()
         {
-            if (IsOwner) TransmitState();
-            else ConsumeState();
+            // if (IsOwner) TransmitState();
+            // else ConsumeState();
 
             if (canControl)
             {

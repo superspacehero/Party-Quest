@@ -40,6 +40,7 @@ public class GridThing : Thing
                     Counter.instance.count = _movesLeft;
             }
         }
+        [SerializeField]
         private int _movesLeft;
 
         public void AddMoves(int moves)
@@ -81,7 +82,9 @@ public class GridThing : Thing
                 {
                     StartCoroutine(Movement());
 
-                    movesLeft--;
+                    if (movesLeft > 0)
+                        movesLeft--;
+
                     previousLocation = location;
                 }
             }
@@ -93,7 +96,7 @@ public class GridThing : Thing
 
         public override void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
-            if (movesLeft <= 0)
+            if (movesLeft == 0)
                 return;
 
             absoluteMovement.x = Mathf.Abs(direction.x);

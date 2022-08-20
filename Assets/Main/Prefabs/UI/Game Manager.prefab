@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 5966512249946250744}
   - component: {fileID: 1299743640007157026}
   - component: {fileID: 8195685065418985526}
+  - component: {fileID: 7432381990685416456}
   m_Layer: 0
   m_Name: Ground Tiles
   m_TagString: Untagged
@@ -367,6 +368,22 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &7432381990685416456
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622488317513907148}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!1 &744773515438129909
 GameObject:
   m_ObjectHideFlags: 0
@@ -453,6 +470,7 @@ GameObject:
   - component: {fileID: 7281401872803655001}
   - component: {fileID: 6711855769834235977}
   - component: {fileID: 22267228490729240}
+  - component: {fileID: 8685496384498746360}
   m_Layer: 0
   m_Name: Object Tiles
   m_TagString: Untagged
@@ -560,6 +578,22 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &8685496384498746360
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1391114563082548760}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!1 &2128055043150639187
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,6 +883,7 @@ GameObject:
   - component: {fileID: 6578119440205983348}
   - component: {fileID: 1091313510384445028}
   - component: {fileID: 516400027364389769}
+  - component: {fileID: 1045234986361060973}
   m_Layer: 0
   m_Name: Prop Tiles
   m_TagString: Untagged
@@ -956,6 +991,22 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
+--- !u!19719996 &1045234986361060973
+TilemapCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147720017608033112}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_MaximumTileChangeCount: 1000
+  m_ExtrusionFactor: 0.00001
 --- !u!1 &7728929840483320400
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1158,7 @@ GameObject:
   - component: {fileID: 6871710906738891855}
   - component: {fileID: 5396853833563908452}
   - component: {fileID: 1343790323610241993}
+  - component: {fileID: 3003713911586481566}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -1222,6 +1274,61 @@ MonoBehaviour:
   _groundTilemap: {fileID: 1299743640007157026}
   _propTilemap: {fileID: 1091313510384445028}
   _objectTilemap: {fileID: 6711855769834235977}
+--- !u!114 &3003713911586481566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8561587462237652841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAACYn+tAtWlongIAAM4FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVFtv2jAU/ivIz+sUWC+wtw0o3aS2qNnUh6UPJj4hFo4d+VKgFf99x45JAp00CSnhO7fvO5e8Ey5NDblVeqE5u1cMyNcB8e/k06Az3sGOrpVM+RscfZ45s6V3osHniVquEB/6MKMqsJrn3+RaeOcEQSd5oXQ1Z2uYKmMNwgUVBtCklfXREqH3AdnFgH18vvnn4IBvOUgL+n9eTuaCVjUwz7Zzvjp6XzVuEnVED885V0JwE0kQu6+DyCmtjUMJ6MA4RVGhvPcvga9Li39G/eDHojBgIyVN9zOusTdNVvJdNQ2rqNk0vF6pcNASb1Lef7BeDIO50Kq6O1YdJr6CLXm+eaL7nBrb62cfnp3SdnJLxYauBDyXIB/UQisnGRqtdj7UGRjNeqlaZdMS8k3n13A9A139cTbDbjaHoH2XWqhbHcnnyw79bcCkQoXWx5TeEpGJTwkax/YD9YSFMbEQop4jxv+i6/5mRcMt18aiKfKRvvpKOe1dyTxQ8VqdnSotIcCxfg2SCrtfYhp7Pt8zW6/smeWW+huKxaPteBpnIQHu/JPkzLRU23aWGjfThHU9vv15OTQz/Omqeqm4tClQnZe9OqZU23sw5aOzgstep73hAZs7VVI2O2v+EZY6XdC8F2ZhZ52GGbU0UEGuuFysH4qNDhHSCeH3OKgLdFGd/7345pcU64oAkwclw82dPIO2tePs9DrI6Go8Xl2PL4vkpihGN/nF5Ms4WeVJcU0nBWMwIeF8uMRZULFsmhlHiJslOy0ST+X4+RssNK3DuTJNtwv+VqneWnBZqDTXAPKxydCKBY1F8LPC5oyjzBSs5TLsJHnPiFD5BljWJspCY+c7q2nWZclIzV+V9UhGpuGjlxEPt9e41PDKYeuLH5MdyOEvUEsDBBQAAAgIAACYn+uDK1sRbAAAAHgAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNEz1jM11FFQSi9KLMgoBoqAOaWZKSB2tJKRqYVFkpmFSZqBeVqakXmyrqWxhUFSskGaWaJlWkpKqqVSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAJif60C1aWieAgAAzgUAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAJif64MrWxFsAAAAeAAAAAkAJAAAAAAAAAAAAAAA6wIAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAACiAwAAAAA=
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 1
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
 --- !u!1 &8561587463186187244
 GameObject:
   m_ObjectHideFlags: 0
