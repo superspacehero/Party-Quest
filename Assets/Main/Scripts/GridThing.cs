@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Sirenix.OdinInspector;
 
 public class GridThing : Thing
 {
@@ -96,6 +97,12 @@ public class GridThing : Thing
 
         public override void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
+            if (controlledThing)
+            {
+                controlledThing.Move(direction, ignoreCollisions, checkHeight);
+                return;
+            }
+
             if (movesLeft == 0)
                 return;
 
@@ -176,6 +183,7 @@ public class GridThing : Thing
 
     #region Things
 
+        [FoldoutGroup("Things")]
         public List<GridThing> overlappingThings, thingsInFront;
 
     #endregion
@@ -184,12 +192,18 @@ public class GridThing : Thing
 
         public override void PrimaryAction()
         {
-            movesLeft = Random.Range(1, 10);
+            if (controlledThing != null)
+                controlledThing.PrimaryAction();
+            else
+                movesLeft = Random.Range(1, 10);
         }
 
         public override void SecondaryAction()
         {
-            movesLeft = Random.Range(1, 10);
+            if (controlledThing != null)
+                controlledThing.SecondaryAction();
+            else
+                movesLeft = Random.Range(1, 10);
         }
 
     #endregion

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-[System.Serializable, BoxGroup("Health")]
 public class Health
 {
     [ReadOnly]

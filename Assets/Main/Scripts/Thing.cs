@@ -23,9 +23,13 @@ public class Thing : LookAtObject
 
     #endregion
 
-    #region Health
+    #region Other Variables
 
+        [FoldoutGroup("Other")]
         public Health health;
+
+        [FoldoutGroup("Things")]
+        public Thing controlledThing;
 
     #endregion
     
@@ -125,7 +129,10 @@ public class Thing : LookAtObject
 
         public virtual void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
-            MoveTo(transform.position + direction);
+            if (controlledThing)
+                controlledThing.Move(direction, ignoreCollisions, checkHeight);
+            else
+                MoveTo(transform.position + direction);
         }
 
     #endregion
@@ -232,12 +239,14 @@ public class Thing : LookAtObject
 
         public virtual void PrimaryAction()
         {
-            
+            if (controlledThing != null)
+                controlledThing.PrimaryAction();
         }
 
         public virtual void SecondaryAction()
         {
-            
+            if (controlledThing != null)
+                controlledThing.SecondaryAction();
         }
 
     #endregion

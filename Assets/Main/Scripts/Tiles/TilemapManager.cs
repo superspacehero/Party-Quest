@@ -95,7 +95,6 @@ public class TilemapManager : MonoBehaviour
         pathfinder.Scan();
     }
 
-    [Button]
     public void ClearMap(bool clearPathfinder = true)
     {
         // Clear the map
@@ -109,6 +108,12 @@ public class TilemapManager : MonoBehaviour
 
         if (clearPathfinder)
             pathfinder.Scan();
+    }
+
+    [Button]
+    private void ClearMap()
+    {
+        ClearMap(true);
     }
 }
 
