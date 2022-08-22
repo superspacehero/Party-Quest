@@ -129,16 +129,30 @@ public class GridThing : Thing
             float time = 0;
             Vector3 startPosition = transform.position;
             Vector3 endPosition = location;
+            Vector3 currentPosition = startPosition;
+            AnimationCurve curve = new AnimationCurve(new Keyframe(0, startPosition.y), new Keyframe(0.5f, Mathf.Max(startPosition.y, endPosition.y) + jumpHeight), new Keyframe(1, endPosition.y));
+            bool shouldIJump = (startPosition.y != endPosition.y);
+
 
             while (time < tileMoveTime)
             {
                 time += Time.deltaTime;
-                transform.position = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
+                currentPosition = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
+
+                if (shouldIJump)
+                {
+                    currentPosition.y = curve.Evaluate(time / tileMoveTime);
+                    verticalMovement = (time / tileMoveTime) > 0.5f ? 1 : -1;
+                }
+
+                transform.position = currentPosition;
+                
                 yield return null;
             }
 
             transform.position = endPosition;
             moving = false;
+            verticalMovement = 0;
         }
 
         private void UpdateThingLists()

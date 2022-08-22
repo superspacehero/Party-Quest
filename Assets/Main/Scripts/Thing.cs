@@ -67,6 +67,7 @@ public class Thing : LookAtObject
         protected bool grounded = true;
         private float animationLockedUntil;
         protected bool crouching, jumpTriggered, attacked, landed;
+        protected int verticalMovement;
 
 
         private int GetState()
@@ -80,7 +81,7 @@ public class Thing : LookAtObject
             if (jumpTriggered) return General.Jump;
 
             if (grounded) return !moving ? General.Idle : General.Walk;
-            return transform.position.y > previousPosition.y ? General.Jump : General.Fall;
+            return verticalMovement > 0 ? General.Jump : General.Fall;
 
             int LockState(int s)
             {
@@ -116,7 +117,7 @@ public class Thing : LookAtObject
     #region Movement
 
         protected bool moving;
-        public float tileMoveTime = 0.2f, maxStepHeight = 0.5f;
+        public float tileMoveTime = 0.2f, maxStepHeight = 1f, jumpHeight = 0.5f;
 
         protected Vector3 direction, previousPosition;
 

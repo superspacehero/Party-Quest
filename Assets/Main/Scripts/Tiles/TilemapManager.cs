@@ -21,7 +21,8 @@ public class TilemapManager : MonoBehaviour
     private AstarPath _pathfinder;
 
     [SerializeField]
-    private string levelName;
+    private Level level;
+
     [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
 
@@ -38,15 +39,12 @@ public class TilemapManager : MonoBehaviour
     public void SaveMap()
     {
         // Save the map to a file
-        Level newLevel = new Level();
 
-        newLevel.levelName = levelName;
+        level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
+        level.propTiles = GetTilesFromMap(_propTilemap).ToList();
+        level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
-        newLevel.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
-        newLevel.propTiles = GetTilesFromMap(_propTilemap).ToList();
-        newLevel.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
-
-        PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(newLevel));
+        PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(level));
         
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {
@@ -58,7 +56,7 @@ public class TilemapManager : MonoBehaviour
                     
                     yield return new SavedTile
                     {
-                        position = new Vector3Int(pos.x, pos.y, tile.height),
+                        position = pos,
                         tileType = tile
                     };
                 }
@@ -72,34 +70,31 @@ public class TilemapManager : MonoBehaviour
         // Load the map from a file
         ClearMap(false);
 
-        Level loadedLevel = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
-        
-        levelName = loadedLevel.levelName;
+        level = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
 
-        foreach (SavedTile tile in loadedLevel.groundTiles)
+        foreach (SavedTile tile in level.groundTiles)
         {
             _groundTilemap.SetTile(tile.position, tile.tileType);
         }
 
-        foreach (SavedTile tile in loadedLevel.propTiles)
+        foreach (SavedTile tile in level.propTiles)
         {
             _propTilemap.SetTile(tile.position, tile.tileType);
         }
 
-        foreach (SavedTile tile in loadedLevel.objectTiles)
+        foreach (SavedTile tile in level.objectTiles)
         {
             _objectTilemap.SetTile(tile.position, tile.tileType);
         }
 
-        // Update the pathfinder
-        pathfinder.Scan();
+        UpdateNavMesh();
     }
 
     public void ClearMap(bool clearPathfinder = true)
     {
         // Clear the map
 
-        levelName = "";
+        level.levelName = "";
 
         var maps = FindObjectsOfType<Tilemap>();
 
@@ -115,6 +110,21 @@ public class TilemapManager : MonoBehaviour
     {
         ClearMap(true);
     }
+
+    [Button]
+    void UpdateNavMesh()
+    {
+        _groundTilemap.CompressBounds();
+
+        // #if !UNITY_EDITOR
+            // Resize the pathfinder's graph to fit the map, then update it
+            AstarPath.active.data.gridGraph.center.x = _groundTilemap.localBounds.center.x;
+            AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.y;
+
+            AstarPath.active.data.gridGraph.width = Mathf.RoundToInt(Mathf.Max(_groundTilemap.localBounds.size.x, _groundTilemap.localBounds.size.y));
+            pathfinder.Scan();
+        // #endif
+    }
 }
 
 [System.Serializable]
@@ -124,6 +134,7 @@ public class SavedTile
     public LevelTile tileType;
 }
 
+[System.Serializable]
 public struct Level
 {
     public string levelName;
