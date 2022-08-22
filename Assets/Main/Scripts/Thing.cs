@@ -59,7 +59,7 @@ public class Thing : LookAtObject
             var state = GetState();
 
             if (state == currentAnimationState) return;
-            anim.CrossFade(state, 0, 0);
+            anim.CrossFade(state, 0.1f, 0);
             currentAnimationState = state;
         }
 
@@ -117,7 +117,7 @@ public class Thing : LookAtObject
     #region Movement
 
         protected bool moving;
-        public float tileMoveTime = 0.2f, maxStepHeight = 1f, jumpHeight = 0.5f;
+        public float tileMoveTime = 0.2f, tileJumpTime = 0.3f, maxStepHeight = 1f, jumpHeight = 0.5f;
 
         protected Vector3 direction, previousPosition;
 

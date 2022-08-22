@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
-    public TileType tileType;
+    // public TileType tileType;
 
     /// <summary>
     /// StartUp is called on the first frame of the running Scene.

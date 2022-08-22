@@ -129,29 +129,51 @@ public class GridThing : Thing
             float time = 0;
             Vector3 startPosition = transform.position;
             Vector3 endPosition = location;
-            Vector3 currentPosition = startPosition;
-            AnimationCurve curve = new AnimationCurve(new Keyframe(0, startPosition.y), new Keyframe(0.5f, Mathf.Max(startPosition.y, endPosition.y) + jumpHeight), new Keyframe(1, endPosition.y));
-            bool shouldIJump = (startPosition.y != endPosition.y);
 
-
-            while (time < tileMoveTime)
+            // Should I jump?
+            if (startPosition.y != endPosition.y)
             {
-                time += Time.deltaTime;
-                currentPosition = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
+                grounded = false;
 
-                if (shouldIJump)
+                Vector3 currentPosition = startPosition;
+                AnimationCurve curve = new AnimationCurve(
+                    new Keyframe(0, startPosition.y),
+                    new Keyframe(0.5f, Mathf.Max(startPosition.y, endPosition.y) + jumpHeight, -1, 1),
+                    new Keyframe(1, endPosition.y));
+
+                float calculatedTime = time;
+
+
+                while (time < tileJumpTime)
                 {
-                    currentPosition.y = curve.Evaluate(time / tileMoveTime);
-                    verticalMovement = (time / tileMoveTime) > 0.5f ? 1 : -1;
-                }
+                    time += Time.deltaTime;
+                    calculatedTime = time / tileJumpTime;
 
-                transform.position = currentPosition;
-                
-                yield return null;
+                    currentPosition = Vector3.Lerp(startPosition, endPosition, calculatedTime);
+                    currentPosition.y = curve.Evaluate(calculatedTime);
+                    verticalMovement = (calculatedTime) < 0.5f ? 1 : -1;
+
+                    Debug.Log("Jump time: " + calculatedTime);
+
+                    transform.position = currentPosition;
+                    
+                    yield return null;
+                }
+            }
+            else
+            {
+                while (time < tileMoveTime)
+                {
+                    time += Time.deltaTime;
+                    transform.position = Vector3.Lerp(startPosition, endPosition, time / tileMoveTime);
+                    
+                    yield return null;
+                }
             }
 
             transform.position = endPosition;
             moving = false;
+            grounded = true;
             verticalMovement = 0;
         }
 
