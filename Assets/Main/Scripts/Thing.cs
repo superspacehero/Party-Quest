@@ -59,7 +59,7 @@ public class Thing : LookAtObject
             var state = GetState();
 
             if (state == currentAnimationState) return;
-            anim.CrossFade(state, 0.1f, 0);
+            anim.CrossFade(state, 0.05f, 0);
             currentAnimationState = state;
         }
 

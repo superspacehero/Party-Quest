@@ -153,8 +153,6 @@ public class GridThing : Thing
                     currentPosition.y = curve.Evaluate(calculatedTime);
                     verticalMovement = (calculatedTime) < 0.5f ? 1 : -1;
 
-                    Debug.Log("Jump time: " + calculatedTime);
-
                     transform.position = currentPosition;
                     
                     yield return null;
