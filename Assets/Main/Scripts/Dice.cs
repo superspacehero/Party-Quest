@@ -143,14 +143,16 @@ public class Dice : Thing
                 Launch(direction);
         }
 
-        public override void PrimaryAction()
+        public override void PrimaryAction(bool runningAction)
         {
-            RandomLaunch();
+            if (runningAction)
+                RandomLaunch();
         }
 
-        public override void SecondaryAction()
+        public override void SecondaryAction(bool runningAction)
         {
-            RandomLaunch();
+            if (runningAction)
+                RandomLaunch();
         }
 
     #endregion

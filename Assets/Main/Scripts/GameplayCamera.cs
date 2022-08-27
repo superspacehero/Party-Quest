@@ -31,6 +31,8 @@ public class GameplayCamera : MonoBehaviour
         }
         private Camera _myCamera;
 
+        public static Thing cameraObject;
+
     #endregion
 
 
@@ -41,6 +43,8 @@ public class GameplayCamera : MonoBehaviour
         {
             if (!thingToFollow.moveCameraToMeWhenControlling)
                 return;
+
+            cameraObject = thingToFollow;
 
             instance.transform.SetParent(thingToFollow.cameraPoint, true);
 

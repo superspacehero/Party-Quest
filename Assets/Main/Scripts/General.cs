@@ -23,4 +23,27 @@ public class General
         public static readonly int Crouch = Animator.StringToHash("Crouch");
 
     #endregion
+
+    public static void DelayedFunction(MonoBehaviour monoBehaviour, System.Action action, int delay = 0)
+    {
+        monoBehaviour.StartCoroutine(DelayedFunctionCoroutine(action, delay));
+    }
+
+    public static IEnumerator DelayedFunctionCoroutine(System.Action action, int framesToDelay = 0)
+    {
+        if (framesToDelay > 1)
+        {
+            framesDelayed = 0;
+            while (framesDelayed < framesToDelay)
+            {
+                framesDelayed++;
+                yield return null;
+            }
+        }
+        else
+            yield return null;
+
+        action();
+    }
+    private static int framesDelayed;
 }

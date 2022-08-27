@@ -100,6 +100,7 @@ public class GridThing : Thing
             if (controlledThing)
             {
                 controlledThing.Move(direction, ignoreCollisions, checkHeight);
+                // Rotate(direction);
                 return;
             }
 
@@ -224,20 +225,16 @@ public class GridThing : Thing
 
     #region Actions
 
-        public override void PrimaryAction()
+        public override void PrimaryAction(bool runningAction)
         {
             if (controlledThing != null)
-                controlledThing.PrimaryAction();
-            else
-                movesLeft = Random.Range(1, 10);
+                controlledThing.PrimaryAction(runningAction);
         }
 
-        public override void SecondaryAction()
+        public override void SecondaryAction(bool runningAction)
         {
             if (controlledThing != null)
-                controlledThing.SecondaryAction();
-            else
-                movesLeft = Random.Range(1, 10);
+                controlledThing.SecondaryAction(runningAction);
         }
 
     #endregion

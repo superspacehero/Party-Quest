@@ -41,12 +41,8 @@ public class Player : NetworkBehaviour
             set
             {
                 _button1 = value;
-
-                if (value)
-                {
-                    if (button1)
-                        controlledThing.PrimaryAction();
-                }
+                
+                controlledThing.PrimaryAction(_button1);
             }
         }
         private bool _button1;
@@ -58,11 +54,7 @@ public class Player : NetworkBehaviour
             {
                 _button2 = value;
 
-                if (value)
-                {
-                    if (button2)
-                        controlledThing.SecondaryAction();
-                }
+                controlledThing.SecondaryAction(_button2);
             }
         }
         private bool _button2;

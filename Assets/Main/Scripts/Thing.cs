@@ -28,8 +28,22 @@ public class Thing : LookAtObject
         [FoldoutGroup("Other")]
         public Health health;
 
-        [FoldoutGroup("Things")]
-        public Thing controlledThing;
+        public Thing controlledThing
+        {
+            get => _controlledThing;
+            set
+            {
+                _controlledThing = value;
+
+                if (value != null)
+                {
+                    if (_controlledThing.moveCameraToMeWhenControlling && GameplayCamera.cameraObject == this)
+                        GameplayCamera.SetCameraObject(_controlledThing);
+                }
+            }
+        }
+        [SerializeField, FoldoutGroup("Things")]
+        protected Thing _controlledThing;
 
     #endregion
     
@@ -48,10 +62,7 @@ public class Thing : LookAtObject
 
         protected int currentAnimationState;
 
-        /// <summary>
-        /// Update is called every frame, if the MonoBehaviour is enabled.
-        /// </summary>
-        void Update()
+        void UpdateAnimation()
         {
             previousPosition = transform.position;
 
@@ -131,9 +142,12 @@ public class Thing : LookAtObject
         public virtual void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
             if (controlledThing)
+            {
                 controlledThing.Move(direction, ignoreCollisions, checkHeight);
+                // Rotate(direction);
+            }
             else
-                MoveTo(transform.position + direction);
+                MoveTo(transform.position + (direction * (Time.deltaTime / tileMoveTime)), ignoreCollisions, checkHeight);
         }
 
     #endregion
@@ -238,19 +252,42 @@ public class Thing : LookAtObject
 
     #region Actions
 
-        public virtual void PrimaryAction()
+        public bool primaryAction, secondaryAction;
+
+        public virtual void PrimaryAction(bool runningAction)
         {
+            primaryAction = runningAction;
+
             if (controlledThing != null)
-                controlledThing.PrimaryAction();
+                controlledThing.PrimaryAction(runningAction);
         }
 
-        public virtual void SecondaryAction()
+        public virtual void SecondaryAction(bool runningAction)
         {
+            secondaryAction = runningAction;
+
             if (controlledThing != null)
-                controlledThing.SecondaryAction();
+                controlledThing.SecondaryAction(runningAction);
+        }
+
+        /// <summary>
+        /// Update is called every frame, if the MonoBehaviour is enabled.
+        /// </summary>
+        void Update()
+        {
+            UpdateAnimation();
         }
 
     #endregion
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start()
+    {
+        controlledThing = controlledThing;
+    }
 
     /// <summary>
     /// Callback to draw gizmos that are pickable and always drawn.

@@ -5,10 +5,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Sirenix.OdinInspector;
-using Pathfinding;
 
 public class TilemapManager : MonoBehaviour
 {
+    public static TilemapManager instance; 
     private AstarPath pathfinder
     {
         get
@@ -25,6 +25,8 @@ public class TilemapManager : MonoBehaviour
 
     [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
+    [SerializeField]
+    private Transform lightTransform;
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -32,6 +34,12 @@ public class TilemapManager : MonoBehaviour
     /// </summary>
     void Start()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(instance.gameObject);
+            instance = this;
+        }
+
         LoadMap();
     }
 
@@ -39,6 +47,8 @@ public class TilemapManager : MonoBehaviour
     public void SaveMap()
     {
         // Save the map to a file
+
+        level.lightDirection = lightTransform.eulerAngles;
 
         level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
         level.propTiles = GetTilesFromMap(_propTilemap).ToList();
@@ -71,6 +81,8 @@ public class TilemapManager : MonoBehaviour
         ClearMap(false);
 
         level = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
+
+        lightTransform.eulerAngles = level.lightDirection;
 
         foreach (SavedTile tile in level.groundTiles)
         {
@@ -119,9 +131,14 @@ public class TilemapManager : MonoBehaviour
         // #if !UNITY_EDITOR
             // Resize the pathfinder's graph to fit the map, then update it
             AstarPath.active.data.gridGraph.center.x = _groundTilemap.localBounds.center.x;
-            AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.y;
+            AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.z;
 
-            AstarPath.active.data.gridGraph.width = Mathf.RoundToInt(Mathf.Max(_groundTilemap.localBounds.size.x, _groundTilemap.localBounds.size.y));
+            AstarPath.active.data.gridGraph.SetDimensions
+            (
+                Mathf.CeilToInt(_groundTilemap.localBounds.size.x),
+                Mathf.CeilToInt(_groundTilemap.localBounds.size.z),
+                1
+            );
             pathfinder.Scan();
         // #endif
     }
@@ -139,9 +156,11 @@ public struct Level
 {
     public string levelName;
 
-    public List<SavedTile> groundTiles;
-    public List<SavedTile> propTiles;
-    public List<SavedTile> objectTiles;
+    [ReadOnly]
+    public Vector3 lightDirection;
+
+    [ReadOnly]
+    public List<SavedTile> groundTiles, propTiles, objectTiles;
 
     public string Serialize()
     {
@@ -167,8 +186,8 @@ public struct Level
     }
 
     public static Level Deserialize(string levelString)
-    {
+        {
         Debug.Log(levelString);
         return JsonUtility.FromJson<Level>(levelString);
-    }
+        }
 }
