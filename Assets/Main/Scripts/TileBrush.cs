@@ -6,7 +6,18 @@ using UnityEngine.Tilemaps;
 public class TileBrush : Thing
 {
     [SerializeField] private Tilemap currentTilemap;
-    [SerializeField] private LevelTile currentTile;
+    private LevelTile currentTile
+    {
+        get => _currentTile;
+        set
+        {
+            _currentTile = value;
+            if (meshBase.TryGetComponent(out Renderer renderer) && currentTile.m_DefaultGameObject != null && currentTile.m_DefaultGameObject.TryGetComponent(out Renderer tileRenderer))
+                renderer.material.SetColor("_RedColor", tileRenderer.material.GetColor("_RedColor"));
+        }
+    }
+    [SerializeField]
+    private LevelTile _currentTile;
 
     private enum BrushInput
     {
@@ -24,7 +35,7 @@ public class TileBrush : Thing
         else if (brushInput == BrushInput.Brush)
             brushInput = BrushInput.None;
 
-        Debug.Log(brushInput);
+        // Debug.Log(brushInput);
     }
 
     public override void SecondaryAction(bool runningAction)
@@ -34,7 +45,7 @@ public class TileBrush : Thing
         else if (brushInput == BrushInput.Erase)
             brushInput = BrushInput.None;
 
-        Debug.Log(brushInput);
+        // Debug.Log(brushInput);
     }
 
     void PlaceTile(Vector3 position)

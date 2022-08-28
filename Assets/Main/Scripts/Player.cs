@@ -126,8 +126,15 @@ public class Player : NetworkBehaviour
                     }
                 }
                 else
+                {
                     currentInputTime = 0;
+                    if (controlledThing != null)
+                        controlledThing.Move(Vector3.zero);
+                }
+
+                return;
             }
+
         }
 
         private void TransmitState()
@@ -155,7 +162,10 @@ public class Player : NetworkBehaviour
 
             if (thingToControl == null)
                 if (_controlledThing != null)
+                {
                     thingToControl = _controlledThing;
+                    immediateCameraShift = true;
+                }
                 else
                     return;
 
@@ -165,20 +175,16 @@ public class Player : NetworkBehaviour
             _controlledThing.useUI = true;
 
             GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
-
-            Debug.Log("Set control object to " + thingToControl.name);
         }
 
         [Button]
         public void SetControlObject()
         {
-            StartCoroutine(SettingControlObject());
+            General.DelayedFunction(this, SettingControlObject);
         }
 
-        IEnumerator SettingControlObject()
+        void SettingControlObject()
         {
-            yield return null;
-
             SetControlObject(null);
         }
 

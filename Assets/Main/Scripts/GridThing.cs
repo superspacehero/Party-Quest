@@ -13,7 +13,7 @@ public class GridThing : Thing
         /// </summary>
         void OnEnable()
         {
-            MoveTo(transform.position);
+            MoveTo((controlledThing != null) ? controlledThing.transform.position : transform.position);
             Map.things.Add(this);
         }
 
@@ -104,7 +104,7 @@ public class GridThing : Thing
                 return;
             }
 
-            if (movesLeft == 0)
+            if (movesLeft == 0 || direction == Vector3.zero)
                 return;
 
             absoluteMovement.x = Mathf.Abs(direction.x);

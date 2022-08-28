@@ -130,6 +130,8 @@ public class Thing : LookAtObject
         protected bool moving;
         public float tileMoveTime = 0.2f, tileJumpTime = 0.3f, maxStepHeight = 1f, jumpHeight = 0.5f;
 
+        [ReadOnly]
+        public Vector3 movement;
         protected Vector3 direction, previousPosition;
 
         // Move to a new node.
@@ -141,13 +143,24 @@ public class Thing : LookAtObject
 
         public virtual void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
         {
+            if (direction == Vector3.zero)
+            {
+                moving = false;
+                return;
+            }
+
+            moving = true;
+
             if (controlledThing)
             {
                 controlledThing.Move(direction, ignoreCollisions, checkHeight);
                 // Rotate(direction);
             }
             else
+            {
                 MoveTo(transform.position + (direction * (Time.deltaTime / tileMoveTime)), ignoreCollisions, checkHeight);
+                Rotate(direction);
+            }
         }
 
     #endregion
@@ -269,25 +282,17 @@ public class Thing : LookAtObject
             if (controlledThing != null)
                 controlledThing.SecondaryAction(runningAction);
         }
-
+        
         /// <summary>
-        /// Update is called every frame, if the MonoBehaviour is enabled.
+        /// LateUpdate is called every frame, if the Behaviour is enabled.
+        /// It is called after all Update functions have been called.
         /// </summary>
-        void Update()
+        void LateUpdate()
         {
             UpdateAnimation();
         }
 
     #endregion
-
-    /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
-    /// </summary>
-    void Start()
-    {
-        controlledThing = controlledThing;
-    }
 
     /// <summary>
     /// Callback to draw gizmos that are pickable and always drawn.

@@ -41,6 +41,9 @@ public class GameplayCamera : MonoBehaviour
 
         public static void SetCameraObject(Thing thingToFollow, bool immediateCameraShift = false)
         {
+            if (thingToFollow.controlledThing != null && thingToFollow.controlledThing.moveCameraToMeWhenControlling)
+                thingToFollow = thingToFollow.controlledThing;
+
             if (!thingToFollow.moveCameraToMeWhenControlling)
                 return;
 
@@ -52,6 +55,8 @@ public class GameplayCamera : MonoBehaviour
                 instance.transform.localPosition = Vector3.zero;
             else
                 instance.StartCoroutine(instance.CenterCamera());
+
+            Debug.Log("Set follow object to " + thingToFollow.name);
         }
 
         public IEnumerator CenterCamera()
