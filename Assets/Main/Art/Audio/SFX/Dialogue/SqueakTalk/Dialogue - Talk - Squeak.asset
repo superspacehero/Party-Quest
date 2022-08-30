@@ -9,14 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3addb8583aa3945913f6e6aceebd90, type: 3}
-  m_Name: SqueakTalk
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Dialogue - Talk - Squeak
   m_EditorClassIdentifier: 
-  sounds:
+  clips:
   - {fileID: 8300000, guid: 02ace6b5f3703334daf00ea3b77161ee, type: 3}
   - {fileID: 8300000, guid: d29db8eeb83c8dc46b1af4ee9b073249, type: 3}
   - {fileID: 8300000, guid: aa4accda120f0504d99cefaf4cc39fd8, type: 3}
   - {fileID: 8300000, guid: 2f490cd50ed768d4798639b2e6aae187, type: 3}
   - {fileID: 8300000, guid: 050f745593b4bb94092fcf518aadb5b2, type: 3}
   - {fileID: 8300000, guid: 5215fc02e614caf41bfc9e61d6dc5bdb, type: 3}
-  mixerGroup: {fileID: 2596097133249476921, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0

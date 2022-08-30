@@ -4,12 +4,14 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
+[System.Serializable, InlineProperty]
 public class Health
 {
     [ReadOnly]
     public int health;
     [Min(-1), InfoBox("Remember that this doesn't need to be a huge number. Setting it to -1 makes them invulnerable.")]
     public int maxHealth = -1;
+    [FoldoutGroup("Events")]
     public UnityEvent initializeEvent, hurtEvent, dieEvent;
 
     /// <summary>

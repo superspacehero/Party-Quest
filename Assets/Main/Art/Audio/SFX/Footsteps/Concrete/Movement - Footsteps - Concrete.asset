@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3addb8583aa3945913f6e6aceebd90, type: 3}
-  m_Name: Footsteps-Concrete
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Movement - Footsteps - Concrete
   m_EditorClassIdentifier: 
-  sounds:
-  - {fileID: 8300000, guid: 5262f3955d4659f9ea5b75e9405e23e9, type: 3}
+  clips:
   - {fileID: 8300000, guid: 7a62a0082f5b3cbd88149cb468611d88, type: 3}
   - {fileID: 8300000, guid: 9e6fc9e332e8b1a0b86b4c9223c67d02, type: 3}
   - {fileID: 8300000, guid: f7df529feee199f28b787e32a89cac8b, type: 3}
@@ -23,4 +22,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 27a2277bc6fde98dabf882b381b42ab3, type: 3}
   - {fileID: 8300000, guid: 4a7d5ad13ce0ee33b9402cc409c71156, type: 3}
   - {fileID: 8300000, guid: 16f9a36537b11e518832b594fc32047a, type: 3}
-  mixerGroup: {fileID: 2596097133249476921, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+  - {fileID: 8300000, guid: 5262f3955d4659f9ea5b75e9405e23e9, type: 3}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0

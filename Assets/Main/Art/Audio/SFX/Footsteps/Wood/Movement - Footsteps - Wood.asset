@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3addb8583aa3945913f6e6aceebd90, type: 3}
-  m_Name: Footsteps-Wood
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Movement - Footsteps - Wood
   m_EditorClassIdentifier: 
-  sounds:
+  clips:
   - {fileID: 8300000, guid: c79ca7100fa2e2d268f06d6509202374, type: 3}
   - {fileID: 8300000, guid: 10aad3dce02151f839f129f62dc74b5d, type: 3}
   - {fileID: 8300000, guid: 7c9a9f5f4105b52db85accd2c0e18eb5, type: 3}
@@ -23,4 +23,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 78e8818f38cea0fb1859385dd4a3b902, type: 3}
   - {fileID: 8300000, guid: f64ebcc118d7d44f497ddad3e7bcd14c, type: 3}
   - {fileID: 8300000, guid: 32214d09363d1fcc48b59ba218af84df, type: 3}
-  mixerGroup: {fileID: 2596097133249476921, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0

@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3addb8583aa3945913f6e6aceebd90, type: 3}
-  m_Name: Footsteps-Stone
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Movement - Footsteps - Stone
   m_EditorClassIdentifier: 
-  sounds:
+  clips:
   - {fileID: 8300000, guid: eea6f2da61affef6e82df3aacabfe421, type: 3}
   - {fileID: 8300000, guid: fa8cc3527abceee899612f995ee6c0b5, type: 3}
   - {fileID: 8300000, guid: b9ca6b899dffdf0618b62b9641b51f15, type: 3}
@@ -23,4 +23,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 3bbc9c97164e49df9b2f351294a59255, type: 3}
   - {fileID: 8300000, guid: c079a8260d0c7683f993d168780c9f99, type: 3}
   - {fileID: 8300000, guid: 11b90e4c1d6ffc4d4a7e230851ff4c5e, type: 3}
-  mixerGroup: {fileID: 2596097133249476921, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0

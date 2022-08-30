@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db3addb8583aa3945913f6e6aceebd90, type: 3}
-  m_Name: Footsteps-Grass
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Movement - Footsteps - Grass
   m_EditorClassIdentifier: 
-  sounds:
+  clips:
   - {fileID: 8300000, guid: 2b7f5d7853a4a7d648ef3a876c2d33ed, type: 3}
   - {fileID: 8300000, guid: 9a1fb1607d9e30778985bc5c2cfbb9d1, type: 3}
   - {fileID: 8300000, guid: 16394d4cd7791fca3a7136332abd6c3f, type: 3}
@@ -23,4 +23,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4af6d10ae7de785549a07ec66e91249f, type: 3}
   - {fileID: 8300000, guid: 5292962bb0ecfe8d8aace0c86af7a656, type: 3}
   - {fileID: 8300000, guid: 5d6c376fcc117e94aa593de24d7d63e6, type: 3}
-  mixerGroup: {fileID: 2596097133249476921, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0

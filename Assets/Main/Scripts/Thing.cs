@@ -10,7 +10,7 @@ public class Thing : LookAtObject
     // It contains the basic properties of an object, such as its localized name,
     // its localized description, its icon, and its value.
 
-    #region Metadata
+    #region Info
 
         [FoldoutGroup("Info")]
         public LocalizedString nameString;
@@ -20,13 +20,12 @@ public class Thing : LookAtObject
         public Sprite icon;
         [FoldoutGroup("Info")]
         public int value;
+        [FoldoutGroup("Info")]
+        public Health health;
 
     #endregion
 
     #region Other Variables
-
-        [FoldoutGroup("Other")]
-        public Health health;
 
         public Thing controlledThing
         {
@@ -42,8 +41,11 @@ public class Thing : LookAtObject
                 }
             }
         }
-        [SerializeField, FoldoutGroup("Things")]
+        [SerializeField, FoldoutGroup("Things"), Tooltip("The thing this thing is controlling.")]
         protected Thing _controlledThing;
+
+        [SerializeField, FoldoutGroup("SFX"), Tooltip("The main sounds this things makes. Used for movement sounds by moving things, and usage sounds by items.")]
+        protected SFX mainSFX;
 
     #endregion
     
@@ -290,6 +292,15 @@ public class Thing : LookAtObject
         void LateUpdate()
         {
             UpdateAnimation();
+        }
+
+    #endregion
+
+    #region SFX
+
+        public void PlayMainSFX()
+        {
+            mainSFX.Play();
         }
 
     #endregion

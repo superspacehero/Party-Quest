@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5537fa35f9fc8e488a27254fb13c3ea, type: 3}
+  m_Name: Drink
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: a6e6b2f84c724436998019b597f943b4, type: 3}
+  - {fileID: 8300000, guid: b40f8bf9f7e908dd692948e082b04a1e, type: 3}
+  - {fileID: 8300000, guid: ff586c9bed78c6067abb45a4e04086b8, type: 3}
+  - {fileID: 8300000, guid: 1e18c060984aa5206aaa83debbb8bb62, type: 3}
+  - {fileID: 8300000, guid: 4050ad44aff937398ac703bb6eedc214, type: 3}
+  - {fileID: 8300000, guid: 2e10a45def8d9cad3bc2222efb50ed5c, type: 3}
+  volume: 1
+  volumeVariation: 0.05
+  pitch: 1
+  pitchVariation: 0.05
+  spatialBlend: 1
+  reverbMix: 1
+  rolloff: 1
+  rollOffMin: 5
+  rollOffMax: 200
+  lastSoundPlayed: 0
