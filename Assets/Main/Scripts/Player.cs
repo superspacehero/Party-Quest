@@ -78,7 +78,7 @@ public class Player : NetworkBehaviour
         {
             GameManager.AddPlayer(this);
 
-            SetControlObject();
+            // SetControlObject();
         }
 
         public override void OnNetworkSpawn()
@@ -174,18 +174,15 @@ public class Player : NetworkBehaviour
 
             _controlledThing.useUI = true;
 
+            canControl = true;
+
             GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
         }
 
         [Button]
         public void SetControlObject()
         {
-            General.DelayedFunction(this, SettingControlObject);
-        }
-
-        void SettingControlObject()
-        {
-            SetControlObject(null);
+            General.DelayedFunctionFrames(this, () => SetControlObject(null));
         }
 
     #endregion

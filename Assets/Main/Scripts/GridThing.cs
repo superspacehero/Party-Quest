@@ -11,7 +11,7 @@ public class GridThing : Thing
         /// <summary>
         /// This function is called when the object becomes enabled and active.
         /// </summary>
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             MoveTo((controlledThing != null) ? controlledThing.transform.position : transform.position);
             Map.things.Add(this);
@@ -20,7 +20,7 @@ public class GridThing : Thing
         /// <summary>
         /// This function is called when the behaviour becomes disabled or inactive.
         /// </summary>
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             Map.things.Remove(this);
         }

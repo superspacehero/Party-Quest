@@ -24,26 +24,37 @@ public class General
 
     #endregion
 
-    public static void DelayedFunction(MonoBehaviour monoBehaviour, System.Action action, int delay = 0)
-    {
-        monoBehaviour.StartCoroutine(DelayedFunctionCoroutine(action, delay));
-    }
+    #region Delayed Functions
 
-    public static IEnumerator DelayedFunctionCoroutine(System.Action action, int framesToDelay = 0)
-    {
-        if (framesToDelay > 1)
+        public static WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
+
+        public static void DelayedFunctionFrames(MonoBehaviour monoBehaviour, System.Action action, int delayFrames = 0)
         {
-            framesDelayed = 0;
-            while (framesDelayed < framesToDelay)
-            {
-                framesDelayed++;
-                yield return null;
-            }
+            monoBehaviour.StartCoroutine(DelayedFunctionCoroutine(action, delayFrames));
         }
-        else
-            yield return null;
 
-        action();
-    }
-    private static int framesDelayed;
+        public static void DelayedFunctionSeconds(MonoBehaviour monoBehaviour, System.Action action, float delaySeconds = 0)
+        {
+            monoBehaviour.StartCoroutine(DelayedFunctionCoroutine(action, Mathf.RoundToInt(delaySeconds / Time.fixedDeltaTime)));
+        }
+
+        public static IEnumerator DelayedFunctionCoroutine(System.Action action, int framesToDelay = 0)
+        {
+            if (framesToDelay > 1)
+            {
+                framesDelayed = 0;
+                while (framesDelayed < framesToDelay)
+                {
+                    framesDelayed++;
+                    yield return waitForFixedUpdate;
+                }
+            }
+            else
+                yield return waitForFixedUpdate;
+
+            action();
+        }
+        private static int framesDelayed;
+
+    #endregion
 }

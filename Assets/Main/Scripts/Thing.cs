@@ -72,7 +72,12 @@ public class Thing : LookAtObject
             var state = GetState();
 
             if (state == currentAnimationState) return;
-            anim.CrossFade(state, 0.05f, 0);
+
+            if (state == General.Walk)
+                anim.Play(state);
+            else
+                anim.CrossFade(state, 0.05f, 0);
+
             currentAnimationState = state;
         }
 
@@ -284,12 +289,11 @@ public class Thing : LookAtObject
             if (controlledThing != null)
                 controlledThing.SecondaryAction(runningAction);
         }
-        
+
         /// <summary>
-        /// LateUpdate is called every frame, if the Behaviour is enabled.
-        /// It is called after all Update functions have been called.
+        /// Update is called every frame, if the MonoBehaviour is enabled.
         /// </summary>
-        void LateUpdate()
+        void Update()
         {
             UpdateAnimation();
         }
