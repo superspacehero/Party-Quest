@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class GameManager : MonoBehaviour
 {
@@ -83,6 +84,12 @@ public class GameManager : MonoBehaviour
 
         #endregion
 
+        [Button("Next Character")]
+        private void NextCharacterButton()
+        {
+            NextCharacter();
+        }
+
         public static void NextCharacter()
         {
             SetAllPlayersCanControl(false);
@@ -111,6 +118,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        NextCharacter();
+        // NextCharacter();
     }
 }

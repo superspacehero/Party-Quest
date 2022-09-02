@@ -179,7 +179,6 @@ public class Player : NetworkBehaviour
             GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
         }
 
-        [Button]
         public void SetControlObject()
         {
             General.DelayedFunctionFrames(this, () => SetControlObject(null));
