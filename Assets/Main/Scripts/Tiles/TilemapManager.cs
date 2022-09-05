@@ -154,7 +154,7 @@ public class SavedTile
 [System.Serializable]
 public struct Level
 {
-    public string levelName;
+    public string levelName, levelDescription;
 
     [ReadOnly]
     public Vector3 lightDirection;
