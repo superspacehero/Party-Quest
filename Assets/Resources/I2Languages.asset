@@ -37,34 +37,82 @@ MonoBehaviour:
       - "Roulez Les D\xE9s"
       Flags: 00000000
       Languages_Touch: []
+    - Term: Menu/Menu_Download
+      TermType: 0
+      Description: 
+      Languages:
+      - '<sprite tint=1 name="Icons_Download">
+
+        Download'
+      - "<sprite tint=1 name=\"Icons_Download\">\n\u30C0\u30A6\u30F3\u30ED\u30FC\u30C9"
+      - '<sprite tint=1 name="Icons_Download">
+
+        Descargar'
+      - "<sprite tint=1 name=\"Icons_Download\">\nT\xE9l\xE9charger"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Menu/Menu_Info
+      TermType: 0
+      Description: 
+      Languages:
+      - '<sprite tint=1 name="Icons_Info">
+
+        Info'
+      - "<sprite tint=1 name=\"Icons_Info\">\n\u60C5\u5831"
+      - "<sprite tint=1 name=\"Icons_Info\">\nInformaci\xF3n"
+      - '<sprite tint=1 name="Icons_Info">
+
+        Info'
+      Flags: 00000000
+      Languages_Touch: []
     - Term: Menu/Menu_Options
       TermType: 0
       Description: 
       Languages:
-      - options
+      - Options
       - "\u30AA\u30D7\u30B7\u30E7\u30F3"
-      - opciones
-      - choix
+      - Opciones
+      - Choix
       Flags: 00000000
       Languages_Touch: []
     - Term: Menu/Menu_Play
       TermType: 0
       Description: 
       Languages:
-      - play
-      - "\u904A\u3076"
-      - "desempe\xF1ar"
-      - jouer
+      - '<sprite tint=1 name="Icons_Play">
+
+        Play'
+      - "<sprite tint=1 name=\"Icons_Play\">\n\u904A\u3076"
+      - "<sprite tint=1 name=\"Icons_Play\">\ndesempe\xF1ar"
+      - '<sprite tint=1 name="Icons_Play">
+
+        jouer'
       Flags: 00000000
       Languages_Touch: []
     - Term: Menu/Menu_Quit
       TermType: 0
       Description: 
       Languages:
-      - quit
+      - Quit
       - "\u7D42\u4E86\u3059\u308B"
-      - abandonar
-      - quitter
+      - Abandonar
+      - Quitter
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Menu/Menu_Report
+      TermType: 0
+      Description: 
+      Languages:
+      - '<sprite tint=1 name="Icons_Report">
+
+        Report'
+      - "<sprite tint=1 name=\"Icons_Report\">\n\u5831\u544A"
+      - '<sprite tint=1 name="Icons_Report">
+
+        Reporte'
+      - '<sprite tint=1 name="Icons_Report">
+
+        Rapport'
       Flags: 00000000
       Languages_Touch: []
     - Term: Messages/Message_GoCharacter
@@ -98,7 +146,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1656689634247
+    Google_LastUpdatedVersion: 1662774161375
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
