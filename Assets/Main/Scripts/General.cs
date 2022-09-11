@@ -57,4 +57,54 @@ public class General
         private static int framesDelayed;
 
     #endregion
+
+    #region Users
+
+        [System.Serializable]
+        public class User
+        {
+            public string username, id, profilePicture;
+
+            public static User GetUserFromID(string id)
+            {
+                foreach (User user in users)
+                    if (user.id == id)
+                        return user;
+                return null;
+            }
+
+            public Sprite GetUserProfilePicture()
+            {
+                return StringToSprite(profilePicture);
+            }
+        }
+
+        public static User currentUser;
+
+        public static List<User> users = new List<User>();
+
+    #endregion
+
+    #region Sprite-String Conversion
+
+        public static Sprite StringToSprite(string spriteString)
+        {
+            byte[] imageBytes = System.Convert.FromBase64String(spriteString);
+            Texture2D tex = new Texture2D(2, 2);
+            tex.LoadImage( imageBytes );
+            Sprite sprite = Sprite.Create(tex, new Rect(0.0f, 0.0f, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100.0f);
+
+            return sprite;
+        }
+
+        public static string SpriteToString(Sprite sprite)
+        {
+            Texture2D tex = sprite.texture;
+            byte[] imageBytes = tex.EncodeToPNG();
+            string base64String = System.Convert.ToBase64String(imageBytes);
+
+            return base64String;
+        }
+
+    #endregion
 }

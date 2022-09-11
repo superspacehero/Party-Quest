@@ -154,7 +154,7 @@ public class SavedTile
 [System.Serializable]
 public struct Level
 {
-    public string levelName, levelDescription;
+    public string levelName, levelDescription, levelPreview, levelAuthorID;
 
     [ReadOnly]
     public Vector3 lightDirection;
@@ -186,8 +186,8 @@ public struct Level
     }
 
     public static Level Deserialize(string levelString)
-        {
+    {
         Debug.Log(levelString);
         return JsonUtility.FromJson<Level>(levelString);
-        }
+    }
 }
