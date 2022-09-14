@@ -6,7 +6,7 @@ using TMPro;
 
 public class LevelUI : MonoBehaviour
 {
-    public TextMeshProUGUI levelName, levelDescription, levelAuthorName;
+    public TextMeshProUGUI levelName, levelDescription, levelQuests, levelAuthorName;
     public Image levelAuthorImage;
 
     public Level level
@@ -17,6 +17,16 @@ public class LevelUI : MonoBehaviour
                 levelName.text = value.levelName;
             if (levelDescription != null)
                 levelDescription.text = value.levelDescription;
+
+            if (levelQuests != null)
+            {
+                string quests = "";
+                // foreach (Quest quest in value.quests)
+                // {
+                //     quests += quest.questName + "\n";
+                // }
+                levelQuests.text = quests;
+            }
 
             General.User author = General.User.GetUserFromID(value.levelAuthorID);
 

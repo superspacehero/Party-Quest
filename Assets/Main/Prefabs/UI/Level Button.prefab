@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4524701612011895195}
   - component: {fileID: 367498895087455103}
   - component: {fileID: 4524701612011895194}
+  - component: {fileID: 6798003560021613274}
   m_Layer: 5
   m_Name: Level Button
   m_TagString: Untagged
@@ -173,6 +174,29 @@ MonoBehaviour:
   baked: 0
   modifiedFromInspector: 0
   bakedShadows: []
+--- !u!114 &6798003560021613274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4524701612011895196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b6bd66378f54ffc974312b194733dd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  smoothTime: 0.05
+  autoDeselect: 1
+  selectedSize: 4
+  hoverSize: 8
+  clickedSize: 2
+  selectedDistance: 3
+  hoverDistance: 6
+  clickedDistance: 2
+  selectedColor: {r: 0, g: 0, b: 0, a: 0.6}
+  hoverColor: {r: 0.075, g: 0.075, b: 0.075, a: 0.58500004}
+  clickedColor: {r: 0.125, g: 0.125, b: 0.125, a: 0.57500005}
 --- !u!1 &4524701612898181214
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +292,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18
+  m_fontSize: 6
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
