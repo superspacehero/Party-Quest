@@ -7,30 +7,32 @@ using I2.Loc;
 
 public class TextList : MonoBehaviour
 {
+    
     [System.Serializable]
-    public class TextListList
+    public class TextSection
     {      
         [System.Serializable]
-        public class TextListEntry
+        public class TextEntry
         {
+            public string text;
+            [SerializeField] private string textToPrepend = "- ";
             public bool isStruckOut;
 
-            public string text;
             public string GetText()
             {
-                return (isStruckOut ? "<s>" : "") + text + (isStruckOut ? "</s>" : "");
+                return (isStruckOut ? "<s>" : "") + textToPrepend + text + (isStruckOut ? "</s>" : "");
             }
         }
 
         public LocalizedString title;
-        public List<TextListEntry> entries = new List<TextListEntry>();
+        public List<TextEntry> entries = new List<TextEntry>();
 
         public string GetText()
         {
             string text = "";
 
             text += title.ToString() + "\n";
-            foreach (TextListEntry entry in entries)
+            foreach (TextEntry entry in entries)
                 text += entry.GetText() + "\n";
 
             return text;
@@ -49,14 +51,14 @@ public class TextList : MonoBehaviour
     }
     private TextMeshProUGUI _text;
 
-    public List<TextListList> strings;
+    public List<TextSection> strings;
     private string compiledString;
 
     [Button]
     private void CompileString()
     {
         compiledString = "";
-        foreach (TextListList entry in strings)
+        foreach (TextSection entry in strings)
         {
             compiledString += entry.GetText();
 

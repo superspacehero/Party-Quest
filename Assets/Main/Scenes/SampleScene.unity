@@ -1326,7 +1326,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.95
+  m_fontSize: 86.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2207,7 +2207,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 31.45
+  m_fontSize: 32.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2502,6 +2502,23 @@ Material:
     - _RedColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &360603538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 481ab606793a67349be805c13febeba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTarget: {fileID: 8561587462709118523}
+  mAlignment_RTL: 514
+  mAlignment_LTR: 514
+  mAlignmentWasRTL: 0
+  mInitializeAlignment: 0
 --- !u!1 &369548075
 GameObject:
   m_ObjectHideFlags: 0
@@ -2994,7 +3011,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Party Quest
+  m_text: 'Roll Dice
 
     - Find the Sharks'' hideout
 
@@ -3035,7 +3052,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12.2
+  m_fontSize: 12.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -3098,7 +3115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: 0, y: 74.810875, z: 0}
+    LocalPosition: {x: 0, y: 55.800606, z: 0}
     AnchoredPosition: {x: 0, y: 0}
     SizeDelta: {x: -64, y: -16}
     AnchorMin: {x: 0, y: 0}
@@ -3247,18 +3264,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strings:
   - title:
-      mTerm: Title/Title_Game
+      mTerm: Input Actions/Action_Roll
       mRTL_IgnoreArabicFix: 0
       mRTL_MaxLineLength: 0
       mRTL_ConvertNumbers: 0
       m_DontLocalizeParameters: 0
     entries:
-    - isStruckOut: 0
-      text: '- Find the Sharks'' hideout'
-    - isStruckOut: 0
-      text: '- Defeat the Sharks'' boss'
-    - isStruckOut: 0
-      text: '- Go to Giant Step'
+    - text: Find the Sharks' hideout
+      textToPrepend: '- '
+      isStruckOut: 0
+    - text: Defeat the Sharks' boss
+      textToPrepend: '- '
+      isStruckOut: 0
+    - text: Go to Giant Step
+      textToPrepend: '- '
+      isStruckOut: 0
   - title:
       mTerm: Menu/Menu_Options
       mRTL_IgnoreArabicFix: 0
@@ -3266,8 +3286,9 @@ MonoBehaviour:
       mRTL_ConvertNumbers: 0
       m_DontLocalizeParameters: 0
     entries:
-    - isStruckOut: 0
-      text: '- Buy the house'
+    - text: Buy the house
+      textToPrepend: '- '
+      isStruckOut: 0
 --- !u!1 &551424509
 GameObject:
   m_ObjectHideFlags: 0
@@ -3509,7 +3530,7 @@ RectTransform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.33333334, y: 1}
+  m_AnchorMax: {x: 0.3333333, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0.5}
@@ -3543,11 +3564,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: -408.2121, y: -297.6749, z: 0}
+    LocalPosition: {x: -258.15982, y: -145.2149, z: 0}
     AnchoredPosition: {x: 0, y: 0}
     SizeDelta: {x: 0, y: 0}
     AnchorMin: {x: 0, y: 0}
-    AnchorMax: {x: 0.33333334, y: 1}
+    AnchorMax: {x: 0.3333333, y: 1}
     Pivot: {x: 0, y: 0.5}
     Scale: {x: 1, y: 1, z: 1}
     rotation: {x: 0, y: 0, z: 0, w: 1}
@@ -4034,8 +4055,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689612083}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2106224724}
@@ -4043,10 +4064,10 @@ RectTransform:
   m_Father: {fileID: 1141985100}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.33333334, y: 0}
-  m_AnchorMax: {x: 0.6666667, y: 1}
+  m_AnchorMin: {x: 0.25, y: 0}
+  m_AnchorMax: {x: 0.75, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.000022821556, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &689612085
 MonoBehaviour:
@@ -4152,20 +4173,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: 0, y: -217.88634, z: -0}
+    LocalPosition: {x: 0.000015258789, y: -145.2149, z: 0}
     AnchoredPosition: {x: 0, y: 0}
-    SizeDelta: {x: 0.000022821556, y: 0}
-    AnchorMin: {x: 0.33333334, y: 0}
-    AnchorMax: {x: 0.6666667, y: 1}
+    SizeDelta: {x: 0, y: 0}
+    AnchorMin: {x: 0.25, y: 0}
+    AnchorMax: {x: 0.75, y: 1}
     Pivot: {x: 0.5, y: 0.5}
     Scale: {x: 1, y: 1, z: 1}
-    rotation: {x: -0, y: -0, z: -0, w: 1}
+    rotation: {x: 0, y: 0, z: 0, w: 1}
     EulerAngles: {x: -0, y: 0, z: 0}
     saveRotationAsEuler: 0
     screenConfigName: 
   transformConfigs:
     items:
-    - LocalPosition: {x: 0, y: -360.66605, z: 0}
+    - LocalPosition: {x: 0, y: -324.0669, z: 0}
       AnchoredPosition: {x: 0, y: 0}
       SizeDelta: {x: 0, y: 0}
       AnchorMin: {x: 0, y: 0}
@@ -4176,17 +4197,6 @@ MonoBehaviour:
       EulerAngles: {x: -0, y: 0, z: 0}
       saveRotationAsEuler: 0
       screenConfigName: Portrait
-    - LocalPosition: {x: 0, y: -252.88892, z: 0}
-      AnchoredPosition: {x: 0, y: 0}
-      SizeDelta: {x: -354.32657, y: 0}
-      AnchorMin: {x: 0, y: 0}
-      AnchorMax: {x: 1, y: 1}
-      Pivot: {x: 0.5, y: 0.5}
-      Scale: {x: 1, y: 1, z: 1}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
-      EulerAngles: {x: -0, y: 0, z: 0}
-      saveRotationAsEuler: 0
-      screenConfigName: Squareish
 --- !u!114 &689612088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5048,39 +5058,12 @@ MonoBehaviour:
   - {fileID: 704557458}
   - {fileID: 106594623}
   - {fileID: 1868829384}
-  - {fileID: 1484509094}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1678526468}
-  - {fileID: 904846423}
-  - {fileID: 704557458}
-  - {fileID: 106594623}
-  - {fileID: 1868829384}
-  - {fileID: 1761620188}
-  - {fileID: 1484509094}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1678526468}
-  - {fileID: 904846423}
-  - {fileID: 704557458}
-  - {fileID: 106594623}
-  - {fileID: 1868829384}
-  - {fileID: 1761620188}
-  - {fileID: 1484509094}
-  - {fileID: 188699577}
-  - {fileID: 2096450363}
-  - {fileID: 1678526468}
-  - {fileID: 904846423}
-  - {fileID: 704557458}
-  - {fileID: 106594623}
-  - {fileID: 1868829384}
   - {fileID: 106594623}
   - {fileID: 188699577}
   - {fileID: 704557458}
   - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
-  - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
   - {fileID: 106594623}
@@ -6541,6 +6524,33 @@ MonoBehaviour:
   - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
+  - {fileID: 1761620188}
+  - {fileID: 1678526468}
+  - {fileID: 188699577}
+  - {fileID: 1868829384}
+  - {fileID: 106594623}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 704557458}
+  - {fileID: 1484509094}
+  - {fileID: 1761620188}
+  - {fileID: 1678526468}
+  - {fileID: 188699577}
+  - {fileID: 1868829384}
+  - {fileID: 106594623}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 704557458}
+  - {fileID: 1484509094}
+  - {fileID: 1761620188}
+  - {fileID: 1678526468}
+  - {fileID: 188699577}
+  - {fileID: 1868829384}
+  - {fileID: 106594623}
+  - {fileID: 904846423}
+  - {fileID: 2096450363}
+  - {fileID: 704557458}
+  - {fileID: 1484509094}
   - {fileID: 1761620188}
   - {fileID: 1678526468}
   - {fileID: 188699577}
@@ -6892,21 +6902,6 @@ MonoBehaviour:
   useVertexColors: 0
   parentSprite: {fileID: 0}
   childSprites:
-  - {fileID: 195697554}
-  - {fileID: 942705978}
-  - {fileID: 143511679}
-  - {fileID: 1581300366}
-  - {fileID: 785869689}
-  - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
-  - {fileID: 942705978}
-  - {fileID: 1581300366}
-  - {fileID: 143511679}
-  - {fileID: 195697554}
-  - {fileID: 785869689}
-  - {fileID: 942705978}
-  - {fileID: 1581300366}
   - {fileID: 143511679}
   - {fileID: 195697554}
   - {fileID: 785869689}
@@ -7711,6 +7706,21 @@ MonoBehaviour:
   - {fileID: 195697554}
   - {fileID: 785869689}
   - {fileID: 942705978}
+  - {fileID: 1581300366}
+  - {fileID: 195697554}
+  - {fileID: 143511679}
+  - {fileID: 942705978}
+  - {fileID: 785869689}
+  - {fileID: 1581300366}
+  - {fileID: 195697554}
+  - {fileID: 143511679}
+  - {fileID: 942705978}
+  - {fileID: 785869689}
+  - {fileID: 1581300366}
+  - {fileID: 195697554}
+  - {fileID: 143511679}
+  - {fileID: 942705978}
+  - {fileID: 785869689}
   - {fileID: 1581300366}
   - {fileID: 195697554}
   - {fileID: 143511679}
@@ -8282,7 +8292,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Party Quest
+  m_text: 'Roll Dice
 
     - Find the Sharks'' hideout
 
@@ -8413,18 +8423,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   strings:
   - title:
-      mTerm: Title/Title_Game
+      mTerm: Input Actions/Action_Roll
       mRTL_IgnoreArabicFix: 0
       mRTL_MaxLineLength: 0
       mRTL_ConvertNumbers: 0
       m_DontLocalizeParameters: 0
     entries:
-    - isStruckOut: 0
-      text: '- Find the Sharks'' hideout'
-    - isStruckOut: 0
-      text: '- Defeat the Sharks'' boss'
-    - isStruckOut: 0
-      text: '- Go to Giant Step'
+    - text: Find the Sharks' hideout
+      textToPrepend: '- '
+      isStruckOut: 0
+    - text: Defeat the Sharks' boss
+      textToPrepend: '- '
+      isStruckOut: 0
+    - text: Go to Giant Step
+      textToPrepend: '- '
+      isStruckOut: 0
   - title:
       mTerm: Menu/Menu_Options
       mRTL_IgnoreArabicFix: 0
@@ -8432,8 +8445,9 @@ MonoBehaviour:
       mRTL_ConvertNumbers: 0
       m_DontLocalizeParameters: 0
     entries:
-    - isStruckOut: 0
-      text: '- Buy the house'
+    - text: Buy the house
+      textToPrepend: '- '
+      isStruckOut: 0
 --- !u!1 &1484509092
 GameObject:
   m_ObjectHideFlags: 0
@@ -29831,3 +29845,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8561587464097178000, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
   m_PrefabInstance: {fileID: 8561587462709118521}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8561587462709118523 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5186289943802552780, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
+  m_PrefabInstance: {fileID: 8561587462709118521}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
