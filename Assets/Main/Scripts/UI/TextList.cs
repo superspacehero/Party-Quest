@@ -57,7 +57,12 @@ public class TextList : MonoBehaviour
     {
         compiledString = "";
         foreach (TextListList entry in strings)
-            compiledString += entry.GetText() + "\n";
+        {
+            compiledString += entry.GetText();
+
+            if (strings.IndexOf(entry) < strings.Count - 1)
+                compiledString += "\n";
+        }
 
         text.text = compiledString;
     }
