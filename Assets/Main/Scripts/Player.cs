@@ -11,13 +11,13 @@ public class Player : NetworkBehaviour
     #region Input variables
 
         [HideInInspector]
-        public Thing controlledThing
+        public MovingThing controlledThing
         {
             get => _controlledThing;
             set => SetControlObject(value);
         }
         [SerializeField]
-        private Thing _controlledThing;
+        private MovingThing _controlledThing;
 
         [HideInInspector]
         public Vector2 movement
@@ -155,7 +155,7 @@ public class Player : NetworkBehaviour
 
     #region Control Object Functions
 
-        public void SetControlObject(Thing thingToControl, bool immediateCameraShift = false)
+        public void SetControlObject(MovingThing thingToControl, bool immediateCameraShift = false)
         {
             if (_controlledThing != null)
                 _controlledThing.useUI = false;

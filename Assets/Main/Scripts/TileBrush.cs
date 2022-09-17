@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileBrush : Thing
+public class TileBrush : MovingThing
 {
     [SerializeField] private Tilemap currentTilemap;
     private LevelTile currentTile

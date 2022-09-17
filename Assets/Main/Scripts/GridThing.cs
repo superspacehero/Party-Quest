@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathfinding;
 using Sirenix.OdinInspector;
 
-public class GridThing : Thing
+public class GridThing : MovingThing
 {
     #region Movement
 

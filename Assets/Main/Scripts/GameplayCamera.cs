@@ -39,7 +39,7 @@ public class GameplayCamera : MonoBehaviour
 
     #region Camera functions
 
-        public static void SetCameraObject(Thing thingToFollow, bool immediateCameraShift = false)
+        public static void SetCameraObject(MovingThing thingToFollow, bool immediateCameraShift = false)
         {
             if (thingToFollow.controlledThing != null && thingToFollow.controlledThing.moveCameraToMeWhenControlling)
                 thingToFollow = thingToFollow.controlledThing;

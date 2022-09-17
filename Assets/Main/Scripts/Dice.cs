@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class Dice : Thing
+public class Dice : MovingThing
 {
     #region Dice
 
