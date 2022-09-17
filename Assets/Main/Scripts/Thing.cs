@@ -12,22 +12,29 @@ public class Thing : LookAtObject
 
     #region Info
 
-        [FoldoutGroup("Info")]
-        public bool useLocalizedString = false;
-        [FoldoutGroup("Info"), HideIf("useLocalizedString"), Tooltip("The name of this thing.")]
-        public string nameString;
-        [FoldoutGroup("Info"), ShowIf("useLocalizedString"), Tooltip("The description of this thing.")]
-        public LocalizedString localizedNameString;
-        public string name
-        {
-            get
+        #region Name
+
+            [FoldoutGroup("Info")]
+            public bool useLocalizedString = false;
+            [FoldoutGroup("Info"), HideIf("useLocalizedString"), Tooltip("The name of this thing.")]
+            public string nameString;
+            [FoldoutGroup("Info"), ShowIf("useLocalizedString"), Tooltip("The description of this thing.")]
+            public LocalizedString localizedNameString;
+
+            public bool properNoun = false;
+
+            new public string name
             {
-                if (useLocalizedString)
-                    return localizedNameString;
-                else
-                    return nameString;
+                get
+                {
+                    if (useLocalizedString)
+                        return localizedNameString;
+                    else
+                        return nameString;
+                }
             }
-        }
+
+        #endregion
 
         [FoldoutGroup("Info")]
         public LocalizedString descriptionString;

@@ -21,9 +21,6 @@ public class TilemapManager : MonoBehaviour
     private AstarPath _pathfinder;
 
     [SerializeField]
-    private Level level;
-
-    [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
     [SerializeField]
     private Transform lightTransform;
@@ -48,13 +45,13 @@ public class TilemapManager : MonoBehaviour
     {
         // Save the map to a file
 
-        level.lightDirection = lightTransform.eulerAngles;
+        GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
 
-        level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
-        level.propTiles = GetTilesFromMap(_propTilemap).ToList();
-        level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
+        GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
+        GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
+        GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
-        PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(level));
+        PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(GameManager.instance.level));
         
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {
@@ -80,21 +77,21 @@ public class TilemapManager : MonoBehaviour
         // Load the map from a file
         ClearMap(false);
 
-        level = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
+        GameManager.instance.level = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
 
-        lightTransform.eulerAngles = level.lightDirection;
+        lightTransform.eulerAngles = GameManager.instance.level.lightDirection;
 
-        foreach (SavedTile tile in level.groundTiles)
+        foreach (SavedTile tile in GameManager.instance.level.groundTiles)
         {
             _groundTilemap.SetTile(tile.position, tile.tileType);
         }
 
-        foreach (SavedTile tile in level.propTiles)
+        foreach (SavedTile tile in GameManager.instance.level.propTiles)
         {
             _propTilemap.SetTile(tile.position, tile.tileType);
         }
 
-        foreach (SavedTile tile in level.objectTiles)
+        foreach (SavedTile tile in GameManager.instance.level.objectTiles)
         {
             _objectTilemap.SetTile(tile.position, tile.tileType);
         }
@@ -106,7 +103,8 @@ public class TilemapManager : MonoBehaviour
     {
         // Clear the map
 
-        level.levelName = "";
+        GameManager.instance.level.levelName = "";
+        GameManager.instance.level.levelDescription = "";
 
         var maps = FindObjectsOfType<Tilemap>();
 
@@ -149,45 +147,4 @@ public class SavedTile
 {
     public Vector3Int position;
     public LevelTile tileType;
-}
-
-[System.Serializable]
-public struct Level
-{
-    public string levelName, levelDescription, levelPreview, levelAuthorID;
-
-    [ReadOnly]
-    public Vector3 lightDirection;
-
-    [ReadOnly]
-    public List<SavedTile> groundTiles, propTiles, objectTiles;
-
-    public string Serialize()
-    {
-        return JsonUtility.ToJson(this);
-        // var builder = new StringBuilder(levelName + "\n");
-
-        // builder.Append("ground[");
-        // foreach (var groundTile in groundTiles)
-        //     builder.Append($"{(int)groundTile.tileType.tileType}({groundTile.position.x},{groundTile.position.y},{groundTile.position.z})");
-        // builder.Append("]\n");
-
-        // builder.Append("prop[");
-        // foreach (var propTile in propTiles)
-        //     builder.Append($"{(int)propTile.tileType.tileType}({propTile.position.x},{propTile.position.y})");
-        // builder.Append("]\n");
-
-        // builder.Append("object[");
-        // foreach (var objectTile in objectTiles)
-        //     builder.Append($"{(int)objectTile.tileType.tileType}({objectTile.position.x},{objectTile.position.y})");
-        // builder.Append("]\n");
-
-        // return builder.ToString();
-    }
-
-    public static Level Deserialize(string levelString)
-    {
-        Debug.Log(levelString);
-        return JsonUtility.FromJson<Level>(levelString);
-    }
 }

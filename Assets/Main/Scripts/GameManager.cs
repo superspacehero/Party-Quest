@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     }
     private static GameManager _instance;
 
+    public Level level = new Level();
+
     public float changeCharacterDelay = 1f;
 
     #region Players

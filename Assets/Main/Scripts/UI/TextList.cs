@@ -7,7 +7,6 @@ using I2.Loc;
 
 public class TextList : MonoBehaviour
 {
-    
     [System.Serializable]
     public class TextSection
     {      
@@ -24,19 +23,34 @@ public class TextList : MonoBehaviour
             }
         }
 
-        public LocalizedString title;
+        public string titleSingular, titlePlural;
         public List<TextEntry> entries = new List<TextEntry>();
 
         public string GetText()
         {
             string text = "";
 
-            text += title.ToString() + "\n";
+            text += (entries.Count == 1 ? titleSingular : titlePlural).ToString() + "\n";
             foreach (TextEntry entry in entries)
                 text += entry.GetText() + "\n";
 
             return text;
         }
+
+        public TextSection(string titleSingular, string titlePlural)
+        {
+            this.titleSingular = titleSingular;
+            this.titlePlural = titlePlural;
+        }
+    }
+    public List<TextSection> sections;
+    public TextSection AddNewSection(string titleSingular, string titlePlural)
+    {
+        TextSection section = new TextSection(titleSingular, titlePlural);
+
+        sections.Add(section);
+
+        return section;
     }
 
     private TextMeshProUGUI text
@@ -51,21 +65,24 @@ public class TextList : MonoBehaviour
     }
     private TextMeshProUGUI _text;
 
-    public List<TextSection> strings;
     private string compiledString;
 
-    [Button]
-    private void CompileString()
+    public void CompileString()
     {
         compiledString = "";
-        foreach (TextSection entry in strings)
+        foreach (TextSection entry in sections)
         {
             compiledString += entry.GetText();
 
-            if (strings.IndexOf(entry) < strings.Count - 1)
+            if (sections.IndexOf(entry) < sections.Count - 1)
                 compiledString += "\n";
         }
 
         text.text = compiledString;
+    }
+
+    public void Clear()
+    {
+        sections.Clear();
     }
 }

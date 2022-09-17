@@ -17,16 +17,6 @@ MonoBehaviour:
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
     mTerms:
-    - Term: Title/Title_Game
-      TermType: 0
-      Description: The name of the game
-      Languages:
-      - Party Quest
-      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
-      - "B\xFAsqueda De Fiesta"
-      - "Qu\xEAte De F\xEAte"
-      Flags: 00000000
-      Languages_Touch: []
     - Term: Input Actions/Action_Roll
       TermType: 0
       Description: Rolling dice
@@ -125,6 +115,116 @@ MonoBehaviour:
       - "Allez, {CHARACTER}\_!"
       Flags: 00000000
       Languages_Touch: []
+    - Term: Quest/Quest_Main_Plural
+      TermType: 0
+      Description: 
+      Languages:
+      - Main Quests
+      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - Misiones Principales
+      - "Qu\xEAtes Principales"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Main_Singular
+      TermType: 0
+      Description: 
+      Languages:
+      - Main Quest
+      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - "Misi\xF3n Principal"
+      - "Qu\xEAte Principale"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Optional_Plural
+      TermType: 0
+      Description: 
+      Languages:
+      - Optional Quests
+      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - Misiones Opcionales
+      - "Qu\xEAtes Facultatives"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Optional_Singular
+      TermType: 0
+      Description: 
+      Languages:
+      - Optional Quest
+      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - "B\xFAsqueda Opcional"
+      - "Qu\xEAte Facultative"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat the {THING}
+      - "{THING}\u3092\u5012\u3059"
+      - Derrota a la {THING}
+      - Vaincre la {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find the {THING}
+      - "{THING}\u3092\u898B\u3064\u3051\u308B"
+      - Encuentra la {THING}
+      - Trouvez la {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet the {THING}
+      - "{THING}\u306B\u4F1A\u3046"
+      - Conoce la {THING}
+      - Rencontrez le {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat {THING}
+      - "{THING}\u3092\u5012\u3059"
+      - Derrotar {THING}
+      - Vaincre {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find {THING}
+      - "{THING}\u3092\u898B\u3064\u3051\u308B"
+      - Encontrar {THING}
+      - Trouver {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet {THING}
+      - "{THING}\u306B\u4F1A\u3046"
+      - Conocer {THING}
+      - Rencontrer {THING}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Title/Title_Game
+      TermType: 0
+      Description: The name of the game
+      Languages:
+      - Party Quest
+      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
+      - "B\xFAsqueda De Fiesta"
+      - "Qu\xEAte De F\xEAte"
+      Flags: 00000000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -146,7 +246,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1662774161375
+    Google_LastUpdatedVersion: 1663445452457
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
