@@ -7,7 +7,7 @@ using I2.Loc;
 using Sirenix.OdinInspector;
 
 [System.Serializable]
-public abstract class QuestGoal
+public class QuestGoal
 {
     [SerializeField] protected LocalizedString description;
     public int currentAmount { get; protected set; }
