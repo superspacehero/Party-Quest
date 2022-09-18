@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using I2.Loc;
 
-public class ThingGoal : Quest.QuestGoal
+public class ThingGoal : QuestGoal
 {
     public Thing thing;
 

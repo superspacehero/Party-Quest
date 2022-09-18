@@ -25,11 +25,11 @@ public class LevelUI : MonoBehaviour
                 levelQuests.Clear();
 
                 mainQuests = levelQuests.AddNewSection(I2.Loc.LocalizationManager.GetTranslation("Quest_Main_Singular"), I2.Loc.LocalizationManager.GetTranslation("Quest_Main_Plural"));
-                foreach (Quest.QuestGoal goal in value.mainQuests)
+                foreach (QuestGoal goal in value.mainQuests)
                     mainQuests.entries.Add(new TextList.TextSection.TextEntry() { text = goal.GetDescription() });
 
                 optionalQuests = levelQuests.AddNewSection(I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Singular"), I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Plural"));
-                foreach (Quest.QuestGoal goal in value.quest.sideQuests)
+                foreach (QuestGoal goal in value.sideQuests)
                     optionalQuests.entries.Add(new TextList.TextSection.TextEntry() { text = goal.GetDescription() });
 
                 levelQuests.CompileString();
@@ -60,10 +60,10 @@ public class LevelUI : MonoBehaviour
         if (levelQuests == null)
             return;
 
-        foreach (Quest.QuestGoal goal in GameManager.instance.level.quest.mainGoals)
+        foreach (QuestGoal goal in GameManager.instance.level.mainQuests)
             mainQuests.entries[GameManager.instance.level.mainQuests.IndexOf(goal)].isStruckOut = goal.completed;
             
-        foreach (Quest.QuestGoal goal in GameManager.instance.level.quest.optionalGoals)
+        foreach (QuestGoal goal in GameManager.instance.level.sideQuests)
             optionalQuests.entries[GameManager.instance.level.sideQuests.IndexOf(goal)].isStruckOut = goal.completed;
 
         levelQuests.CompileString();
