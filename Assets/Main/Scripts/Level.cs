@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 public struct Level
 {
     public string levelName, levelDescription, levelPreview, levelAuthorID;
-    public Quest quest;
+    public List<QuestGoal> mainQuests, sideQuests;
 
     [ReadOnly]
     public Vector3 lightDirection;
