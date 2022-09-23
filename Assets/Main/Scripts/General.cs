@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+// using Sirenix.OdinInspector;
 
 public class General
 {
@@ -105,6 +106,34 @@ public class General
 
             return base64String;
         }
+
+    #endregion
+
+    #region UI
+
+        [System.Serializable]
+        public struct RectTransformAnchorPreset
+        {
+            public Vector2 anchorMin, anchorMax, pivot;
+
+            // [Button]
+            public void SetAnchors(RectTransform rectTransform)
+            {
+                rectTransform.anchorMin = anchorMin;
+                rectTransform.anchorMax = anchorMax;
+                rectTransform.pivot = pivot;
+            }
+
+            public void SetAnchors(GameObject gameObject)
+            {
+                if (gameObject.TryGetComponent(out RectTransform rectTransform))
+                    SetAnchors(rectTransform);
+                else
+                    Debug.LogError("GameObject does not have a RectTransform component", gameObject);
+            }
+        }
+
+
 
     #endregion
 }
