@@ -1691,6 +1691,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a821ead7887249ef8ae288dd76a97c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level:
+    levelName: 
+    levelDescription: 
+    levelPreview: 
+    levelAuthorID: 
+    mainQuests: []
+    sideQuests: []
+    lightDirection: {x: 0, y: 0, z: 0}
+    groundTiles: []
+    propTiles: []
+    objectTiles: []
   changeCharacterDelay: 1
 --- !u!114 &1343790323610241993
 MonoBehaviour:
@@ -1704,12 +1715,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d46a02b2cbad87ca50e14a7dcab79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level:
-    levelName: 
-    lightDirection: {x: 90, y: 0, z: 0}
-    groundTiles: []
-    propTiles: []
-    objectTiles: []
   _groundTilemap: {fileID: 1299743640007157026}
   _propTilemap: {fileID: 1091313510384445028}
   _objectTilemap: {fileID: 6711855769834235977}
@@ -1728,7 +1733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1
   data:
-    dataString: UEsDBBQAAAgIAACYn+uo4BHxnwIAAMsFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtVMlu2zAQ/RWD5xZQ3Cx2b623tEASI2qRQ5UDTY4swhQpcIntBP73DinaUpwAAiS8eTNvVr0RoWwDzGmzMILfaQ7k+4CEb/Jl0BlvYUfXWuXiFY6cJ8FdFUg0ch6pExrxi+BmdQ3OCPZDrWUgZwh6JUpt6hlfw0RbZxEuqbSAJqNd8FYIvQ3ILjns0/s1vAcH/GKgHJiOdfkpyysmad0AD9l25OFVYg+vIk1hHYkRcmZaSmFTEsTtm1jkhDbWYwlI4IJiUVE+8CsQ68qFcH3nh7K04FJKhu6nwmBv2qjkp24bVlO7afN6odIHnevLmFIb8+6DeRStpdH17VH1IgsKrhJs80j3jFrX62cfnr5P26stlRu6kvBUgbrXC6O94mh0xgdXb2E47YU6VTapgG06XpvqGeibjxO86GZziLXvcgdNV0eH/bVgc6lj41PAYEnIOAQEg0P7hdXEdbFJBtGQIfr/oev+XiXDXBjr0JTkVNBeaW8ClczxIwyFeTfRRkFEk3wDikq3X2IUdz7cM1tP9cwyp+GAknayHe/izCXCHT/LzkxLvT0N0uBa2rirx69/z4d2gL993Sy1UC4HaljV07GV3t6BrR68k0L1Gh0M99jbiVaqXVj7iVvuTUlZz83BznkDU+poTAVzxc3ifVdsb/RQXsqwxLG6mC5WF57n0PyKoq6MMLnXKh7cu3esbe0Ff38ZZHg1Gq2uR5dldlOWwxv2dfxtlK1YVl7Tcck5jEm8HaFwFlQu22amEeJiqa4WhXdy/PcNFoY28Va5oduFeK11by2EKnXODIB6aCOcigWDIvhP4TMusMwcnBMqriR5K4jUbAO8OAUqYmNnO2do0UUpSCNetAtIQSbxj1eQAJ9OcWngRcA2iB+DHcjhP1BLAwQUAAAICAAAmJ/rZKnvOm0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9YzNdFRUEovSizIKAaKGII4pZkpIHa0kpGphUWSmYVJmoF5WpqRebKupbGFQVKyQZpZomVaSkqqpVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAmJ/rqOAR8Z8CAADLBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/rZKnvOm0AAAB4AAAACQAkAAAAAAAAAAAAAADsAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAKQDAAAAAA==
+    dataString: UEsDBBQAAAgIAACYn+uo4BHxnwIAAMsFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtVMlu2zAQ/RWD5xZQ3Cx2b623tEASI2qRQ5UDTY4swhQpcIntBP73DinaUpwAAiS8eTNvVr0RoWwDzGmzMILfaQ7k+4CEb/Jl0BlvYUfXWuXiFY6cJ8FdFUg0ch6pExrxi+BmdQ3OCPZDrWUgZwh6JUpt6hlfw0RbZxEuqbSAJqNd8FYIvQ3ILjns0/s1vAcH/GKgHJiOdfkpyysmad0AD9l25OFVYg+vIk1hHYkRcmZaSmFTEsTtm1jkhDbWYwlI4IJiUVE+8CsQ68qFcH3nh7K04FJKhu6nwmBv2qjkp24bVlO7afN6odIHnevLmFIb8+6DeRStpdH17VH1IgsKrhJs80j3jFrX62cfnr5P26stlRu6kvBUgbrXC6O94mh0xgdXb2E47YU6VTapgG06XpvqGeibjxO86GZziLXvcgdNV0eH/bVgc6lj41PAYEnIOAQEg0P7hdXEdbFJBtGQIfr/oev+XiXDXBjr0JTkVNBeaW8ClczxIwyFeTfRRkFEk3wDikq3X2IUdz7cM1tP9cwyp+GAknayHe/izCXCHT/LzkxLvT0N0uBa2rirx69/z4d2gL993Sy1UC4HaljV07GV3t6BrR68k0L1Gh0M99jbiVaqXVj7iVvuTUlZz83BznkDU+poTAVzxc3ifVdsb/RQXsqwxLG6mC5WF57n0PyKoq6MMLnXKh7cu3esbe0Ff38ZZHg1Gq2uR5dldlOWwxv2dfxtlK1YVl7Tcck5jEm8HaFwFlQu22amEeJiqa4WhXdy/PcNFoY28Va5oduFeK11by2EKnXODIB6aCOcigWDIvhP4TMusMwcnBMqriR5K4jUbAO8OAUqYmNnO2do0UUpSCNetAtIQSbxj1eQAJ9OcWngRcA2iB+DHcjhP1BLAwQUAAAICAAAmJ/r8gJYK20AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9YzNdNRUEovSizIKAaKGII4pZkpIHa0kpGphUWSmYVJmoF5WpqRebKupbGFQVKyQZpZomVaSkqqpVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAmJ/rqOAR8Z8CAADLBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/r8gJYK20AAAB4AAAACQAkAAAAAAAAAAAAAADsAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAKQDAAAAAA==
     upgradeData: 
     file_cachedStartup: {fileID: 0}
     data_cachedStartup: 
@@ -2006,6 +2011,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 8561587463186187233}
+    - target: {fileID: 5764311661273333449, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5764311661273333450, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_Name
       value: Canvas
@@ -2149,10 +2158,6 @@ PrefabInstance:
     - target: {fileID: 6518927766293702701, guid: ceb19b8223956a74a8771a953fdbf7da, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6518927766293702701, guid: ceb19b8223956a74a8771a953fdbf7da, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 6518927766293702701, guid: ceb19b8223956a74a8771a953fdbf7da, type: 3}
       propertyPath: m_LocalPosition.x

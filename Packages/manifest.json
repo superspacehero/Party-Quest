@@ -2,7 +2,7 @@
   "scopedRegistries": [
     {
       "name": "A* Pathfinding Project",
-      "url": "https://arongranberg.com/packages/9f1a3523e7b4bf7967c208ee35c2874e6042513f0166d/",
+      "url": "https://arongranberg.com/packages/9f1a3523e7b4bf7967c208ee35c2874e6042513f0166d",
       "scopes": [
         "com.arongranberg.astar"
       ]
@@ -11,19 +11,20 @@
       "name": "OpenUPM",
       "url": "https://package.openupm.com",
       "scopes": [
-        "dev.yarnspinner"
+        "dev.yarnspinner",
+        "com.brunomikoski"
       ]
     }
   ],
   "dependencies": {
-    "com.arongranberg.astar": "4.3.56",
+    "com.arongranberg.astar": "4.3.59",
     "com.unity.2d.animation": "5.2.3",
     "com.unity.2d.tilemap.extras": "1.8.3-preview",
     "com.unity.ide.vscode": "1.2.5",
     "com.unity.inputsystem": "1.3.0",
     "com.unity.jobs": "0.70.0-preview.7",
     "com.unity.multiplayer.samples.coop": "https://github.com/Unity-Technologies/com.unity.multiplayer.samples.coop.git?path=/Packages/com.unity.multiplayer.samples.coop",
-    "com.unity.netcode.gameobjects": "1.0.1",
+    "com.unity.netcode.gameobjects": "1.0.2",
     "com.unity.nuget.newtonsoft-json": "3.0.2",
     "com.unity.render-pipelines.universal": "10.10.0",
     "com.unity.services.authentication": "2.1.1",
