@@ -51,7 +51,7 @@ public class LevelUI : MonoBehaviour
     /// </summary>
     void OnEnable()
     {
-        if (useGlobalLevel)
+        if (useGlobalLevel && GameManager.instance.level.levelName != "")
             level = GameManager.instance.level;
     }
 

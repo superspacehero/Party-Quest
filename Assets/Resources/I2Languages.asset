@@ -73,10 +73,10 @@ MonoBehaviour:
 
         Play'
       - "<sprite tint=1 name=\"Icons_Play\">\n\u904A\u3076"
-      - "<sprite tint=1 name=\"Icons_Play\">\ndesempe\xF1ar"
+      - "<sprite tint=1 name=\"Icons_Play\">\nDesempe\xF1ar"
       - '<sprite tint=1 name="Icons_Play">
 
-        jouer'
+        Jouer'
       Flags: 00000000
       Languages_Touch: []
     - Term: Menu/Menu_Quit
@@ -109,50 +109,10 @@ MonoBehaviour:
       TermType: 0
       Description: 
       Languages:
-      - Go, {CHARACTER}!
-      - "\u884C\u304F\u3001{CHARACTER}\uFF01"
-      - "\xA1Vamos, {CHARACTER}!"
-      - "Allez, {CHARACTER}\_!"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Main_Plural
-      TermType: 0
-      Description: 
-      Languages:
-      - Main Quests
-      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - Misiones Principales
-      - "Qu\xEAtes Principales"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Main_Singular
-      TermType: 0
-      Description: 
-      Languages:
-      - Main Quest
-      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - "Misi\xF3n Principal"
-      - "Qu\xEAte Principale"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Optional_Plural
-      TermType: 0
-      Description: 
-      Languages:
-      - Optional Quests
-      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - Misiones Opcionales
-      - "Qu\xEAtes Facultatives"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Optional_Singular
-      TermType: 0
-      Description: 
-      Languages:
-      - Optional Quest
-      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - "B\xFAsqueda Opcional"
-      - "Qu\xEAte Facultative"
+      - Go, {[CHARACTER]}!
+      - "\u884C\u304F\u3001{[CHARACTER]}\uFF01"
+      - "\xA1Vamos, {[CHARACTER]}!"
+      - "Allez, {[CHARACTER]}\_!"
       Flags: 00000000
       Languages_Touch: []
     - Term: Thing Actions/Thing_Normal_Defeat
@@ -223,6 +183,29 @@ MonoBehaviour:
       - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
       - "B\xFAsqueda De Fiesta"
       - "Qu\xEAte De F\xEAte"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Main
+      TermType: 0
+      Description: 
+      Languages:
+      - Main Quests[i2p_Zero]No Main Quests[i2p_One]Main Quest
+      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - "Misiones principales[i2p_Zero]Sin misiones principales[i2p_One]Misi\xF3n
+        principal"
+      - "Qu\xEAtes principales[i2p_Zero]Aucune qu\xEAte principale[i2p_One]Qu\xEAte
+        principale"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Optional
+      TermType: 0
+      Description: 
+      Languages:
+      - Optional Quests[i2p_Zero]No Optional Quests[i2p_One]Optional Quest
+      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - Misiones opcionales[i2p_Zero]Sin misiones opcionales[i2p_One]Misiones opcionales
+      - "Qu\xEAtes facultatives[i2p_Zero]Aucune qu\xEAte facultative[i2p_One]Qu\xEAte
+        facultative"
       Flags: 00000000
       Languages_Touch: []
     CaseInsensitiveTerms: 0

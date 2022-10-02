@@ -44,8 +44,20 @@ public class GameManager : MonoBehaviour
 
     #region Characters
     
+        [SerializeField] private CharacterUI nextCharacterUI;
         public static List<Character> characters = new List<Character>();
         public static int currentCharacterIndex = 0;
+
+        public static Character currentCharacter
+        {
+            get
+            {
+                if (characters.Count <= 0)
+                    return null;
+
+                return charactersInCurrentTeam[currentCharacterIndex];
+            }
+        }
 
         public static void AddCharacter(Character character)
         {
@@ -105,7 +117,9 @@ public class GameManager : MonoBehaviour
             currentCharacterIndex++;
             if (currentCharacterIndex >= charactersInCurrentTeam.Count)
                 currentTeamIndex++;
-                
+
+            instance.nextCharacterUI.gameObject.SetActive(true);
+
             foreach (Player player in players)
             {
                 if (player.controlledThing == charactersInCurrentTeam[currentCharacterIndex])
