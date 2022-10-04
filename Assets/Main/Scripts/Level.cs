@@ -6,7 +6,9 @@ using Sirenix.OdinInspector;
 [System.Serializable]
 public struct Level
 {
-    public string levelName, levelDescription, levelPreview, levelAuthorID;
+    public string levelName;
+    [TextAreaAttribute] public string levelDescription;
+    public string levelPreview, levelAuthorID;
     public List<QuestGoal> mainQuests, sideQuests;
 
     [ReadOnly]

@@ -21,10 +21,10 @@ MonoBehaviour:
       TermType: 0
       Description: Rolling dice
       Languages:
-      - Roll Dice
-      - "\u30B5\u30A4\u30B3\u30ED\u3067\u6C7A\u3081\u308B"
-      - Tirar El Dado
-      - "Roulez Les D\xE9s"
+      - Roll Dice[i2p_Zero]No Dice[i2p_One]Roll Die
+      - "\u30B5\u30A4\u30B3\u30ED\u3092\u632F\u308B[i2p_Zero]\u30B5\u30A4\u30B3\u30ED\u306A\u3057[i2p_One]\u30B5\u30A4\u30B3\u30ED\u3092\u632F\u308B"
+      - Lanzar dados[i2p_Zero]Sin dados[i2p_One]Lanzar dados
+      - "Lancer les d\xE9s[i2p_Zero]Aucun d\xE9[i2p_One]Lancer le d\xE9"
       Flags: 00000000
       Languages_Touch: []
     - Term: Menu/Menu_Download
@@ -115,76 +115,6 @@ MonoBehaviour:
       - "Allez, {[CHARACTER]}\_!"
       Flags: 00000000
       Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Defeat
-      TermType: 0
-      Description: 
-      Languages:
-      - Defeat the {THING}
-      - "{THING}\u3092\u5012\u3059"
-      - Derrota a la {THING}
-      - Vaincre la {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Find
-      TermType: 0
-      Description: 
-      Languages:
-      - Find the {THING}
-      - "{THING}\u3092\u898B\u3064\u3051\u308B"
-      - Encuentra la {THING}
-      - Trouvez la {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Meet
-      TermType: 0
-      Description: 
-      Languages:
-      - Meet the {THING}
-      - "{THING}\u306B\u4F1A\u3046"
-      - Conoce la {THING}
-      - Rencontrez le {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Defeat
-      TermType: 0
-      Description: 
-      Languages:
-      - Defeat {THING}
-      - "{THING}\u3092\u5012\u3059"
-      - Derrotar {THING}
-      - Vaincre {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Find
-      TermType: 0
-      Description: 
-      Languages:
-      - Find {THING}
-      - "{THING}\u3092\u898B\u3064\u3051\u308B"
-      - Encontrar {THING}
-      - Trouver {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Meet
-      TermType: 0
-      Description: 
-      Languages:
-      - Meet {THING}
-      - "{THING}\u306B\u4F1A\u3046"
-      - Conocer {THING}
-      - Rencontrer {THING}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Title/Title_Game
-      TermType: 0
-      Description: The name of the game
-      Languages:
-      - Party Quest
-      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
-      - "B\xFAsqueda De Fiesta"
-      - "Qu\xEAte De F\xEAte"
-      Flags: 00000000
-      Languages_Touch: []
     - Term: Quest/Quest_Main
       TermType: 0
       Description: 
@@ -208,6 +138,76 @@ MonoBehaviour:
         facultative"
       Flags: 00000000
       Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat the {[THING]}
+      - "{[THING]}\u3092\u5012\u3059"
+      - Derrota al {[THING]}
+      - Vaincre le {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find {[THING]}
+      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
+      - Encontrar {[THING]}
+      - Trouver {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet the {[THING]}
+      - "{[THING]}\u306B\u4F1A\u3046"
+      - Conoce al {[THING]}
+      - Rencontrez les {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat {[THING]}
+      - "\u6557\u5317 {[THING]}"
+      - Derrota {[THING]}
+      - "D\xE9faite {[THING]}"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find {[THING]}
+      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
+      - Encontrar {[THING]}
+      - Trouver {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet {[THING]}
+      - "\u4F1A\u3046 {[THING]}"
+      - Conocer {[THING]}
+      - Rencontrer {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Title/Title_Game
+      TermType: 0
+      Description: The name of the game
+      Languages:
+      - Party Quest
+      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
+      - "B\xFAsqueda De Fiesta"
+      - "Qu\xEAte De F\xEAte"
+      Flags: 00000000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: 
@@ -229,7 +229,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1663445452457
+    Google_LastUpdatedVersion: 1664757973712
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

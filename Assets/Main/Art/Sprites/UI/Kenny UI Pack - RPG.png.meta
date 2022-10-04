@@ -54,7 +54,7 @@ TextureImporter:
       213: 7120011947932133507
     second: Menu_Selection
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -75,6 +75,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -113,6 +114,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -176,6 +178,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
@@ -556,6 +570,24 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      Slider: -6861412678681376746
+      Menu_Unpressed: 442619770646468574
+      Menu_Selection: 7120011947932133507
+      Kenny UI Pack - RPG_4: -4623486059042805059
+      Cursors_Gauntlet: 4861346167108040700
+      Dialogue_Unpressed: 1517670088690555116
+      Check Mark: 3065337716588852059
+      Kenny UI Pack - RPG_12: 8465490832459936659
+      Circle Mark: 2934764470352277379
+      Cursors_Pointer: -7035848507438262387
+      Cursors_Hand: 5187603575760725502
+      Menu_Pressed: 3653602881118442662
+      Dialogue_Pressed: 3871789836246356951
+      X Mark: 2893633299257131317
+      Kenny UI Pack - RPG_2: 255391108041327563
+      Menu_Mask: 1811829033629888069
+      Kenny UI Pack - RPG_11: 722277844571528375
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

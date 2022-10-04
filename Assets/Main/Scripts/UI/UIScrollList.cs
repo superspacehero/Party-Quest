@@ -213,13 +213,6 @@ namespace UnityEngine.UI.Extensions
             }
 
 
-            if (!UIExtensionsInputManager.GetMouseButton(0))
-            {
-                // scroll slowly to nearest element when not dragged
-                ScrollingElements();
-            }
-
-
             // stop scrolling past last element from inertia
             if (stopMomentumOnEnd
                 && (_arrayOfElements[0].GetComponent<RectTransform>().position.y > center.position.y

@@ -24,8 +24,6 @@ public class CharacterUI : MonoBehaviour
         }
     }
 
-    TextList.TextSection mainQuests, optionalQuests;
-
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>

@@ -49,7 +49,7 @@ public class LevelTile : RuleTile
                 // Fallback to just using the orientMatrix for the translation, rotation, & scale values.
                 gameObjectTranslation = new Vector3(orientMatrix.m03, orientMatrix.m13 + position.z, orientMatrix.m23);
                 gameObjectRotation = Quaternion.LookRotation(new Vector3(orientMatrix.m02, orientMatrix.m12, orientMatrix.m22), new Vector3(orientMatrix.m01, orientMatrix.m11, orientMatrix.m21));
-                gameObjectScale = orientMatrix.lossyScale + (position.z * Vector3.forward);
+                gameObjectScale = orientMatrix.lossyScale;
             }
 
             instantiatedGameObject.transform.localPosition = gameObjectTranslation + tmpMap.CellToLocalInterpolated(position + tmpMap.tileAnchor);
