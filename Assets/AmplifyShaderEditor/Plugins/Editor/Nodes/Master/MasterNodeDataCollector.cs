@@ -796,7 +796,7 @@ namespace AmplifyShaderEditor
 			if( list[ list.Count - 1 ].PropertyName.Contains( "[Header(" ) )
 			{
 				//Check if this is a complete property or just a standalone header
-				Match match = Regex.Match( list[ list.Count - 1 ].PropertyName, TemplateHelperFunctions.PropertiesPatternG );
+				Match match = Regex.Match( list[ list.Count - 1 ].PropertyName, TemplateHelperFunctions.PropertiesPatternI );
 				if( !match.Success )
 				{
 					list.RemoveAt( list.Count - 1 );
@@ -960,12 +960,6 @@ namespace AmplifyShaderEditor
 				return;
 
 			ParentGraph outsideGraph = UIUtils.CurrentWindow.OutsideGraph;
-#if !UNITY_2018_1_OR_NEWER
-			if( outsideGraph.IsStandardSurface && ( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO || ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD ) )
-			{
-				return;
-			}
-#endif
 
 			//Debug.Log( UsingMacrosMask );
 			AddToDirectives( Constants.CustomASEStandarSamplingMacrosHelper[ 0 ], 1 );
@@ -997,30 +991,14 @@ namespace AmplifyShaderEditor
 			if( ( UsingCUBEMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
 				AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 11 ], 1 );
 
-#if !UNITY_2018_1_OR_NEWER
-			if( outsideGraph.IsStandardSurface )
-			{
-				//if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
-				//	AddToDirectives( Constants.CustomASEArraySamplingMacrosRecent[ 0 ], 1 );
-				//if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
-				//	AddToDirectives( Constants.CustomASEArraySamplingMacrosRecent[ 1 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
-					AddToDirectives( Constants.CustomASEArraySamplingMacrosRecent[ 2 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
-					AddToDirectives( Constants.CustomASEArraySamplingMacrosRecent[ 3 ], 1 );
-			} 
-			else
-#endif
-			{
-				if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 12 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 13 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 14 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 15 ], 1 );
-			}
+			if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 12 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 13 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 14 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosRecent[ 15 ], 1 );
 
 			AddToDirectives( Constants.CustomASEStandarSamplingMacrosHelper[ 1 ], 1 );
 
@@ -1051,30 +1029,14 @@ namespace AmplifyShaderEditor
 			if( ( UsingCUBEMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
 				AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 11 ], 1 );
 
-#if !UNITY_2018_1_OR_NEWER
-			if( outsideGraph.IsStandardSurface )
-			{
-				//if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
-				//	AddToDirectives( Constants.CustomASEArraySamplingMacrosOlder[ 0 ], 1 );
-				//if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
-				//	AddToDirectives( Constants.CustomASEArraySamplingMacrosOlder[ 1 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
-					AddToDirectives( Constants.CustomASEArraySamplingMacrosOlder[ 2 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
-					AddToDirectives( Constants.CustomASEArraySamplingMacrosOlder[ 3 ], 1 );
-			}
-			else
-#endif
-			{
-				if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 12 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 13 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 14 ], 1 );
-				if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
-					AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 15 ], 1 );
-			}
+			if( ( Using2DArrayMacrosMask & MacrosMask.AUTO ) == MacrosMask.AUTO )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 12 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.LOD ) == MacrosMask.LOD )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 13 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.BIAS ) == MacrosMask.BIAS )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 14 ], 1 );
+			if( ( Using2DArrayMacrosMask & MacrosMask.GRAD ) == MacrosMask.GRAD )
+				AddToDirectives( Constants.CustomASEStandarSamplingMacrosOlder[ 15 ], 1 );
 
 			AddToDirectives( Constants.CustomASEStandarSamplingMacrosHelper[ 2 ], 1 );
 		}

@@ -25,10 +25,6 @@ namespace AmplifyShaderEditor
 		private static readonly string BuiltInGUID = "e00e6f90ab8233e46a41c5e33917c642";
 		private static readonly string UniversalGUID = "a9d68dd8913f05d4d9ce75e7b40c6044";
 		private static readonly string HighDefinitionGUID = "d1c0b77896049554fa4b635531caf741";
-		private static readonly string OLDV6HighDefinitionGUID = "dff05fea7446d7b4e9029bfab77455d2";
-		private static readonly string OLDHighDefinitionV7To9GUID = "3b3215ff0faf7774bbd57fd5b4eccaa2";
-		private static readonly string LightWeightGUID = "6ecbfd0a046659943a69328c98ff0442";
-		private static readonly string OLDLightWeightGUID = "f7c4e22642de60d448f4e4809190f7b1";
 
 		private static readonly string IconGUID = "2c6536772776dd84f872779990273bfc";
 
@@ -56,15 +52,11 @@ namespace AmplifyShaderEditor
 		private static readonly GUIContent ASETitle = new GUIContent( "Amplify Shader Editor", "Are you using the latest version? Now you know" );
 
 		private static readonly string DownArrow = "\u25BC";
-#if UNITY_2019_3_OR_NEWER
 		private int DownButtonSize = 22;
-#else
-		private int DownButtonSize = 21;
-#endif
 
 		Vector2 m_scrollPosition = Vector2.zero;
 		Preferences.ShowOption m_startup = Preferences.ShowOption.Never;
-		bool m_showLWRP = false;
+		bool m_showURP = false;
 		bool m_showHDRP = false;
 
 		[NonSerialized]
@@ -75,11 +67,7 @@ namespace AmplifyShaderEditor
 		Texture webIcon = null;
 
 		GUIContent HDRPbutton = null;
-		GUIContent HDRPOLDV6button = null;
-		GUIContent HDRPOLDV7ToV9button = null;
 		GUIContent URPbutton = null;
-		GUIContent LWRPbutton = null;
-		GUIContent LWRPOLDbutton = null;
 		GUIContent BuiltInbutton = null;
 
 		GUIContent Manualbutton = null;
@@ -134,7 +122,7 @@ namespace AmplifyShaderEditor
 				Basicbutton = new GUIContent( " Basic use tutorials", textIcon );
 				Beginnerbutton = new GUIContent( " Beginner Series", textIcon );
 				Nodesbutton = new GUIContent( " Node List", textIcon );
-				SRPusebutton = new GUIContent( " SRP HD/URP/LW use", textIcon );
+				SRPusebutton = new GUIContent( " SRP HDRP/URP use", textIcon );
 				Functionsbutton = new GUIContent( " Shader Functions", textIcon );
 				Templatesbutton = new GUIContent( " Shader Templates", textIcon );
 				APIbutton = new GUIContent( " Node API", textIcon );
@@ -144,11 +132,7 @@ namespace AmplifyShaderEditor
 			{
 				packageIcon = EditorGUIUtility.IconContent( "BuildSettings.Editor.Small" ).image;
 				HDRPbutton = new GUIContent( " HDRP Samples", packageIcon );
-				HDRPOLDV6button = new GUIContent( " HDRP Samples 6.X.X", packageIcon );
-				HDRPOLDV7ToV9button = new GUIContent( " HDRP Samples 7 to 9" , packageIcon );
 				URPbutton = new GUIContent( " URP Samples", packageIcon );
-				LWRPbutton = new GUIContent( " LWRP Samples 6.X.X", packageIcon );
-				LWRPOLDbutton = new GUIContent( " LWRP Samples 3.X.X", packageIcon );
 				BuiltInbutton = new GUIContent( " Built-In Samples", packageIcon );
 			}
 
@@ -165,8 +149,9 @@ namespace AmplifyShaderEditor
 				string lastUpdate = string.Empty;
 				if(changelog != null )
 				{
-					lastUpdate = changelog.text.Substring( 0, changelog.text.IndexOf( "\nv", 50 ) );// + "\n...";
-					lastUpdate = lastUpdate.Replace( "    *", "    \u25CB" );
+					int oldestReleaseIndex = changelog.text.LastIndexOf( string.Format( "v{0}.{1}.{2}", VersionInfo.Major, VersionInfo.Minor, VersionInfo.Release ) );
+
+					lastUpdate = changelog.text.Substring( 0, changelog.text.IndexOf( "\nv", oldestReleaseIndex + 25 ) );// + "\n...";
 					lastUpdate = lastUpdate.Replace( "* ", "\u2022 " );
 				}
 				m_changeLog = new ChangeLogInfo( VersionInfo.FullNumber, lastUpdate );
@@ -200,12 +185,15 @@ namespace AmplifyShaderEditor
 					{
 						m_changeLog = temp;
 					}
-					// improve this later
-					int major = m_changeLog.Version / 10000;
-					int minor = ( m_changeLog.Version / 1000 ) - major * 10;
-					int release = ( m_changeLog.Version / 100 ) - major * 100 - minor * 10;
-					int revision = ( ( m_changeLog.Version / 10 ) - major * 1000 - minor * 100 - release * 10 ) + ( m_changeLog.Version - major * 10000 - minor * 1000 - release * 100 );
-					m_newVersion = major + "." + minor + "." + release + "r" + revision;
+					
+					int version = m_changeLog.Version;
+					int major = version / 10000;			
+					int minor = version / 1000 - major * 10;
+					int release = version / 100 - ( version / 1000 ) * 10;
+					int revision = version - ( version / 100 ) * 100;
+
+					m_newVersion = major + "." + minor + "." + release + ( revision > 0 ? "." + revision : "" );
+
 					Repaint();
 				} ) );
 			}
@@ -276,37 +264,20 @@ namespace AmplifyShaderEditor
 					if( GUILayout.Button( DownArrow, m_buttonRightStyle, GUILayout.Width( DownButtonSize ), GUILayout.Height( DownButtonSize ) ) )
 					{
 						m_showHDRP = !m_showHDRP;
-						m_showLWRP = false;
+						m_showURP = false;
 					}
 					EditorGUILayout.EndHorizontal();
-					if( m_showHDRP )
-					{
-						if( GUILayout.Button( HDRPOLDV7ToV9button , m_minibuttonStyle ) )
-							ImportSample( HDRPOLDV7ToV9button.text , OLDHighDefinitionV7To9GUID );
-
-						if( GUILayout.Button( HDRPOLDV6button, m_minibuttonStyle ) )
-							ImportSample( HDRPOLDV6button.text, OLDV6HighDefinitionGUID );
-					}
-
+					
 					EditorGUILayout.BeginHorizontal();
 					if( GUILayout.Button( URPbutton, m_buttonLeftStyle ) )
 						ImportSample( URPbutton.text, UniversalGUID );
 					
 					if( GUILayout.Button( DownArrow, m_buttonRightStyle, GUILayout.Width( DownButtonSize ), GUILayout.Height( DownButtonSize ) ) )
 					{
-						m_showLWRP = !m_showLWRP;
+						m_showURP = !m_showURP;
 						m_showHDRP = false;
 					}
 					EditorGUILayout.EndHorizontal();
-					if( m_showLWRP )
-					{
-						EditorGUILayout.BeginVertical();
-						if( GUILayout.Button( LWRPbutton, m_minibuttonStyle ) )
-							ImportSample( LWRPbutton.text, LightWeightGUID );
-						if( GUILayout.Button( LWRPOLDbutton, m_minibuttonStyle ) )
-							ImportSample( LWRPOLDbutton.text, OLDLightWeightGUID );
-						EditorGUILayout.EndVertical();
-					}
 					if( GUILayout.Button( BuiltInbutton, m_buttonStyle ) )
 						ImportSample( BuiltInbutton.text, BuiltInGUID );
 
@@ -440,11 +411,7 @@ namespace AmplifyShaderEditor
 		{
 			using( www = UnityWebRequest.Get( url ) )
 			{
-#if UNITY_2017_2_OR_NEWER
 				yield return www.SendWebRequest();
-#else
-				yield return www.Send();
-#endif
 
 				while( www.isDone == false )
 					yield return null;

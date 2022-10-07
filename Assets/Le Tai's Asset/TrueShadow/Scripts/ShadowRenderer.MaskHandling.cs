@@ -33,7 +33,8 @@ public partial class ShadowRenderer
         if (!baseMaterial.HasProperty(ShaderId.STENCIL_ID))
             return baseMaterial; // Shadow is not masked
 
-        bool casterIsMask = shadow.GetComponent<Mask>() != null;
+        var  casterMask   = shadow.GetComponent<Mask>();
+        bool casterIsMask = casterMask != null && casterMask.isActiveAndEnabled;
 
         int hash = HashUtils.CombineHashCodes(
             casterIsMask.GetHashCode(),

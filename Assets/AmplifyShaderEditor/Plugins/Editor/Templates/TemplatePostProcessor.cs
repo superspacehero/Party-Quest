@@ -98,7 +98,7 @@ namespace AmplifyShaderEditor
 						refreshMenuItems = true;
 						string name = TemplatesManager.OfficialTemplates.ContainsKey( guid ) ? TemplatesManager.OfficialTemplates[ guid ] : string.Empty;
 						TemplateMultiPass mp = TemplateMultiPass.CreateInstance<TemplateMultiPass>();
-						mp.Init( name, guid, true );
+						mp.Init( name, guid, AssetDatabase.GUIDToAssetPath( guid ), true );
 						templatesManager.AddTemplate( mp );
 					}
 				}

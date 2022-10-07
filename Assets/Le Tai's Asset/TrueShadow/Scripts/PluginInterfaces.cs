@@ -42,4 +42,6 @@ public interface ITrueShadowRendererMeshModifier
 {
     void ModifyTrueShadowRendererMesh(VertexHelper vertexHelper);
 }
+
+public interface ITrueShadowCustomHashProvider { }
 }

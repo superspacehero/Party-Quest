@@ -64,13 +64,9 @@ namespace AmplifyShaderEditor
 
 	public class TemplateDataCollector
 	{
-#if UNITY_2018_2_OR_NEWER
 		private const int MaxUV = 8;
 		private int[] m_UVUsage = { 0, 0, 0, 0, 0, 0, 0, 0 };
-#else
-		private const int MaxUV = 4;
-		private int[] m_UVUsage = { 0, 0, 0, 0 };
-#endif
+
 		private int m_multipassSubshaderIdx = 0;
 		private int m_multipassPassIdx = 0;
 		private TemplateMultiPass m_currentTemplate;
@@ -142,13 +138,6 @@ namespace AmplifyShaderEditor
 
 		public void AddHDLightInfo()
 		{
-#if !UNITY_2018_3_OR_NEWER
-			AddLateDirective( AdditionalLineType.Custom, "#if (SHADERPASS != SHADERPASS_FORWARD) //On forward this info is already included" );
-			AddLateDirective( AdditionalLineType.Include, "HDRP/Lighting/LightDefinition.cs.hlsl" );
-			AddLateDirective( AdditionalLineType.Include, "HDRP/Lighting/LightLoop/Shadow.hlsl" );
-			AddLateDirective( AdditionalLineType.Include, "HDRP/Lighting/LightLoop/LightLoopDef.hlsl" );
-			AddLateDirective( AdditionalLineType.Custom, "#endif // End of light info includes" );
-#endif
 		}
 
 		public void AddLateDirective( AdditionalLineType type, string value )
@@ -387,8 +376,7 @@ namespace AmplifyShaderEditor
 
 		public string GetVFace( int uniqueId )
 		{
-			#if UNITY_2018_3_OR_NEWER
-			if( IsSRP && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_6_9_0 )
+			if( IsSRP )
 			{
 				string result = string.Empty;
 				if( GetCustomInterpolatedData( TemplateInfoOnSematics.VFACE, WirePortDataType.FLOAT, PrecisionType.Float, ref result, true, MasterNodePortCategory.Fragment ) )
@@ -409,7 +397,6 @@ namespace AmplifyShaderEditor
 				}
 			} 
 			else
-			#endif
 			{
 				m_currentDataCollector.AddFaceMacros();
 
@@ -1396,12 +1383,8 @@ namespace AmplifyShaderEditor
 
 			m_currentDataCollector.AddToIncludes( uniqueId, Constants.UnityAutoLightLib );
 			m_currentDataCollector.AddToDefines( uniqueId, "ASE_SHADOWS 1" );
-#if UNITY_5_6_OR_NEWER
 			RequestMacroInterpolator( "UNITY_SHADOW_COORDS" );
-#else
-			RequestMacroInterpolator( "SHADOW_COORDS" );
-			m_currentDataCollector.AddToPragmas( uniqueId, "multi_compile_fwdbase" );
-#endif
+
 			//string vOutName = CurrentTemplateData.VertexFunctionData.OutVarName;
 			string fInName = CurrentTemplateData.FragmentFunctionData.InVarName;
 			string worldPos = GetWorldPos();
@@ -1483,11 +1466,7 @@ namespace AmplifyShaderEditor
 			{
 				if( m_currentSRPType == TemplateSRPType.HD )
 				{
-#if UNITY_2018_3_OR_NEWER
-				worldPosConversion = string.Format( "GetAbsolutePositionWS( TransformObjectToWorld( ({0}).xyz ) )", vertexPos );
-#else
-					worldPosConversion = string.Format( "GetAbsolutePositionWS( mul( GetObjectToWorldMatrix(), {0}).xyz )", vertexPos );
-#endif
+					worldPosConversion = string.Format( "GetAbsolutePositionWS( TransformObjectToWorld( ({0}).xyz ) )", vertexPos );
 				}
 				else if( m_currentSRPType == TemplateSRPType.Lightweight )
 				{

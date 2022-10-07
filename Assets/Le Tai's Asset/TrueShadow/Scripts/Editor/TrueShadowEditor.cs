@@ -1,6 +1,9 @@
 using System.Linq;
+using System.Reflection;
+using LeTai.TrueShadow.PluginInterfaces;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 using static UnityEditor.EditorGUILayout;
 
 namespace LeTai.TrueShadow.Editor
@@ -32,6 +35,10 @@ public class TrueShadowEditor : UnityEditor.Editor
     static bool showExperimental;
     static bool showAdvanced;
 
+    static Texture    warningIcon;
+    static GUIStyle   hashWarningStyle;
+    static GUIContent hashWarningLabel;
+
     void OnEnable()
     {
         insetProp                  = new EditorProperty(serializedObject, nameof(TrueShadow.Inset));
@@ -59,6 +66,19 @@ public class TrueShadowEditor : UnityEditor.Editor
 
         procrastinateLabel   = new GUIContent("Procrastinate", "A bug that is too fun to fix");
         editGlobalAngleLabel = new GUIContent("Edit...");
+
+        if (!warningIcon)
+        {
+            warningIcon = typeof(EditorGUIUtility)
+                         .GetProperty("warningIcon", BindingFlags.Static | BindingFlags.NonPublic)
+                        ?.GetValue(null) as Texture;
+        }
+
+        hashWarningLabel = new GUIContent(warningIcon);
+        hashWarningStyle = new GUIStyle(EditorGUIUtility.GetBuiltinSkin(EditorSkin.Inspector)
+                                                        .FindStyle("WordWrappedLabel")) {
+            richText = true
+        };
     }
 
     public override void OnInspectorGUI()
@@ -103,6 +123,8 @@ public class TrueShadowEditor : UnityEditor.Editor
         }
 
         DrawAdvancedSettings();
+
+        DrawHashWarning();
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -163,6 +185,48 @@ public class TrueShadowEditor : UnityEditor.Editor
             {
                 EditorPrefs.SetBool("LeTai_TrueShadow_" + nameof(showExperimental), showExperimental);
                 EditorPrefs.SetBool("LeTai_TrueShadow_" + nameof(showAdvanced),     showAdvanced);
+            }
+        }
+    }
+
+    static readonly string[] KNOWN_TYPES = {
+        "UnityEngine.UI.Image",
+        "UnityEngine.UI.RawImage",
+        "UnityEngine.UI.Text",
+        "TMPro.TextMeshProUGUI",
+        "Unity.VectorGraphics.SVGImage",
+    };
+
+
+    void DrawHashWarning()
+    {
+        var ts = (TrueShadow)target;
+
+        if (ts.GetComponent<ITrueShadowCustomHashProvider>() != null)
+            return;
+
+        var casterType = ts.GetComponent<Graphic>().GetType();
+        if (KNOWN_TYPES.Contains(casterType.FullName))
+            return;
+
+        hashWarningLabel.text = "Shadow may not update with changes";
+
+        using (var _ = new VerticalScope(EditorStyles.helpBox))
+        {
+            GUILayout.Label(hashWarningLabel);
+            GUILayout.Label($"True Shadow can't tell 2 <i>{casterType.Name}</i> apart." +
+                            $" The shadow may not update when the <i>{casterType.Name}</i> changes.\n" +
+                            $"To fix this, set the shadow CustomHash, or disable shadow caching for this element.",
+                            hashWarningStyle);
+
+            if (GUILayout.Button("More info on CustomHash", EditorStyles.linkLabel))
+            {
+                Application.OpenURL("https://leloctai.com/trueshadow/docs/articles/integration.html#make-sure-shadow-update");
+            }
+
+            if (GUILayout.Button("Disable Shadow Cache for this element", EditorStyles.linkLabel))
+            {
+                Undo.AddComponent<DisableShadowCache>(ts.gameObject);
             }
         }
     }

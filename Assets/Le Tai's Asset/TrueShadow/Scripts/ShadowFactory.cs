@@ -13,6 +13,8 @@ public class ShadowFactory
     readonly Dictionary<int, ShadowContainer> shadowCache =
         new Dictionary<int, ShadowContainer>();
 
+    public int CachedCount => shadowCache.Count;
+
     readonly CommandBuffer         cmd;
     readonly MaterialPropertyBlock materialProps;
     readonly ScalableBlur          blurProcessor;
@@ -63,7 +65,7 @@ public class ShadowFactory
         if (float.IsNaN(snapshot.dimensions.x) || snapshot.dimensions.x < 1 ||
             float.IsNaN(snapshot.dimensions.y) || snapshot.dimensions.y < 1)
         {
-            ReleaseContainer(container);
+            ReleaseContainer(ref container);
             return;
         }
 
@@ -93,7 +95,7 @@ public class ShadowFactory
         if (container?.requestHash == requestHash)
             return;
 
-        ReleaseContainer(container);
+        ReleaseContainer(ref container);
 
         if (shadowCache.TryGetValue(requestHash, out var existingContainer))
         {
@@ -109,7 +111,7 @@ public class ShadowFactory
         }
     }
 
-    internal void ReleaseContainer(ShadowContainer container)
+    internal void ReleaseContainer(ref ShadowContainer container)
     {
         if (container == null)
             return;
@@ -119,6 +121,8 @@ public class ShadowFactory
 
         RenderTexture.ReleaseTemporary(container.Texture);
         shadowCache.Remove(container.requestHash);
+
+        container = null;
 
         // Debug.Log($"Released container for request\t{container.requestHash}\tTotal Released: {++releasedContainerCount}\t Alive: {createdContainerCount - releasedContainerCount}");
     }

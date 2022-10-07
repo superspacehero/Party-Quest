@@ -48,6 +48,9 @@ class ShadowSettingSnapshot
 
         var clearColor = shadow.ClearColor;
         var imageColor = graphic.color;
+        if (shadow.IgnoreCasterColor)
+            imageColor = Color.clear;
+
         int colorHash = HashUtils.CombineHashCodes(
             shadow.IgnoreCasterColor ? 1 : 0,
             (int)shadow.ColorBleedMode,
@@ -81,6 +84,7 @@ class ShadowSettingSnapshot
 
         var commonHash = HashUtils.CombineHashCodes(
             shadow.TextureRevision,
+            graphic.materialForRendering.ComputeCRC(),
             canvasScaleHash,
             insetHash,
             colorHash,
@@ -122,6 +126,43 @@ class ShadowSettingSnapshot
                 textureHash
             );
             break;
+        case Text text:
+            // Other properties should all cause dimensions changes, so they do not need to be explicitly hashed
+            hash = HashUtils.CombineHashCodes(
+                commonHash,
+                text.text.GetHashCode(),
+                text.font.GetHashCode(),
+                (int)text.alignment
+            );
+            break;
+
+#if TMP_PRESENT
+        case TMPro.TextMeshProUGUI tmp:
+            // Other properties should all cause dimensions changes, so they do not need to be explicitly hashed
+            int tmpColorHash = 0;
+            if (!shadow.IgnoreCasterColor)
+            {
+                tmpColorHash = HashUtils.CombineHashCodes(
+                    tmp.enableVertexGradient.GetHashCode(),
+                    tmp.colorGradient.GetHashCode(),
+                    tmp.overrideColorTags.GetHashCode()
+                );
+            }
+
+            hash = HashUtils.CombineHashCodes(
+                commonHash,
+                tmp.text.GetHashCode(),
+                tmp.font.GetHashCode(),
+                tmp.fontSize.GetHashCode(),
+                tmpColorHash,
+                tmp.characterSpacing.GetHashCode(),
+                tmp.wordSpacing.GetHashCode(),
+                tmp.lineSpacing.GetHashCode(),
+                tmp.paragraphSpacing.GetHashCode(),
+                (int)tmp.alignment
+            );
+            break;
+#endif
         default:
             hash = commonHash;
             break;

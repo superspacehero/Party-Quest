@@ -12,18 +12,18 @@ interface IChangeTracker
 
 class ChangeTracker<T> : IChangeTracker
 {
-    T                             previousValue;
-    readonly Func<T>              getValue;
-    readonly Func<T, T>           onChange;
-    readonly IEqualityComparer<T> comparer;
+    T                         previousValue;
+    readonly Func<T>          getValue;
+    readonly Func<T, T>       onChange;
+    readonly Func<T, T, bool> compare;
 
-    public ChangeTracker(Func<T>              getValue,
-                         Func<T, T>           onChange,
-                         IEqualityComparer<T> comparer = null)
+    public ChangeTracker(Func<T>          getValue,
+                         Func<T, T>       onChange,
+                         Func<T, T, bool> compare = null)
     {
         this.getValue = getValue;
         this.onChange = onChange;
-        this.comparer = comparer ?? EqualityComparer<T>.Default;
+        this.compare  = compare ?? EqualityComparer<T>.Default.Equals;
 
         previousValue = this.getValue();
     }
@@ -36,7 +36,7 @@ class ChangeTracker<T> : IChangeTracker
     public void Check()
     {
         T newValue = getValue();
-        if (!comparer.Equals(newValue, previousValue))
+        if (!compare(previousValue, newValue))
         {
             previousValue = onChange(newValue);
         }
@@ -54,7 +54,7 @@ public partial class TrueShadow
         checkHierarchyDirtiedDelegate = CheckHierarchyDirtied;
         hierachyTrackers = new[] {
             new ChangeTracker<int>(
-                () => transform.GetSiblingIndex(),
+                () => RectTransform.GetSiblingIndex(),
                 newValue =>
                 {
                     SetHierachyDirty();
@@ -78,27 +78,61 @@ public partial class TrueShadow
 
         transformTrackers = new IChangeTracker[] {
             new ChangeTracker<Vector3>(
-                () => transform.position,
+                () => RectTransform.position,
                 newValue =>
                 {
                     SetLayoutDirty();
                     return newValue;
-                }
+                },
+                (prev, curr) => prev == curr
             ),
             new ChangeTracker<Quaternion>(
-                () => transform.rotation,
+                () => RectTransform.rotation,
                 newValue =>
                 {
                     SetLayoutDirty();
                     if (Cutout)
                         SetTextureDirty();
                     return newValue;
-                }
+                },
+                (prev, curr) => prev == curr
             ),
         };
 
-        Graphic.RegisterDirtyLayoutCallback(ForceLayoutTextureDirty);
-        Graphic.RegisterDirtyVerticesCallback(ForceLayoutTextureDirty);
+#if TMP_PRESENT
+        if (Graphic is TMPro.TextMeshProUGUI)
+        {
+            var old = transformTrackers;
+            transformTrackers = new IChangeTracker[old.Length + 1];
+            Array.Copy(old, transformTrackers, old.Length);
+
+            transformTrackers[old.Length] = new ChangeTracker<Vector3>(
+                () => RectTransform.lossyScale,
+                newValue =>
+                {
+                    SetLayoutTextureDirty();
+                    return newValue;
+                },
+                (prev, curr) =>
+                {
+                    if (prev == curr) // Early exit for most common path
+                        return true;
+
+                    if (prev.x * prev.y * prev.z < 1e-9f
+                     && curr.x * curr.y * curr.z > 1e-9f)
+                        return false;
+
+                    var diff = curr - prev;
+                    return Mathf.Abs(diff.x / prev.x) < .25f
+                        && Mathf.Abs(diff.y / prev.y) < .25f
+                        && Mathf.Abs(diff.z / prev.z) < .25f;
+                }
+            );
+        }
+#endif
+
+        Graphic.RegisterDirtyLayoutCallback(SetLayoutTextureDirty);
+        Graphic.RegisterDirtyVerticesCallback(SetLayoutTextureDirty);
         Graphic.RegisterDirtyMaterialCallback(OnGraphicMaterialDirty);
 
         CheckHierarchyDirtied();
@@ -109,15 +143,15 @@ public partial class TrueShadow
     {
         if (Graphic)
         {
-            Graphic.UnregisterDirtyLayoutCallback(ForceLayoutTextureDirty);
-            Graphic.UnregisterDirtyVerticesCallback(ForceLayoutTextureDirty);
+            Graphic.UnregisterDirtyLayoutCallback(SetLayoutTextureDirty);
+            Graphic.UnregisterDirtyVerticesCallback(SetLayoutTextureDirty);
             Graphic.UnregisterDirtyMaterialCallback(OnGraphicMaterialDirty);
         }
     }
 
     void OnGraphicMaterialDirty()
     {
-        ForceLayoutTextureDirty();
+        SetLayoutTextureDirty();
         shadowRenderer.UpdateMaterial();
     }
 
@@ -180,7 +214,7 @@ public partial class TrueShadow
 
         if (!isActiveAndEnabled) return;
 
-        ForceLayoutTextureDirty();
+        SetLayoutTextureDirty();
     }
 
 
@@ -188,7 +222,7 @@ public partial class TrueShadow
     {
         if (!isActiveAndEnabled) return;
 
-        ForceLayoutTextureDirty();
+        SetLayoutTextureDirty();
     }
 
     public void ModifyMesh(Mesh mesh)
@@ -198,7 +232,7 @@ public partial class TrueShadow
         if (SpriteMesh) Utility.SafeDestroy(SpriteMesh);
         SpriteMesh = Instantiate(mesh);
 
-        ForceLayoutTextureDirty();
+        SetLayoutTextureDirty();
     }
 
     public void ModifyMesh(VertexHelper verts)
@@ -209,10 +243,10 @@ public partial class TrueShadow
         if (!SpriteMesh) SpriteMesh = new Mesh();
         verts.FillMesh(SpriteMesh);
 
-        ForceLayoutTextureDirty();
+        SetLayoutTextureDirty();
     }
 
-    void ForceLayoutTextureDirty()
+    void SetLayoutTextureDirty()
     {
 #if TMP_PRESENT
         if (Graphic is TMPro.TextMeshProUGUI tmp)
@@ -224,7 +258,7 @@ public partial class TrueShadow
         }
 #endif
         SetLayoutDirty();
-        ForceTextureDirty();
+        SetTextureDirty();
     }
 }
 }

@@ -11,8 +11,10 @@ public class GridThing : MovingThing
         /// <summary>
         /// This function is called when the object becomes enabled and active.
         /// </summary>
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             MoveTo((controlledThing != null) ? controlledThing.transform.position : transform.position);
             Map.things.Add(this);
         }
@@ -95,11 +97,11 @@ public class GridThing : MovingThing
             UpdateThingLists();
         }
 
-        public override void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
+        public override void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
         {
             if (controlledThing)
             {
-                controlledThing.Move(direction, ignoreCollisions, checkHeight);
+                controlledThing.Move(direction, rotate, ignoreCollisions, checkHeight);
                 // Rotate(direction);
                 return;
             }
@@ -174,6 +176,8 @@ public class GridThing : MovingThing
             moving = false;
             grounded = true;
             verticalMovement = 0;
+
+            WhatRoomsAmIIn(false);
         }
 
         private void UpdateThingLists()

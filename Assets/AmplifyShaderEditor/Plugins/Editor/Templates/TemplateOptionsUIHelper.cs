@@ -89,11 +89,7 @@ namespace AmplifyShaderEditor
 		public void DrawCustomOptionsBlock()
 		{
 			float currWidth = EditorGUIUtility.labelWidth;
-#if UNITY_2019_3_OR_NEWER
 			float size = Mathf.Max( UIUtils.CurrentWindow.ParametersWindow.TransformedArea.width * 0.385f, 0 );
-#else
-			float size = Mathf.Max( UIUtils.CurrentWindow.ParametersWindow.TransformedArea.width * 0.34f, 0 );
-#endif
 			EditorGUIUtility.labelWidth = size;
 			for( int i = 0; i < m_passCustomOptionsUI.Count; i++ )
 			{

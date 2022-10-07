@@ -63,12 +63,13 @@ public class SymbolsManager : MonoBehaviour
                 idY * cellSize + Random.Range(randomFrom, randomTo),
                 transform.position.z
             );
-            rt.rotation  =  Quaternion.Euler(0, 0, Random.value * 360);
+            rt.rotation  =  Quaternion.Euler(0, 0, Mathf.Floor((Random.value - .5f) * 4) * 90 / 4);
             rt.sizeDelta *= cellSize / 220;
 
-            var img = obj.GetComponent<Image>();
-            img.sprite = sprites[Random.Range(0, sprites.Length)];
-            img.color  = colors[Random.Range(0,  colors.Length)];
+            var img      = obj.GetComponent<Image>();
+            var spriteId = Random.Range(0, sprites.Length);
+            img.sprite = sprites[spriteId];
+            img.color  = colors[spriteId];
 
             var index = idY * xCount + idX;
             rectTransforms[index]   = rt;

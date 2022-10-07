@@ -129,7 +129,7 @@ public class Player : NetworkBehaviour
                 {
                     currentInputTime = 0;
                     if (controlledThing != null)
-                        controlledThing.Move(Vector3.zero);
+                        controlledThing.Move(Vector3.zero, false);
                 }
 
                 return;

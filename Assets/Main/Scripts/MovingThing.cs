@@ -5,6 +5,14 @@ using Sirenix.OdinInspector;
 
 public class MovingThing : Thing
 {
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    protected virtual void OnEnable()
+    {
+        moving = false;
+    }
+
     #region Other Variables
 
         public MovingThing controlledThing
@@ -125,7 +133,7 @@ public class MovingThing : Thing
             transform.position = position;
         }
 
-        public virtual void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
+        public virtual void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
         {
             if (direction == Vector3.zero)
             {
@@ -137,7 +145,7 @@ public class MovingThing : Thing
 
             if (controlledThing)
             {
-                controlledThing.Move(direction, ignoreCollisions, checkHeight);
+                controlledThing.Move(direction, rotate, ignoreCollisions, checkHeight);
                 // Rotate(direction);
             }
             else

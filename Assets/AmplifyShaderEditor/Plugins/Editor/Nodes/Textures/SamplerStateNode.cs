@@ -65,11 +65,9 @@ namespace AmplifyShaderEditor
 		private readonly string[] m_wrapModeStr = {
 			"Repeat",
 			"Clamp", 
-#if UNITY_2018_3_OR_NEWER
 			"Mirror",
 			"Mirror Once",
 			"Per-axis" 
-#endif
 		};
 
 		protected override void CommonInit( int uniqueId )
@@ -176,7 +174,6 @@ namespace AmplifyShaderEditor
 					m_wrapModeU = TextureWrapMode.Clamp;
 					m_wrapModeV = TextureWrapMode.Clamp;
 					break;
-#if UNITY_2018_3_OR_NEWER
 					case 2:
 					m_wrapModeU = TextureWrapMode.Mirror;
 					m_wrapModeV = TextureWrapMode.Mirror;
@@ -185,7 +182,6 @@ namespace AmplifyShaderEditor
 					m_wrapModeU = TextureWrapMode.MirrorOnce;
 					m_wrapModeV = TextureWrapMode.MirrorOnce;
 					break;
-#endif
 				}
 			}
 
@@ -209,10 +205,6 @@ namespace AmplifyShaderEditor
 
 			if( m_texPort.IsConnected || m_referenceNodeId >= 0 )
 				EditorGUILayout.HelpBox( MessageTextureObject, MessageType.Info );
-
-#if !UNITY_2018_1_OR_NEWER
-			EditorGUILayout.HelpBox( MessageUnitSuppport, MessageType.Warning );
-#endif
 		}
 
 		public override void OnNodeLogicUpdate( DrawInfo drawInfo )
@@ -289,14 +281,12 @@ namespace AmplifyShaderEditor
 				case 1:
 				result += "_clamp";
 				break;
-#if UNITY_2018_3_OR_NEWER
 				case 2:
 				result += "_mirror";
 				break;
 				case 3:
 				result += "_mirrorOnce";
 				break;
-#endif
 				case 4:
 				{
 					switch( m_wrapModeU )
@@ -308,14 +298,12 @@ namespace AmplifyShaderEditor
 						case TextureWrapMode.Clamp:
 						result += "_clampU";
 						break;
-#if UNITY_2018_3_OR_NEWER
 						case TextureWrapMode.Mirror:
 						result += "_mirrorU";
 						break;
 						case TextureWrapMode.MirrorOnce:
 						result += "_mirrorOnceU";
 						break;
-#endif
 					}
 					switch( m_wrapModeV )
 					{
@@ -326,14 +314,12 @@ namespace AmplifyShaderEditor
 						case TextureWrapMode.Clamp:
 						result += "_clampV";
 						break;
-#if UNITY_2018_3_OR_NEWER
 						case TextureWrapMode.Mirror:
 						result += "_mirrorV";
 						break;
 						case TextureWrapMode.MirrorOnce:
 						result += "_mirrorOnceV";
 						break;
-#endif
 					}
 				}
 				break;

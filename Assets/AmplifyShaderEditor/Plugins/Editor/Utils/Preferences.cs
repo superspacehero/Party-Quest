@@ -1,9 +1,9 @@
 // Amplify Shader Editor - Visual Shader Editing Tool
 // Copyright (c) Amplify Creations, Lda <info@amplify.pt>
 
-using UnityEngine;
-using UnityEditor;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
 
 namespace AmplifyShaderEditor
 {
@@ -32,15 +32,18 @@ namespace AmplifyShaderEditor
 		public static readonly string PrefClearLog = "ASEClearLog" + Application.productName;
 		public static bool GlobalClearLog = true;
 
+		private static readonly GUIContent LogShaderCompile = new GUIContent( "Log Shader Compile", "Log message to console when a shader compilation is finished" );
+		public static readonly string PrefLogShaderCompile = "ASELogShaderCompile" + Application.productName;
+		public static bool GlobalLogShaderCompile = false;
+
+		private static readonly GUIContent LogBatchCompile = new GUIContent( "Log Batch Compile", "Log message to console when a batch compilation is finished" );
+		public static readonly string PrefLogBatchCompile = "ASELogBatchCompile" + Application.productName;
+		public static bool GlobalLogBatchCompile = false;
+
 		private static readonly GUIContent UpdateOnSceneSave = new GUIContent( "Update on Scene save (Ctrl+S)" , "ASE is aware of Ctrl+S and will use it to save shader" );
 		public static readonly string PrefUpdateOnSceneSave = "ASEUpdateOnSceneSave" + Application.productName;
 		public static bool GlobalUpdateOnSceneSave = true;
 
-#if UNITY_2019_4_OR_NEWER
-		private static readonly GUIContent ShowAsyncMsg = new GUIContent( "Show Shader Async. Compilation Message", "Shows message on ASE log if Asynchronous Shader Compilation is detected" );
-		public static readonly string PrefShowAsyncMsg = "ASEShowAsync" + Application.productName;
-		public static bool GlobalShowAsyncMsg = true;
-#endif
 		private static readonly GUIContent DisablePreviews = new GUIContent( "Disable Node Previews" , "Disable preview on nodes from being updated to boost up performance on large graphs" );
 		public static readonly string PrefDisablePreviews = "ASEActivatePreviews" + Application.productName;
 		public static bool GlobalDisablePreviews = false;
@@ -49,9 +52,12 @@ namespace AmplifyShaderEditor
 		public static readonly string PrefForceTemplateMinShaderModel = "ASEForceTemplateMinShaderModel" + Application.productName;
 		public static bool GlobalForceTemplateMinShaderModel = true;
 
+		private static readonly GUIContent ForceTemplateInlineProperties = new GUIContent( "Force Template Inline Properties", "If active, defaults all inline properties to template values." );
+		public static readonly string PrefForceTemplateInlineProperties = "ASEForceTemplateInlineProperties" + Application.productName;
+		public static bool GlobalForceTemplateInlineProperties = false;
+
 		private static bool PrefsLoaded = false;
 
-#if UNITY_2019_1_OR_NEWER
 		[SettingsProvider]
 		public static SettingsProvider ImpostorsSettings()
 		{
@@ -67,9 +73,7 @@ namespace AmplifyShaderEditor
 			};
 			return provider;
 		}
-#else
-		[PreferenceItem( "Amplify Shader Editor" )]
-#endif
+
 		public static void PreferencesGUI()
 		{
 			if( !PrefsLoaded )
@@ -122,6 +126,24 @@ namespace AmplifyShaderEditor
 
 			{
 				EditorGUI.BeginChangeCheck();
+				GlobalLogShaderCompile = EditorGUILayout.Toggle( LogShaderCompile , GlobalLogShaderCompile );
+				if( EditorGUI.EndChangeCheck() )
+				{
+					EditorPrefs.SetBool( PrefLogShaderCompile, GlobalLogShaderCompile );
+				}
+			}
+
+			{
+				EditorGUI.BeginChangeCheck();
+				GlobalLogBatchCompile = EditorGUILayout.Toggle( LogBatchCompile, GlobalLogBatchCompile );
+				if ( EditorGUI.EndChangeCheck() )
+				{
+					EditorPrefs.SetBool( PrefLogBatchCompile, GlobalLogBatchCompile );
+				}
+			}
+
+			{
+				EditorGUI.BeginChangeCheck();
 				GlobalUpdateOnSceneSave = EditorGUILayout.Toggle( UpdateOnSceneSave , GlobalUpdateOnSceneSave );
 				if( EditorGUI.EndChangeCheck() )
 				{
@@ -150,14 +172,15 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-#if UNITY_2019_4_OR_NEWER
-			EditorGUI.BeginChangeCheck();
-			GlobalShowAsyncMsg = EditorGUILayout.Toggle( ShowAsyncMsg, GlobalShowAsyncMsg);
-			if( EditorGUI.EndChangeCheck() )
 			{
-				EditorPrefs.SetBool( PrefShowAsyncMsg, GlobalShowAsyncMsg );
+				EditorGUI.BeginChangeCheck();
+				GlobalForceTemplateInlineProperties = EditorGUILayout.Toggle( ForceTemplateInlineProperties , GlobalForceTemplateInlineProperties );
+				if( EditorGUI.EndChangeCheck() )
+				{
+					EditorPrefs.SetBool( PrefForceTemplateInlineProperties , GlobalForceTemplateInlineProperties );
+				}
 			}
-#endif
+			
 			EditorGUILayout.BeginHorizontal();
 			GUILayout.FlexibleSpace();
 			if( GUILayout.Button( "Reset and Forget All" ) )
@@ -175,6 +198,12 @@ namespace AmplifyShaderEditor
 				EditorPrefs.DeleteKey( PrefClearLog );
 				GlobalClearLog = true;
 
+				EditorPrefs.DeleteKey( PrefLogShaderCompile);
+				GlobalLogShaderCompile = false;
+
+				EditorPrefs.DeleteKey( PrefLogBatchCompile );
+				GlobalLogBatchCompile = false;
+
 				EditorPrefs.DeleteKey( PrefUpdateOnSceneSave );
 				GlobalUpdateOnSceneSave = true;
 
@@ -183,12 +212,9 @@ namespace AmplifyShaderEditor
 
 				EditorPrefs.DeleteKey( PrefForceTemplateMinShaderModel );
 				GlobalForceTemplateMinShaderModel = true;
-				
 
-#if UNITY_2019_4_OR_NEWER
-				EditorPrefs.DeleteKey( PrefShowAsyncMsg );
-				GlobalShowAsyncMsg = true;
-#endif
+				EditorPrefs.DeleteKey( PrefForceTemplateInlineProperties );
+				GlobalForceTemplateInlineProperties = false;
 			}
 			EditorGUILayout.EndHorizontal();
 			EditorGUIUtility.labelWidth = cache;
@@ -200,12 +226,12 @@ namespace AmplifyShaderEditor
 			GlobalAutoSRP = EditorPrefs.GetBool( PrefAutoSRP, true );
 			GlobalDefineSymbol = EditorPrefs.GetBool( PrefDefineSymbol, true );
 			GlobalClearLog = EditorPrefs.GetBool( PrefClearLog, true );
+			GlobalLogShaderCompile = EditorPrefs.GetBool( PrefLogShaderCompile, false );
+			GlobalLogBatchCompile = EditorPrefs.GetBool( PrefLogBatchCompile, false );
 			GlobalUpdateOnSceneSave = EditorPrefs.GetBool( PrefUpdateOnSceneSave , true );
 			GlobalDisablePreviews = EditorPrefs.GetBool( PrefDisablePreviews , false );
 			GlobalForceTemplateMinShaderModel = EditorPrefs.GetBool( PrefForceTemplateMinShaderModel , true );
-#if UNITY_2019_4_OR_NEWER
-			GlobalShowAsyncMsg = EditorPrefs.GetBool( PrefShowAsyncMsg, true );
-#endif
+			GlobalForceTemplateInlineProperties = EditorPrefs.GetBool( PrefForceTemplateInlineProperties, false );			
 		}
 	}
 }

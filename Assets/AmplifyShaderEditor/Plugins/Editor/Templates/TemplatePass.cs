@@ -168,7 +168,7 @@ namespace AmplifyShaderEditor
 			if( m_tessDomainData != null )
 				idManager.RegisterId( m_tessDomainData.StartIdx, uniquePrefix + m_tessDomainData.Id, m_tessDomainData.Id );
 
-			TemplateHelperFunctions.FetchInlineVars( passInfo.Data, ref idManager );
+			TemplateHelperFunctions.FetchInlineVars( passInfo.Data, ref idManager );			
 
 			//Fetch local variables must be done after fetching code areas as it needs them to see is variable is on vertex or fragment
 			TemplateHelperFunctions.FetchLocalVars( passInfo.Data, ref m_localVarsList, m_vertexFunctionData, m_fragmentFunctionData );

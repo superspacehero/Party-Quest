@@ -47,14 +47,57 @@ public class Thing : LookAtObject
 
     #endregion
 
-    #region Other Variables
+    #region Rooms
 
-        [SerializeField, FoldoutGroup("SFX"), Tooltip("The main sounds this things makes. Used for movement sounds by moving things, and usage sounds by items.")]
-        protected SFX mainSFX;
+        [FoldoutGroup("Rooms")]
+        public List<Level.Room> rooms = new List<Level.Room>();
+
+        public void WhatRoomsAmIIn(bool deactivateIfRoomsNotDiscovered)
+        {
+            rooms.Clear();
+
+            if (GameManager.instance.level.rooms.Count <= 0)
+                return;
+
+            foreach (Level.Room room in GameManager.instance.level.rooms)
+            {
+                if (room.Contains(this))
+                    rooms.Add(room);
+            }
+
+            if (rooms.Count > 0)
+            {
+                foreach (Level.Room room in rooms)
+                {
+                    if (!room.GetDiscovered() && deactivateIfRoomsNotDiscovered)
+                    {
+                        gameObject.SetActive(false);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                // Debug.LogError(name + " is not in any rooms!", this);
+                gameObject.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// Start is called on the frame when a script is enabled just before
+        /// any of the Update methods is called the first time.
+        /// </summary>
+        void Start()
+        {
+            WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:true);
+        }
 
     #endregion
 
     #region SFX
+
+        [SerializeField, FoldoutGroup("SFX"), Tooltip("The main sounds this things makes. Used for movement sounds by moving things, and usage sounds by items.")]
+        protected SFX mainSFX;
 
         public void PlayMainSFX()
         {

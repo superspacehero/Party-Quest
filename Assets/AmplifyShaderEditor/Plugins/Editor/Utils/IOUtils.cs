@@ -36,7 +36,7 @@ namespace AmplifyShaderEditor
 					IOUtils.SaveInThreadFlag = false;
 					lock( locker )
 					{
-						IOUtils.SaveInThreadShaderBody = IOUtils.ShaderCopywriteMessage + IOUtils.SaveInThreadShaderBody;
+						IOUtils.SaveInThreadShaderBody = string.Format( IOUtils.ShaderCopywriteMessage, VersionInfo.StaticToString() ) + IOUtils.SaveInThreadShaderBody;
 						// Add checksum 
 						string checksum = IOUtils.CreateChecksum( IOUtils.SaveInThreadShaderBody );
 						IOUtils.SaveInThreadShaderBody += IOUtils.CHECKSUM + IOUtils.VALUE_SEPARATOR + checksum;
@@ -69,7 +69,7 @@ namespace AmplifyShaderEditor
 		public static OnShaderAction OnShaderSavedEvent;
 		public static OnShaderAction OnShaderTypeChangedEvent;
 
-		public static readonly string ShaderCopywriteMessage = "// Made with Amplify Shader Editor\n// Available at the Unity Asset Store - http://u3d.as/y3X \n";
+		public static readonly string ShaderCopywriteMessage = "// Made with Amplify Shader Editor v{0}\n// Available at the Unity Asset Store - http://u3d.as/y3X \n";
 		public static readonly string GrabPassEmpty = "\t\tGrabPass{ }\n";
 		public static readonly string GrabPassBegin = "\t\tGrabPass{ \"";
 		public static readonly string GrabPassEnd = "\" }\n";
@@ -226,8 +226,8 @@ namespace AmplifyShaderEditor
 			return assembly.GetTypes().Where( t => String.Equals( t.Namespace , nameSpace , StringComparison.Ordinal ) ).ToArray();
 		}
 
-#if UNITY_2018_3_OR_NEWER
 		public static List<Assembly> LoadedAssemblies;
+
 		public static Type[] GetAssemblyTypesArray()
 		{
 			Type[] availableTypes = null;
@@ -319,7 +319,6 @@ namespace AmplifyShaderEditor
 				LoadedAssemblies = null;
 			}
 		}
-#endif
 
 		public static void StartSaveThread( string shaderBody , string pathName )
 		{
@@ -556,7 +555,7 @@ namespace AmplifyShaderEditor
 
 			if( addAdditionalInfo )
 			{
-				shaderBody = ShaderCopywriteMessage + shaderBody;
+				shaderBody = string.Format( ShaderCopywriteMessage, VersionInfo.StaticToString() ) + shaderBody;
 				// Add checksum 
 				string checksum = CreateChecksum( shaderBody );
 				shaderBody += CHECKSUM + VALUE_SEPARATOR + checksum;
@@ -580,7 +579,7 @@ namespace AmplifyShaderEditor
 
 		public static string AddAdditionalInfo( string shaderBody )
 		{
-			shaderBody = ShaderCopywriteMessage + shaderBody;
+			shaderBody = string.Format( ShaderCopywriteMessage, VersionInfo.StaticToString() ) + shaderBody;
 			string checksum = CreateChecksum( shaderBody );
 			shaderBody += CHECKSUM + VALUE_SEPARATOR + checksum;
 			return shaderBody;

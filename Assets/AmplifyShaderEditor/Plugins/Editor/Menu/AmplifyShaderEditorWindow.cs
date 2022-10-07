@@ -29,9 +29,6 @@ namespace AmplifyShaderEditor
 		public const string ObjectSelectorClosed = "ObjectSelectorClosed";
 		public const string LiveShaderError = "Live Shader only works with an assigned Master Node on the graph";
 
-		public const string AsyncMessage = "Detected Asynchronous Shader Compilation. This can cause slowdowns when saving not only ASE shaders but other shaders as well.\n" +
-											"Please consider turning it off ( Project Settings > Editor > Asynchronous Shader Compilation ) if detecting big slowdowns on shader save.\n" +
-											"This message can be turned off via Preferences > Amplify Shader Editor > Show Async Message.";
 		//public Texture2D MasterNodeOnTexture = null;
 		//public Texture2D MasterNodeOffTexture = null;
 
@@ -339,6 +336,8 @@ namespace AmplifyShaderEditor
 #endif
 		public bool CheckFunctions = false;
 
+		private static System.Diagnostics.Stopwatch m_batchTimer = new System.Diagnostics.Stopwatch();
+
 		// Unity Menu item
 		[MenuItem( "Window/Amplify Shader Editor/Open Canvas", false, 1000 )]
 		static void OpenMainShaderGraph()
@@ -442,7 +441,7 @@ namespace AmplifyShaderEditor
 			else
 			{
 				UIUtils.CreateEmptyFromInvalid( shader );
-				UIUtils.ShowMessage( "Trying to open shader not created on ASE!\nBEWARE, old data will be lost if saving it here!", MessageSeverity.Warning );
+				UIUtils.ShowMessage( "Trying to open shader not created on ASE! BEWARE, old data will be lost if saving it here!", MessageSeverity.Warning );
 				if( UIUtils.CurrentWindow.LiveShaderEditing )
 				{
 					UIUtils.ShowMessage( "Disabling Live Shader Editing. Must manually re-enable it.", MessageSeverity.Warning );
@@ -559,6 +558,8 @@ namespace AmplifyShaderEditor
 
 		public static void LoadAndSaveList( string[] assetList )
 		{
+			m_batchTimer.Start();
+
 			EditorPrefs.SetString( ASEFileList , string.Join( ",", assetList ) );
 			if( assetList[ 0 ].EndsWith( ".asset" ) )
 			{
@@ -636,10 +637,8 @@ namespace AmplifyShaderEditor
 
 			Preferences.LoadDefaults();
 
-#if UNITY_2018_3_OR_NEWER
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
-#endif
 
 			Shader.SetGlobalVector( PreviewSizeGlobalVariable, new Vector4( Constants.PreviewSize , Constants.PreviewSize , 0, 0 ) );
 
@@ -731,11 +730,8 @@ namespace AmplifyShaderEditor
 			m_genericMessageUI.OnMessageDisplayEvent += ShowMessageImmediately;
 
 			Selection.selectionChanged += OnProjectSelectionChanged;
-#if UNITY_2018_1_OR_NEWER
 			EditorApplication.projectChanged += OnProjectWindowChanged;
-#else
-			EditorApplication.projectWindowChanged += OnProjectWindowChanged;
-#endif
+
 			m_focusOnSelectionTimestamp = EditorApplication.timeSinceStartup;
 			m_focusOnMasterNodeTimestamp = EditorApplication.timeSinceStartup;
 
@@ -1041,11 +1037,7 @@ namespace AmplifyShaderEditor
 			UIUtils.CurrentWindow = null;
 			m_duplicatePreventionBuffer.ReleaseAllData();
 			m_duplicatePreventionBuffer = null;
-#if UNITY_2018_1_OR_NEWER
 			EditorApplication.projectChanged -= OnProjectWindowChanged;
-#else
-			EditorApplication.projectWindowChanged -= OnProjectWindowChanged;
-#endif
 			Selection.selectionChanged -= OnProjectSelectionChanged;
 
 			IOUtils.AllOpenedWindows.Remove( this );
@@ -1094,10 +1086,7 @@ namespace AmplifyShaderEditor
 								m_wireTexture != null;
 			}
 		}
-#if UNITY_2018_3_OR_NEWER
-		
 
-#endif
 		[OnOpenAsset(0)]
 		static bool OnOpenAsset( int instanceID, int line )
 		{
@@ -1113,7 +1102,7 @@ namespace AmplifyShaderEditor
 
 			UnityEngine.Object selection = EditorUtility.InstanceIDToObject( instanceID );
 			Preferences.LoadDefaults();
-#if UNITY_2018_3_OR_NEWER
+
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
 			if( ASEPackageManagerHelper.IsProcessing )
@@ -1153,7 +1142,6 @@ namespace AmplifyShaderEditor
 				}
 			}
 			else
-#endif
 			{
 				Shader selectedShader = selection as Shader;
 				if( selectedShader != null )
@@ -1590,6 +1578,20 @@ namespace AmplifyShaderEditor
 			//return m_mainGraphInstance.CurrentMasterNode.CurrentShader;
 		}
 
+		private void FinishedShaderCompileLog( double compileTimeInSeconds )
+		{
+			string name = string.Empty;
+			if ( m_mainGraphInstance.CurrentShader != null )
+			{
+				name = " \"" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShader ) + "\"";
+			}
+			else if ( m_mainGraphInstance.CurrentShaderFunction != null )
+			{
+				name = " \"" + AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) + "\"";
+			}
+			Debug.Log( "[AmplifyShaderEditor] Finished compiling" + name + " in " + compileTimeInSeconds.ToString( "0.00" ) + " seconds." );
+		}
+
 		public bool SaveToDisk( bool checkTimestamp )
 		{
 			if( checkTimestamp )
@@ -1602,8 +1604,10 @@ namespace AmplifyShaderEditor
 				return false;
 			}
 
-
 			System.Threading.Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
+			var timer = new System.Diagnostics.Stopwatch();
+			timer.Start();
 
 			m_customGraph = null;
 			m_cacheSaveOp = false;
@@ -1611,7 +1615,9 @@ namespace AmplifyShaderEditor
 			m_mainGraphInstance.LoadedShaderVersion = VersionInfo.FullNumber;
 			m_lastTimeSaved = EditorApplication.timeSinceStartup;
 
-			if( m_mainGraphInstance.CurrentMasterNodeId == Constants.INVALID_NODE_ID )
+			bool succeeded = false;			
+
+			if ( m_mainGraphInstance.CurrentMasterNodeId == Constants.INVALID_NODE_ID )
 			{
 				Shader currentShader = m_mainGraphInstance.CurrentMasterNode != null ? m_mainGraphInstance.CurrentMasterNode.CurrentShader : null;
 				string newShader;
@@ -1634,8 +1640,7 @@ namespace AmplifyShaderEditor
 					IOUtils.StartSaveThread( GenerateGraphInfo(), newShader );
 					AssetDatabase.Refresh();
 					LoadFromDisk( newShader );
-					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-					return true;
+					succeeded = true;
 				}
 			}
 			else if( m_mainGraphInstance.CurrentMasterNode != null )
@@ -1648,7 +1653,6 @@ namespace AmplifyShaderEditor
 					Material material = m_mainGraphInstance.CurrentMaterial;
 					m_lastpath = ( material != null ) ? AssetDatabase.GetAssetPath( material ) : AssetDatabase.GetAssetPath( currShader );
 					EditorPrefs.SetString( IOUtils.LAST_OPENED_OBJ_ID, m_lastpath );
-					System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 					if( IOUtils.OnShaderSavedEvent != null )
 					{
 						string info = string.Empty;
@@ -1662,7 +1666,7 @@ namespace AmplifyShaderEditor
 						}
 						IOUtils.OnShaderSavedEvent( currShader, !m_mainGraphInstance.IsStandardSurface, info );
 					}
-					return true;
+					succeeded = true;
 				}
 				else
 				{
@@ -1676,8 +1680,7 @@ namespace AmplifyShaderEditor
 						m_mainGraphInstance.FireMasterNode( pathName, true );
 						m_lastpath = pathName;
 						EditorPrefs.SetString( IOUtils.LAST_OPENED_OBJ_ID, pathName );
-						System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-						return true;
+						succeeded = true;
 					}
 				}
 			}
@@ -1719,13 +1722,19 @@ namespace AmplifyShaderEditor
 				m_mainGraphInstance.CurrentShaderFunction.AdditionalDirectives.UpdateDirectivesFromSaveItems();
 				IOUtils.FunctionNodeChanged = true;
 				m_lastpath = AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction );
-				System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
 				//EditorPrefs.SetString( IOUtils.LAST_OPENED_OBJ_ID, AssetDatabase.GetAssetPath( m_mainGraphInstance.CurrentShaderFunction ) );
-				return true;
+				succeeded = true;
 			}
-			System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;
-			return false;
-		}
+
+			timer.Stop();
+			if ( Preferences.GlobalLogShaderCompile )
+			{
+				FinishedShaderCompileLog( timer.Elapsed.TotalSeconds );
+			}
+
+			System.Threading.Thread.CurrentThread.CurrentCulture = System.Threading.Thread.CurrentThread.CurrentUICulture;		
+			return succeeded;
+		}		
 
 		public void OnToolButtonPressed( ToolButtonType type )
 		{
@@ -1758,13 +1767,12 @@ namespace AmplifyShaderEditor
 					{
 						m_consoleLogWindow.ClearMessages();
 					}
-#if UNITY_2019_4_OR_NEWER
-					if( EditorSettings.asyncShaderCompilation && Preferences.GlobalShowAsyncMsg )
-					{
-						ShowMessage( AsyncMessage );
-					}
-#endif
 					SaveToDisk( false );
+					
+					if ( Preferences.GlobalClearLog )
+					{
+						m_consoleLogWindow.ClearMessages();
+					}					
 				}
 				break;
 				case ToolButtonType.Live:
@@ -2899,14 +2907,7 @@ namespace AmplifyShaderEditor
 				if( newShader == null )
 				{
 					newMaterial = droppedObjs[ 0 ] as Material;
-#if UNITY_2018_1_OR_NEWER
 					bool isProcedural = ( newMaterial != null );
-#else
-					// Disabling Substance Deprecated warning
-#pragma warning disable 0618
-					bool isProcedural = ( newMaterial != null && newMaterial is ProceduralMaterial );
-#pragma warning restore 0618
-#endif
 					if( newMaterial != null && !isProcedural )
 					{
 						if( UIUtils.IsUnityNativeShader( AssetDatabase.GetAssetPath( newMaterial.shader ) ) )
@@ -3514,11 +3515,8 @@ namespace AmplifyShaderEditor
 			form.AddField( "expire", "0" );
 
 			UnityWebRequest www = UnityWebRequest.Post( url, form );
-#if UNITY_2017_2_OR_NEWER
+
 			www.SendWebRequest();
-#else
-			www.Send();
-#endif
 
 			yield return www;
 		}
@@ -3536,10 +3534,8 @@ namespace AmplifyShaderEditor
 				{
 #if UNITY_2020_1_OR_NEWER
 					if( www.result == UnityWebRequest.Result.ConnectionError )
-#elif UNITY_2017_1_OR_NEWER
-					if( www.isNetworkError )
 #else
-					if( www.isError )
+					if( www.isNetworkError )
 #endif
 					{
 						Debug.Log( "[AmplifyShaderEditor]\n" + www.error );
@@ -3623,9 +3619,7 @@ namespace AmplifyShaderEditor
 		private void OnFocus()
 		{
 			EditorGUI.FocusTextInControl( null );
-//#if UNITY_2019_1_OR_NEWER
 //			m_fixOnFocus = true;
-//#endif
 		}
 
 		void OnLostFocus()
@@ -3742,12 +3736,7 @@ namespace AmplifyShaderEditor
 		IEnumerator SendGetCoroutine( string url )
 		{
 			UnityWebRequest www = UnityWebRequest.Get( url );
-#if UNITY_2017_2_OR_NEWER
 			www.SendWebRequest();
-#else
-			www.Send();
-#endif
-
 			yield return www;
 		}
 
@@ -3764,10 +3753,8 @@ namespace AmplifyShaderEditor
 				{
 #if UNITY_2020_1_OR_NEWER
 					if( www.result == UnityWebRequest.Result.ConnectionError )
-#elif UNITY_2017_1_OR_NEWER
-					if( www.isNetworkError )
 #else
-					if( www.isError )
+					if( www.isNetworkError )
 #endif
 					{
 						Debug.Log( "[AmplifyShaderEditor]\n" + www.error );
@@ -4039,7 +4026,6 @@ namespace AmplifyShaderEditor
 									System.Type type = System.Type.GetType( typeStr );
 									if( type == null )
 									{
-#if UNITY_2017_3_OR_NEWER
 										try
 										{
 											var editorAssembly = System.Reflection.Assembly.Load( "Assembly-CSharp-Editor" );
@@ -4052,13 +4038,10 @@ namespace AmplifyShaderEditor
 										{
 
 										}
-#endif
-#if UNITY_2018_3_OR_NEWER
 										if( type == null )
 										{
 											type = IOUtils.GetAssemblyType( typeStr );
 										}
-#endif
 									}
 									if( type != null )
 									{
@@ -4393,7 +4376,6 @@ namespace AmplifyShaderEditor
 									System.Type type = System.Type.GetType( typeStr );
 									if( type == null )
 									{
-#if UNITY_2017_3_OR_NEWER
 										try
 										{
 											var editorAssembly = System.Reflection.Assembly.Load( "Assembly-CSharp-Editor" );
@@ -4406,14 +4388,11 @@ namespace AmplifyShaderEditor
 										{
 									
 										}
-#endif
 
-#if UNITY_2018_3_OR_NEWER
 										if( type == null )
 										{
 											type = IOUtils.GetAssemblyType( typeStr );
 										}
-#endif
 									}
 
 									if( type != null )
@@ -4801,10 +4780,8 @@ namespace AmplifyShaderEditor
 
 		void OnGUI()
 		{
-#if UNITY_2018_3_OR_NEWER
 			if( ASEPackageManagerHelper.CheckImporter )
 				return;
-#endif
 
 #if UNITY_EDITOR_WIN
 			if( m_openSavedFolder && Event.current.type == EventType.Repaint )
@@ -5363,12 +5340,14 @@ namespace AmplifyShaderEditor
 						else
 						{
 							EditorPrefs.DeleteKey( ASEFileList );
+
+							m_batchTimer.Stop();
+							if ( Preferences.GlobalLogBatchCompile )
+							{
+								Debug.Log( "[AmplifyShaderEditor] Finished batch compilation in " + m_batchTimer.Elapsed.TotalSeconds.ToString( "0.00" ) + " seconds." );
+							}
 						}
-#if UNITY_2018_3_OR_NEWER
 						this.Close();
-#else
-						m_markToClose = true;
-#endif
 					}
 					break;
 				}
@@ -5390,9 +5369,7 @@ namespace AmplifyShaderEditor
 		void OnInspectorUpdate()
 		{
 			Preferences.LoadDefaults();
-#if UNITY_2018_3_OR_NEWER
 			ASEPackageManagerHelper.Update();
-#endif
 
 			if( m_afterDeserializeFlag )
 			{

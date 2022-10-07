@@ -2251,10 +2251,9 @@ namespace AmplifyShaderEditor
 
 
 			//Set SRP info
-#if UNITY_2018_3_OR_NEWER
 			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
 				ASEPackageManagerHelper.SetSRPInfoOnDataCollector( ref m_currentDataCollector );
-#endif
+
 			RegisterStandaloneFuntions();
 			m_containerGraph.CheckPropertiesAutoRegister( ref m_currentDataCollector );
 
@@ -2460,9 +2459,8 @@ namespace AmplifyShaderEditor
 		{
 			MasterNodeDataCollector currDataCollector = ( dataCollector == null ) ? m_currentDataCollector : dataCollector;
 
-#if UNITY_2019_2_OR_NEWER
 			// Temporary hack
-			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn && ASEPackageManagerHelper.CurrentHDVersion > ASESRPVersions.ASE_SRP_6_9_0 )
+			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
 			{
 				if( m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_AlphaCutoff" ) ) == null )
 				{
@@ -2480,7 +2478,6 @@ namespace AmplifyShaderEditor
 					}
 				}
 			}
-#endif
 
 			// here we add ASE attributes to the material properties that allows materials to communicate with ASE
 			//if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
@@ -2591,7 +2588,7 @@ namespace AmplifyShaderEditor
 
 				m_templateMultiPass.SetPassData( TemplateModuleDataType.PassVertexData , m_subShaderIdx , m_passIdx , inputArray );
 				m_templateMultiPass.SetPassData( TemplateModuleDataType.PassInterpolatorData , m_subShaderIdx , m_passIdx , m_currentDataCollector.InterpolatorList.ToArray() );
-				SetHDInfoOnPass();
+				
 				List<PropertyDataCollector> afterNativesIncludePragmaDefineList = new List<PropertyDataCollector>();
 				afterNativesIncludePragmaDefineList.AddRange( m_currentDataCollector.IncludesList );
 				afterNativesIncludePragmaDefineList.AddRange( m_currentDataCollector.DefinesList );
@@ -2695,63 +2692,6 @@ namespace AmplifyShaderEditor
 				}
 			}
 			m_templateMultiPass.SetPassData( TemplateModuleDataType.ModuleGlobals , m_subShaderIdx , m_passIdx , m_currentDataCollector.UniformsList );
-		}
-
-		void SetHDInfoOnPass()
-		{
-#if UNITY_2019_3_OR_NEWER
-			if( ASEPackageManagerHelper.CurrentHDVersion > ASESRPVersions.ASE_SRP_6_9_1 )
-				return;
-#endif
-
-			if( m_currentDataCollector.TemplateDataCollectorInstance.CurrentSRPType == TemplateSRPType.HD )
-			{
-				TemplateModulesHelper subShaderHelper = null;
-				TemplateModulesHelper passHelper = null;
-
-				if( m_isMainOutputNode )
-				{
-					subShaderHelper = m_subShaderModule;
-					passHelper = m_passModule;
-				}
-				else
-				{
-					TemplateMultiPassMasterNode masterNode = m_containerGraph.CurrentMasterNode as TemplateMultiPassMasterNode;
-					if( masterNode != null )
-					{
-						subShaderHelper = masterNode.SubShaderModule;
-						passHelper = masterNode.PassModule;
-					}
-					else
-					{
-						subShaderHelper = m_subShaderModule;
-						passHelper = m_passModule;
-					}
-				}
-
-				RenderQueue renderQueue = RenderQueue.Geometry;
-				RenderType renderType = RenderType.Opaque;
-				if( passHelper.TagsHelper.HasRenderInfo( ref renderType , ref renderQueue ) ||
-					subShaderHelper.TagsHelper.HasRenderInfo( ref renderType , ref renderQueue ) )
-				{
-					if( renderType == RenderType.Transparent && renderQueue == RenderQueue.Transparent )
-					{
-						SetExtraDefine( SRPMaterialTransparentKeyword );
-						//m_currentDataCollector.AddToDefines( UniqueId, SRPMaterialTransparentKeyword );
-						TemplatesBlendModule blendOpHelper = passHelper.BlendOpHelper.ValidBlendMode ? passHelper.BlendOpHelper : subShaderHelper.BlendOpHelper;
-						if( blendOpHelper.IsAdditiveRGB )
-						{
-							SetExtraDefine( SRPMaterialBlendModeAddKeyword );
-							//m_currentDataCollector.AddToDefines( UniqueId, SRPMaterialBlendModeAddKeyword );
-						}
-						else if( blendOpHelper.IsAlphaBlendRGB )
-						{
-							SetExtraDefine( SRPMaterialBlendModeAlphaKeyword );
-							//m_currentDataCollector.AddToDefines( UniqueId, SRPMaterialBlendModeAlphaKeyword );
-						}
-					}
-				}
-			}
 		}
 
 		void SetLinkedModuleData( TemplateModulesHelper linkedModule )
@@ -3234,7 +3174,7 @@ namespace AmplifyShaderEditor
 			{
 				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
 				{
-					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector \"{0}\" in shader meta. Converting to new one \"{1}\"" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
+					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
 					m_customInspectorName = Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ];
 				}
 			}
@@ -3244,18 +3184,18 @@ namespace AmplifyShaderEditor
 				if( Constants.CustomInspectorURP10To12.ContainsKey( m_customInspectorName ) )
 				{
 					string newCustomInspector = string.Empty;
-					if( TemplatesManager.UniversalPBRGUID.Equals( m_templateMultiPass.GUID ))
+					if( TemplatesManager.URPLitGUID.Equals( m_templateMultiPass.GUID ))
 					{
 						newCustomInspector = "UnityEditor.ShaderGraphLitGUI";
 					}
-					else if( TemplatesManager.UniversalUnlitGUID.Equals( m_templateMultiPass.GUID ) )
+					else if( TemplatesManager.URPUnlitGUID.Equals( m_templateMultiPass.GUID ) )
 					{
 						newCustomInspector = "UnityEditor.ShaderGraphUnlitGUI";
 					}
 
 					if( !string.IsNullOrEmpty( newCustomInspector ) )
 					{
-						UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector \"{0}\" in shader meta. Converting to new one \"{1}\"" , m_customInspectorName , newCustomInspector ) , MessageSeverity.Warning );
+						UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'" , m_customInspectorName , newCustomInspector ) , MessageSeverity.Warning );
 						m_customInspectorName = newCustomInspector;
 					}
 				}
@@ -3267,7 +3207,7 @@ namespace AmplifyShaderEditor
 			{
 				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
 				{
-					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector \"{0}\" in shader meta. Converting to new one \"{1}\"" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
+					UIUtils.ShowMessage( string.Format( "Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'" , m_customInspectorName , Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ] ) , MessageSeverity.Warning );
 					m_customInspectorName = Constants.CustomInspectorHDLegacyTo11[ m_customInspectorName ];
 				}
 			}
@@ -3276,12 +3216,13 @@ namespace AmplifyShaderEditor
 			{
 				if( Constants.CustomInspectorHD7To10.ContainsKey( m_customInspectorName ) )
 				{
-					UIUtils.ShowMessage( string.Format("Detected obsolete custom inspector \"{0}\" in shader meta. Converting to new one \"{1}\"", m_customInspectorName , Constants.CustomInspectorHD7To10[ m_customInspectorName ] ), MessageSeverity.Warning );
+					UIUtils.ShowMessage( string.Format("Detected obsolete custom inspector '{0}' in shader meta. Converting to new one '{1}'", m_customInspectorName , Constants.CustomInspectorHD7To10[ m_customInspectorName ] ), MessageSeverity.Warning );
 					m_customInspectorName = Constants.CustomInspectorHD7To10[ m_customInspectorName ];
 				}
 			}
 #endif
-			}
+		}
+
 		public override void WriteToString( ref string nodeInfo , ref string connectionsInfo )
 		{
 			base.WriteToString( ref nodeInfo , ref connectionsInfo );

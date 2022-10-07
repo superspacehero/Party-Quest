@@ -16,6 +16,7 @@ public struct Level
 
     [ReadOnly]
     public List<SavedTile> groundTiles, propTiles, objectTiles;
+    public List<Room> rooms;
 
     public string Serialize()
     {
@@ -43,6 +44,42 @@ public struct Level
     public static Level Deserialize(string levelString)
     {
         Debug.Log(levelString);
-        return JsonUtility.FromJson<Level>(levelString);
+        Level level = JsonUtility.FromJson<Level>(levelString);
+
+        foreach (Room room in level.rooms)
+            room.SetDiscovered(false);
+
+        return level;
+    }
+
+    [System.Serializable]
+    public struct Room
+    {
+        // A room is simply a bounding box that stores a list of the objects within that bounding box.
+        // As with HeroQuest, the room's purpose is to act as a sort of "fog of war".
+        // When the player enters a room, the objects found in that room are activated and revealed.
+
+        public Vector3Int min, max;
+
+        // A bool that determines whether or not the player has discovered this room. This shouldn't be serialized or saved.
+        private bool discovered;
+        public bool GetDiscovered()
+        {
+            return discovered;
+        }
+        public void SetDiscovered(bool isDiscovered)
+        {
+            discovered = isDiscovered;
+        }
+
+        public bool Contains(Vector3 position)
+        {
+            return position.x >= min.x && position.x <= max.x && position.y >= min.y && position.y <= max.y && position.z >= min.z && position.z <= max.z;
+        }
+
+        public bool Contains(Thing thing)
+        {
+            return Contains(thing.transform.position);
+        }
     }
 }

@@ -137,7 +137,7 @@ public class Dice : MovingThing
             Launch(launchDirection);
         }
 
-        public override void Move(Vector3 direction, bool ignoreCollisions = false, bool checkHeight = true)
+        public override void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
         {
             if (direction.magnitude >= stickLaunchMagnitude)
                 Launch(direction);

@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+namespace LeTai.TrueShadow
+{
 public class AnimatedBiStateButton : MonoBehaviour,
                                      IPointerDownHandler, IPointerUpHandler,
                                      IPointerEnterHandler, IPointerExitHandler
@@ -135,4 +137,5 @@ public class AnimatedBiStateButton : MonoBehaviour,
     {
         willRelease?.Invoke();
     }
+}
 }

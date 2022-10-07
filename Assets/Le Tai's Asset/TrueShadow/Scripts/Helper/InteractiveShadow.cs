@@ -158,26 +158,6 @@ public class InteractiveShadow : MonoBehaviour, IPointerEnterHandler, IPointerEx
             targetDistance = normalDistance;
             targetColor    = normalColor;
         }
-
-
-        if (selectable && selectable.interactable && selectable.isActiveAndEnabled)
-        {
-            if (selectable.transition == Selectable.Transition.ColorTint)
-            {
-                StopAllCoroutines();
-                StartCoroutine(DirtyForSeconds(selectable.colors.fadeDuration));
-            }
-        }
-    }
-
-    IEnumerator DirtyForSeconds(float duration)
-    {
-        var start = Time.time;
-        while (start + duration >= Time.time)
-        {
-            shadow.ForceTextureDirty();
-            yield return null;
-        }
     }
 
 

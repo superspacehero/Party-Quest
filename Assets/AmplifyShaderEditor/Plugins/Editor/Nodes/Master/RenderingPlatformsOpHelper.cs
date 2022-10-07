@@ -21,7 +21,6 @@ namespace AmplifyShaderEditor
 		private const string RenderingPlatformsStr = " Rendering Platforms";
 		public static readonly RenderPlatformInfo[] RenderingPlatformsInfo =
 		{
-#if UNITY_2019_4_OR_NEWER
 			new RenderPlatformInfo(){Label = " Direct3D 9", Value = RenderPlatforms.d3d9},
 			new RenderPlatformInfo(){Label = " Direct3D 11 9.x", Value = RenderPlatforms.d3d11_9x},
 			new RenderPlatformInfo(){Label = " Direct3D 11/12", Value = RenderPlatforms.d3d11},
@@ -40,30 +39,11 @@ namespace AmplifyShaderEditor
 			new RenderPlatformInfo(){Label = " Nintendo Wii U", Value = RenderPlatforms.wiiu},
 			new RenderPlatformInfo(){Label = " Nintendo Switch", Value = RenderPlatforms.@switch},
 			new RenderPlatformInfo(){Label = " No MRT", Value = RenderPlatforms.nomrt}
-#else
-			new RenderPlatformInfo(){Label = " Direct3D 9", Value = RenderPlatforms.d3d9},
-			new RenderPlatformInfo(){Label = " Direct3D 11 9.x", Value = RenderPlatforms.d3d11_9x},
-			new RenderPlatformInfo(){Label = " Direct3D 11/12", Value = RenderPlatforms.d3d11},
-			new RenderPlatformInfo(){Label = " OpenGL 3.x/4.x", Value = RenderPlatforms.glcore},
-			new RenderPlatformInfo(){Label = " OpenGL ES 2.0", Value = RenderPlatforms.gles},
-			new RenderPlatformInfo(){Label = " OpenGL ES 3.x", Value = RenderPlatforms.gles3},
-			new RenderPlatformInfo(){Label = " iOS/Mac Metal", Value = RenderPlatforms.metal},
-			new RenderPlatformInfo(){Label = " Vulkan", Value = RenderPlatforms.vulkan},
-			new RenderPlatformInfo(){Label = " Xbox 360", Value = RenderPlatforms.xbox360},
-			new RenderPlatformInfo(){Label = " Xbox One", Value = RenderPlatforms.xboxone},
-			new RenderPlatformInfo(){Label = " PlayStation 4", Value = RenderPlatforms.ps4},
-			new RenderPlatformInfo(){Label = " PlayStation Vita", Value = RenderPlatforms.psp2},
-			new RenderPlatformInfo(){Label = " Nintendo 3DS", Value = RenderPlatforms.n3ds},
-			new RenderPlatformInfo(){Label = " Nintendo Wii U", Value = RenderPlatforms.wiiu},
-			new RenderPlatformInfo(){Label = " Nintendo Switch", Value = RenderPlatforms.@switch},
-			new RenderPlatformInfo(){Label = " No MRT", Value = RenderPlatforms.nomrt}
-#endif
 		};
 
 		// Values from this dictionary must be the indices corresponding from the list above
 		public static readonly Dictionary<RenderPlatforms, int> PlatformToIndex = new Dictionary<RenderPlatforms, int>()
 		{
-#if UNITY_2019_4_OR_NEWER
 			{RenderPlatforms.d3d9,			0},
 			{RenderPlatforms.d3d11_9x,		1},
 			{RenderPlatforms.d3d11,			2},
@@ -82,24 +62,6 @@ namespace AmplifyShaderEditor
 			{RenderPlatforms.wiiu,			15},
 			{RenderPlatforms.@switch,		16},
 			{RenderPlatforms.nomrt,			17}
-#else
-			{RenderPlatforms.d3d9,          0},
-			{RenderPlatforms.d3d11_9x,      1},
-			{RenderPlatforms.d3d11,         2},
-			{RenderPlatforms.glcore,        3},
-			{RenderPlatforms.gles,          4},
-			{RenderPlatforms.gles3,         5},
-			{RenderPlatforms.metal,         6},
-			{RenderPlatforms.vulkan,        7},
-			{RenderPlatforms.xbox360,       8},
-			{RenderPlatforms.xboxone,       9},
-			{RenderPlatforms.ps4,           10},
-			{RenderPlatforms.psp2,          11},
-			{RenderPlatforms.n3ds,          12},
-			{RenderPlatforms.wiiu,          13},
-			{RenderPlatforms.@switch,       14},
-			{RenderPlatforms.nomrt,			15}
-#endif
 		};
 
 		

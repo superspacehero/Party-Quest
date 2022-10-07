@@ -132,7 +132,7 @@ TextureImporter:
       213: -8518731291383657922
     second: Hands_Back_Fist
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -192,6 +192,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -255,6 +256,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
@@ -12220,7 +12233,7 @@ TextureImporter:
         width: 100
         height: 81
       alignment: 9
-      pivot: {x: 0.46, y: 0.91358024}
+      pivot: {x: 0.46, y: 0.5925926}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
       - - {x: -46, y: 40.5}
@@ -13316,7 +13329,7 @@ TextureImporter:
         width: 129
         height: 115
       alignment: 9
-      pivot: {x: 0.35658914, y: 0.93913037}
+      pivot: {x: 0.35658914, y: 0.71304345}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -13663,7 +13676,7 @@ TextureImporter:
         width: 100
         height: 112
       alignment: 9
-      pivot: {x: 0.46, y: 0.9375}
+      pivot: {x: 0.46, y: 0.71428573}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -13982,7 +13995,7 @@ TextureImporter:
         width: 113
         height: 81
       alignment: 9
-      pivot: {x: 0.40707964, y: 0.91358024}
+      pivot: {x: 0.40707964, y: 0.5925926}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -14766,7 +14779,7 @@ TextureImporter:
         width: 115
         height: 81
       alignment: 9
-      pivot: {x: 0.4, y: 0.91358024}
+      pivot: {x: 0.4347826, y: 0.5925926}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -14774,6 +14787,69 @@ TextureImporter:
       bones: []
       spriteID: e3a8210560367c980800000000000000
       internalID: -8518731291383657922
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands_Back_Open
+      rect:
+        serializedVersion: 2
+        x: 1369
+        y: 516
+        width: 137
+        height: 121
+      alignment: 9
+      pivot: {x: 0.3941606, y: 0.72727275}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27f8f755720ecef389b8b5fdc3ad2112
+      internalID: 1220704609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Hands_Back_Point
+      rect:
+        serializedVersion: 2
+        x: 1242
+        y: 390
+        width: 103
+        height: 111
+      alignment: 9
+      pivot: {x: 0.4854369, y: 0.7117117}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4abb6959bedfb5bc68dac3baa96a072e
+      internalID: -15990997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Sprites_Body Parts_0
+      rect:
+        serializedVersion: 2
+        x: 1374
+        y: 422
+        width: 117
+        height: 79
+      alignment: 9
+      pivot: {x: 0.41880342, y: 0.5949367}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4aa12cc66eac97dea02247d1af28b42
+      internalID: -2042599896
       vertices: []
       indices: 
       edges: []
@@ -14805,6 +14881,8 @@ TextureImporter:
       Hands_Front_Open: 4335050091218973703
       Mouths_Creased_: -8317661544015203906
       Mouths_Creased_SlightFrown: -6602682916985591539
+      Hands_Back_Point: -15990997
+      Sprites_Body Parts_0: -2042599896
       Ears_Elvish: 7137662954973723219
       Heads_Flat: -6808784614017183102
       Heads_FlatTop: 1908063300368092357
@@ -14823,6 +14901,7 @@ TextureImporter:
       Noses_Pointy_Down: 373591523585458125
       Mouths_Creased_1: -2066977887049497810
       Eyes_Whites_InwardPointing: -3053512730219602169
+      Hands_Back_Open: 1220704609
       Eyebrows_Outline: 7414205788703214100
       Arm: 1191615710149912110
       Mouths_Beaks_Bird_Top: -5125568005740157941

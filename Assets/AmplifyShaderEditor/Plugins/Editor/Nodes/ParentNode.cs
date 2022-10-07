@@ -2969,6 +2969,7 @@ namespace AmplifyShaderEditor
 			}
 			m_repopulateDictionaries = true;
 			m_sizeIsDirty = true;
+			m_previewIsDirty = true;
 		}
 
 		public virtual int InputIdFromDeprecated( int oldInputId ) { return oldInputId; }
@@ -3748,7 +3749,7 @@ namespace AmplifyShaderEditor
 		{
 			m_containerGraph = newgraph;
 		}
-		public virtual void OnMasterNodeReplaced( MasterNode newMasterNode ) { }
+		public virtual void OnMasterNodeReplaced( MasterNode newMasterNode ) { PreviewIsDirty = true;  }
 		public virtual void RefreshExternalReferences() { }
 
 		public Rect DropdownRect { get { return m_dropdownRect; } }

@@ -391,31 +391,9 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
 
     /// <summary>
     /// When using a Material that can modify the shadow shape,
-    /// use this to prevent caching caster that differ only in material property
+    /// use this to prevent caching caster that differ only in material property.
+    /// <a href="https://leloctai.com/trueshadow/docs/articles/integration.html#make-sure-shadow-update">More info</a>
     /// </summary>
-    /// <example>
-    /// Take material properties into account when caching shadow
-    /// <code>
-    /// void Start()
-    /// {
-    ///     shadow = GetComponent&lt;TrueShadow&gt;();
-    /// }
-    ///
-    /// void Update()
-    /// {
-    ///     shadow.CustomHash = myMaterial.ComputeCRC();
-    /// }
-    /// </code>
-    ///
-    /// Alternatively, Generate a new shadow every frame. Useful for shaders that animates shape over time. This can be performance intensive
-    /// <br/>
-    /// <code>
-    /// void Update()
-    /// {
-    ///     shadow.CustomHash = Time.frameCount;
-    /// }
-    /// </code>
-    /// </example>
     public int CustomHash
     {
         get => customHash;
@@ -526,7 +504,8 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
             ProjectSettings.Instance.globalAngleChanged += OnGlobalAngleChanged;
         }
 
-        if (Graphic)
+        // Ensure sprite mesh is acquired.
+        if(Graphic)
             Graphic.SetVerticesDirty();
 
 #if UNITY_EDITOR
@@ -576,7 +555,7 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
         ShadowSorter.Instance.UnRegister(this);
         if (shadowRenderer) shadowRenderer.Dispose();
 
-        ShadowFactory.Instance.ReleaseContainer(shadowContainer);
+        ShadowFactory.Instance.ReleaseContainer(ref shadowContainer);
     }
 
     bool ShouldPerformWorks()
@@ -629,7 +608,7 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
 
         if (!shadowAsSibling)
         {
-            if (shadowRenderer.transform.parent != transform)
+            if (shadowRenderer.transform.parent != RectTransform)
                 shadowRenderer.transform.SetParent(RectTransform, true);
 
             if (shadowRenderer.transform.GetSiblingIndex() != 0)
@@ -652,18 +631,6 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
     public void SetTextureDirty()
     {
         textureDirty = true;
-    }
-
-    static int nextTextureRevision = 1;
-
-    public void ForceTextureDirty()
-    {
-        unchecked
-        {
-            TextureRevision = nextTextureRevision++;
-        }
-
-        SetTextureDirty();
     }
 
     public void SetLayoutDirty()

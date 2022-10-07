@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 using static UnityEngine.Mathf;
 
@@ -24,28 +23,6 @@ public static class Math
         var c   = Cos(rad);
         return new Vector2(c * v.x - s * v.y,
                            s * v.x + c * v.y);
-    }
-}
-
-public class FloatComparer : IEqualityComparer<float>
-{
-    readonly float tolerant;
-    readonly int   digits;
-
-    public FloatComparer(int digits = 4)
-    {
-        this.digits = digits;
-        tolerant    = 1f / Pow(10, digits);
-    }
-
-    public bool Equals(float x, float y)
-    {
-        return System.Math.Abs(x - y) < tolerant;
-    }
-
-    public int GetHashCode(float obj)
-    {
-        return System.Math.Round(obj, digits).GetHashCode();
     }
 }
 }

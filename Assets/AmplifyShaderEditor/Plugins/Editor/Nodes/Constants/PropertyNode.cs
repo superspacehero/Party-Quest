@@ -294,7 +294,7 @@ namespace AmplifyShaderEditor
 
 				if( UIUtils.IsNumericName( m_propertyName ) )
 				{
-					UIUtils.ShowMessage( UniqueId, string.Format( "Invalid property name '{0}' as it cannot start with numbers. Reverting to previous name.", m_propertyName ), MessageSeverity.Warning );
+					UIUtils.ShowMessage( UniqueId, string.Format( "Invalid property name '{0}' as it cannot start with numbers. Reverting to last valid name '{1}'", m_propertyName, m_oldName ), MessageSeverity.Warning );
 					m_propertyName = m_oldName;
 					GUI.FocusControl( string.Empty );
 					return;
@@ -316,7 +316,7 @@ namespace AmplifyShaderEditor
 					{
 						GUI.FocusControl( string.Empty );
 						RegisterFirstAvailablePropertyName( true, true );
-						UIUtils.ShowMessage( UniqueId, string.Format( "Duplicate property name found on edited node.\nAssigning first valid one {0}", m_propertyName ) );
+						UIUtils.ShowMessage( UniqueId, string.Format( "Property name '{0}' is already in use. Reverting to last valid name '{1}'", m_propertyName, m_oldName ) );
 					}
 				}
 			}
@@ -1283,7 +1283,7 @@ namespace AmplifyShaderEditor
 			{
 				GUI.FocusControl( string.Empty );
 				RegisterFirstAvailablePropertyName( releaseOldOne );
-				UIUtils.ShowMessage( UniqueId, string.Format( "Duplicate name found on edited node.\nAssigning first valid one {0}", m_propertyInspectorName ) );
+				UIUtils.ShowMessage( UniqueId, string.Format( "Property name '{0}' is already in use. Reverting to last valid name '{1}'", propertyName, m_oldName ) );
 			}
 		}
 

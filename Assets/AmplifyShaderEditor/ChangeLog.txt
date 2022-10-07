@@ -1,11 +1,65 @@
-Release Notes:
-* Warning: 
-    * Some rendering platform tags changed across sub-SRP versions and we decided to update our templates to the latest ones.
-      On SRP 10 and above there's no issue as all versions are updated but on version 7, only the latest 7.6 version recognizes the new tags.
-      All other older SRP 7 versions as well as all SRP 8 versions don't recognize the new tags.
-      Over this new ASE version we added the Rendering Platforms menu over the Master Node properties window on SRP templates so if on your current SRP version p.e this warning appear
-        * Unrecognized renderer for #pragma only_renderers: xboxseries
-      You only need to go to the Rendering Platforms menu and deselect that specific tag.
+v1.9.0.1
+
+   Templates
+      * Fixed URP Transparent seethrough SSAO
+
+   Editor
+      * Updated start screen to display all changelog for all revisions of minor version
+
+v1.9.0
+
+   Important
+      * Raised minimum Unity support to 2019.4 LTS
+      * Raised minimum URP support to 10
+      * Raised minimum HDRP support to 10   
+   
+   Known Issues
+      * URP 2D/Sprite templates may not work properly (update due in 1.9.1)
+   
+   Improvements
+      * Improved support for SRP 10+ package (10xx to 11xx)
+      * Improved support for SRP 12+ package (12xx to 13xx)
+      * Improved ASE startup time 
+   
+   Templates
+      * Added "Forward Only" option to relevant shader templates
+      * Added template authoring 'ase_srp_cond' tags for SRP version conditional usage
+      * Fixed ASE_SRP_VERSION to contain actual SRP package version
+      * Fixed empty fallback; now generating "Fallback Off"
+      * Fixed template stencil buffer module default values
+      * Unpacked PPStack templates to Legacy folder and deleted package
+      * Unpacked CustomRTT templates to Legacy folder and deleted package
+      * Unpacked HDRP diffusion profile node to outside template packages
+      * Renamed Universal/PBR to Universal/Lit
+      * Renamed "Legacy/Post Process" to "Legacy/Image Effect"
+      * Renamed all instances of "Custom RT" to "Custom Render Texture" (new menu)
+      * Renamed HDRP template paths to start with HDRP/ instead of HD/
+      * Removed code paths involving deprecated SRP versions
+      * Removed legacy URP templates below 10x
+      * Removed legacy HDRP templates below 10x
+      * Removed legacy Lightweight templates
+      * Removed deprecated DefaultUnlit and HD/PBR shaders
+   
+   Nodes
+      * Added "Switch By SRP Version" node which relies on active SRP package
+      * Added additional texture property default values (linearGrey, red)
+   
+   Preferences
+      * Added "Log Batch Compilation" option to ASE prefs to log timed batch compile
+      * Added "Log Shader Compilation" option to ASE prefs to log timed compile
+      * Added "Force Template Inline Properties" prefs toggle (off by default)
+      * Removed Async compilation warning message and respective toggle in preferences
+      * Removed legacy Substance Node support
+   
+   Editor
+      * Added ASE version to 'Made with Amplify Shader Editor' comment on first line
+      * Removed deprecated sample buttons from start screen
+      * Console window is now wider + tweaked some messages
+      * Shader selection menu is now sorted alphabetically
+      * Template parsing performance improved with multi-threading (up to 8x faster)
+      * Fixed errors related to get_productName
+      * Fixed previews not refreshing during undo or master node replacement
+      * Fixed inline properties due to template upgrade bug caused by property reordering
 
 v1.8.9 rev 35:
 * Fixes:

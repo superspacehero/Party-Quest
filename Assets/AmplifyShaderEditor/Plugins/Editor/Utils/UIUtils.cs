@@ -546,7 +546,6 @@ namespace AmplifyShaderEditor
 			{"StencilMask02",               "344696733b065c646b18c1aa2eacfdb7" },
 			{"StencilDiffuse03",            "75e851f6c686a5f42ab900222b29355b" },
 			{"StencilMask03",               "c7b3018ad495c6b479f2e3f8564aa6dc" },
-			{"SubstanceExample",            "a515e243b476d7e4bb37eb9f82c87a12" },
 			{"AnimatedRefraction",          "e414af1524d258047bb6b82b8860062c" },
 			{"Tessellation",                "efb669a245f17384c88824d769d0087c" },
 			{"Translucency",                "842ba3dcdd461ea48bdcfcea316cbcc4" },
@@ -853,9 +852,8 @@ namespace AmplifyShaderEditor
 				IOUtils.AllOpenedWindows.Clear();
 			}
 
-#if UNITY_2018_3_OR_NEWER
 			IOUtils.ClearLoadedAssemblies();
-#endif
+
 			Initialized = false;
 
 			if( m_dummyPreviewRT != null )
@@ -1119,6 +1117,7 @@ namespace AmplifyShaderEditor
 			//MaterialIcon = EditorGUIUtility.IconContent( "Material Icon" ).image;
 
 			ConsoleLogLabel = new GUIStyle( GUI.skin.label );
+			ConsoleLogLabel.wordWrap = true;
 			ConsoleLogMessage = new GUIStyle( MainSkin.customStyles[ (int)CustomStyle.ConsoleLogMessage ] );
 			ConsoleLogCircle = new GUIStyle( MainSkin.customStyles[ (int)CustomStyle.ConsoleLogCircle ] );
 
@@ -2474,6 +2473,16 @@ namespace AmplifyShaderEditor
 			return null;
 		}
 
+		public static string GetInternalTemplateNodePropertyName( int nodeId )
+		{
+			if ( CurrentWindow != null )
+			{
+				PropertyNode node = CurrentWindow.CurrentGraph.GetInternalTemplateNode( nodeId );
+				return ( node != null ) ? node.PropertyName : string.Empty;
+			}
+			return string.Empty;
+		}
+
 		public static PropertyNode GetInternalTemplateNode( string propertyName )
 		{
 			if( CurrentWindow != null )
@@ -2483,6 +2492,15 @@ namespace AmplifyShaderEditor
 			return null;
 		}
 
+		public static int GetInternalTemplateNodeId( string propertyName )
+		{
+			if ( CurrentWindow != null && !string.IsNullOrEmpty( propertyName) )
+			{
+				PropertyNode node = CurrentWindow.CurrentGraph.GetInternalTemplateNode( propertyName );
+				return ( node != null ) ? node.UniqueId : -1;
+			}
+			return -1;
+		}
 
 		public static void DeleteConnection( bool isInput , int nodeId , int portId , bool registerOnLog , bool propagateCallback )
 		{
@@ -2843,7 +2861,7 @@ namespace AmplifyShaderEditor
 		public static PropertyNode GetFloatIntNode( int idx ) { if( CurrentWindow != null ) { return CurrentWindow.CurrentGraph.FloatIntNodes.GetNode( idx ); } return null; }
 		public static void UpdateFloatIntDataNode( int uniqueId , string data ) { if( CurrentWindow != null ) { CurrentWindow.CurrentGraph.FloatIntNodes.UpdateDataOnNode( uniqueId , data ); } }
 		public static int GetFloatIntNodeRegisterId( int uniqueId ) { if( CurrentWindow != null ) { return CurrentWindow.CurrentGraph.FloatIntNodes.GetNodeRegisterIdx( uniqueId ); } return -1; }
-		public static int GetNodeIdByName( string name )
+		public static int GetFloatIntNodeIdByName( string name )
 		{
 			if( CurrentWindow != null )
 			{
@@ -2857,8 +2875,12 @@ namespace AmplifyShaderEditor
 			}
 			return -1;
 		}
+		public static string GetFloatIntNameByNodeId( int uniqueId, string defaultName = null )
+		{
+			PropertyNode node = UIUtils.GetFloatIntNodeByUniqueId( uniqueId );
+			return ( node != null ) ? node.PropertyName : defaultName;
+		}
 		public static PropertyNode GetFloatIntNodeByUniqueId( int uniqueId ) { if( CurrentWindow != null ) { return CurrentWindow.CurrentGraph.FloatIntNodes.GetNodeByUniqueId( uniqueId ); } return null; }
-		//public static int GetFloatNodeAmount() { if( CurrentWindow != null ) { return CurrentWindow.CurrentGraph.FloatNodes.NodesList.Count; } return -1; }
 
 		// Texture Property
 		public static void RegisterTexturePropertyNode( TexturePropertyNode node ) { if( CurrentWindow != null ) { CurrentWindow.CurrentGraph.TexturePropertyNodes.AddNode( node ); } }

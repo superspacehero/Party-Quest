@@ -49,13 +49,9 @@ namespace AmplifyShaderEditor
 
 		private const string IsLocalStr = "Is Local";
 		private const string StageStr = "Stage";
-#if UNITY_2019_1_OR_NEWER
+
 		[SerializeField]
 		private bool m_isLocal = true;
-#else
-		[SerializeField]
-		private bool m_isLocal = false;
-#endif
 
 		[SerializeField]
 		private ShaderStage m_shaderStage = ShaderStage.All;
@@ -554,13 +550,9 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-#if UNITY_2019_1_OR_NEWER
 			m_isLocal = EditorGUILayoutToggle( IsLocalStr, m_isLocal );
-#endif
 
-#if UNITY_2019_4_OR_NEWER
 			m_shaderStage = (ShaderStage)EditorGUILayoutEnumPopup( StageStr , m_shaderStage );
-#endif
 
 			//if( CurrentVarMode == StaticSwitchVariableMode.Create )
 			{
@@ -861,12 +853,10 @@ namespace AmplifyShaderEditor
 		string GetStaticSwitchType()
 		{
 			string staticSwitchType = ( m_multiCompile == 1 ) ? "multi_compile" : "shader_feature";
-#if UNITY_2019_1_OR_NEWER
+
 			if( m_isLocal )
 				staticSwitchType += "_local";
-#endif
 
-#if UNITY_2019_4_OR_NEWER
 			switch( m_shaderStage )
 			{
 				default:
@@ -878,7 +868,7 @@ namespace AmplifyShaderEditor
 				case ShaderStage.Geometry: staticSwitchType += "_geometry"; break;
 				case ShaderStage.Raytracing: staticSwitchType += "_raytracing"; break;
 			}
-#endif
+
 			return staticSwitchType;
 		}
 
