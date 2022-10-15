@@ -65,6 +65,7 @@ namespace AmplifyShaderEditor
 
 
 	[Serializable]
+	[InitializeOnLoad]
 	public static class ASEPackageManagerHelper
 	{
 		private static string URPNewVersionDetected =	"A new Universal RP version was detected and new templates are being imported.\n" +
@@ -224,13 +225,30 @@ namespace AmplifyShaderEditor
 		private static Material m_lateMaterial;
 		private static AmplifyShaderFunction m_lateShaderFunction;
 
-
-		public static void RequestInfo()
+		static ASEPackageManagerHelper()
 		{
-			if( !m_requireUpdateList && m_importingPackage == ASEImportState.None )
+			RequestInfo( true );
+		}
+
+		static void WaitForPackageListBeforeUpdating()
+		{
+			if ( m_packageListRequest.IsCompleted )
+			{
+				Update();
+				EditorApplication.update -= WaitForPackageListBeforeUpdating;
+			}
+		}
+
+		public static void RequestInfo( bool updateWhileWaiting = false )
+		{
+			if ( !m_requireUpdateList && m_importingPackage == ASEImportState.None )
 			{
 				m_requireUpdateList = true;
 				m_packageListRequest = UnityEditor.PackageManager.Client.List( true );
+				if ( updateWhileWaiting )
+				{
+					EditorApplication.update += WaitForPackageListBeforeUpdating;
+				}
 			}
 		}
 
@@ -312,8 +330,7 @@ namespace AmplifyShaderEditor
 		}
 
 		public static void LateShaderOpener()
-		{
-			Preferences.LoadDefaults();
+		{			
 			Update();
 			if( IsProcessing )
 			{
@@ -346,7 +363,6 @@ namespace AmplifyShaderEditor
 
 		public static void LateMaterialOpener()
 		{
-			Preferences.LoadDefaults();
 			Update();
 			if( IsProcessing )
 			{
@@ -379,7 +395,6 @@ namespace AmplifyShaderEditor
 
 		public static void LateShaderFunctionOpener()
 		{
-			Preferences.LoadDefaults();
 			Update();
 			if( IsProcessing )
 			{
@@ -547,7 +562,6 @@ namespace AmplifyShaderEditor
 
 		public static void SetSRPInfoOnDataCollector( ref MasterNodeDataCollector dataCollector )
 		{
-			Preferences.LoadDefaults();
 			if( m_requireUpdateList )
 				Update();
 

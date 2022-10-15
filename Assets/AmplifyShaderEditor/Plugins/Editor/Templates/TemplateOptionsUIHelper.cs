@@ -178,7 +178,7 @@ namespace AmplifyShaderEditor
 						if( item != null )
 						{
 							item.CurrentOption = validActions[ i ].ActionDataIdx;
-							item.Refresh();
+							item.Update( isRefreshing );
 						}
 						else
 						{
@@ -865,7 +865,7 @@ namespace AmplifyShaderEditor
 			int count = sortedList.Count;
 			for( int i = 0 ; i < count ; i++ )
 			{
-				sortedList[ i ].Refresh();
+				sortedList[ i ].Update();
 			}
 		}
 

@@ -13,9 +13,10 @@ public class SpriteAnimationSlider : MonoBehaviour
         }
         set
         {
-            Debug.Log("Setting animation progress to " + value);
             _animationProgress = value;
-            UpdateSprite();
+
+            if (Application.isPlaying)
+                UpdateSprite();
         }
     }
     [SerializeField, Range(0f,1f)]

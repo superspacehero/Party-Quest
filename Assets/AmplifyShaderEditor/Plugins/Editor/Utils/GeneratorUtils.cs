@@ -201,7 +201,7 @@ namespace AmplifyShaderEditor
 			{
 				string worldNormal = GenerateWorldNormal( ref dataCollector , uniqueId );
 				string worldTangent = GenerateWorldTangent( ref dataCollector , uniqueId );
-				dataCollector.AddToVertexLocalVariables( uniqueId , string.Format( "half tangentSign = {0}.tangent.w * unity_WorldTransformParams.w;" , Constants.VertexShaderInputStr ) );
+				dataCollector.AddToVertexLocalVariables( uniqueId , string.Format( "half tangentSign = {0}.tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 );", Constants.VertexShaderInputStr ) );
 				result = "cross( " + worldNormal + ", " + worldTangent + " ) * tangentSign";
 			}
 
@@ -886,7 +886,7 @@ namespace AmplifyShaderEditor
 			{
 				GenerateVertexNormal( ref dataCollector , uniqueId , precision );
 				GenerateVertexTangent( ref dataCollector , uniqueId , precision , WirePortDataType.FLOAT3 );
-				dataCollector.AddLocalVariable( uniqueId , precision , WirePortDataType.FLOAT3 , VertexBitangentStr , "cross( " + VertexNormalStr + ", " + VertexTangentStr + ") * " + Constants.VertexShaderInputStr + ".tangent.w * unity_WorldTransformParams.w" );
+				dataCollector.AddLocalVariable( uniqueId , precision , WirePortDataType.FLOAT3 , VertexBitangentStr , "cross( " + VertexNormalStr + ", " + VertexTangentStr + ") * " + Constants.VertexShaderInputStr + ".tangent.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 )" );
 			}
 			return VertexBitangentStr;
 		}

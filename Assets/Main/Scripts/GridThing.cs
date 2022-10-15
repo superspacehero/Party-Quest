@@ -177,7 +177,7 @@ public class GridThing : MovingThing
             grounded = true;
             verticalMovement = 0;
 
-            WhatRoomsAmIIn(false);
+            WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:false, discoverRooms:canDiscoverRooms);
         }
 
         private void UpdateThingLists()

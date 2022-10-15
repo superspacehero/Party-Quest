@@ -56,7 +56,7 @@ public class Dice : MovingThing
         /// <summary>
         /// This function is called when the object becomes enabled and active.
         /// </summary>
-        void OnEnable()
+        protected override void OnEnable()
         {
             if (!initialized)
             {

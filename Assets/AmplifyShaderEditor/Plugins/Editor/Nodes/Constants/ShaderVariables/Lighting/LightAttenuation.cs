@@ -13,22 +13,30 @@ namespace AmplifyShaderEditor
 		static readonly string TemplateError = "This node will only produce proper attenuation if the template contains a shadow caster pass";
 
 		private const string ASEAttenVarName = "ase_lightAtten";
-
-		private readonly string[] LightweightPragmaMultiCompiles =
+		
+		private readonly string[] URP10PragmaMultiCompiles =
 		{
 			"multi_compile _ _MAIN_LIGHT_SHADOWS",
 			"multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE",
+			"multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
 			"multi_compile _ _SHADOWS_SOFT"
 		};
 
-#if UNITY_2021_1_OR_NEWER
+		private readonly string[] URP11PragmaMultiCompiles =
+		{
+			"multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
+			"multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
+			"multi_compile _ _SHADOWS_SOFT"
+		};
+
 		private readonly string[] URP12PragmaMultiCompiles =
 		{
 			"multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN",
-			"multi_compile _ _ADDITIONAL_LIGHT_SHADOWS",
+			"multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS",
+			"multi_compile_fragment _ _ADDITIONAL_LIGHT_SHADOWS",
 			"multi_compile _ _SHADOWS_SOFT"
 		};
-#endif
+
 		//private readonly string[] LightweightVertexInstructions =
 		//{
 		//	/*local vertex position*/"VertexPositionInputs ase_vertexInput = GetVertexPositionInputs ({0});",
@@ -76,18 +84,25 @@ namespace AmplifyShaderEditor
 							return ASEAttenVarName;
 
 						// Pragmas
-#if UNITY_2021_1_OR_NEWER
+						string[] pragmas;
 						if( ASEPackageManagerHelper.CurrentLWVersion >= ASESRPVersions.ASE_SRP_12_0_0 )
 						{
-							for( int i = 0 ; i < URP12PragmaMultiCompiles.Length ; i++ )
-								dataCollector.AddToPragmas( UniqueId , URP12PragmaMultiCompiles[ i ] );
+							pragmas = URP12PragmaMultiCompiles;
+						}
+						else if ( ASEPackageManagerHelper.CurrentLWVersion >= ASESRPVersions.ASE_SRP_11_0_0 )
+						{
+							pragmas = URP11PragmaMultiCompiles;
 						}
 						else
-#endif
 						{
-							for( int i = 0 ; i < LightweightPragmaMultiCompiles.Length ; i++ )
-								dataCollector.AddToPragmas( UniqueId , LightweightPragmaMultiCompiles[ i ] );
+							pragmas = URP10PragmaMultiCompiles;
 						}
+
+						for ( int i = 0; i < URP12PragmaMultiCompiles.Length; i++ )
+						{
+							dataCollector.AddToPragmas( UniqueId, URP12PragmaMultiCompiles[ i ] );
+						}							
+
 						//string shadowCoords = dataCollector.TemplateDataCollectorInstance.GetShadowCoords( UniqueId/*, false, dataCollector.PortCategory*/ );
 						//return shadowCoords;
 						// Vertex Instructions

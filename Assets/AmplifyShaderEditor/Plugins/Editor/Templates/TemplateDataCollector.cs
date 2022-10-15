@@ -1253,7 +1253,7 @@ namespace AmplifyShaderEditor
 			string tangentValue = GetVertexTangent( WirePortDataType.FLOAT4, precisionType, false, MasterNodePortCategory.Vertex );
 			string normalValue = GetVertexNormal( precisionType, false, MasterNodePortCategory.Vertex );
 
-			string bitangentValue = string.Format( "cross( {0}, {1}.xyz ) * {1}.w * unity_WorldTransformParams.w", normalValue, tangentValue );
+			string bitangentValue = string.Format( "cross( {0}, {1}.xyz ) * {1}.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 )", normalValue, tangentValue );
 			RegisterCustomInterpolatedData( varName, WirePortDataType.FLOAT3, precisionType, bitangentValue, useMasterNodeCategory, customCategory );
 			return varName;
 		}
@@ -1294,7 +1294,7 @@ namespace AmplifyShaderEditor
 				return varName;
 
 			string tangentValue = GetVertexTangent( WirePortDataType.FLOAT4, precisionType, false, MasterNodePortCategory.Vertex );
-			string tangentSignValue = string.Format( "{0}.w * unity_WorldTransformParams.w", tangentValue );
+			string tangentSignValue = string.Format( "{0}.w * ( unity_WorldTransformParams.w >= 0.0 ? 1.0 : -1.0 )", tangentValue );
 			RegisterCustomInterpolatedData( varName, WirePortDataType.FLOAT, precisionType, tangentSignValue, useMasterNodeCategory, customCategory );
 			return varName;
 		}

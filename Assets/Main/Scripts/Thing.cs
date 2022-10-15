@@ -14,13 +14,13 @@ public class Thing : LookAtObject
 
         #region Name
 
-            [FoldoutGroup("Info")]
+            [FoldoutGroup("Info/Name")]
             public bool useLocalizedString = false;
-            [FoldoutGroup("Info"), HideIf("useLocalizedString"), Tooltip("The name of this thing.")]
+            [FoldoutGroup("Info/Name"), HideIf("useLocalizedString"), Tooltip("The name of this thing.")]
             public string nameString;
-            [FoldoutGroup("Info"), ShowIf("useLocalizedString"), Tooltip("The description of this thing.")]
+            [FoldoutGroup("Info/Name"), ShowIf("useLocalizedString"), Tooltip("The description of this thing.")]
             public LocalizedString localizedNameString;
-
+            [FoldoutGroup("Info/Name")]
             public bool properNoun = false;
 
             new public string name
@@ -45,6 +45,9 @@ public class Thing : LookAtObject
         [FoldoutGroup("Info")]
         public Health health;
 
+        [FoldoutGroup("Info")]
+        public bool canDiscoverRooms = false;
+
     #endregion
 
     #region Rooms
@@ -52,7 +55,7 @@ public class Thing : LookAtObject
         [FoldoutGroup("Rooms")]
         public List<Level.Room> rooms = new List<Level.Room>();
 
-        public void WhatRoomsAmIIn(bool deactivateIfRoomsNotDiscovered)
+        public void WhatRoomsAmIIn(bool deactivateIfRoomsNotDiscovered, bool discoverRooms = false)
         {
             rooms.Clear();
 
@@ -71,7 +74,10 @@ public class Thing : LookAtObject
                 {
                     if (!room.GetDiscovered() && deactivateIfRoomsNotDiscovered)
                     {
-                        gameObject.SetActive(false);
+                        if (canDiscoverRooms)
+                            room.SetDiscovered(true);
+                        else
+                            gameObject.SetActive(false);
                         return;
                     }
                 }
@@ -89,7 +95,7 @@ public class Thing : LookAtObject
         /// </summary>
         void Start()
         {
-            WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:true);
+            General.DelayedFunctionFrames(this, () => WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:true, discoverRooms:canDiscoverRooms));
         }
 
     #endregion

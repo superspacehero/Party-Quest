@@ -1,3 +1,21 @@
+v1.9.0.2
+
+   Nodes
+      * Fixed Light Attenuation node bug causing materials to be transparent on builds	  
+
+   Templates
+      * Fixed world position in decal templates (URP-HDRP, 10x-12x)
+      * Fixed errors when using Angle Fade in decal template (URP 12x)
+      * Fixed decal UV, Tangent bugs and multiple other issues (URP-HDRP, 10x-12x)
+      * Fixed template SetOption action not executing properly
+      * Fixed translucency, transmission, clear coat may break Forward Only (URP 12x)
+      * Fixed unity_WorldTransformParams (all SRP)
+
+   Editor
+      * Fixed bug in GlobalAutoSRP preferences option
+      * Fixed ASE not auto-importing SRP packages before opening canvas
+      * Fixed batch compile timer not being reset
+
 v1.9.0.1
 
    Templates

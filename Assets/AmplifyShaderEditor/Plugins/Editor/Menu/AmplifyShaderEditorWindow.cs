@@ -558,6 +558,7 @@ namespace AmplifyShaderEditor
 
 		public static void LoadAndSaveList( string[] assetList )
 		{
+			m_batchTimer.Reset();
 			m_batchTimer.Start();
 
 			EditorPrefs.SetString( ASEFileList , string.Join( ",", assetList ) );
@@ -634,8 +635,6 @@ namespace AmplifyShaderEditor
 		public override void OnEnable()
 		{
 			base.OnEnable();
-
-			Preferences.LoadDefaults();
 
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
@@ -1101,7 +1100,6 @@ namespace AmplifyShaderEditor
 			}
 
 			UnityEngine.Object selection = EditorUtility.InstanceIDToObject( instanceID );
-			Preferences.LoadDefaults();
 
 			ASEPackageManagerHelper.RequestInfo();
 			ASEPackageManagerHelper.Update();
@@ -5368,7 +5366,6 @@ namespace AmplifyShaderEditor
 
 		void OnInspectorUpdate()
 		{
-			Preferences.LoadDefaults();
 			ASEPackageManagerHelper.Update();
 
 			if( m_afterDeserializeFlag )

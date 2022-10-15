@@ -127,7 +127,9 @@ public class RgbMaterial : MonoBehaviour
 
         if (transform.parent && transform.parent.TryGetComponent(out parentSprite))
         {
-            parentSprite.childSprites.Add(this);
+            if (!parentSprite.childSprites.Contains(this))
+                parentSprite.childSprites.Add(this);
+
             if (parentSprite.rendererType == rendererType && getParentColors)
                 spriteMaterial = parentSprite.spriteMaterial;
         }
@@ -237,11 +239,8 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _redColor = value;
-
-            if (spriteMaterial != null)
-                spriteMaterial.SetColor("_RedColor", _redColor);
-
-            SetChildSpriteColors();
+            
+            SetColor("_RedColor", _redColor);
         }
     }
 
@@ -251,11 +250,8 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _greenColor = value;
-
-            if (spriteMaterial != null)
-                spriteMaterial.SetColor("_GreenColor", _greenColor);
-
-            SetChildSpriteColors();
+            
+            SetColor("_GreenColor", _greenColor);
         }
     }
 
@@ -265,12 +261,20 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _blueColor = value;
-
-            if (spriteMaterial != null)
-                spriteMaterial.SetColor("_BlueColor", _blueColor);
-
-            SetChildSpriteColors();
+            
+            SetColor("_BlueColor", _blueColor);
         }
+    }
+
+    void SetColor(string colorName, Color color)
+    {
+        if (spriteMaterial == null)
+            SetUpMaterial();
+        
+        if (spriteMaterial != null)
+            spriteMaterial.SetColor(colorName, color);
+
+        SetChildSpriteColors();
     }
 
 

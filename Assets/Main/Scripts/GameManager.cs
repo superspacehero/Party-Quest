@@ -139,7 +139,7 @@ public class GameManager : MonoBehaviour
                 foreach (Player player in players)
                 {
                     if (player.controlledThing == charactersInCurrentTeam[currentCharacterIndex])
-                        player.SetControlObject();
+                        player.SetControlObject(_canControl:true);
                 }
             }
 
