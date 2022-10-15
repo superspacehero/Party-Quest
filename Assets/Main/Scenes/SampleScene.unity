@@ -394,7 +394,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 188699576}
   m_Father: {fileID: 942705980}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -420,7 +421,8 @@ MonoBehaviour:
   rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
   useVertexColors: 0
   parentSprite: {fileID: 942705978}
-  childSprites: []
+  childSprites:
+  - {fileID: 188699577}
   getParentColors: 1
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -1038,7 +1040,7 @@ GameObject:
   - component: {fileID: 188699578}
   - component: {fileID: 188699577}
   m_Layer: 0
-  m_Name: Pupil_Front
+  m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1052,12 +1054,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 188699575}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.056, y: 0.02, z: 0}
+  m_LocalPosition: {x: 0.041103244, y: -0.045921326, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 942705980}
-  m_RootOrder: 2
+  m_Father: {fileID: 106594622}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &188699577
 MonoBehaviour:
@@ -1075,7 +1077,7 @@ MonoBehaviour:
   rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
   rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
   useVertexColors: 0
-  parentSprite: {fileID: 942705978}
+  parentSprite: {fileID: 106594623}
   childSprites: []
   getParentColors: 1
   _redColor: {r: 0.05169231, g: 0.04056604, b: 0.2, a: 1}
@@ -1542,7 +1544,7 @@ Transform:
   m_Children:
   - {fileID: 1754883047}
   m_Father: {fileID: 942705980}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &333097240
 GameObject:
@@ -2115,7 +2117,7 @@ Transform:
   m_Children:
   - {fileID: 2043185321}
   m_Father: {fileID: 942705980}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &433891124
 GameObject:
@@ -2651,14 +2653,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 704557456}
-  m_LocalRotation: {x: 0, y: 0, z: -0.19509031, w: 0.98078537}
-  m_LocalPosition: {x: -0.1, y: 0.18, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.05, y: 0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 942705980}
-  m_RootOrder: 6
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -22.5}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &704557458
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,7 +2723,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 3470388643870662516, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3350,7 +3352,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 942705980}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 28}
 --- !u!1 &923828219
 GameObject:
@@ -3484,13 +3486,8 @@ MonoBehaviour:
   - {fileID: 2043185323}
   - {fileID: 2043185323}
   - {fileID: 2043185323}
-  - {fileID: 1484509094}
   - {fileID: 188699577}
-  - {fileID: 1868829384}
-  - {fileID: 1678526468}
   - {fileID: 2096450363}
-  - {fileID: 704557458}
-  - {fileID: 106594623}
   - {fileID: 106594623}
   - {fileID: 188699577}
   - {fileID: 704557458}
@@ -3501,7 +3498,6 @@ MonoBehaviour:
   - {fileID: 106594623}
   - {fileID: 188699577}
   - {fileID: 704557458}
-  - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
   - {fileID: 1868829384}
@@ -3528,7 +3524,6 @@ MonoBehaviour:
   - {fileID: 904846423}
   - {fileID: 1484509094}
   - {fileID: 1678526468}
-  - {fileID: 1761620188}
   - {fileID: 1868829384}
   - {fileID: 2096450363}
   - {fileID: 2096450363}
@@ -5617,8 +5612,6 @@ Transform:
   m_Children:
   - {fileID: 106594622}
   - {fileID: 1868829383}
-  - {fileID: 188699576}
-  - {fileID: 2096450362}
   - {fileID: 1678526467}
   - {fileID: 428056314}
   - {fileID: 704557457}
@@ -5896,11 +5889,6 @@ MonoBehaviour:
   useVertexColors: 0
   parentSprite: {fileID: 0}
   childSprites:
-  - {fileID: 1581300366}
-  - {fileID: 942705978}
-  - {fileID: 785869689}
-  - {fileID: 195697554}
-  - {fileID: 143511679}
   - {fileID: 143511679}
   - {fileID: 195697554}
   - {fileID: 785869689}
@@ -7568,7 +7556,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 942705980}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1484509094
 MonoBehaviour:
@@ -8219,7 +8207,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 942705980}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1678526468
 MonoBehaviour:
@@ -8480,7 +8468,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 942705980}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -28}
 --- !u!21 &1801922211
 Material:
@@ -8646,7 +8634,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2096450362}
   m_Father: {fileID: 942705980}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8672,7 +8661,8 @@ MonoBehaviour:
   rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
   useVertexColors: 0
   parentSprite: {fileID: 942705978}
-  childSprites: []
+  childSprites:
+  - {fileID: 2096450363}
   getParentColors: 1
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -9452,7 +9442,7 @@ GameObject:
   - component: {fileID: 2096450364}
   - component: {fileID: 2096450363}
   m_Layer: 0
-  m_Name: Pupil_Back
+  m_Name: Pupil
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9465,13 +9455,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2096450361}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.197203, y: 0.02, z: 0}
-  m_LocalScale: {x: -1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.02700001, y: -0.045921326, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 942705980}
-  m_RootOrder: 3
+  m_Father: {fileID: 1868829383}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2096450363
 MonoBehaviour:
@@ -9489,7 +9479,7 @@ MonoBehaviour:
   rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
   rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
   useVertexColors: 0
-  parentSprite: {fileID: 942705978}
+  parentSprite: {fileID: 1868829384}
   childSprites: []
   getParentColors: 1
   _redColor: {r: 0.05169231, g: 0.04056604, b: 0.2, a: 1}
