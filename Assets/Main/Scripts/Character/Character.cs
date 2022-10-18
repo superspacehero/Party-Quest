@@ -5,15 +5,18 @@ using Sirenix.OdinInspector;
 
 public class Character : GridThing
 {
-    [FoldoutGroup("Info")]
+    [FoldoutGroup("Character")]
     public int team;
 
-    [FoldoutGroup("Info/Inventory")]
+    [FoldoutGroup("Character")]
+    public CharacterAssembler characterAssembler;
+
+    [FoldoutGroup("Character/Inventory")]
     public List<Thing> items;
 
-    [FoldoutGroup("Info/Inventory/Equipment")]
+    [FoldoutGroup("Character/Inventory/Equipment")]
     public Thing leftWeapon, rightWeapon;
-    [FoldoutGroup("Info/Inventory/Equipment")]
+    [FoldoutGroup("Character/Inventory/Equipment")]
     public Thing head, body, leftHand, rightHand, leftFoot, rightFoot;
 
     protected override void OnEnable()

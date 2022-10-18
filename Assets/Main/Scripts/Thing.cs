@@ -4,7 +4,7 @@ using UnityEngine;
 using I2.Loc;
 using Sirenix.OdinInspector;
 
-public class Thing : LookAtObject
+public class Thing : MonoBehaviour
 {
     // This class is used as the basis for all objects in the game.
     // It contains the basic properties of an object, such as its localized name,

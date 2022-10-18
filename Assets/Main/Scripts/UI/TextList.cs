@@ -57,7 +57,7 @@ public class TextList : MonoBehaviour
     {
         get
         {
-            if (_text == null);
+            if (_text == null)
                 TryGetComponent(out _text);
 
             return _text;
