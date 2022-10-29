@@ -174,6 +174,7 @@ public class Player : NetworkBehaviour
 
             _controlledThing.useUI = true;
             _controlledThing.canDiscoverRooms = true;
+            _controlledThing.MyTurn();
 
             canControl = _canControl;
 

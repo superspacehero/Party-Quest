@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "15d7c4a1f6bf408698653c9c895a1146",
     "m_Properties": [
@@ -20,6 +20,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "c277946378b045a3aa799bfebe7dbb54"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "a1b5a2f5793b4fa4aeb58fbda030b682"
@@ -502,10 +508,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -525,9 +532,13 @@
         "m_GuidSerialized": "c7537f33-c32b-47ad-8a4b-0b2a972f4138"
     },
     "m_Name": "Color Randomization",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_058752a06acf475d899ab52660f3f610",
     "m_OverrideReferenceName": "_ColorRandomization",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -746,9 +757,13 @@
         "m_GuidSerialized": "7cd49b21-67c5-44f5-91b8-fb189ac64255"
     },
     "m_Name": "Main Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_1cb53b083a704f3f841054b0534548d2",
     "m_OverrideReferenceName": "_MainTex",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -757,6 +772,8 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"189543c1d0eaf357c858d56d7c0e3795\",\"type\":3}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -803,7 +820,9 @@
     ],
     "m_PropertyIds": [
         -204130548
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -977,9 +996,13 @@
         "m_GuidSerialized": "5635eaf3-7ed1-4c79-9f10-ba79486f9f3e"
     },
     "m_Name": "Integer Positions",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Boolean_31cf4179474048e9b59c56fc998174f9",
     "m_OverrideReferenceName": "_IntegerPositions",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1759,7 +1782,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -2011,9 +2035,13 @@
         "m_GuidSerialized": "4b780a57-bd5b-4a1b-88b5-0bd29f2e7dd3"
     },
     "m_Name": "Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_8f4dc7e417f2406bb4a157c3f94de0b6",
     "m_OverrideReferenceName": "_Color",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -2024,6 +2052,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -2437,7 +2466,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 0
+    "m_Space": 0,
+    "m_PositionSource": 0
 }
 
 {
@@ -2557,6 +2587,30 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "c277946378b045a3aa799bfebe7dbb54",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "1cb53b083a704f3f841054b0534548d2"
+        },
+        {
+            "m_Id": "8f4dc7e417f2406bb4a157c3f94de0b6"
+        },
+        {
+            "m_Id": "c716abef0ef34855bd5ab2326995612b"
+        },
+        {
+            "m_Id": "058752a06acf475d899ab52660f3f610"
+        },
+        {
+            "m_Id": "31cf4179474048e9b59c56fc998174f9"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.BlockNode",
     "m_ObjectId": "c7115d8ad1b64a7f93a6c44b3cf5fcdd",
     "m_Group": {
@@ -2596,9 +2650,13 @@
         "m_GuidSerialized": "56e016cc-a78b-46e1-a799-d3ff280620bd"
     },
     "m_Name": "Billboard",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Boolean_c716abef0ef34855bd5ab2326995612b",
     "m_OverrideReferenceName": "_Billboard",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -2850,7 +2908,9 @@
         -536635906,
         -1441283255,
         1422699593
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -3030,16 +3090,22 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalTarget",
     "m_ObjectId": "fec8ee07a3e8481b9c71b07b713501cc",
     "m_ActiveSubTarget": {
         "m_Id": "97ccc0f1fb1548d1b2ec13e30d440414"
     },
+    "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
+    "m_ZTestMode": 4,
+    "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_TwoSided": false,
+    "m_RenderFace": 2,
     "m_AlphaClip": true,
-    "m_CustomEditorGUI": ""
+    "m_CastShadows": true,
+    "m_ReceiveShadows": true,
+    "m_CustomEditorGUI": "",
+    "m_SupportVFX": false
 }
 

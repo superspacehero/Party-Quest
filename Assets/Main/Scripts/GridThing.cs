@@ -6,6 +6,9 @@ using Sirenix.OdinInspector;
 
 public class GridThing : MovingThing
 {
+    [FoldoutGroup("Info")]
+    public Health health;
+
     #region Movement
 
         /// <summary>

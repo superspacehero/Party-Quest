@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "8d9382d32747496d8145cc4534ca91b7",
     "m_Properties": [
@@ -14,6 +14,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "23c2c545481e4f52a4bee06460614528"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "b3bb582b60ff45f1978eae7d4e4c3c54"
@@ -304,10 +310,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "b3bb582b60ff45f1978eae7d4e4c3c54"
@@ -436,6 +443,24 @@
         "w": 0.0
     },
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "23c2c545481e4f52a4bee06460614528",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "850f45ae252a4d9985eb6a5af65d7d9b"
+        },
+        {
+            "m_Id": "79157c88ef9b49a7a5ff1b18d463cbb0"
+        },
+        {
+            "m_Id": "bcd67c81b49c488f981d0f735469fd14"
+        }
+    ]
 }
 
 {
@@ -1062,9 +1087,13 @@
         "m_GuidSerialized": "1e5c862c-774b-45b3-a432-c3a7871ea3d6"
     },
     "m_Name": "Color Randomization",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_79157c88ef9b49a7a5ff1b18d463cbb0",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1085,9 +1114,13 @@
         "m_GuidSerialized": "fa09de60-640a-4b5a-9510-7e709ddce1c4"
     },
     "m_Name": "Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_850f45ae252a4d9985eb6a5af65d7d9b",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1346,9 +1379,13 @@
         "m_GuidSerialized": "6894e294-5358-4edd-a9ef-6f1fe5302800"
     },
     "m_Name": "Integer Positions",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Boolean_bcd67c81b49c488f981d0f735469fd14",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,

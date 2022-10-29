@@ -2,21 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Actions;
 
 public class Character : GridThing
 {
-    [FoldoutGroup("Character")]
+    [FoldoutGroup("Info/Character")]
     public int team;
 
-    [FoldoutGroup("Character")]
+    [FoldoutGroup("Info/Character")]
     public CharacterAssembler characterAssembler;
 
-    [FoldoutGroup("Character/Inventory")]
+    [FoldoutGroup("Info/Character")]
+    public List<ThingAction.ActionCategory> availableActionCategories;
+
+    [FoldoutGroup("Info/Character"), SerializeField, ReadOnly]
+    protected List<ThingAction.ActionCategory> defaultActionCategories = new List<ThingAction.ActionCategory>()
+    {
+        ThingAction.ActionCategory.Movement,
+        ThingAction.ActionCategory.Action
+    };
+
+    protected List<ThingAction.ActionCategory> nextTurnActionCategories = new List<ThingAction.ActionCategory>();
+
+    [FoldoutGroup("Info/Character/Inventory")]
     public List<Thing> items;
 
-    [FoldoutGroup("Character/Inventory/Equipment")]
+    [FoldoutGroup("Info/Character/Inventory/Equipment")]
     public Thing leftWeapon, rightWeapon;
-    [FoldoutGroup("Character/Inventory/Equipment")]
+    [FoldoutGroup("Info/Character/Inventory/Equipment")]
     public Thing head, body, leftHand, rightHand, leftFoot, rightFoot;
 
     protected override void OnEnable()
@@ -24,6 +37,21 @@ public class Character : GridThing
         base.OnEnable();
         
         GameManager.AddCharacter(this);
+    }
+
+    public override void MyTurn()
+    {
+        availableActionCategories.Clear();
+
+        defaultActionCategories.ForEach(x => availableActionCategories.Add(x));
+        nextTurnActionCategories.ForEach(x => availableActionCategories.Add(x));
+
+        nextTurnActionCategories.Clear();
+    }
+
+    public void AddActionCategoryForNextTurn(ThingAction.ActionCategory actionCategory)
+    {
+        nextTurnActionCategories.Add(actionCategory);
     }
 
     protected override void OnDisable()

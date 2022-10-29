@@ -335,7 +335,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -356,7 +356,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -364,6 +364,27 @@ TextureImporter:
       bones: []
       spriteID: 5d91140384feecf90800000000000000
       internalID: -6931339683150358059
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_EndTurn
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 384
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e78b0051df799d7e591caeb3e3e3377e
+      internalID: -1751049092
       vertices: []
       indices: 
       edges: []
@@ -387,6 +408,7 @@ TextureImporter:
       Icons_Play: 1161201145128540330
       Icons_Dice: 5543941588292853863
       Icons_Download: 7374845061861626600
+      Icons_EndTurn: -1751049092
       Icons_Report: 1202984965197363600
   spritePackingTag: 
   pSDRemoveMatte: 0

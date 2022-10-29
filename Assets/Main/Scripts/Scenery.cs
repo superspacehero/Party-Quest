@@ -6,5 +6,5 @@ using Sirenix.OdinInspector;
 public class Scenery : GridThing
 {
     [FoldoutGroup("Info")]
-    public List<GridThing> items;
+    public List<Thing> items;
 }

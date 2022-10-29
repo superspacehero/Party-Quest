@@ -283,6 +283,10 @@ public class MovingThing : Thing
             UpdateAnimation();
         }
 
+        public virtual void MyTurn()
+        {
+        }
+
     #endregion
 
     /// <summary>

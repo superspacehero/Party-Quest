@@ -42,15 +42,22 @@ public class Thing : MonoBehaviour
         public Sprite icon;
         [FoldoutGroup("Info")]
         public int value;
-        [FoldoutGroup("Info")]
-        public Health health;
 
         [FoldoutGroup("Info")]
-        public bool canDiscoverRooms = false;
+        public bool deactivateIfInUndiscoveredRooms = true, canDiscoverRooms = false;
 
     #endregion
 
     #region Rooms
+
+        /// <summary>
+        /// Start is called on the frame when a script is enabled just before
+        /// any of the Update methods is called the first time.
+        /// </summary>
+        protected virtual void Start()
+        {
+            General.DelayedFunctionFrames(this, () => WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:deactivateIfInUndiscoveredRooms, discoverRooms:canDiscoverRooms));
+        }
 
         [FoldoutGroup("Rooms")]
         public List<Level.Room> rooms = new List<Level.Room>();
@@ -87,15 +94,6 @@ public class Thing : MonoBehaviour
                 // Debug.LogError(name + " is not in any rooms!", this);
                 gameObject.SetActive(false);
             }
-        }
-
-        /// <summary>
-        /// Start is called on the frame when a script is enabled just before
-        /// any of the Update methods is called the first time.
-        /// </summary>
-        void Start()
-        {
-            General.DelayedFunctionFrames(this, () => WhatRoomsAmIIn(deactivateIfRoomsNotDiscovered:true, discoverRooms:canDiscoverRooms));
         }
 
     #endregion
