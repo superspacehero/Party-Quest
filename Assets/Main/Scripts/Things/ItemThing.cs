@@ -8,21 +8,24 @@ public class ItemThing : GameThing
     // If they are on the ground, they will be picked up when used, and added to the inventory of the character that used them.
     // Once in the inventory of a character, their normal Use() function will be called, which is defined by the subclass of Item.
 
-    public override void Use(GameThing user)
+    [HideInInspector] public override string thingType
     {
-        // If the user is a character, and the item is on the ground, pick it up.
-        if (user is not CharacterThing)
-            return;
-
-        CharacterThing userCharacter = (CharacterThing)user;
-
-        if (userCharacter.inventory.Contains(this))
-            UseItem(userCharacter);
-        else
-            userCharacter.AddToInventory(this);
+        get => "ItemThing";
     }
 
-    public virtual void UseItem(CharacterThing user)
+    public override void Use(GameThing user)
+    {
+        // If the user has an inventory, and the item is on the ground, pick it up.
+        if (user.TryGetComponent(out Inventory inventory))
+        {
+            if (inventory.Contains(this))
+                UseItem(user);
+            else
+                inventory.AddThing(this);
+        }
+    }
+
+    public virtual void UseItem(GameThing user)
     {
         // This is the base UseItem() function for Items.
         // It does nothing, and is overridden by subclasses.

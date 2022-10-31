@@ -5,25 +5,27 @@ using UnityEngine;
 public class CharacterThing : GameThing
 {
     // CharacterThings are a subclass of GameThings that represent characters in the game.
-    // CharacterThings have all the properties of GameThings, as well as a list of stats,
-    // a list of equipment slots, and an inventory.
+
+    // CharacterThings have all the properties of GameThings, as well as a list of stats.
 
     // CharacterThings can be controlled by the player, by AI, or by other characters.
 
-    public List<GameThing> inventory;
-    [SerializeField] private Transform inventoryTransform;
-    
-    public void AddToInventory(GameThing item)
+    public override string thingType
     {
-        inventory.Add(item);
-        item.gameObject.SetActive(false);
-        item.transform.parent = inventoryTransform;
+        get => "CharacterThing";
     }
 
-    public void RemoveFromInventory(GameThing item)
+    public override void Use(GameThing user)
     {
-        inventory.Remove(item);
-        item.gameObject.SetActive(true);
-        item.transform.parent = null;
+        // Attach this CharacterThing to the user.
+        // This is how characters are controlled.
+        
+        if (user != null)
+        {
+            if (user.GetAttachedThing() == this)
+                user.DetachThing();
+            else
+                user.AttachThing(this);
+        }
     }
 }

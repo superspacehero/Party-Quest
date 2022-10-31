@@ -9,6 +9,10 @@ public class GameThing : MonoBehaviour
     // Their value is primarily used for determining how much they are worth when sold,
     // but can also be used for other things, such as the number a die lands on, damage/armor/healing stats, etc.
 
+    // They also have a thingType, which is a string used to determine what type of thing they are,
+    // and an attachedThing, which is a reference to another GameThing that is attached to this one.
+    // This can be used to control an attached GameThing, or to pass information between two GameThings.
+
     // At their core, their primary function is to be used,
     // which is handled by the Use() function.
 
@@ -25,10 +29,31 @@ public class GameThing : MonoBehaviour
     public string thingDescription;
     public Sprite thingIcon;
     public int thingValue;
+    [SerializeField] protected Inventory.ThingSlot attachedThing;
+
+    public virtual string thingType
+    {
+        get => "GameThing";
+    }
 
     public virtual void Use(GameThing user)
     {
         // This is the base Use() function for GameThings.
         // It does nothing, and is overridden by subclasses.
+    }
+
+    public void AttachThing(GameThing thing)
+    {
+        attachedThing.AddThing(thing);
+    }
+
+    public void DetachThing()
+    {
+        attachedThing.RemoveThing();
+    }
+
+    public GameThing GetAttachedThing()
+    {
+        return attachedThing.thing;
     }
 }
