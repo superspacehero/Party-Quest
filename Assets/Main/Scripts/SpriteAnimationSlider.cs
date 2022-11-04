@@ -43,6 +43,8 @@ public class SpriteAnimationSlider : MonoBehaviour
     }
     private SpriteRenderer _spriteRenderer;
 
+    private SpriteMask spriteMask;
+
     private Sprite spriteToShow;
 
     private void UpdateSprite()
@@ -67,11 +69,16 @@ public class SpriteAnimationSlider : MonoBehaviour
         }
 
         spriteRenderer.sprite = spriteToShow;
+
+        if (spriteMask != null)
+            spriteMask.sprite = spriteToShow;
     }
 
     private void OnEnable()
     {
         animationProgress = animationProgress;
+
+        TryGetComponent(out spriteMask);
     }
 
     private void OnValidate()
