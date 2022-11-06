@@ -12,7 +12,7 @@ public class ActionThing : GameThing
 
     public override string thingType
     {
-        get => "ActionThing";
+        get => "Action";
     }
 
     protected bool actionRunning = false;

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7035756595655136296}
   - component: {fileID: 7035756595655136302}
+  - component: {fileID: 7457652617440333658}
   - component: {fileID: 7035756595655136303}
   m_Layer: 0
   m_Name: _Nose
@@ -85,6 +86,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7457652617440333658
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035756595655136297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68527b57de646b03cb684fed4e83538b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thingName: Nose
+  thingDescription: 
+  thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
 --- !u!114 &7035756595655136303
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,11 +8,13 @@ public class CharacterThing : GameThing
 
     // CharacterThings have all the properties of GameThings, as well as a list of stats.
 
+    // CharacterThings are assembled from CharacterPartThings, which are attached to them.
+
     // CharacterThings can be controlled by the player, by AI, or by other characters.
 
     public override string thingType
     {
-        get => "CharacterThing";
+        get => "Character";
     }
 
     public override void Use(GameThing user)
@@ -27,5 +29,12 @@ public class CharacterThing : GameThing
             else
                 user.AttachThing(this);
         }
+    }
+
+    public List<CharacterPartThing> parts = new List<CharacterPartThing>();
+
+    public void AssembleCharacter()
+    {
+
     }
 }

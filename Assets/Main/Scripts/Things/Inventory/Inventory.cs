@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    private ThingSlot[] thingSlots;
+    [SerializeField] private ThingSlot[] thingSlots;
     [SerializeField] private Transform inventoryTransform;
     public bool canQuickAddItems = true;
 

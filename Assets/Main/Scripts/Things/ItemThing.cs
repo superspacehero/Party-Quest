@@ -10,7 +10,7 @@ public class ItemThing : GameThing
 
     [HideInInspector] public override string thingType
     {
-        get => "ItemThing";
+        get => "Item";
     }
 
     public override void Use(GameThing user)

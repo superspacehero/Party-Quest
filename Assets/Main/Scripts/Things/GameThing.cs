@@ -33,7 +33,7 @@ public class GameThing : MonoBehaviour
 
     public virtual string thingType
     {
-        get => "GameThing";
+        get => "Game";
     }
 
     public virtual void Use(GameThing user)
