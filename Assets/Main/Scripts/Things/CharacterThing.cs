@@ -31,17 +31,50 @@ public class CharacterThing : GameThing
         }
     }
 
-    protected List<CharacterPartThing> parts = new List<CharacterPartThing>();
+    protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>(), removedParts = new List<CharacterPartThing>();
+
+    protected Inventory.ThingSlot characterBase;
 
     public void AssembleCharacter()
     {
-        parts.Clear();
-
-        foreach (CharacterPartThing part in GetComponentsInChildren<CharacterPartThing>())
+        // Assemble this CharacterThing from its CharacterPartThings.
+        // The solution I'm thinking of for this is to fetch a list of all the CharacterParts a character has,
+        // and assemble them together based on their inventory slots.
+        // To do this, I guess I need to have a base inventory slot to start the process with,
+        // and then from there, just go through all the parts and assemble them into the slots that they fit into.
+        
+        foreach (CharacterPartThing part in parts)
         {
-            parts.Add(part);
+            if (part.thingType == characterBase.thingType)
+            {
+                characterBase.AddThing(part);
+                addedParts.Add(part);
+                break;
+            }
+        }
+        
+        // From here, I guess the thing to do is to iterate through all the character parts
+        // and if they have an inventory, iterate through all the slots in that inventory.
+        // With each slot, I guess we then can do another iteration through all the parts
+        // and if the part has a thing type that matches the slot's thing type,
+        // then we can add the part to the slot.
 
-            
+        foreach (CharacterPartThing part in parts)
+        {
+            if (part.TryGetComponent(out Inventory inventory))
+            {
+                foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                {
+                    foreach (CharacterPartThing thingSlotPart in parts)
+                    {
+                        if (thingSlotPart.thingType == slot.thingType && !addedParts.Contains(thingSlotPart))
+                        {
+                            slot.AddThing(thingSlotPart);
+                            addedParts.Add(thingSlotPart);
+                        }
+                    }
+                }
+            }
         }
     }
 }
