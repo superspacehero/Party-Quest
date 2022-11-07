@@ -31,10 +31,17 @@ public class CharacterThing : GameThing
         }
     }
 
-    public List<CharacterPartThing> parts = new List<CharacterPartThing>();
+    protected List<CharacterPartThing> parts = new List<CharacterPartThing>();
 
     public void AssembleCharacter()
     {
+        parts.Clear();
 
+        foreach (CharacterPartThing part in GetComponentsInChildren<CharacterPartThing>())
+        {
+            parts.Add(part);
+
+            
+        }
     }
 }

@@ -94,8 +94,7 @@ public class ReplaceWithPrefab : EditorWindow
                         newObject.transform.localEulerAngles = Vector3Int.RoundToInt(newObject.transform.localEulerAngles);
                 }
 
-                if (!resetScale)
-                    newObject.transform.localScale = selected.transform.localScale;
+                newObject.transform.localScale = (resetScale) ? Vector3.one : selected.transform.localScale;
                 
                 if (scaleRandomize.magnitude > 0)
                 {
