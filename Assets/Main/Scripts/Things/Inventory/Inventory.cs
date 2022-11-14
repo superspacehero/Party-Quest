@@ -28,14 +28,22 @@ public class Inventory : MonoBehaviour
 
         public string thingType;
 
-        public void AddThing(GameThing thing)
+        public void AddThing(GameThing thingToAdd)
         {
-            if (thing == null || thingType != "" && thingType != thing.thingType)
+            if (thingToAdd == null || thingType != "" && thingType != thingToAdd.thingType)
+            {
+                Debug.Log("Can't add thing to slot.", thingToAdd);
                 return;
+            }
 
-            this.thing = thing;
-            thing.transform.parent = transform;
-            thing.gameObject.SetActive(!disableWhenInInventory);
+            thing = thingToAdd;
+
+            thingToAdd.transform.parent = transform;
+            thingToAdd.transform.localPosition = Vector3.zero;
+            thingToAdd.transform.localRotation = Quaternion.identity;
+            thingToAdd.transform.localScale = Vector3.one;
+
+            thingToAdd.gameObject.SetActive(!disableWhenInInventory);
         }
 
         public void RemoveThing()

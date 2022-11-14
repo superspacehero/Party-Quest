@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class CharacterThing : GameThing
 {
@@ -31,50 +32,80 @@ public class CharacterThing : GameThing
         }
     }
 
-    protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>(), removedParts = new List<CharacterPartThing>();
+    // CharacterThings' bodies are made up of CharacterPartThings.
+    // We need a way to be able to assemble them, and access the parts.
+    // The question is, what's the best way to go about dealing with instantiating the prefabs, and then assembling them?
+    // I ask this because, unless we destroy every single part when we replace a part, we'll have to have a way of knowing what instantiated parts to destroy.
+    // For now, we'll just do the former, but I'd like to think of a way to do the latter.
 
-    protected Inventory.ThingSlot characterBase;
+    public List<GameObject> characterPartPrefabs = new List<GameObject>();
+    protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
 
-    public void AssembleCharacter()
+    [SerializeField] protected Inventory.ThingSlot characterBase;
+
+    void AttachPartsToPart(CharacterPartThing part)
     {
-        // Assemble this CharacterThing from its CharacterPartThings.
-        // The solution I'm thinking of for this is to fetch a list of all the CharacterParts a character has,
-        // and assemble them together based on their inventory slots.
-        // To do this, I guess I need to have a base inventory slot to start the process with,
-        // and then from there, just go through all the parts and assemble them into the slots that they fit into.
-        
+        if (part.TryGetComponent(out Inventory inventory))
+        {
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+            {
+                AttachPartToSlot(slot);
+            }
+        }
+    }
+
+    void AttachPartToSlot(Inventory.ThingSlot slot)
+    {
         foreach (CharacterPartThing part in parts)
         {
-            if (part.thingType == characterBase.thingType)
+            if (part.thingType == slot.thingType && !addedParts.Contains(part))
             {
-                characterBase.AddThing(part);
+                slot.AddThing(part);
                 addedParts.Add(part);
+
+                AttachPartsToPart(part);
+
                 break;
             }
         }
-        
-        // From here, I guess the thing to do is to iterate through all the character parts
-        // and if they have an inventory, iterate through all the slots in that inventory.
-        // With each slot, I guess we then can do another iteration through all the parts
-        // and if the part has a thing type that matches the slot's thing type,
-        // then we can add the part to the slot.
+    }
 
+    [Button]
+    public void AssembleCharacter()
+    {
         foreach (CharacterPartThing part in parts)
         {
-            if (part.TryGetComponent(out Inventory inventory))
+            if (part != null && part.thingType == characterBase.thingType)
             {
-                foreach (Inventory.ThingSlot slot in inventory.thingSlots)
-                {
-                    foreach (CharacterPartThing thingSlotPart in parts)
-                    {
-                        if (thingSlotPart.thingType == slot.thingType && !addedParts.Contains(thingSlotPart))
-                        {
-                            slot.AddThing(thingSlotPart);
-                            addedParts.Add(thingSlotPart);
-                        }
-                    }
-                }
+                DestroyImmediate(part.gameObject);
+                break;
             }
         }
+        parts.Clear();
+
+        foreach (GameObject characterPartPrefab in characterPartPrefabs)
+        {
+            if (Instantiate(characterPartPrefab, characterBase.transform).TryGetComponent(out CharacterPartThing characterPartThing))
+                parts.Add(characterPartThing);
+        }
+        
+        AttachPartToSlot(characterBase);
+
+        // foreach (CharacterPartThing part in parts)
+        // {
+        //     if (!addedParts.Contains(part))
+        //     {
+        //         AttachPartsToPart(part);
+        //     }
+        // }
+    }
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    void Start()
+    {
+        AssembleCharacter();
     }
 }

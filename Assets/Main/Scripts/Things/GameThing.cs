@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 public class GameThing : MonoBehaviour
 {
@@ -56,4 +57,15 @@ public class GameThing : MonoBehaviour
     {
         return attachedThing.thing;
     }
+
+    #if UNITY_EDITOR
+
+        private bool hasInventory { get { return TryGetComponent(out Inventory inventory); } }
+
+        [Button, HideIf("hasInventory")]
+        void AddInventory()
+        {
+            gameObject.AddComponent<Inventory>();
+        }
+    #endif
 }
