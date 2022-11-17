@@ -10,9 +10,6 @@ public class Character : GridThing
     public int team;
 
     [FoldoutGroup("Info/Character")]
-    public CharacterAssembler characterAssembler;
-
-    [FoldoutGroup("Info/Character")]
     public List<ThingAction.ActionCategory> availableActionCategories;
 
     [FoldoutGroup("Info/Character"), SerializeField, ReadOnly]

@@ -38,6 +38,20 @@ public class CharacterThing : GameThing
     // I ask this because, unless we destroy every single part when we replace a part, we'll have to have a way of knowing what instantiated parts to destroy.
     // For now, we'll just do the former, but I'd like to think of a way to do the latter.
 
+
+
+    // Well, as it turns out, the character assembler works perfectly.
+    // There are some things I need to figure out, though.
+    // In particular, how do I handle equipment slots, and connect them with the character's parts?
+
+    // The best thing to do would probably be to build out the equipmewnt inventory after having assembled the character.
+    // Because the assembler goes through every character part and every inventory slot they have, maybe we can just take every one of those slots,
+    // and if their type matches with a list of compatible equipment types, add them to the equipment inventory.
+
+    // Doing it this way would mean that adding equipment to a character wouldn't require a rebuild of the character in any way,
+    // but if for some reason, the character is rebuilt, the equipment would be lost.
+    // I guess there's an easy fix - just detach the equipment from the character, and then reattach it after the character is rebuilt.
+
     public List<GameObject> characterPartPrefabs = new List<GameObject>();
     protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
 
@@ -63,6 +77,8 @@ public class CharacterThing : GameThing
                 slot.AddThing(part);
                 addedParts.Add(part);
 
+                part.gameObject.SetActive(true);
+
                 AttachPartsToPart(part);
 
                 break;
@@ -73,31 +89,24 @@ public class CharacterThing : GameThing
     [Button]
     public void AssembleCharacter()
     {
-        foreach (CharacterPartThing part in parts)
+        // Destroy all children of the characterBase first.
+        for (int i = 0; i < characterBase.transform.childCount; i++)
         {
-            if (part != null && part.thingType == characterBase.thingType)
-            {
-                DestroyImmediate(part.gameObject);
-                break;
-            }
+            DestroyImmediate(characterBase.transform.GetChild(i).gameObject);
         }
+
         parts.Clear();
 
         foreach (GameObject characterPartPrefab in characterPartPrefabs)
         {
             if (Instantiate(characterPartPrefab, characterBase.transform).TryGetComponent(out CharacterPartThing characterPartThing))
+            {
                 parts.Add(characterPartThing);
+                characterPartThing.gameObject.SetActive(false);
+            }
         }
         
         AttachPartToSlot(characterBase);
-
-        // foreach (CharacterPartThing part in parts)
-        // {
-        //     if (!addedParts.Contains(part))
-        //     {
-        //         AttachPartsToPart(part);
-        //     }
-        // }
     }
 
     /// <summary>

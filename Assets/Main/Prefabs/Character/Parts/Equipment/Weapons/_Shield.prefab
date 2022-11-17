@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1805025314463658333
+--- !u!1 &2572198047482347496
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,63 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1805025314463658328}
-  - component: {fileID: 4834256540702155305}
-  - component: {fileID: 1805025314463658335}
-  - component: {fileID: 1805025314463658334}
+  - component: {fileID: 576256720114046197}
+  - component: {fileID: 4365136481624514757}
+  - component: {fileID: 8687635426771079442}
   m_Layer: 0
-  m_Name: _Foot
+  m_Name: _Shield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1805025314463658328
+--- !u!4 &576256720114046197
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805025314463658333}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_GameObject: {fileID: 2572198047482347496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -45}
---- !u!114 &4834256540702155305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805025314463658333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17b72a0e9d7b40e709702ed7ba0cf517, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  thingName: Foot
-  thingDescription: 
-  thingIcon: {fileID: 0}
-  thingValue: 0
-  attachedThing:
-    thing: {fileID: 0}
-    transform: {fileID: 0}
-    disableWhenInInventory: 0
-    thingType: 
---- !u!212 &1805025314463658335
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &4365136481624514757
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805025314463658333}
+  m_GameObject: {fileID: 2572198047482347496}
   m_Enabled: 1
-  m_CastShadows: 2
-  m_ReceiveShadows: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
   m_MotionVectors: 1
@@ -96,36 +74,35 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 1182289947543677768, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+  m_Sprite: {fileID: 432298785, guid: abc9742696cd82142b46a15241b74020, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.4, y: 0.25333333}
+  m_Size: {x: 0.62333333, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1805025314463658334
+--- !u!114 &8687635426771079442
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1805025314463658333}
+  m_GameObject: {fileID: 2572198047482347496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5617e26558f7ca2448d5670a321f17f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rendererType: 1
-  rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
-  rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
-  useVertexColors: 0
-  parentSprite: {fileID: 0}
-  childSprites: []
-  getParentColors: 1
-  _redColor: {r: 0.776, g: 0.651, b: 0.349, a: 1}
-  _greenColor: {r: 0.91, g: 0.831, b: 0.686, a: 1}
-  _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  thingName: Shield
+  thingDescription: 
+  thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
