@@ -37,6 +37,11 @@ public class GameThing : MonoBehaviour
         get => "Game";
     }
 
+    public virtual string thingSubType
+    {
+        get => "";
+    }
+
     public virtual void Use(GameThing user)
     {
         // This is the base Use() function for GameThings.

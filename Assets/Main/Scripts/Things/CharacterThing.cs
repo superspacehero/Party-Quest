@@ -72,7 +72,7 @@ public class CharacterThing : GameThing
     {
         foreach (CharacterPartThing part in parts)
         {
-            if (part.thingType == slot.thingType && !addedParts.Contains(part))
+            if ((part.thingType == slot.thingType || part.thingSubType == slot.thingType) && !addedParts.Contains(part))
             {
                 slot.AddThing(part);
                 addedParts.Add(part);

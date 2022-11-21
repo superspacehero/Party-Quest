@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BluntWeaponThing : EquipmentThing
+public class BluntWeaponThing : WeaponThing
 {
-    public override string thingType
+    public override string thingSubType
     {
         get => "BluntWeapon";
     }
