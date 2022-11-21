@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
+  - component: {fileID: -28033865924947889}
   m_Layer: 0
   m_Name: _Pants
   m_TagString: Untagged
@@ -85,6 +86,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-28033865924947889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2572198047482347496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e2fa752b5a7459f8a01eab83a6179bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thingName: Pants
+  thingDescription: 
+  thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
 --- !u!1 &6692167342160435046
 GameObject:
   m_ObjectHideFlags: 0

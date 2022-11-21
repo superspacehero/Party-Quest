@@ -90,9 +90,13 @@ public class CharacterThing : GameThing
     public void AssembleCharacter()
     {
         // Destroy all children of the characterBase first.
-        for (int i = 0; i < characterBase.transform.childCount; i++)
+        for (int i = characterBase.transform.childCount - 1; i >= 0; i--)
         {
-            DestroyImmediate(characterBase.transform.GetChild(i).gameObject);
+            #if UNITY_EDITOR
+                DestroyImmediate(characterBase.transform.GetChild(i).gameObject);
+            #else
+                Destroy(characterBase.transform.GetChild(i).gameObject);
+            #endif
         }
 
         parts.Clear();

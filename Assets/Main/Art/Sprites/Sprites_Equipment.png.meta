@@ -153,7 +153,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Equipment_Vest_Front
+      name: Equipment_Shirts_Vest_Front
       rect:
         serializedVersion: 2
         x: 0
@@ -174,7 +174,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Equipment_Vest_Back
+      name: Equipment_Shirts_Vest_Back
       rect:
         serializedVersion: 2
         x: 0
@@ -236,6 +236,27 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Equipment_Headgear_MageHat
+      rect:
+        serializedVersion: 2
+        x: 530
+        y: 119
+        width: 481
+        height: 331
+      alignment: 9
+      pivot: {x: 0.4989605, y: 0.1450151}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ad0a17e4162a89a3ea435468dbdf23d8
+      internalID: -447316584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -249,8 +270,9 @@ TextureImporter:
     nameFileIdTable:
       Equipment_Pants_Front: -1063129006
       Equipment_Pants_Back: 749808493
-      Equipment_Vest_Front: -382002330
-      Equipment_Vest_Back: 1877978452
+      Equipment_Shirts_Vest_Back: 1877978452
+      Equipment_Headgear_MageHat: -447316584
+      Equipment_Shirts_Vest_Front: -382002330
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
