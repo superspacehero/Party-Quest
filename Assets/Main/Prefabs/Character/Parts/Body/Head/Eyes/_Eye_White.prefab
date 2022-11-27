@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1124177956195855717}
   - component: {fileID: 7643591458925893350}
-  - component: {fileID: 8478746914273709936}
   m_Layer: 0
   m_Name: Pupil
   m_TagString: Untagged
@@ -75,7 +74,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 3353167288358427426, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -85,28 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 1
   m_SpriteSortPoint: 0
---- !u!114 &8478746914273709936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4425083448021384925}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rendererType: 1
-  rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
-  rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
-  useVertexColors: 0
-  parentSprite: {fileID: 5725455690375971637}
-  childSprites: []
-  getParentColors: 1
-  _redColor: {r: 0.05169231, g: 0.04056604, b: 0.2, a: 1}
-  _greenColor: {r: 1, g: 1, b: 1, a: 1}
-  _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &8402802131490798817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,6 +91,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 975354178707580122, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
+      propertyPath: _partRenderers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 975354178707580122, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
+      propertyPath: _partRenderers.Array.data[1]
+      value: 
+      objectReference: {fileID: 7643591458925893350}
+    - target: {fileID: 975354178707580122, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
+      propertyPath: _partRenderers.Array.data[2]
+      value: 
+      objectReference: {fileID: 7643591458925893350}
     - target: {fileID: 4316743782520209363, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
       propertyPath: _animationProgress
       value: 0
@@ -130,14 +119,6 @@ PrefabInstance:
       propertyPath: sprites.Array.data[2].sprite
       value: 
       objectReference: {fileID: -1051516652, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
-    - target: {fileID: 4316743782520209364, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
-      propertyPath: childSprites.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4316743782520209364, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
-      propertyPath: childSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 8478746914273709936}
     - target: {fileID: 4316743782520209365, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -192,17 +173,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
---- !u!114 &5725455690375971637 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4316743782520209364, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}
-  m_PrefabInstance: {fileID: 8402802131490798817}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5725455690375971638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5725455690375971638 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4316743782520209367, guid: 3b4bf91dc0a1cda49917016ac03a165f, type: 3}

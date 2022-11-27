@@ -269,7 +269,6 @@ GameObject:
   - component: {fileID: 2298927228046444581}
   - component: {fileID: 4397631575770628660}
   - component: {fileID: 4397631575770628659}
-  - component: {fileID: 4397631575770628662}
   m_Layer: 0
   m_Name: _Arm
   m_TagString: Untagged
@@ -314,6 +313,10 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
+  _partRenderer: {fileID: 4397631575770628660}
+  _redColor: {r: 1, g: 1, b: 1, a: 1}
+  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &2298927228046444581
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,28 +422,6 @@ MonoBehaviour:
   m_UseBatching: 1
   m_AlwaysUpdate: 1
   m_AutoRebind: 0
---- !u!114 &4397631575770628662
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4397631575770628658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rendererType: 1
-  rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
-  rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
-  useVertexColors: 0
-  parentSprite: {fileID: 0}
-  childSprites: []
-  getParentColors: 1
-  _redColor: {r: 0.314, g: 0.427, b: 0.31, a: 1}
-  _greenColor: {r: 1, g: 1, b: 1, a: 1}
-  _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &4397631576178680204
 GameObject:
   m_ObjectHideFlags: 0

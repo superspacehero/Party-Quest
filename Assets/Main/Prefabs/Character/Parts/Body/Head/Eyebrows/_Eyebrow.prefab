@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7035756595655136296}
   - component: {fileID: 7035756595655136302}
-  - component: {fileID: 7457652617440333658}
-  - component: {fileID: 7035756595655136303}
+  - component: {fileID: 4566617509453112130}
   m_Layer: 0
-  m_Name: _Nose
+  m_Name: _Eyebrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,8 +73,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
-  m_Sprite: {fileID: 1233453743, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7414205788703214100, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7457652617440333658
+--- !u!114 &4566617509453112130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,10 +94,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7035756595655136297}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68527b57de646b03cb684fed4e83538b, type: 3}
+  m_Script: {fileID: 11500000, guid: 23b7300d5b585f613b5bd3e4b1dd0470, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingName: Nose
+  thingName: Eyebrow
   thingDescription: 
   thingIcon: {fileID: 0}
   thingValue: 0
@@ -107,25 +106,8 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
---- !u!114 &7035756595655136303
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7035756595655136297}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd3ea0d38cba4147b1e23ee0b318bc1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rendererType: 1
-  rgbSprite: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
-  rgbMeshVertex: {fileID: 2100000, guid: 88f20380d89a2465f8e369caaf7c1a5e, type: 2}
-  useVertexColors: 0
-  parentSprite: {fileID: 0}
-  childSprites: []
-  getParentColors: 1
-  _redColor: {r: 0.314, g: 0.427, b: 0.31, a: 1}
+  _partRenderers:
+  - {fileID: 7035756595655136302}
+  _redColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}

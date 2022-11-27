@@ -77,6 +77,7 @@ public class CharacterThing : GameThing
                 slot.AddThing(part);
                 addedParts.Add(part);
 
+                part.SetColors();
                 part.gameObject.SetActive(true);
 
                 AttachPartsToPart(part);
