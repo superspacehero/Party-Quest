@@ -373,9 +373,9 @@ namespace AmplifyShaderEditor
 
 		public void ChangeParameterType( PropertyType parameterType )
 		{
-			Undo.RegisterCompleteObjectUndo( m_containerGraph.ParentWindow, Constants.UndoChangePropertyTypeNodesId );
-			Undo.RegisterCompleteObjectUndo( m_containerGraph, Constants.UndoChangePropertyTypeNodesId );
-			Undo.RecordObject( this, Constants.UndoChangePropertyTypeNodesId );
+			UndoUtils.RegisterCompleteObjectUndo( m_containerGraph.ParentWindow, Constants.UndoChangePropertyTypeNodesId );
+			UndoUtils.RegisterCompleteObjectUndo( m_containerGraph, Constants.UndoChangePropertyTypeNodesId );
+			UndoUtils.RecordObject( this, Constants.UndoChangePropertyTypeNodesId );
 
 			if( m_currentParameterType == PropertyType.Constant || m_currentParameterType == PropertyType.Global )
 			{

@@ -352,11 +352,6 @@
             <seealso cref="T:Sirenix.OdinInspector.InlineButtonAttribute"/>
             <seealso cref="T:Sirenix.OdinInspector.ButtonGroupAttribute"/>
         </member>
-        <member name="F:Sirenix.OdinInspector.ButtonAttribute.ButtonHeight">
-            <summary>
-            Gets the height of the button. If it's zero or below then use default.
-            </summary>
-        </member>
         <member name="F:Sirenix.OdinInspector.ButtonAttribute.Name">
             <summary>
             Use this to override the label on the button.
@@ -381,6 +376,32 @@
         <member name="F:Sirenix.OdinInspector.ButtonAttribute.DirtyOnClick">
             <summary>
             Whether the containing object or scene (if there is one) should be marked dirty when the button is clicked. True by default. Note that if this is false, undo for any changes caused by the button click is also disabled, as registering undo events also causes dirtying.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonAttribute.ButtonHeight">
+            <summary>
+            Gets the height of the button. If it's zero or below then use default.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonAttribute.Icon">
+            <summary>
+            The icon to be displayed inside the button.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonAttribute.IconAlignment">
+            <summary>
+            The alignment of the icon that is displayed inside the button.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonAttribute.ButtonAlignment">
+            <summary>
+            The alignment of the button represented by a range from 0 to 1 where 0 is the left edge of the available space and 1 is the right edge.
+            ButtonAlignment only has an effect when Stretch is set to false.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonAttribute.Stretch">
+            <summary>
+            Whether the button should stretch to fill all of the available space. Default value is true.
             </summary>
         </member>
         <member name="P:Sirenix.OdinInspector.ButtonAttribute.DrawResult">
@@ -468,6 +489,26 @@
             <param name="buttonSize">Size of the button in pixels.</param>
             <param name="parameterBtnStyle">Button style for methods with parameters.</param>
         </member>
+        <member name="M:Sirenix.OdinInspector.ButtonAttribute.#ctor(Sirenix.OdinInspector.SdfIconType,Sirenix.OdinInspector.IconAlignment)">
+            <summary>
+            Creates a button in the inspector with a custom icon.
+            </summary>
+            <param name="icon">The icon to be displayed inside the button.</param>
+            <param name="iconAlignment">The alignment of the icon that is displayed inside the button.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.ButtonAttribute.#ctor(Sirenix.OdinInspector.SdfIconType)">
+            <summary>
+            Creates a button in the inspector with a custom icon.
+            </summary>
+            <param name="icon">The icon to be displayed inside the button.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.ButtonAttribute.#ctor(Sirenix.OdinInspector.SdfIconType,System.String)">
+            <summary>
+            Creates a button in the inspector with a custom icon.
+            </summary>
+            <param name="icon">The icon to be displayed inside the button.</param>
+            <param name="name">Custom name for the button.</param>
+        </member>
         <member name="T:Sirenix.OdinInspector.ButtonGroupAttribute">
              <summary>
              <para>ButtonGroup is used on any instance function, and adds buttons to the inspector organized into horizontal groups.</para>
@@ -526,6 +567,26 @@
              <seealso cref="T:Sirenix.OdinInspector.HorizontalGroupAttribute"/>
              <seealso cref="T:Sirenix.OdinInspector.TabGroupAttribute"/>
              <seealso cref="T:Sirenix.OdinInspector.ToggleGroupAttribute"/>
+        </member>
+        <member name="F:Sirenix.OdinInspector.ButtonGroupAttribute.ButtonHeight">
+            <summary>
+            Gets the height of the button. If it's zero or below then use default.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonGroupAttribute.IconAlignment">
+            <summary>
+            The alignment of the icon that is displayed inside the button.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonGroupAttribute.ButtonAlignment">
+            <summary>
+            The alignment of the button represented by a range from 0 to 1 where 0 is the left edge of the available space and 1 is the right edge.
+            </summary>
+        </member>
+        <member name="P:Sirenix.OdinInspector.ButtonGroupAttribute.Stretch">
+            <summary>
+            Whether the button should stretch to fill all of the available space. Default value is true.
+            </summary>
         </member>
         <member name="M:Sirenix.OdinInspector.ButtonGroupAttribute.#ctor(System.String,System.Single)">
             <summary>
@@ -2086,35 +2147,35 @@
             <param name="visibleIfMemberName">Name of member bool to show or hide the message box.</param>
         </member>
         <member name="T:Sirenix.OdinInspector.InlineButtonAttribute">
-            <summary>
-            <para>The inline button adds a button to the end of a property.</para>
-            </summary>
-            <remarks>
-            <note type="note">Due to a bug, multiple inline buttons are currently not supported.</note>
-            </remarks>
-            <example>
-            <para>The following examples demonstrates how InlineButton can be used.</para>
-            <code>
-            public class MyComponent : MonoBehaviour
-            {
-            	// Adds a button to the end of the A property.
-            	[InlineButton("MyFunction")]
-            	public int A;
-            	
-            	// This is example demonstrates how you can change the label of the button.
-            	// InlineButton also supports refering to string members with $.
-            	[InlineButton("MyFunction", "Button")]
-            	public int B;
-            	
-            	private void MyFunction()
+             <summary>
+             <para>The inline button adds a button to the end of a property.</para>
+             </summary>
+             <remarks>
+             <note type="note">Due to a bug, multiple inline buttons are currently not supported.</note>
+             </remarks>
+             <example>
+             <para>The following examples demonstrates how InlineButton can be used.</para>
+             <code>
+            	public class MyComponent : MonoBehaviour
             	{
-            		// ...
+            		// Adds a button to the end of the A property.
+            		[InlineButton("MyFunction")]
+            		public int A;
+            
+            		// This is example demonstrates how you can change the label of the button.
+            		// InlineButton also supports refering to string members with $.
+            		[InlineButton("MyFunction", "Button")]
+            		public int B;
+            
+             	private void MyFunction()
+            		{
+            			// ...
+            		}
             	}
-            }
-            </code>
-            </example>
-            <seealso cref="T:Sirenix.OdinInspector.ButtonAttribute"/>
-            <seealso cref="T:Sirenix.OdinInspector.ButtonGroupAttribute"/>
+             </code>
+             </example>
+             <seealso cref="T:Sirenix.OdinInspector.ButtonAttribute"/>
+             <seealso cref="T:Sirenix.OdinInspector.ButtonGroupAttribute"/>
         </member>
         <member name="P:Sirenix.OdinInspector.InlineButtonAttribute.MemberMethod">
             <summary>
@@ -2141,6 +2202,14 @@
             Draws a button to the right of the property.
             </summary>
             <param name="action">A resolved string that defines the action to perform when the button is clicked, such as an expression or method invocation.</param>
+            <param name="label">Optional label of the button.</param>
+        </member>
+        <member name="M:Sirenix.OdinInspector.InlineButtonAttribute.#ctor(System.String,Sirenix.OdinInspector.SdfIconType,System.String)">
+            <summary>
+            Draws a button to the right of the property.
+            </summary>
+            <param name="action">A resolved string that defines the action to perform when the button is clicked, such as an expression or method invocation.</param>
+            <param name="icon">The icon to be shown inside the button.</param>
             <param name="label">Optional label of the button.</param>
         </member>
         <member name="T:Sirenix.OdinInspector.InlineEditorAttribute">
@@ -5319,6 +5388,11 @@
         <member name="F:Sirenix.OdinInspector.ValueDropdownAttribute.CopyValues">
             <summary>
             Whether values selected by the value dropdown should be copies of the original or references (in the case of reference types). Defaults to true.
+            </summary>
+        </member>
+        <member name="F:Sirenix.OdinInspector.ValueDropdownAttribute.OnlyChangeValueOnConfirm">
+            <summary>
+            If this is set to true, the actual property value will *only* be changed *once*, when the selection in the dropdown is fully confirmed.
             </summary>
         </member>
         <member name="M:Sirenix.OdinInspector.ValueDropdownAttribute.#ctor(System.String)">

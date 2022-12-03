@@ -57,7 +57,7 @@ namespace AmplifyShaderEditor
 			if ( shader != null )
 			{
 				UIUtils.MarkUndoAction();
-				Undo.RecordObject( this, "Selected fallback shader" );
+				UndoUtils.RecordObject( this, "Selected fallback shader" );
 				m_fallbackShader = shader.name;
 			}
 		}

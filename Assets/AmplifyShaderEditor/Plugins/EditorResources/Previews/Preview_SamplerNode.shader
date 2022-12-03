@@ -24,7 +24,6 @@ Shader "Hidden/SamplerNode"
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag
-			#pragma exclude_renderers d3d9 
 			#pragma target 3.5
 			#include "UnityCG.cginc"
 			#include "UnityStandardUtils.cginc"
@@ -63,7 +62,6 @@ Shader "Hidden/SamplerNode"
 			CGPROGRAM
 			#pragma vertex vert_img
 			#pragma fragment frag
-			#pragma exclude_renderers d3d9 
 			#pragma target 3.5
 			#include "UnityCG.cginc"
 			#include "UnityStandardUtils.cginc"

@@ -435,13 +435,16 @@ namespace AmplifyShaderEditor
 
 		public override string GetPropertyValue()
 		{
+			string value = UIUtils.PropertyFloatToString( m_defaultValue );
 			if ( m_floatMode )
 			{
-				return PropertyAttributes + m_propertyName + "(\"" + m_propertyInspectorName + "\", Float) = " + m_defaultValue;
+				return PropertyAttributes + m_propertyName + "(\"" + m_propertyInspectorName + "\", Float) = " + value;
 			}
 			else
 			{
-				return PropertyAttributes + m_propertyName + "(\"" + m_propertyInspectorName + "\", Range( " + m_min + " , " + m_max + ")) = " + m_defaultValue;
+				string min = UIUtils.PropertyFloatToString( m_min );
+				string max = UIUtils.PropertyFloatToString( m_max );
+				return PropertyAttributes + m_propertyName + "(\"" + m_propertyInspectorName + "\", Range( " + min + " , " + max + ")) = " + value;
 			}
 		}
 

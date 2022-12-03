@@ -80,29 +80,6 @@ namespace AmplifyShaderEditor
 		Overlay
 	}
 
-	public enum RenderPlatforms
-	{
-		d3d9,
-		d3d11,
-		glcore,
-		gles,
-		gles3,
-		metal,
-		d3d11_9x,
-		xbox360,
-		xboxone,
-		xboxseries,
-		ps4,
-		playstation,
-		psp2,
-		n3ds,
-		wiiu,
-		@switch,
-		vulkan,
-		nomrt,
-		all
-	}
-
 	[Serializable]
 	public class NodeCache
 	{

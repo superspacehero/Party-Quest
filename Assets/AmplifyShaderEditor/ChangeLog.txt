@@ -1,7 +1,105 @@
+v1.9.1.2
+
+   Editor
+      * Fixed default template menu having invalid items
+
+   Nodes
+      * Fixed light loop regression in "SRP Additional Light" node (URP 10x)
+
+v1.9.1.1
+
+   Samples
+      * Fixed built-in SimpleTerrain example splats and terrain instancing warnings on 2021.x
+
+   Templates
+      * Fixed light loop errors in Transmission and Translucency features (URP Lit 14x)
+
+   Nodes
+      * Fixed bug in "LightAttenuation" node" breaking cascade shadows
+      * Fixed light loop errors in "SRP Additional Light" node (URP 14x)
+
+v1.9.1
+
+   Highlights
+      * Added support for SRP 14
+      * Added support for URP Forward+
+      * Improved support for SRP 10+ package (10xx to 11xx)
+      * Improved support for SRP 12+ package (12xx to 13xx)
+      * Improved editor performance and stability
+      * Improved compile times and reduced variants for SRP templates
+      * Temporary disabled Undo
+
+   Known Issues
+      * URP 2D/Sprite templates may not work properly (update delayed to 1.9.2)
+      * Undo is slow and unstable, when enabled
+
+   Templates
+      * Removed references to GBuffer pass in URP Unlit 12x
+      * Removed "LightMode" tag from Legacy Unlit template
+      * Moved CustomRT shaders to their own folder
+      * Fixed "Blend Preserves Specular" not working properly in some templates
+      * Fixed warnings related to _SHADOWS_SOFT and _ADDITIONAL_LIGHT_SHADOWS
+      * Fixed Normal vector normalization in Surface shader and custom lighting (BiRP)
+      * Fixed errors when disabling scene lighting in HDRP 12x
+      * Fixed shader keyword excess in URP 10x Lit and Unlit
+      * Fixed URP 12x decal tangents
+      * Fixed errors when using Translucency/Transmission with rendering layers
+      * Fixed stencil section writing "<Default>" when no value is set
+      * Added Shader Function option to use default header, Category color or custom
+      * Added identifiable "Fs" icon to left of Shader Function headers
+      * Added back "Normal Alpha" to HDRP 10x12x Decal template
+      * Updated UI-Default and moved to "UI/Default" in template selection
+      * Updated URP 12x decal template to match SG
+      * Updated "SRP Additional Light" node to support Forward+
+      * All ASE built-in Shader Functions now use Category color
+      * Cleaned up empty spaces and normalized ASE_ keywords across templates
+
+   Nodes
+      * Removed deprecated "SubstanceBlendMetallic" shader function
+      * Removed redundant pragma multi_compile directives from "SRP Additional Light"
+      * Moved face nodes to new "Primitive" category
+      * Fixed is_front_face related nodes broken in Surface shader mode
+      * Fixed default Shadow Mask in "SRP Additional Light" to sample baked mask
+      * Fixed mesh rendering layer errors in "SRP Additional Light"
+      * Fixed "Switch by SRP Version" fallback to None when RP Asset is not set
+      * Added node color for "Primitive" category to match "Vertex Data"
+      * Added "camera vector" search tag to "view dir" node
+      * Added "reciprocal square root" tags to RSqrt
+      * Added "square root" tags to Sqrt node
+      * Added "Blackbody" built-in shader function
+      * Added "TwoSidedSign" node
+      * Added "Square" node (for A * A)
+      * Added "Lightmap UV" node to retrieve both static and dynamic lightmap UVs
+      * Added "Shadow Mask" node
+      * Changed "Switch by Pipeline" labels to BiRP Surf, BiRP Vert/Frag, URP and HDRP
+
+   Editor
+      * Removed canvas panning/zoom info from metadata; now saved to editor prefs
+      * Fixed order of serialized-nodes/metadata changing on every save
+      * Fixed sampler state expression generation to match SG
+      * Fixed preview memory leak when "Disable Node Previews" is enabled
+      * Fixed ASE auto-importing highest SRP templates when version below min (10x)
+      * Fixed sampler syntax generation causing errors when using sampling macros
+      * Fixed secondary passes overriding global graph precision
+      * Fixed compile errors on Unity 2021
+      * Fixed DOTS instanced property support in SRP 12x and higher
+      * Fixed small numbers in Properties causing parse errors in ShaderLab
+      * Fixed inline property dependency resolve during graph load
+      * Improved SRP template auto-importer version matching and verification
+      * UV set labels now start from zero instead of one for consistency
+      * Updated master node Rendering Platforms list to latest; added missing platforms
+
+   Preferences
+      * Added "Enable Undo" option to preferences window (off by default)
+
+   Samples
+      * Removed Substance sample
+      * Unpacked CustomRT Rain sample
+
 v1.9.0.2
 
    Nodes
-      * Fixed Light Attenuation node bug causing materials to be transparent on builds	  
+      * Fixed Light Attenuation node bug causing materials to be transparent on builds
 
    Templates
       * Fixed world position in decal templates (URP-HDRP, 10x-12x)

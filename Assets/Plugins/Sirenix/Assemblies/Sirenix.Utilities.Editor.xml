@@ -5828,6 +5828,102 @@
             <param name="height">The height of the button.</param>
             <returns><c>true</c> while the button is active. Otherwise <c>false</c>.</returns>
         </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(System.String,System.Single,Sirenix.OdinInspector.SdfIconType,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="label">The button's label.</param>
+            <param name="height">The button's height.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.GUIContent,System.Single,Sirenix.OdinInspector.SdfIconType,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="label">The button's label.</param>
+            <param name="height">The button's height.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(System.String,System.Single,UnityEngine.Texture,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="label">The button's label.</param>
+            <param name="height">The button's height.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.GUIContent,System.Single,UnityEngine.Texture,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="label">The button's label.</param>
+            <param name="height">The button's height.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.Rect,System.String,Sirenix.OdinInspector.SdfIconType,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="rect">The button's rect.</param>
+            <param name="label">The button's label.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.Rect,System.String,UnityEngine.Texture,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="rect">The button's rect.</param>
+            <param name="label">The button's label.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.Rect,UnityEngine.GUIContent,Sirenix.OdinInspector.SdfIconType,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="rect">The button's rect.</param>
+            <param name="label">The button's label.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.SDFIconButton(UnityEngine.Rect,UnityEngine.GUIContent,UnityEngine.Texture,Sirenix.OdinInspector.IconAlignment,UnityEngine.GUIStyle)">
+            <summary>
+            Draws a SDF icon button.
+            </summary>
+            <param name="rect">The button's rect.</param>
+            <param name="label">The button's label.</param>
+            <param name="icon">The button's icon.</param>
+            <param name="iconAlignment">The button's icon alignment. ButtonIconAlignment.LeftOfText by default.</param>
+            <param name="style">The button's style.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.CalculateMinimumSDFIconButtonWidth(UnityEngine.GUIContent,System.Single)">
+            <summary>
+            Calculates the minimum needed space for a SDF icon button where the label is still visible.
+            </summary>
+            <param name="label">The label of the SDF icon button.</param>
+            <param name="buttonHeight">The height of the SDF icon button.</param>
+            <returns>The minimum width of the SDF icon button.</returns>
+        </member>
         <member name="M:Sirenix.Utilities.Editor.SirenixEditorGUI.ToolbarButton(Sirenix.Utilities.Editor.EditorIcon,System.Boolean)">
             <summary>
             Draws a toolbar icon button.
@@ -7119,6 +7215,11 @@
         <member name="P:Sirenix.Utilities.Editor.SirenixGUIStyles.CardStyle">
             <summary>
             Draw this one manually with: new Color(1, 1, 1, EditorGUIUtility.isProSkin ? 0.25f : 0.45f)
+            </summary>
+        </member>
+        <member name="F:Sirenix.Utilities.Editor.SirenixGUIStyles.SDFIconButtonLabelStyle">
+            <summary>
+            SDFIconButton Label.
             </summary>
         </member>
         <member name="T:Sirenix.Utilities.Editor.InstanceCreator">

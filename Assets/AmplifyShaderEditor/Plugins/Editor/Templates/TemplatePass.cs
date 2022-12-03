@@ -121,7 +121,7 @@ namespace AmplifyShaderEditor
 			m_modules.SetPassUniqueNameIfUndefined( m_passNameContainer.Data );
 
 			m_modules.SRPType = subShader.Modules.SRPType;
-			if( m_modules.SRPType == TemplateSRPType.HD )
+			if( m_modules.SRPType == TemplateSRPType.HDRP )
 			{
 				m_modules.SRPIsPBR = passInfo.Data.Contains( TemplateHelperFunctions.HDPBRTag );
 
@@ -129,7 +129,7 @@ namespace AmplifyShaderEditor
 
 			Dictionary<string, TemplateShaderPropertyData> ownDuplicatesDict = new Dictionary<string, TemplateShaderPropertyData>( duplicatesHelper );
 			TemplateHelperFunctions.CreateShaderGlobalsList( passInfo.Data, ref m_availableShaderGlobals, ref ownDuplicatesDict,subshaderIdx,passIdx );
-			if( m_modules.SRPType == TemplateSRPType.BuiltIn )
+			if( m_modules.SRPType == TemplateSRPType.BiRP )
 			{
 				TemplateHelperFunctions.CheckUnityBuiltinGlobalMacros( passInfo.Data, ref m_availableShaderGlobals, ref ownDuplicatesDict, subshaderIdx, passIdx );
 			}

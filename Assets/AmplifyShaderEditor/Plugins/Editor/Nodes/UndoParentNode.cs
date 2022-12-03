@@ -18,17 +18,17 @@ namespace AmplifyShaderEditor
 		public void UndoRecordObject( string name )
 		{
 			UIUtils.MarkUndoAction();
-			Undo.RegisterCompleteObjectUndo( UIUtils.CurrentWindow, name );
-			Undo.RecordObject( this, name );
+			UndoUtils.RegisterCompleteObjectUndo( UIUtils.CurrentWindow, name );
+			UndoUtils.RecordObject( this, name );
 		}
 
 		public virtual void RecordObject( string Id )
 		{
-			Undo.RecordObject( this, Id );
+			UndoUtils.RecordObject( this, Id );
 		}
 		public virtual void RecordObjectOnDestroy( string Id )
 		{
-			Undo.RecordObject( this, Id );
+			UndoUtils.RecordObject( this, Id );
 		}
 
 		public string EditorGUILayoutStringField( string name, string value, params GUILayoutOption[] options )

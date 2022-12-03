@@ -26,6 +26,9 @@ namespace AmplifyShaderEditor
 
 		static void OnPostprocessAllAssets( string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths )
 		{
+			ASEPackageManagerHelper.RequestInfo();
+			ASEPackageManagerHelper.Update();
+
 			bool containsShaders = false;
 			for( int i = 0; i < importedAssets.Length; i++ )
 			{

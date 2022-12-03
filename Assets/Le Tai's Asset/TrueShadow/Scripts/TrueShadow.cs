@@ -51,8 +51,10 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
     [Tooltip("Ignore the shadow caster's color, so you can choose specific color for your shadow")]
     [SerializeField] bool ignoreCasterColor = false;
 
-    [Tooltip("How to obtain the color of the area outside of the source image. " +
-             "Automatically set based on Blend Mode. You should only change this setting if you are using some very custom UI that require it")]
+    [Tooltip(
+        "How to obtain the color of the area outside of the source image. " +
+        "Automatically set based on Blend Mode. You should only change this setting if you are using some very custom UI that require it"
+    )]
     [SerializeField] ColorBleedMode colorBleedMode;
 
     [Tooltip("Improve shadow fit on some sprites")]
@@ -66,7 +68,8 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
 
 #pragma warning disable 0649
     [Tooltip(
-        "Bake the shadow to a sprite to reduce CPU and GPU usage at runtime, at the cost of storage, memory and flexibility")]
+        "Bake the shadow to a sprite to reduce CPU and GPU usage at runtime, at the cost of storage, memory and flexibility"
+    )]
     [SerializeField] bool baked;
 #pragma warning restore 0649
 
@@ -480,8 +483,6 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
 
     protected override void OnEnable()
     {
-        base.OnEnable();
-
         RectTransform  = GetComponent<RectTransform>();
         Graphic        = GetComponent<Graphic>();
         CanvasRenderer = GetComponent<CanvasRenderer>();
@@ -505,7 +506,7 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
         }
 
         // Ensure sprite mesh is acquired.
-        if(Graphic)
+        if (Graphic)
             Graphic.SetVerticesDirty();
 
 #if UNITY_EDITOR
@@ -556,6 +557,8 @@ public partial class TrueShadow : UIBehaviour, IMeshModifier, ICanvasElement
         if (shadowRenderer) shadowRenderer.Dispose();
 
         ShadowFactory.Instance.ReleaseContainer(ref shadowContainer);
+
+        StopAllCoroutines();
     }
 
     bool ShouldPerformWorks()

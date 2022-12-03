@@ -260,14 +260,14 @@ namespace AmplifyShaderEditor
 			switch( m_filterMode )
 			{
 				case FilterMode.Point:
-				result += "_point";
+				result += "_Point";
 				break;
 				default:
 				case FilterMode.Bilinear:
-				result += "_linear";
+				result += "_Linear";
 				break;
 				case FilterMode.Trilinear:
-				result += "_trilinear";
+				result += "_Trilinear";
 				break;
 			}
 
@@ -276,16 +276,16 @@ namespace AmplifyShaderEditor
 			{
 				case 0:
 				default:
-				result += "_repeat";
+				result += "_Repeat";
 				break;
 				case 1:
-				result += "_clamp";
+				result += "_Clamp";
 				break;
 				case 2:
-				result += "_mirror";
+				result += "_Mirror";
 				break;
 				case 3:
-				result += "_mirrorOnce";
+				result += "_MirrorOnce";
 				break;
 				case 4:
 				{
@@ -293,32 +293,32 @@ namespace AmplifyShaderEditor
 					{
 						default:
 						case TextureWrapMode.Repeat:
-						result += "_repeatU";
+						result += "_RepeatU";
 						break;
 						case TextureWrapMode.Clamp:
-						result += "_clampU";
+						result += "_ClampU";
 						break;
 						case TextureWrapMode.Mirror:
-						result += "_mirrorU";
+						result += "_MirrorU";
 						break;
 						case TextureWrapMode.MirrorOnce:
-						result += "_mirrorOnceU";
+						result += "_MirrorOnceU";
 						break;
 					}
 					switch( m_wrapModeV )
 					{
 						default:
 						case TextureWrapMode.Repeat:
-						result += "_repeatV";
+						result += "_RepeatV";
 						break;
 						case TextureWrapMode.Clamp:
-						result += "_clampV";
+						result += "_ClampV";
 						break;
 						case TextureWrapMode.Mirror:
-						result += "_mirrorV";
+						result += "_MirrorV";
 						break;
 						case TextureWrapMode.MirrorOnce:
-						result += "_mirrorOnceV";
+						result += "_MirrorOnceV";
 						break;
 					}
 				}
@@ -329,10 +329,10 @@ namespace AmplifyShaderEditor
 			{
 				default:
 				case AnisoModes.None:break;
-				case AnisoModes.X2:	result += "_aniso2";break;
-				case AnisoModes.X4: result += "_aniso4"; break;
-				case AnisoModes.X8: result += "_aniso8"; break;
-				case AnisoModes.X16: result += "_aniso16"; break;
+				case AnisoModes.X2:	result += "_Aniso2";break;
+				case AnisoModes.X4: result += "_Aniso4"; break;
+				case AnisoModes.X8: result += "_Aniso8"; break;
+				case AnisoModes.X16: result += "_Aniso16"; break;
 			}
 #endif
 

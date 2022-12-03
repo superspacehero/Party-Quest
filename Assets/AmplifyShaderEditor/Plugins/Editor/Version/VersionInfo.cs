@@ -10,9 +10,9 @@ namespace AmplifyShaderEditor
 	{
 		public const byte Major = 1;
 		public const byte Minor = 9;
-		public const byte Release = 0;
+		public const byte Release = 1;
 		public static byte Revision = 2;
-		
+
 		public static string StaticToString()
 		{
 			return string.Format( "{0}.{1}.{2}", Major, Minor, Release ) + ( Revision > 0 ? "." + Revision.ToString() : "" );

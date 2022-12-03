@@ -561,14 +561,19 @@ namespace AmplifyShaderEditor
 			{ "6ce779933eb99f049b78d6163735e06f","Custom Render Texture/Initialize"},
 			{ "32120270d1b3a8746af2aca8bc749736","Custom Render Texture/Update"},
 
+			{ "5056123faa0c79b47ab6ad7e8bf059a4","UI/Default" },
+
+			{ "ed95fe726fd7b4644bb42f4d1ddd2bcd","Legacy/Lit"},
 			{ "0770190933193b94aaa3065e307002fa","Legacy/Unlit"},
-			{ "32139be9c1eb75640a847f011acf3bcf","Legacy/Post-Processing Stack"},				
-			{ "c71b220b631b6344493ea3cf87110c93","Legacy/Image Effect" },			
-			{ "5056123faa0c79b47ab6ad7e8bf059a4","Legacy/Default UI" },
 			{ "899e609c083c74c4ca567477c39edef0","Legacy/Unlit Lightmap" },
+			{ "e1de45c0d41f68c41b2cc20c8b9c05ef","Legacy/Multi Pass Unlit" },
+
+			{ "32139be9c1eb75640a847f011acf3bcf","Legacy/Post-Processing Stack"},
+			{ "c71b220b631b6344493ea3cf87110c93","Legacy/Image Effect" },
+
 			{ "0f8ba0101102bb14ebf021ddadce9b49","Legacy/Default Sprites" },
 			{ "0b6a9f8b4f707c74ca64c0be8e590de0","Legacy/Particles Alpha Blended" },
-			{ "e1de45c0d41f68c41b2cc20c8b9c05ef","Legacy/Multi Pass Unlit" },
+			
 
 			{ URPLitGUID,"Universal/Lit"},
 			{ URPUnlitGUID,"Universal/Unlit"},

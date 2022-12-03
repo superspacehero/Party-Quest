@@ -89,6 +89,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 24
   spread: 0
+  useGlobalAngle: 0
   offsetAngle: 90
   offsetDistance: 4
   offset: {x: 0.0000002384186, y: -4}
@@ -98,9 +99,10 @@ MonoBehaviour:
   useCasterAlpha: 1
   ignoreCasterColor: 0
   colorBleedMode: 2
+  disableFitCompensation: 0
   shadowAsSibling: 0
   cutout: 0
   baked: 0
   modifiedFromInspector: 0
-  bakedShadows: []
   alwaysRender: 0
+  bakedShadows: []

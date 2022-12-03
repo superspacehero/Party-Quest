@@ -20,6 +20,10 @@ namespace AmplifyShaderEditor
 		public static readonly string PrefStartUp = "ASELastSession" + Application.productName;
 		public static ShowOption GlobalStartUp { get { return (ShowOption) EditorPrefs.GetInt( PrefStartUp, 0 ); } }
 
+		private static readonly GUIContent EnableUndo = new GUIContent( "Enable Undo (unstable)", "Enables undo for actions within the shader graph canvas. Currently unstable, use with caution." );
+		public static readonly string PrefEnableUndo = "ASEEnableUndo" + Application.productName;
+		public static bool GlobalEnableUndo { get { return EditorPrefs.GetBool( PrefEnableUndo, false ); } }		
+
 		private static readonly GUIContent AutoSRP = new GUIContent( "Auto import SRP shader templates", "By default Amplify Shader Editor checks for your SRP version and automatically imports the correct corresponding shader templates.\nTurn this OFF if you prefer to import them manually." );
 		public static readonly string PrefAutoSRP = "ASEAutoSRP" + Application.productName;
 		public static bool GlobalAutoSRP { get { return EditorPrefs.GetBool( PrefAutoSRP, true ); } }
@@ -54,7 +58,7 @@ namespace AmplifyShaderEditor
 
 		private static readonly GUIContent ForceTemplateInlineProperties = new GUIContent( "Force Template Inline Properties", "If active, defaults all inline properties to template values." );
 		public static readonly string PrefForceTemplateInlineProperties = "ASEForceTemplateInlineProperties" + Application.productName;
-		public static bool GlobalForceTemplateInlineProperties { get { return EditorPrefs.GetBool( PrefForceTemplateInlineProperties, false ); } }
+		public static bool GlobalForceTemplateInlineProperties { get { return EditorPrefs.GetBool( PrefForceTemplateInlineProperties, false ); } }		
 
 		[SettingsProvider]
 		public static SettingsProvider ImpostorsSettings()
@@ -83,6 +87,15 @@ namespace AmplifyShaderEditor
 				if( EditorGUI.EndChangeCheck() )
 				{
 					EditorPrefs.SetInt( PrefStartUp, ( int )startUp );
+				}
+			}
+
+			{
+				EditorGUI.BeginChangeCheck();
+				bool enableUndo = EditorGUILayout.Toggle( EnableUndo, GlobalEnableUndo );
+				if ( EditorGUI.EndChangeCheck() )
+				{
+					EditorPrefs.SetBool( PrefEnableUndo, enableUndo );
 				}
 			}
 
@@ -177,6 +190,7 @@ namespace AmplifyShaderEditor
 			if( GUILayout.Button( "Reset and Forget All" ) )
 			{
 				EditorPrefs.DeleteKey( PrefStartUp );
+				EditorPrefs.DeleteKey( PrefEnableUndo );
 				EditorPrefs.DeleteKey( PrefAutoSRP );
 
 				EditorPrefs.DeleteKey( PrefDefineSymbol );

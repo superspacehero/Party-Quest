@@ -337,7 +337,7 @@ namespace AmplifyShaderEditor
 			}
 
 #if UNITY_2021_1_OR_NEWER
-			if( ( ContainerGraph.IsLWRP || ContainerGraph.ParentWindow.IsShaderFunctionWindow ) && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_11_0_0 )
+			if( ( ContainerGraph.IsLWRP || ContainerGraph.ParentWindow.IsShaderFunctionWindow ) && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11 )
 			{
 				m_isURP2D = EditorGUILayoutToggle( "2D Renderer" , m_isURP2D);
 				if( m_isURP2D )
@@ -378,7 +378,7 @@ namespace AmplifyShaderEditor
 
 		public void SetMacros( ref MasterNodeDataCollector dataCollector )
 		{
-			if( !dataCollector.IsTemplate || dataCollector.CurrentSRPType == TemplateSRPType.BuiltIn )
+			if( !dataCollector.IsTemplate || dataCollector.CurrentSRPType == TemplateSRPType.BiRP )
 			{
 				for( int i = 0; i < ASEDeclareMacro.Length; i++ )
 				{

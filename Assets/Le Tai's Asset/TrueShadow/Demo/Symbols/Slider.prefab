@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 6
   spread: 0
+  useGlobalAngle: 0
   offsetAngle: 90
   offsetDistance: 3
   offset: {x: 0.00000017881393, y: -2.9999998}
@@ -276,12 +277,13 @@ MonoBehaviour:
   useCasterAlpha: 1
   ignoreCasterColor: 0
   colorBleedMode: 2
+  disableFitCompensation: 0
   shadowAsSibling: 0
   cutout: 0
   baked: 0
   modifiedFromInspector: 0
-  bakedShadows: []
   alwaysRender: 0
+  bakedShadows: []
 --- !u!1 &8274573659712546650
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,6 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 16
   spread: 0
+  useGlobalAngle: 0
   offsetAngle: 90
   offsetDistance: 0
   offset: {x: 0, y: -0}
@@ -563,9 +566,10 @@ MonoBehaviour:
   useCasterAlpha: 1
   ignoreCasterColor: 0
   colorBleedMode: 2
+  disableFitCompensation: 0
   shadowAsSibling: 0
   cutout: 0
   baked: 0
   modifiedFromInspector: 0
-  bakedShadows: []
   alwaysRender: 0
+  bakedShadows: []

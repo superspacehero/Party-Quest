@@ -135,6 +135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 8
   spread: 0
+  useGlobalAngle: 0
   offsetAngle: 45
   offsetDistance: 4
   offset: {x: 2.8284268, y: -2.8284273}
@@ -144,12 +145,13 @@ MonoBehaviour:
   useCasterAlpha: 1
   ignoreCasterColor: 1
   colorBleedMode: 2
+  disableFitCompensation: 0
   shadowAsSibling: 0
   cutout: 0
   baked: 0
   modifiedFromInspector: 0
-  bakedShadows: []
   alwaysRender: 0
+  bakedShadows: []
 --- !u!114 &6156281292527231860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 8
   spread: 0
+  useGlobalAngle: 0
   offsetAngle: 225
   offsetDistance: 4
   offset: {x: -2.8284276, y: 2.8284266}
@@ -173,12 +176,13 @@ MonoBehaviour:
   useCasterAlpha: 1
   ignoreCasterColor: 1
   colorBleedMode: 2
+  disableFitCompensation: 0
   shadowAsSibling: 0
   cutout: 0
   baked: 0
   modifiedFromInspector: 0
-  bakedShadows: []
   alwaysRender: 0
+  bakedShadows: []
 --- !u!114 &6156281292527231816
 MonoBehaviour:
   m_ObjectHideFlags: 0

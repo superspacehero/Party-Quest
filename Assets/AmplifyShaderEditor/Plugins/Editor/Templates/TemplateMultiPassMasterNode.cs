@@ -1401,7 +1401,7 @@ namespace AmplifyShaderEditor
 			if( m_templateMultiPass.CustomTemplatePropertyUI == CustomTemplatePropertyUIEnum.None )
 				return;
 
-			if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType != TemplateSRPType.HD ||
+			if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType != TemplateSRPType.HDRP ||
 				!m_templateMultiPass.SubShaders[ m_subShaderIdx ].Passes[ m_passIdx ].Modules.SRPIsPBR )
 				return;
 
@@ -1482,7 +1482,7 @@ namespace AmplifyShaderEditor
 			if( m_templateMultiPass.CustomTemplatePropertyUI == CustomTemplatePropertyUIEnum.None )
 				return;
 
-			if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType != TemplateSRPType.HD ||
+			if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType != TemplateSRPType.HDRP ||
 				!m_templateMultiPass.SubShaders[ m_subShaderIdx ].Passes[ m_passIdx ].Modules.SRPIsPBR )
 				return;
 
@@ -1840,7 +1840,7 @@ namespace AmplifyShaderEditor
 
 				m_drawInstancedHelper.Draw( this );
 				m_fallbackHelper.Draw( this );
-				DrawCustomInspector( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn );
+				DrawCustomInspector( m_templateMultiPass.SRPtype != TemplateSRPType.BiRP );
 				m_subShaderOptions.DrawCustomOptions( this );
 				m_dependenciesHelper.Draw( this , true );
 			}
@@ -1946,7 +1946,7 @@ namespace AmplifyShaderEditor
 				TemplateInputData inputData = templateData.InputDataFromId( ports[ i ].PortId );
 				if( ports[ i ].HasOwnOrLinkConnection )
 				{
-					//if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType == TemplateSRPType.Lightweight )
+					//if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType == TemplateSRPType.URP )
 					//{
 					//	if( ports[ i ].Name.Contains( "Normal" ) )
 					//	{
@@ -1963,7 +1963,7 @@ namespace AmplifyShaderEditor
 					//		m_currentDataCollector.AddToDirectives( SRPLWMaterialSpecularKeyword, -1, AdditionalLineType.Define );
 					//	}
 					//}
-					//else if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType == TemplateSRPType.HD )
+					//else if( m_templateMultiPass.SubShaders[ m_subShaderIdx ].Modules.SRPType == TemplateSRPType.HDRP )
 					//{
 					//	if( ports[ i ].Name.Contains( "Normal" ) )
 					//	{
@@ -2251,7 +2251,7 @@ namespace AmplifyShaderEditor
 
 
 			//Set SRP info
-			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
+			if( m_templateMultiPass.SRPtype != TemplateSRPType.BiRP )
 				ASEPackageManagerHelper.SetSRPInfoOnDataCollector( ref m_currentDataCollector );
 
 			RegisterStandaloneFuntions();
@@ -2352,7 +2352,7 @@ namespace AmplifyShaderEditor
 			}
 			else
 			{
-				shaderModel = ( m_templateMultiPass.SRPtype == TemplateSRPType.HD ) ? "4.5" : "3.0";
+				shaderModel = ( m_templateMultiPass.SRPtype == TemplateSRPType.HDRP ) ? "4.5" : "3.0";
 			}
 
 			m_currentDataCollector.TemplateDataCollectorInstance.CheckInterpolatorOverflow( shaderModel , m_passName );
@@ -2460,7 +2460,7 @@ namespace AmplifyShaderEditor
 			MasterNodeDataCollector currDataCollector = ( dataCollector == null ) ? m_currentDataCollector : dataCollector;
 
 			// Temporary hack
-			if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
+			if( m_templateMultiPass.SRPtype != TemplateSRPType.BiRP )
 			{
 				if( m_templateMultiPass.AvailableShaderProperties.Find( x => x.PropertyName.Equals( "_AlphaCutoff" ) ) == null )
 				{
@@ -2480,7 +2480,7 @@ namespace AmplifyShaderEditor
 			}
 
 			// here we add ASE attributes to the material properties that allows materials to communicate with ASE
-			//if( m_templateMultiPass.SRPtype != TemplateSRPType.BuiltIn )
+			//if( m_templateMultiPass.SRPtype != TemplateSRPType.BiRP )
 			{
 				string currentInspector = IsLODMainMasterNode ? m_customInspectorName : ContainerGraph.GetMainMasterNodeOfLOD( -1 ).CurrentInspector;
 				bool isASENativeInspector = Constants.DefaultCustomInspector.Equals( currentInspector );
@@ -3163,14 +3163,17 @@ namespace AmplifyShaderEditor
 			}
 
 			m_containerGraph.CurrentCanvasMode = NodeAvailability.TemplateShader;
-			m_containerGraph.CurrentPrecision = m_currentPrecisionType;
+			if ( m_isMainOutputNode )
+			{
+				m_containerGraph.CurrentPrecision = m_currentPrecisionType;
+			}
 			CheckLegacyCustomInspectors();
 		}
 
 		void CheckLegacyCustomInspectors()
 		{
 #if UNITY_2021_2_OR_NEWER
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_11_0_0 )
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11 )
 			{
 				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
 				{
@@ -3179,7 +3182,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.Lightweight && ASEPackageManagerHelper.CurrentLWVersion>= ASESRPVersions.ASE_SRP_12_0_0 )
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.URP && ASEPackageManagerHelper.CurrentURPBaseline>= ASESRPBaseline.ASE_SRP_12 )
 			{
 				if( Constants.CustomInspectorURP10To12.ContainsKey( m_customInspectorName ) )
 				{
@@ -3203,7 +3206,7 @@ namespace AmplifyShaderEditor
 			}
 
 #elif UNITY_2021_1_OR_NEWER
-			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_11_0_0 )
+			if( m_templateMultiPass.SubShaders[ 0 ].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_11_0_0 )
 			{
 				if( Constants.CustomInspectorHDLegacyTo11.ContainsKey( m_customInspectorName ) )
 				{
@@ -3212,7 +3215,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 #elif UNITY_2020_2_OR_NEWER
-			if(  m_templateMultiPass.SubShaders[0].Modules.SRPType == TemplateSRPType.HD && ASEPackageManagerHelper.CurrentHDVersion >= ASESRPVersions.ASE_SRP_10_0_0 )
+			if(  m_templateMultiPass.SubShaders[0].Modules.SRPType == TemplateSRPType.HDRP && ASEPackageManagerHelper.CurrentHDRPBaseline >= ASESRPBaseline.ASE_SRP_10 )
 			{
 				if( Constants.CustomInspectorHD7To10.ContainsKey( m_customInspectorName ) )
 				{

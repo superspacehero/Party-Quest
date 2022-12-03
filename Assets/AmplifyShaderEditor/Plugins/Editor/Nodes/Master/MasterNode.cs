@@ -260,26 +260,26 @@ namespace AmplifyShaderEditor
 					GenericMenu menu = new GenericMenu();
 					AddMenuItem( menu, Constants.DefaultCustomInspector );
 
-					ASESRPVersions version = ASESRPVersions.ASE_SRP_RECENT;
-					bool foundHDRP = ASEPackageManagerHelper.FoundHDVersion;
-					bool foundURP = ASEPackageManagerHelper.FoundLWVersion;
+					ASESRPBaseline version = ASESRPBaseline.ASE_SRP_INVALID;
+					bool foundHDRP = ASEPackageManagerHelper.FoundHDRPVersion;
+					bool foundURP = ASEPackageManagerHelper.FoundURPVersion;
 
 					if( foundHDRP && foundURP )
 					{
-						version = ( ASEPackageManagerHelper.CurrentHDVersion > ASEPackageManagerHelper.CurrentLWVersion ) ? ASEPackageManagerHelper.CurrentHDVersion : ASEPackageManagerHelper.CurrentLWVersion;
+						version = ( ASEPackageManagerHelper.CurrentHDRPBaseline > ASEPackageManagerHelper.CurrentURPBaseline ) ? ASEPackageManagerHelper.CurrentHDRPBaseline : ASEPackageManagerHelper.CurrentURPBaseline;
 					}
 					else if( foundHDRP )
 					{
-						version = ASEPackageManagerHelper.CurrentHDVersion;
+						version = ASEPackageManagerHelper.CurrentHDRPBaseline;
 					}
 					else if( foundURP )
 					{
-						version = ASEPackageManagerHelper.CurrentLWVersion;
+						version = ASEPackageManagerHelper.CurrentURPBaseline;
 					}
 
 					if( foundHDRP )
 					{
-						if( version >= ASESRPVersions.ASE_SRP_11_0_0 )
+						if( version >= ASESRPBaseline.ASE_SRP_11 )
 						{
 							AddMenuItem( menu , "Rendering.HighDefinition.DecalShaderGraphGUI" );
 							AddMenuItem( menu , "Rendering.HighDefinition.LightingShaderGraphGUI" );
@@ -287,14 +287,14 @@ namespace AmplifyShaderEditor
 							AddMenuItem( menu , "Rendering.HighDefinition.HDUnlitGUI" );
 						}
 						else
-						if( version >= ASESRPVersions.ASE_SRP_10_0_0 )
+						if( version >= ASESRPBaseline.ASE_SRP_10 )
 						{
 							AddMenuItem( menu , "Rendering.HighDefinition.DecalGUI" );
 							AddMenuItem( menu , "Rendering.HighDefinition.LitShaderGraphGUI" );
 							AddMenuItem( menu , "Rendering.HighDefinition.LightingShaderGraphGUI" );
 							AddMenuItem( menu , "Rendering.HighDefinition.HDUnlitGUI" );
 						}
-						else if( version >= ASESRPVersions.ASE_SRP_12_0_0 )
+						else if( version >= ASESRPBaseline.ASE_SRP_12 )
 						{
 							AddMenuItem( menu , "Rendering.HighDefinition.DecalGUI" );
 							AddMenuItem( menu , "Rendering.HighDefinition.LitShaderGraphGUI" );
@@ -309,7 +309,7 @@ namespace AmplifyShaderEditor
 
 					if( foundURP )
 					{
-						if( version >= ASESRPVersions.ASE_SRP_12_0_0 )
+						if( version >= ASESRPBaseline.ASE_SRP_12 )
 						{
 							AddMenuItem( menu , "UnityEditor.ShaderGraphLitGUI" );
 							AddMenuItem( menu , "UnityEditor.ShaderGraphUnlitGUI" );

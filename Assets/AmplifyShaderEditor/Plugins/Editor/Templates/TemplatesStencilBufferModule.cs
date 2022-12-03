@@ -34,36 +34,34 @@ namespace AmplifyShaderEditor
 		[SerializeField]
 		private bool m_active = true;
 
-        [SerializeField]
-        private InlineProperty m_reference = new InlineProperty();
+		private const int ReferenceDefaultValue = 0;
+		[SerializeField] private InlineProperty m_reference = new InlineProperty( ReferenceDefaultValue );
 
         // Read Mask
         private const int ReadMaskDefaultValue = 255;
-        [SerializeField]
-        private InlineProperty m_readMask = new InlineProperty( ReadMaskDefaultValue );
+        [SerializeField] private InlineProperty m_readMask = new InlineProperty( ReadMaskDefaultValue );
 
         //Write Mask
         private const int WriteMaskDefaultValue = 255;
-        [SerializeField]
-        private InlineProperty m_writeMask = new InlineProperty( WriteMaskDefaultValue );
+        [SerializeField] private InlineProperty m_writeMask = new InlineProperty( WriteMaskDefaultValue );
 
 		//Comparison Function
-		[NonSerialized] private int ComparisonDefaultValue;
+		[NonSerialized] private int ComparisonDefaultValue = 0;
         [SerializeField] private InlineProperty m_comparisonFunctionFrontIdx;
         [SerializeField] private InlineProperty m_comparisonFunctionBackIdx;
 
 		//Pass Stencil Op
-		[NonSerialized] private int PassStencilOpDefaultValue;
+		[NonSerialized] private int PassStencilOpDefaultValue = 0;
 		[SerializeField] private InlineProperty m_passStencilOpFrontIdx;
         [SerializeField] private InlineProperty m_passStencilOpBackIdx;
 
-        //Fail Stencil Op 
-        [NonSerialized] private int FailStencilOpDefaultValue;
+        //Fail Stencil Op
+        [NonSerialized] private int FailStencilOpDefaultValue = 0;
 		[SerializeField] private InlineProperty m_failStencilOpFrontIdx;
         [SerializeField] private InlineProperty m_failStencilOpBackIdx;
 
 		//ZFail Stencil Op
-		[NonSerialized] private int ZFailStencilOpDefaultValue;
+		[NonSerialized] private int ZFailStencilOpDefaultValue = 0;
 		[SerializeField] private InlineProperty m_zFailStencilOpFrontIdx;
         [SerializeField] private InlineProperty m_zFailStencilOpBackIdx;
 
@@ -79,17 +77,12 @@ namespace AmplifyShaderEditor
                 m_stencilOpsDict.Add( StencilBufferOpHelper.StencilOpsValues[ i ].ToLower(), i );
             }
 
-			ComparisonDefaultValue = m_comparisonDict[ "always" ];
-			PassStencilOpDefaultValue = m_stencilOpsDict[ "keep" ];
-			FailStencilOpDefaultValue = m_stencilOpsDict[ "keep" ];
-			ZFailStencilOpDefaultValue = m_stencilOpsDict[ "keep" ];
-
-	        m_comparisonFunctionFrontIdx = new InlineProperty( ComparisonDefaultValue );        
+	        m_comparisonFunctionFrontIdx = new InlineProperty( ComparisonDefaultValue );
 			m_comparisonFunctionBackIdx = new InlineProperty( ComparisonDefaultValue );
-		
-	        m_passStencilOpFrontIdx = new InlineProperty( PassStencilOpDefaultValue );        
+
+	        m_passStencilOpFrontIdx = new InlineProperty( PassStencilOpDefaultValue );
 		    m_passStencilOpBackIdx = new InlineProperty( PassStencilOpDefaultValue );
-        
+
 		    m_failStencilOpFrontIdx = new InlineProperty( FailStencilOpDefaultValue );
 	        m_failStencilOpBackIdx = new InlineProperty( FailStencilOpDefaultValue );
 
