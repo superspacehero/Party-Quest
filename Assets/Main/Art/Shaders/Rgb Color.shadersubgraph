@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "af16f17482ef49d9a68eccb608e601c0",
     "m_Properties": [
@@ -17,6 +17,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "ff75ad6d188a49dd8d4d48b995289e5f"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "df17a9efb6654cb99a58a62f0a89986c"
@@ -346,10 +352,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "df17a9efb6654cb99a58a62f0a89986c"
@@ -620,9 +627,13 @@
         "m_GuidSerialized": "58c5cb43-9e9d-42cb-8632-8fdf7ebecfcf"
     },
     "m_Name": "G Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "Color_a533dcb650354069bd831754fb32468c_2",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -633,6 +644,7 @@
         "b": 0.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -1025,9 +1037,13 @@
         "m_GuidSerialized": "db8e971a-20d7-4d51-90bc-e83a815ef873"
     },
     "m_Name": "B Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "Color_a533dcb650354069bd831754fb32468c_3",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1038,6 +1054,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -1073,9 +1090,13 @@
         "m_GuidSerialized": "370aba9d-4593-49a4-9ad6-c4f93ce49800"
     },
     "m_Name": "R Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "Color_a533dcb650354069bd831754fb32468c_1",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1086,6 +1107,7 @@
         "b": 0.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -1112,9 +1134,13 @@
         "m_GuidSerialized": "1b1daa5b-4c17-47ea-b479-361277b10fd8"
     },
     "m_Name": "Input Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_a533dcb650354069bd831754fb32468c",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1125,6 +1151,7 @@
         "b": 0.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -2004,5 +2031,26 @@
         "e32": 0.0,
         "e33": 1.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "ff75ad6d188a49dd8d4d48b995289e5f",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "a533dcb650354069bd831754fb32468c"
+        },
+        {
+            "m_Id": "9f33a9a6645d42b7b356ac21d20198f4"
+        },
+        {
+            "m_Id": "3d0ab594517d4881af9001ab28981029"
+        },
+        {
+            "m_Id": "9bf153d117d94a719d1feb514f1b851e"
+        }
+    ]
 }
 
