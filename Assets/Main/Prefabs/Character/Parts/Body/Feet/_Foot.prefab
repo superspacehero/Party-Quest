@@ -54,7 +54,8 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderer: {fileID: 1805025314463658335}
+  _partRenderers:
+  - {fileID: 1805025314463658335}
   _redColor: {r: 0.545, g: 0.329, b: 0.318, a: 1}
   _greenColor: {r: 0.863, g: 0.761, b: 0.631, a: 1}
   _blueColor: {r: 0.863, g: 0.761, b: 0.631, a: 1}
@@ -98,7 +99,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 1182289947543677768, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

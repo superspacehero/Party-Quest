@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
-public class GameThing : MonoBehaviour
+public class GameThing : SerializedMonoBehaviour
 {
     // GameThings are a base class for all interactables and collectibles in the game.
     // They have a name, a description, an icon, and a value.
@@ -73,4 +74,62 @@ public class GameThing : MonoBehaviour
             gameObject.AddComponent<Inventory>();
         }
     #endif
+
+    [FoldoutGroup("Variables")] public GameThingVariables variables;
+    
+    // We need a way to be able to add variables to the GameThing class without having to modify the class itself - we can do that with a struct.
+    [System.Serializable]
+    public struct GameThingVariables
+    {
+        public List<Variable> variables;
+
+        [System.Serializable]
+        public struct Variable
+        {
+            [HorizontalGroup("Variable", LabelWidth = 40)] public string name;
+            [HorizontalGroup("Variable", LabelWidth = 40)] public int value;
+
+            public Variable(string name, int value)
+            {
+                this.name = name;
+                this.value = value;
+            }
+        }
+
+        // We should be able to add instances of GameThingVariables to each other, in order to stack their stats.
+        public static GameThingVariables operator +(GameThingVariables a, GameThingVariables b)
+        {
+            // If a stat is present in both lists of variables, we should add the values of the two stats together.
+            // If a stat is present in only one list of variables, we should add it to the new one.
+
+            // If a is null or b is null, we should whatever isn't null.
+            if (a.variables == null)
+            {
+                if (b.variables == null)
+                    return new GameThingVariables();
+                else
+                    return b;
+            }
+
+            if (b.variables == null)
+            {
+                if (a.variables == null)
+                    return new GameThingVariables();
+                else
+                    return a;
+            }
+
+            foreach (Variable aVariable in a.variables)
+            {
+                Variable matchingBVariable = b.variables.Find(variable => variable.name == aVariable.name);
+
+                if (matchingBVariable.name != null)
+                    matchingBVariable.value += aVariable.value;
+                else
+                    b.variables.Add(new Variable(aVariable.name, aVariable.value));
+            }
+
+            return b;
+        }
+    }
 }

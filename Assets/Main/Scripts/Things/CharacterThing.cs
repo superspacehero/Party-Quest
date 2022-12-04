@@ -54,6 +54,7 @@ public class CharacterThing : GameThing
 
     public List<GameObject> characterPartPrefabs = new List<GameObject>();
     protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
+    [FoldoutGroup("Variables")] public GameThingVariables baseVariables = new GameThingVariables();
 
     [SerializeField] protected Inventory.ThingSlot characterBase;
 
@@ -76,6 +77,7 @@ public class CharacterThing : GameThing
             {
                 slot.AddThing(part);
                 addedParts.Add(part);
+                variables += part.variables;
 
                 part.SetColors();
                 part.gameObject.SetActive(true);
@@ -102,6 +104,10 @@ public class CharacterThing : GameThing
 
         parts.Clear();
 
+        if (variables.variables != null)
+            variables.variables.Clear();
+        variables += baseVariables;
+
         foreach (GameObject characterPartPrefab in characterPartPrefabs)
         {
             if (Instantiate(characterPartPrefab, characterBase.transform).TryGetComponent(out CharacterPartThing characterPartThing))
@@ -112,6 +118,12 @@ public class CharacterThing : GameThing
         }
         
         AttachPartToSlot(characterBase);
+
+        // foreach (GameThingVariables.Variable variable in variables.variables)
+        // {
+        //     if (variable.value < 0)
+        //         variable.value = 0;
+        // }
     }
 
     /// <summary>
