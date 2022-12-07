@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "7f03c3749fb74c8e8536499a9481bd8d",
     "m_Properties": [
@@ -17,6 +17,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "a1f3c901f4bd4cfab616d7f824963eaa"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "15f31a924ab64b0ea021686e81db7aa7"
@@ -197,10 +203,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "15f31a924ab64b0ea021686e81db7aa7"
@@ -343,7 +350,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 2
+    "m_Space": 2,
+    "m_PositionSource": 0
 }
 
 {
@@ -521,9 +529,13 @@
         "m_GuidSerialized": "1c4e5581-5a24-4769-a573-e102523f73ce"
     },
     "m_Name": "Toon Ramp Offset",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_595499581389472dafbc537d79097ece",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -711,6 +723,27 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "a1f3c901f4bd4cfab616d7f824963eaa",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "aa1f52f0816e490fb4e464b3a23cbf9a"
+        },
+        {
+            "m_Id": "a61114979f5e47b48be4593dcca2308f"
+        },
+        {
+            "m_Id": "c5030e5e752e4c088f2aaadef040c4bd"
+        },
+        {
+            "m_Id": "595499581389472dafbc537d79097ece"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
     "m_ObjectId": "a4499ead8c7c4d59b2139130e6198ebd",
     "m_Id": 3,
@@ -740,9 +773,13 @@
         "m_GuidSerialized": "ec6c7c0b-3a78-4e0e-96a9-1f4e04192e4d"
     },
     "m_Name": "Toon Ramp Tinting",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_a61114979f5e47b48be4593dcca2308f",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -753,6 +790,7 @@
         "b": 0.800000011920929,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -764,9 +802,13 @@
         "m_GuidSerialized": "39c3312e-ba79-43a8-970e-cae7c858176b"
     },
     "m_Name": "Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "",
     "m_OverrideReferenceName": "Color_a61114979f5e47b48be4593dcca2308f_1",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -777,6 +819,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -868,9 +911,13 @@
         "m_GuidSerialized": "9de53e1c-fa7e-42c8-ba13-17f617fc1345"
     },
     "m_Name": "Toon Ramp Smoothness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_c5030e5e752e4c088f2aaadef040c4bd",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1134,7 +1181,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 2
+    "m_Space": 2,
+    "m_PositionSource": 0
 }
 
 {
