@@ -61,6 +61,19 @@ public class Inventory : MonoBehaviour
     [SerializeField] private Transform inventoryTransform;
     public bool canQuickAddItems = true;
 
+    [Sirenix.OdinInspector.Button]
+    public void PopulateInventorySlots(List<string> actionTypes)
+    {
+        // Clear the inventory before adding new actions.
+        thingSlots = new ThingSlot[actionTypes.Count];
+
+        // Add a new ThingSlot for each action type.
+        for (int i = 0; i < actionTypes.Count; i++)
+        {
+            thingSlots[i].thingType = actionTypes[i];
+        }
+    }
+
     public void AddThing(GameThing item, ThingSlot slot)
     {
         if (Contains(item, out ThingSlot? thingSlot))
