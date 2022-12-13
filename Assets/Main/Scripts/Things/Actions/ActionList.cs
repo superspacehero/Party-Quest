@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Game Things/Action List")]
 public class ActionList : GameThing
 {
     public override string thingType

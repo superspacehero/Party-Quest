@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Game Things/Character Part Thing")]
 public class CharacterPartThing : GameThing
 {
     // CharacterThings are a subclass of GameThings that represent characters in the game.

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+[AddComponentMenu("Game Things/Character Thing")]
 public class CharacterThing : GameThing
 {
     // CharacterThings are a subclass of GameThings that represent characters in the game.
@@ -44,7 +45,7 @@ public class CharacterThing : GameThing
     // There are some things I need to figure out, though.
     // In particular, how do I handle equipment slots, and connect them with the character's parts?
 
-    // The best thing to do would probably be to build out the equipmewnt inventory after having assembled the character.
+    // The best thing to do would probably be to build out the equipment inventory after having assembled the character.
     // Because the assembler goes through every character part and every inventory slot they have, maybe we can just take every one of those slots,
     // and if their type matches with a list of compatible equipment types, add them to the equipment inventory.
 

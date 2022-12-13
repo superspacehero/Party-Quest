@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Game Things/Item Thing")]
 public class ItemThing : GameThing
 {
     // Items are GameThings that can be used by a character.

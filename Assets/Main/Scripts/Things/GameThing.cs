@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
 
+[AddComponentMenu("Game Things/Game Thing")]
 public class GameThing : SerializedMonoBehaviour
 {
     // GameThings are a base class for all interactables and collectibles in the game.

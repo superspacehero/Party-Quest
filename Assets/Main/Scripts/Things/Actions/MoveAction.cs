@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[AddComponentMenu("Game Things/Move Action")]
 public class MoveAction : ActionThing
 {
     // The number of spaces the character can move
