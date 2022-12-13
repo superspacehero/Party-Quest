@@ -22,11 +22,11 @@ public class ActionThing : GameThing
         if (!actionRunning)
         {
             actionRunning = true;
-            StartCoroutine(StartAction(user));
+            StartCoroutine(RunAction(user));
         }
     }
 
-    protected virtual IEnumerator StartAction(GameThing user)
+    protected virtual IEnumerator RunAction(GameThing user)
     {
         // This is the base StartAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.
