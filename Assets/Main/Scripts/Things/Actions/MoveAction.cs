@@ -4,60 +4,37 @@ using UnityEngine;
 
 public class MoveAction : ActionThing
 {
-// MoveAction is a subclass of ActionThing that handles moving a GameThing from one grid location to another.
-// It takes a start position, an end position, and a duration, and moves the target GameThing from the start position to the end position over the given duration.
-// It also checks if the target GameThing is a GridThing and, if so, updates its grid position to the end position on completion.
+    // The number of spaces the character can move
+    public int movementRange = 3;
 
-    private Vector3 startPosition;
-    private Vector3 endPosition;
-    private float duration;
+    // The remaining number of spaces the character can move
+    public int remainingMovement = 3;
+
+    // The position-based version of the movement system for AI
+    public Vector3 destination;
 
     protected override IEnumerator RunAction(GameThing user)
     {
-        WaitUntil waitUntil = new WaitUntil(() => isCompleted);
-        // Set the start position to the current position of the target GameThing.
-        startPosition = targetThing.transform.position;
+        // Set the user's destination
+        user.transform.position = destination;
 
-        // Calculate the end position by converting the end grid position to world space.
-        endPosition = GridThing.GridToWorld(endGridPosition);
-
-        // Calculate the duration by dividing the distance between the start and end positions by the speed.
-        duration = Vector3.Distance(startPosition, endPosition) / speed;
-
-        // Set the start time to the current time.
-        float startTime = Time.time;
-
-        // While the elapsed time is less than the duration...
-        while (Time.time - startTime < duration)
+        // While the user has remaining movement and hasn't reached their destination
+        while (remainingMovement > 0 && user.transform.position != destination)
         {
-            // Calculate the progress as a value between 0 and 1, representing how far along the move is.
-            float progress = (Time.time - startTime) / duration;
+            // Move the user towards their destination
+            user.transform.position = Vector3.MoveTowards(user.transform.position, destination, Time.deltaTime);
 
-            // Set the target GameThing's position to the interpolated value between the start and end positions.
-            targetThing.transform.position = Vector3.Lerp(startPosition, endPosition, progress);
+            // Reduce the remaining movement by 1
+            remainingMovement--;
 
-            // Wait for the next frame.
+            // Wait until the next frame
             yield return null;
         }
 
-        // Set the target GameThing's position to the end position.
-        targetThing.transform.position = endPosition;
+        // Reset the remaining movement
+        remainingMovement = movementRange;
 
-        // If the target GameThing is a GridThing, update its grid position to the end position.
-        if (targetThing is GridThing gridThing)
-        {
-            gridThing.gridPosition = endGridPosition;
-        }
-
-        // Set the action as completed.
-        isCompleted = true;
-    }
-
-    // We need a constructor for MoveAction that takes a target GameThing, an end grid position, and a speed.
-    public MoveAction(GameThing targetThing, Vector2Int endGridPosition, float speed)
-    {
-        this.targetThing = targetThing;
-        this.endGridPosition = endGridPosition;
-        this.speed = speed;
+        // The action is no longer running
+        actionRunning = false;
     }
 }

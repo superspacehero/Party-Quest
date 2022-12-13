@@ -28,7 +28,7 @@ public class ActionThing : GameThing
 
     protected virtual IEnumerator RunAction(GameThing user)
     {
-        // This is the base StartAction() function for ActionThings.
+        // This is the base RunAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.
         yield return null;
     }
