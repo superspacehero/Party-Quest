@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "936c79ee1929462095368cedbc582831",
     "m_Properties": [
@@ -14,6 +14,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "1f4023520cde4637b365d2ef23273aba"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "11d4cb18b8a4f289ac6b6a01c23d7b0b"
@@ -242,10 +248,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"instanceID\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Sub Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": "31200a270c0f78899c64d06e5fd520c9"
@@ -488,6 +495,24 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "1f4023520cde4637b365d2ef23273aba",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "88d7b5f8044a9189a025fffeb4d540e9"
+        },
+        {
+            "m_Id": "92fff433175b44a089839f9ff3073922"
+        },
+        {
+            "m_Id": "5a95b5160d9a4d19809c0436ae693f7a"
+        }
+    ]
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "1f836ff816d7ff84ae3c521c1e4c919d",
     "m_Id": 2,
@@ -701,9 +726,13 @@
         "m_GuidSerialized": "32e25fea-0a91-408c-9e5d-a519a40357a0"
     },
     "m_Name": "Max Distance",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_5a95b5160d9a4d19809c0436ae693f7a",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -846,9 +875,13 @@
         "m_GuidSerialized": "cd604cdc-8a82-4b43-89f0-1b2c4e99c24a"
     },
     "m_Name": "Opacity",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_552F67D7",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -869,9 +902,13 @@
         "m_GuidSerialized": "c07aab12-7414-474e-85ea-ce4d2b791f6d"
     },
     "m_Name": "Min Distance",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_92fff433175b44a089839f9ff3073922",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -1096,7 +1133,9 @@
         -1220967057,
         1804205488,
         541271047
-    ]
+    ],
+    "m_Dropdowns": [],
+    "m_DropdownSelectedEntries": []
 }
 
 {
@@ -1268,7 +1307,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 2
+    "m_Space": 2,
+    "m_PositionSource": 0
 }
 
 {

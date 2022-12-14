@@ -1,5 +1,5 @@
 {
-    "m_SGVersion": 2,
+    "m_SGVersion": 3,
     "m_Type": "UnityEditor.ShaderGraph.GraphData",
     "m_ObjectId": "645d7770d1124422b6225f5c5985f2f5",
     "m_Properties": [
@@ -86,6 +86,12 @@
         }
     ],
     "m_Keywords": [],
+    "m_Dropdowns": [],
+    "m_CategoryData": [
+        {
+            "m_Id": "e68bbcb1962646cb82907d2dc20b7ab7"
+        }
+    ],
     "m_Nodes": [
         {
             "m_Id": "c78d6d67cbdfa2809d984efaaedaa594"
@@ -3360,10 +3366,11 @@
         "serializedMesh": {
             "m_SerializedMesh": "{\"mesh\":{\"fileID\":10210,\"guid\":\"0000000000000000e000000000000000\",\"type\":0}}",
             "m_Guid": ""
-        }
+        },
+        "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_ConcretePrecision": 0,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -3418,9 +3425,13 @@
         "m_GuidSerialized": "79291073-3f94-44e2-9411-0b44b24f673d"
     },
     "m_Name": "Moon Radius",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_166C34A9",
     "m_OverrideReferenceName": "_MoonRadius",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3608,9 +3619,13 @@
         "m_GuidSerialized": "6923dd9c-d342-47ce-bfed-1c9ef268eac0"
     },
     "m_Name": "Day Clouds Color - Edge",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_B54BEABE",
     "m_OverrideReferenceName": "_DayCloudsColorEdge",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3621,6 +3636,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -3922,9 +3938,13 @@
         "m_GuidSerialized": "2cbf7207-cb52-4306-b7c9-8fb8cb5d18fb"
     },
     "m_Name": "Day Clouds Color - Main",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_424F81E0",
     "m_OverrideReferenceName": "_DayCloudsColorMain",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -3935,6 +3955,7 @@
         "b": 0.14509804546833039,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -4548,9 +4569,13 @@
         "m_GuidSerialized": "7f092962-d9fd-40fb-8a04-4c9b03372a3b"
     },
     "m_Name": "Moon Offset",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_6F3D4927",
     "m_OverrideReferenceName": "_MoonOffset",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -6276,9 +6301,13 @@
         "m_GuidSerialized": "1ecbce67-65b6-49eb-bcab-31208544408c"
     },
     "m_Name": "Day Sky Color - Top",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_BE31CDF2",
     "m_OverrideReferenceName": "_DaySkyColorTop",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -6289,6 +6318,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -6928,9 +6958,13 @@
         "m_GuidSerialized": "224dc78a-fc05-489d-9b2b-003eb1c9d35e"
     },
     "m_Name": "Clouds Noise Base",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_3163ABF1",
     "m_OverrideReferenceName": "_CloudsNoiseBase",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -6939,6 +6973,8 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"46cf575d402db324694967f7f292e478\",\"type\":3}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -7255,7 +7291,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -8221,9 +8258,13 @@
         "m_GuidSerialized": "b875e0e5-b281-4025-95ae-1d6317181ebb"
     },
     "m_Name": "Secondary Clouds Layer Opacity",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_BA803F6",
     "m_OverrideReferenceName": "_SecondaryCloudsLayerOpacity",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -8946,9 +8987,13 @@
         "m_GuidSerialized": "885e65bb-9e7d-4015-ae03-4d057915ef17"
     },
     "m_Name": "Clouds Secondary Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_ECE38ED2",
     "m_OverrideReferenceName": "_CloudsSecondaryScale",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -9934,9 +9979,13 @@
         "m_GuidSerialized": "073aeb7b-9ad2-4331-b6bf-3ad9b6b009ec"
     },
     "m_Name": "Sun Radius",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_2CC6A532",
     "m_OverrideReferenceName": "_SunRadius",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10111,9 +10160,13 @@
         "m_GuidSerialized": "10cb3264-315f-4127-90cf-fa1cdf55ce80"
     },
     "m_Name": "Clouds Noise Primary",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_C317BDD3",
     "m_OverrideReferenceName": "_CloudsNoisePrimary",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10122,6 +10175,8 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"d81fea6efbd983e45a1cb9f28d21e037\",\"type\":3}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 0
 }
@@ -10226,9 +10281,13 @@
         "m_GuidSerialized": "f3df922a-786d-4ccb-aa55-7aeacf436cb7"
     },
     "m_Name": "Base Noise Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_FE797C36",
     "m_OverrideReferenceName": "_BaseNoiseScale",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10407,9 +10466,13 @@
         "m_GuidSerialized": "2ea498d2-154b-4867-8a3e-a028a657e514"
     },
     "m_Name": "Secondary Clouds Layer Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_9BA3FBEE",
     "m_OverrideReferenceName": "_SecondaryCloudsLayerScale",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -10910,9 +10973,13 @@
         "m_GuidSerialized": "1a20e635-7050-4c23-b812-d60182a25e7b"
     },
     "m_Name": "Horizon Width",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_3B7A233E",
     "m_OverrideReferenceName": "_HorizonWidth",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11192,9 +11259,13 @@
         "m_GuidSerialized": "0ca36583-356b-4e49-9112-bfef5ba35f26"
     },
     "m_Name": "Horizon Color",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_1EB49FED",
     "m_OverrideReferenceName": "_HorizonColor",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11205,6 +11276,7 @@
         "b": 0.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -11313,9 +11385,13 @@
         "m_GuidSerialized": "9c175653-3257-4299-8552-d8cdacdd4db6"
     },
     "m_Name": "Horizon Brightness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_D80769F7",
     "m_OverrideReferenceName": "_HorizonBrightness",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11744,9 +11820,13 @@
         "m_GuidSerialized": "ef6aa3dc-34c9-4012-8144-9077d1da6c1e"
     },
     "m_Name": "Night Sky Color - Bottom",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_83CF459",
     "m_OverrideReferenceName": "_NightSkyColorBottom",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11757,6 +11837,7 @@
         "b": 0.6901960968971252,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -11768,9 +11849,13 @@
         "m_GuidSerialized": "147c0fbb-4ca5-41d1-aea7-1b02bb311615"
     },
     "m_Name": "WorldSpaceLight",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector4_B357CC94",
     "m_OverrideReferenceName": "_WorldSpaceLightPos0",
     "m_GeneratePropertyBlock": false,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11916,9 +12001,13 @@
         "m_GuidSerialized": "698b710a-c54c-4d9b-99e4-0c667b87bfe7"
     },
     "m_Name": "Night Clouds Color - Main",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_AB9D6D2F",
     "m_OverrideReferenceName": "_NightCloudsColorMain",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -11929,6 +12018,7 @@
         "b": 0.22745099663734437,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -12590,7 +12680,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -12937,9 +13028,13 @@
         "m_GuidSerialized": "138e0c21-7b94-4dbe-8097-bf968c22c100"
     },
     "m_Name": "Clouds Cutoff",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_249357C1",
     "m_OverrideReferenceName": "_CloudsCutoff",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -13372,9 +13467,13 @@
         "m_GuidSerialized": "d3c4bb0e-8132-4d13-8f91-39ecdbdd124e"
     },
     "m_Name": "Clouds Smoothness",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_9E12CF26",
     "m_OverrideReferenceName": "_CloudsSmoothness",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -14515,17 +14614,23 @@
 }
 
 {
-    "m_SGVersion": 0,
+    "m_SGVersion": 1,
     "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalTarget",
     "m_ObjectId": "8f5fa5057a0c4a3a96675bb00a370e07",
     "m_ActiveSubTarget": {
         "m_Id": "705423bd6bbb48c88829a70796738f3e"
     },
+    "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
+    "m_ZTestMode": 4,
+    "m_ZWriteControl": 0,
     "m_AlphaMode": 0,
-    "m_TwoSided": false,
+    "m_RenderFace": 2,
     "m_AlphaClip": false,
-    "m_CustomEditorGUI": ""
+    "m_CastShadows": true,
+    "m_ReceiveShadows": true,
+    "m_CustomEditorGUI": "",
+    "m_SupportVFX": false
 }
 
 {
@@ -14870,9 +14975,13 @@
         "m_GuidSerialized": "b84b038f-b4d0-49d1-bd8a-e1cf19dc1036"
     },
     "m_Name": "Clouds Noise Secondary",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_20CAF406",
     "m_OverrideReferenceName": "_CloudsNoiseSecondary",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -14881,6 +14990,8 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"232159d0a394d1542b93ef8e00fa769e\",\"type\":3}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 2
 }
@@ -15001,9 +15112,13 @@
         "m_GuidSerialized": "3c622fe9-27ae-4126-b8e1-d652c7f1e2a0"
     },
     "m_Name": "Stars Texture",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Texture2D_6BA91097",
     "m_OverrideReferenceName": "_StarsTexture",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -15012,6 +15127,8 @@
         "m_SerializedTexture": "{\"texture\":{\"fileID\":2800000,\"guid\":\"a1e359a0dd223fa44bfebc72ac56b1e0\",\"type\":3}}",
         "m_Guid": ""
     },
+    "isMainTexture": false,
+    "useTilingAndOffset": false,
     "m_Modifiable": true,
     "m_DefaultType": 1
 }
@@ -15194,7 +15311,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 4
+    "m_Space": 4,
+    "m_PositionSource": 0
 }
 
 {
@@ -15289,9 +15407,13 @@
         "m_GuidSerialized": "50f03177-9ae7-4465-a834-5e7fb208dcc9"
     },
     "m_Name": "Night Clouds Color - Edge",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_E5129607",
     "m_OverrideReferenceName": "_NightCloudsColorEdge",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -15302,6 +15424,7 @@
         "b": 0.4901961088180542,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -16593,9 +16716,13 @@
         "m_GuidSerialized": "eb924807-bdd1-413a-8127-482495016658"
     },
     "m_Name": "Clouds Move Speed",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_B93A03DE",
     "m_OverrideReferenceName": "_CloudsMoveSpeed",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -18028,7 +18155,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -18192,7 +18320,8 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
 {
@@ -18917,9 +19046,13 @@
         "m_GuidSerialized": "902b2f2f-b544-4fc6-9f53-b79bd9fef819"
     },
     "m_Name": "Night Sky Color - Top",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_D230EFA1",
     "m_OverrideReferenceName": "_NightSkyColorTop",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -18930,6 +19063,7 @@
         "b": 0.22745099663734437,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -20233,7 +20367,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 4
+    "m_Space": 4,
+    "m_PositionSource": 0
 }
 
 {
@@ -20475,6 +20610,96 @@
     "m_DefaultValue": 0.0,
     "m_Labels": [
         "X"
+    ]
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.CategoryData",
+    "m_ObjectId": "e68bbcb1962646cb82907d2dc20b7ab7",
+    "m_Name": "",
+    "m_ChildObjectList": [
+        {
+            "m_Id": "6359fa79fff27780bb98ba9e0faf0145"
+        },
+        {
+            "m_Id": "4fbf82e2314b1b8399f18b90d98029c7"
+        },
+        {
+            "m_Id": "004a4ba5ab8cbf82b298be468e309a0d"
+        },
+        {
+            "m_Id": "0edff7131eeefe85866cf753f47bf668"
+        },
+        {
+            "m_Id": "20f1d521b3934683962fc9f60df8009e"
+        },
+        {
+            "m_Id": "f0ce0ce0a5281384977171c258dac8b0"
+        },
+        {
+            "m_Id": "cd52a60e04c72e8db24493e72d12d50e"
+        },
+        {
+            "m_Id": "6350e23e325802839834340049371484"
+        },
+        {
+            "m_Id": "5c693d45ad864c85938bb07bde9c0736"
+        },
+        {
+            "m_Id": "5adf6676b711658585a5f7dfb90f591a"
+        },
+        {
+            "m_Id": "5e09854a3e402486ba5582f4430c2e19"
+        },
+        {
+            "m_Id": "970c9a73ab08e68b9b2e73b4b7ddf26b"
+        },
+        {
+            "m_Id": "aeb2d321db850484bf9078fca31dc701"
+        },
+        {
+            "m_Id": "54d1fb64d12bd788a9454633a5763f76"
+        },
+        {
+            "m_Id": "27d91de4fdee348d98685b9c9b595452"
+        },
+        {
+            "m_Id": "f78f12f8e6a480899ab325aea85c6550"
+        },
+        {
+            "m_Id": "5221ce9dc115698cae519346cd318ad6"
+        },
+        {
+            "m_Id": "3ffc06df340c17839ef0a30e97555630"
+        },
+        {
+            "m_Id": "94e8309f6b4f3386aa6d8b7e340bb5af"
+        },
+        {
+            "m_Id": "743c19448480ff8e9bd46c47fbd172cf"
+        },
+        {
+            "m_Id": "7882ba51cde091859ef6357ef8a14974"
+        },
+        {
+            "m_Id": "0238c770ab37768bb4c6fd695906e9f4"
+        },
+        {
+            "m_Id": "03993ad83d7f2c80b9be0db5e5087f4c"
+        },
+        {
+            "m_Id": "657094f25f88fb849cc9eb32713d7fe4"
+        },
+        {
+            "m_Id": "9ad969ea92e3b88ebe349eacfcb9abcb"
+        },
+        {
+            "m_Id": "5725a5530fb4c783ba20849fc5bba9ec"
+        },
+        {
+            "m_Id": "37abefbf8afb148ca21335bbe6eb115a"
+        }
     ]
 }
 
@@ -21336,9 +21561,13 @@
         "m_GuidSerialized": "e90589de-0f3c-4d7c-a0a9-45c5a2007777"
     },
     "m_Name": "Day Sky Color - Bottom",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Color_68FD0CD8",
     "m_OverrideReferenceName": "_DaySkyColorBottom",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -21349,6 +21578,7 @@
         "b": 1.0,
         "a": 1.0
     },
+    "isMainColor": false,
     "m_ColorMode": 0
 }
 
@@ -21524,7 +21754,8 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     },
-    "m_Space": 2
+    "m_Space": 2,
+    "m_PositionSource": 0
 }
 
 {
@@ -21587,9 +21818,13 @@
         "m_GuidSerialized": "aa2cb1e2-fd74-450d-976a-07eff44f1249"
     },
     "m_Name": "Clouds Primary Scale",
+    "m_DefaultRefNameVersion": 0,
+    "m_RefNameGeneratedByDisplayName": "",
     "m_DefaultReferenceName": "Vector1_FA4E5253",
     "m_OverrideReferenceName": "_CloudsPrimaryScale",
     "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
     "m_Precision": 0,
     "overrideHLSLDeclaration": false,
     "hlslDeclarationOverride": 0,
@@ -22197,6 +22432,7 @@
         "m_SerializableColors": []
     },
     "m_TextureType": 0,
-    "m_NormalMapSpace": 0
+    "m_NormalMapSpace": 0,
+    "m_EnableGlobalMipBias": true
 }
 
