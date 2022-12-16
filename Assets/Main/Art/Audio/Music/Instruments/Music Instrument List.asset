@@ -13,4 +13,9 @@ MonoBehaviour:
   m_Name: Music Instrument List
   m_EditorClassIdentifier: 
   instruments:
-  - {fileID: 11400000, guid: e5731ca1ecd897d84a512d8e4d215fce, type: 2}
+  - name: Piano
+    sample: {fileID: 8300000, guid: 423d2c55036d0387bac60b70729b56d8, type: 3}
+    originalKey:
+      note: 1
+      octave: 4
+    loop: 0

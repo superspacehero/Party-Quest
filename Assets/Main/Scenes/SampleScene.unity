@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08082697, g: 0.38865912, b: 1.0006193, a: 1}
+  m_IndirectSpecularColor: {r: 0.13338865, g: 0.41489252, b: 0.97448707, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -12106,27 +12106,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cb874eb4255e36b085c7999a37adf6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  thingName: 
-  thingDescription: 
-  thingIcon: {fileID: 0}
-  thingValue: 0
-  attachedThing:
-    thing: {fileID: 0}
-    transform: {fileID: 0}
-    disableWhenInInventory: 0
-    thingType: 
-  variables:
-    variables: []
-  actionInventory: {fileID: 0}
+  thingSlots: []
+  inventoryTransform: {fileID: 0}
+  canQuickAddItems: 1
 --- !u!1 &1341889189
 GameObject:
   m_ObjectHideFlags: 0
@@ -19759,7 +19741,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965906493999691994, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_AspectRatio
-      value: 2.1818614
+      value: 2.3305655
       objectReference: {fileID: 0}
     - target: {fileID: 1200746652443315568, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_RootOrder
