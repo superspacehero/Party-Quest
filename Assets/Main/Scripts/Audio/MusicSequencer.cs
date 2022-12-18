@@ -146,7 +146,7 @@ public class MusicSequencer : MonoBehaviour
                     note.note = System.Convert.ToInt32(track.noteString[i].ToString(), 16);
 
                     i++;
-                    int octave = int.Parse(track.noteString[i].ToString());
+                    note.octave = int.Parse(track.noteString[i].ToString());
 
                     // Add the note and its pitch to the dictionary
                     track.notes.Add(note);
@@ -285,8 +285,6 @@ public class MusicSequencer : MonoBehaviour
 
         // Apply the octave of the note
         pitch *= Mathf.Pow(2.0f, note.octave - instrument.originalKey.octave);
-
-        pitch *= 10;
 
         Debug.Log("Note: " + note.note + ", pitch: " + pitch);
 
