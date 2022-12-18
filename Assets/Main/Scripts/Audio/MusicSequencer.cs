@@ -224,14 +224,14 @@ public class MusicSequencer : MonoBehaviour
                 loopLength = track.notes.Count;
         }
 
-        Debug.Log
-        (
-            "Playing song: " + songData.name + "\n" +
-            "Tempo: " + songData.tempo + "\n" +
-            "Loop length: " + loopLength + "\n" +
-            "Tracks: " + songData.tracks.Count + "\n\n" +
-            "JSON: " + jsonSong
-        );
+        // Debug.Log
+        // (
+        //     "Playing song: " + songData.name + "\n" +
+        //     "Tempo: " + songData.tempo + "\n" +
+        //     "Loop length: " + loopLength + "\n" +
+        //     "Tracks: " + songData.tracks.Count + "\n\n" +
+        //     "JSON: " + jsonSong
+        // );
 
         // Calculate the duration of a beat based on the song's tempo
         float beatDuration = (60.0f / songData.tempo);
@@ -256,7 +256,7 @@ public class MusicSequencer : MonoBehaviour
                 // Get the current note
                 Note note = track.notes[currentBeat];
 
-                // Play the note if it is not a space or dash
+                // Play the note if it is not a hold or rest
                 if (note.note > 0)
                 {
                     // Calculate the pitch of the note, and play the note
@@ -273,6 +273,9 @@ public class MusicSequencer : MonoBehaviour
             // Increment the current beat
             currentBeat++;
 
+            if (songData.loop >= 0 && currentBeat >= loopLength)
+                currentBeat = songData.loop;
+
             // Wait for the next beat
             yield return beat;
         }
@@ -286,7 +289,7 @@ public class MusicSequencer : MonoBehaviour
         // Apply the octave of the note
         pitch *= Mathf.Pow(2.0f, note.octave - instrument.originalKey.octave);
 
-        Debug.Log("Note: " + note.note + ", pitch: " + pitch);
+        // Debug.Log("Note: " + note.note + ", pitch: " + pitch);
 
         return pitch;
     }
