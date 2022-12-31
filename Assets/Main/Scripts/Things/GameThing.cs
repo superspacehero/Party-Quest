@@ -9,7 +9,7 @@ public class GameThing : SerializedMonoBehaviour
     // GameThings are a base class for all interactables and collectibles in the game.
     // They have a name, a description, an icon, and a value.
     // Their value is primarily used for determining how much they are worth when sold,
-    // but can also be used for other things, such as the number a die lands on, damage/armor/healing stats, etc.
+    // but can also be used for other things, such as the number a die lands on.
 
     // They also have a thingType, which is a string used to determine what type of thing they are,
     // and an attachedThing, which is a reference to another GameThing that is attached to this one.
@@ -132,4 +132,143 @@ public class GameThing : SerializedMonoBehaviour
             return b;
         }
     }
+
+    #region Colors
+
+        // A material property block, used to change the colors of the Red, Green, and Blue channels of the character part's sprite(s).
+        private MaterialPropertyBlock materialPropertyBlock
+        {
+            get
+            {
+                if (_materialPropertyBlock == null)
+                {
+                    _materialPropertyBlock = new MaterialPropertyBlock();
+                }
+                return _materialPropertyBlock;
+            }
+        }
+        private MaterialPropertyBlock _materialPropertyBlock;
+
+        private List<Renderer> renderers
+        {
+            get
+            {
+                if (_renderers.Count <= 0)
+                    if (TryGetComponent(out Renderer renderer))
+                        _renderers.Add(renderer);
+
+                return _renderers;
+            }
+        }
+        [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
+
+        public Color redColor
+        {
+            get { return _redColor; }
+            set
+            {
+                _redColor = value;
+                
+                SetColor("_RedColor", _redColor, out _redColor);
+            }
+        }
+
+        public Color greenColor
+        {
+            get { return _greenColor; }
+            set
+            {
+                _greenColor = value;
+                
+                SetColor("_GreenColor", _greenColor, out _greenColor);
+            }
+        }
+
+        public Color blueColor
+        {
+            get { return _blueColor; }
+            set
+            {
+                _blueColor = value;
+                
+                SetColor("_BlueColor", _blueColor, out _blueColor);
+            }
+        }
+
+        [SerializeField, Sirenix.OdinInspector.ColorPalette]
+        private Color _redColor = Color.white, _greenColor = Color.white, _blueColor = Color.white;
+
+        /// <summary>
+        /// Called when the script is loaded or a value is changed in the
+        /// inspector (Called in the editor only).
+        /// </summary>
+        void OnValidate()
+        {
+            SetColors();
+        }
+        
+        protected void SetColor(string colorName, Color color, out Color referenceColor)
+        {
+            referenceColor = color;
+
+            if (renderers.Count <= 0)
+                return;
+
+            if (renderers[0] != null)
+                renderers[0].GetPropertyBlock(materialPropertyBlock);
+
+            foreach (Renderer partRenderer in renderers)
+            {
+                materialPropertyBlock.SetColor(colorName, color);
+                partRenderer.SetPropertyBlock(materialPropertyBlock);
+            }
+        }
+
+        protected void SetColor(string colorName, Color color, Renderer renderer)
+        {
+            if (renderer != null)
+                renderer.GetPropertyBlock(materialPropertyBlock);
+
+            materialPropertyBlock.SetColor(colorName, color);
+            renderer.SetPropertyBlock(materialPropertyBlock);
+        }
+
+        public void SetColors()
+        {
+            redColor = redColor;
+            greenColor = greenColor;
+            blueColor = blueColor;
+        }
+
+        public void SetColors(Renderer renderer)
+        {
+            SetColor("_RedColor", redColor, renderer);
+            SetColor("_GreenColor", greenColor, renderer);
+            SetColor("_BlueColor", blueColor, renderer);
+        }
+
+        public virtual void SetColors(UnityEngine.UI.Graphic graphic)
+        {
+            Material materialForRendering = graphic.materialForRendering;
+
+            materialForRendering.SetColor("_RedColor", redColor);
+            materialForRendering.SetColor("_GreenColor", greenColor);
+            materialForRendering.SetColor("_BlueColor", blueColor);
+
+            graphic.material = materialForRendering;
+        }
+
+
+    [Sirenix.OdinInspector.Button]
+        void GetRenderers()
+        {
+            _renderers.Clear();
+
+            foreach (Renderer partRenderer in GetComponentsInChildren<Renderer>(includeInactive: true))
+            {
+                _renderers.Add(partRenderer);
+            }
+        }
+
+    #endregion
 }
