@@ -81,14 +81,19 @@ public class GameThing : SerializedMonoBehaviour
     [System.Serializable]
     public struct GameThingVariables
     {
+        // A list of variables, each with a name and a value.
         public List<Variable> variables;
 
+        // A struct to represent a single variable, with a name and a value.
         [System.Serializable]
         public struct Variable
         {
+            // The name of the variable.
             [HorizontalGroup("Variable", LabelWidth = 40)] public string name;
+            // The value of the variable.
             [HorizontalGroup("Variable", LabelWidth = 40)] public int value;
 
+            // Constructor for the Variable struct.
             public Variable(string name, int value)
             {
                 this.name = name;
@@ -96,40 +101,48 @@ public class GameThing : SerializedMonoBehaviour
             }
         }
 
-        // We should be able to add instances of GameThingVariables to each other, in order to stack their stats.
+        // Operator to add two instances of GameThingVariables together.
         public static GameThingVariables operator +(GameThingVariables a, GameThingVariables b)
         {
-            // If a stat is present in both lists of variables, we should add the values of the two stats together.
-            // If a stat is present in only one list of variables, we should add it to the new one.
+            // If a is null or b is null, return the other one.
+            if (a.variables == null || b.variables == null)
+                return a.variables == null ? b : a;
 
-            // If a is null or b is null, we should whatever isn't null.
-            if (a.variables == null)
+            // Create a new GameThingVariables instance to store the result.
+            GameThingVariables result = new GameThingVariables();
+            result.variables = new List<Variable>();
+
+            // Iterate over the variables in a.
+            foreach (Variable variable in a.variables)
             {
-                if (b.variables == null)
-                    return new GameThingVariables();
+                // Check if the variable is also present in b.
+                Variable otherVariable = b.variables.Find(v => v.name == variable.name);
+                if (otherVariable.name != null)
+                {
+                    // If the variable is present in b, add the values together and add the result to the result list.
+                    result.variables.Add(new Variable(variable.name, variable.value + otherVariable.value));
+                }
                 else
-                    return b;
+                {
+                    // If the variable is not present in b, add it to the result list as-is.
+                    result.variables.Add(variable);
+                }
             }
 
-            if (b.variables == null)
+            // Iterate over the variables in b.
+            foreach (Variable variable in b.variables)
             {
-                if (a.variables == null)
-                    return new GameThingVariables();
-                else
-                    return a;
+                // Check if the variable is not present in a.
+                Variable otherVariable = a.variables.Find(v => v.name == variable.name);
+                if (otherVariable.name == null)
+                {
+                    // If the variable is not present in a, add it to the result list as-is.
+                    result.variables.Add(variable);
+                }
             }
 
-            foreach (Variable aVariable in a.variables)
-            {
-                Variable matchingBVariable = b.variables.Find(variable => variable.name == aVariable.name);
-
-                if (matchingBVariable.name != null)
-                    matchingBVariable.value += aVariable.value;
-                else
-                    b.variables.Add(new Variable(aVariable.name, aVariable.value));
-            }
-
-            return b;
+            // Return the result.
+            return result;
         }
     }
 

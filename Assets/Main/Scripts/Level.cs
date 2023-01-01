@@ -16,6 +16,7 @@ public struct Level
 
     [ReadOnly]
     public List<SavedTile> groundTiles, propTiles, objectTiles;
+    [ReadOnly] public List<GameThing> things;
     public List<Room> rooms;
 
     public string Serialize()
@@ -55,11 +56,14 @@ public struct Level
     [System.Serializable]
     public struct Room
     {
-        // A room is simply a bounding box that stores a list of the objects within that bounding box.
+        // A room is simply a bounding box that stores a list of the things within that bounding box.
         // As with HeroQuest, the room's purpose is to act as a sort of "fog of war".
-        // When the player enters a room, the objects found in that room are activated and revealed.
+        // When the player enters a room, the things found in that room are activated and revealed.
 
         public Vector3Int min, max;
+
+        // A list of all the things in this room.
+        public List<GameThing> things;
 
         // A bool that determines whether or not the player has discovered this room. This shouldn't be serialized or saved.
         private bool discovered;
