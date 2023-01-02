@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class Dice : MovingThing
+public class Dice : GameThing
 {
     #region Dice
 
@@ -32,6 +32,8 @@ public class Dice : MovingThing
         [SerializeField, FoldoutGroup("Dice")]
         private LayerMask layerMask;
 
+        [SerializeField, FoldoutGroup("Attached Things")] protected Inventory.ThingSlot cameraPoint;
+
     #endregion
 
     #region Movement
@@ -42,7 +44,7 @@ public class Dice : MovingThing
             get
             {
                 if (_rb == null)
-                    meshBase.TryGetComponent(out _rb);
+                    attachedThing.transform.TryGetComponent(out _rb);
 
                 return _rb;
             }
@@ -64,7 +66,7 @@ public class Dice : MovingThing
         /// <summary>
         /// This function is called when the object becomes enabled and active.
         /// </summary>
-        protected override void OnEnable()
+        private void OnEnable()
         {
             InitializeDice();
         }
@@ -78,13 +80,13 @@ public class Dice : MovingThing
         {
             if (!initialized)
             {
-                cameraPointOffset = cameraPoint.localPosition;
+                cameraPointOffset = cameraPoint.transform.localPosition;
                 initialized = true;
             }
 
             rolled = false;
-            value = 0;
-            cameraPoint.localPosition = cameraPointOffset;
+            thingValue = 0;
+            cameraPoint.transform.localPosition = cameraPointOffset;
             rollTime = 0f;
 
             enabledEvent.Invoke();
@@ -92,8 +94,8 @@ public class Dice : MovingThing
             rb.constraints = RigidbodyConstraints.FreezePosition;
             rb.angularVelocity = Vector3.zero;
             
-            meshBase.localPosition = Vector3.zero;
-            meshBase.localRotation = Quaternion.identity;
+            attachedThing.transform.localPosition = Vector3.zero;
+            attachedThing.transform.localRotation = Quaternion.identity;
 
             // Spin dice until it's rolled.
             while (!rolled)
@@ -117,27 +119,27 @@ public class Dice : MovingThing
                 //     rb.AddTorque(Kp * err - Kd * rb.angularVelocity, ForceMode.Acceleration);
                 // }
 
-                cameraPoint.position = meshBase.position + cameraPointOffset;
+                cameraPoint.transform.position = attachedThing.transform.position + cameraPointOffset;
 
                 yield return General.waitForFixedUpdate;
                 rollTime += Time.fixedDeltaTime;
             }
 
             // Dice behavior when it's stopped rolling.
-            var upDir = dirs.OrderBy(x => Vector3.Angle(meshBase.TransformDirection(x), Vector3.up)).First();
+            var upDir = dirs.OrderBy(x => Vector3.Angle(attachedThing.transform.TransformDirection(x), Vector3.up)).First();
 
-            value = dirs.IndexOf(upDir) + 1;
-            onValueChanged.Invoke(value);
+            thingValue = dirs.IndexOf(upDir) + 1;
+            onValueChanged.Invoke(thingValue);
 
-            Debug.Log($"Value: {value}");
+            Debug.Log($"Value: {thingValue}");
         }
 
         private void Launch(Vector3 direction)
         {
-            if (rolled && value <= 0)
+            if (rolled && thingValue <= 0)
                 return;
 
-            if (value > 0)
+            if (thingValue > 0)
                 InitializeDice();
 
             rolled = true;
@@ -174,16 +176,9 @@ public class Dice : MovingThing
                 Launch(direction);
         }
 
-        public override void PrimaryAction(bool runningAction)
+        public override void Use(GameThing user)
         {
-            if (runningAction)
-                RandomLaunch();
-        }
-
-        public override void SecondaryAction(bool runningAction)
-        {
-            if (runningAction)
-                RandomLaunch();
+            RandomLaunch();
         }
 
     #endregion

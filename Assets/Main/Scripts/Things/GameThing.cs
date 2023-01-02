@@ -31,7 +31,7 @@ public class GameThing : SerializedMonoBehaviour
     public string thingDescription;
     public Sprite thingIcon;
     public int thingValue;
-    [SerializeField] protected Inventory.ThingSlot attachedThing;
+    [SerializeField, FoldoutGroup("Attached Things")] protected Inventory.ThingSlot attachedThing;
 
     public virtual string thingType
     {
