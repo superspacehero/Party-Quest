@@ -100,11 +100,11 @@ public class Dice : GameThing
             // Spin dice until it's rolled.
             while (!rolled)
             {
-                rotationDirection.x = Mathf.PingPong(Time.time * rollSpeed, 180f);
-                rotationDirection.y = Mathf.Repeat(Time.time * rollSpeed, 360f);
+                // rotationDirection.x = Mathf.PingPong(Time.time * rollSpeed, 180f);
+                // rotationDirection.y = Mathf.Repeat(Time.time * rollSpeed, 360f);
                 
-                // Roll the dice around to show all sides.
-                rb.AddTorque(rotationDirection, ForceMode.Impulse);
+                // // Roll the dice around to show all sides.
+                // rb.AddTorque(rotationDirection, ForceMode.Impulse);
 
                 yield return General.waitForFixedUpdate;
             }
@@ -170,11 +170,11 @@ public class Dice : GameThing
             Launch(launchDirection);
         }
 
-        public override void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
-        {
-            if (direction.magnitude >= stickLaunchMagnitude)
-                Launch(direction);
-        }
+        // public override void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
+        // {
+        //     if (direction.magnitude >= stickLaunchMagnitude)
+        //         Launch(direction);
+        // }
 
         public override void Use(GameThing user)
         {

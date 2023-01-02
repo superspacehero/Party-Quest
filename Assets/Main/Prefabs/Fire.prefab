@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7414072342688845223}
   m_Father: {fileID: 0}
@@ -44,14 +45,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9eaa02d4d525fba76a49ad2b0e0ee479, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtPriority: 2
-  _lookAtPoint: {fileID: 0}
-  nameString:
+  useLocalizedString: 0
+  nameString: 
+  localizedNameString:
     mTerm: 
     mRTL_IgnoreArabicFix: 0
     mRTL_MaxLineLength: 0
     mRTL_ConvertNumbers: 0
     m_DontLocalizeParameters: 0
+  properNoun: 0
   descriptionString:
     mTerm: 
     mRTL_IgnoreArabicFix: 0
@@ -60,6 +62,25 @@ MonoBehaviour:
     m_DontLocalizeParameters: 0
   icon: {fileID: 0}
   value: 0
+  deactivateIfInUndiscoveredRooms: 1
+  canDiscoverRooms: 0
+  rooms: []
+  mainSFX:
+    sfx: {fileID: 0}
+  _controlledThing: {fileID: 0}
+  _cameraPoint: {fileID: 0}
+  moveCameraToMeWhenControlling: 0
+  useUI: 0
+  tileMoveTime: 0.2
+  tileJumpTime: 0.3
+  maxStepHeight: 0.5
+  jumpHeight: 0.5
+  movement: {x: 0, y: 0, z: 0}
+  rotationBehavior: 0
+  _meshBase: {fileID: 0}
+  rotationTime: 0.25
+  primaryAction: 0
+  secondaryAction: 0
   health:
     health: 0
     maxHealth: -1
@@ -72,16 +93,10 @@ MonoBehaviour:
     dieEvent:
       m_PersistentCalls:
         m_Calls: []
-  _cameraPoint: {fileID: 0}
-  useUI: 0
+  solid: 1
+  _movesLeft: 0
   overlappingThings: []
   thingsInFront: []
-  tileMoveTime: 0.2
-  maxStepHeight: 0.5
-  rotationBehavior: 0
-  _meshBase: {fileID: 0}
-  rotationTime: 0.25
-  solid: 1
 --- !u!1 &3889184940156098988
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +109,7 @@ GameObject:
   - component: {fileID: 9218473961352936796}
   - component: {fileID: 1179730562756088957}
   - component: {fileID: 8685718584451821460}
+  - component: {fileID: 6987885207609572413}
   m_Layer: 0
   m_Name: Mesh
   m_TagString: Untagged
@@ -111,6 +127,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 981573648201477604}
   m_RootOrder: 0
@@ -134,6 +151,7 @@ MeshRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -175,7 +193,7 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.4666667, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.3137255, b: 0, a: 1}
   m_Intensity: 5
   m_Range: 5
   m_SpotAngle: 30
@@ -226,3 +244,23 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &6987885207609572413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3889184940156098988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 474bcb49853aa07438625e644c072ee6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Version: 1
+  m_UsePipelineSettings: 1
+  m_AdditionalLightsShadowResolutionTier: 2
+  m_LightLayerMask: 1
+  m_CustomShadowLayers: 0
+  m_ShadowLayerMask: 1
+  m_LightCookieSize: {x: 1, y: 1}
+  m_LightCookieOffset: {x: 0, y: 0}

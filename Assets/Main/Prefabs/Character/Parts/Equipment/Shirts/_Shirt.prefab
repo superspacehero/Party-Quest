@@ -98,6 +98,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d80889301b2453628a52889ff563dbe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   thingName: Shirt
   thingDescription: 
   thingIcon: {fileID: 0}
@@ -107,10 +116,12 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderers:
+  variables:
+    variables: []
+  _renderers:
   - {fileID: 4365136481624514757}
   - {fileID: 3548897997636377796}
-  _redColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
+  _redColor: {r: 0.5568628, g: 0.14509805, b: 0.11372549, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &6692167342160435046

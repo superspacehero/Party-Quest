@@ -249,54 +249,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d5f10933c914c5fdb061f02e142c265, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useLocalizedString: 0
-  nameString: 
-  localizedNameString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  properNoun: 0
-  descriptionString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  icon: {fileID: 0}
-  value: 0
-  health:
-    health: 0
-    maxHealth: -1
-    initializeEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    hurtEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    dieEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  deactivateIfInUndiscoveredRooms: 0
-  canDiscoverRooms: 0
-  rooms: []
-  mainSFX:
-    sfx: {fileID: 0}
-  _controlledThing: {fileID: 0}
-  _cameraPoint: {fileID: 4136202228221795525}
-  moveCameraToMeWhenControlling: 0
-  useUI: 0
-  tileMoveTime: 0.2
-  tileJumpTime: 0.3
-  maxStepHeight: 0.5
-  jumpHeight: 0.5
-  movement: {x: 0, y: 0, z: 0}
-  rotationBehavior: 0
-  _meshBase: {fileID: 4856599627843778429}
-  rotationTime: 0.25
-  primaryAction: 0
-  secondaryAction: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  thingName: 
+  thingDescription: 
+  thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
+  variables:
+    variables: []
+  _renderers:
+  - {fileID: 2012962141309948856}
+  _redColor: {r: 1, g: 0, b: 0.2509804, a: 1}
+  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
   enabledEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -313,15 +290,19 @@ MonoBehaviour:
   - {x: 0, y: -1, z: 0}
   - {x: 1, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
-  Kp: 100
-  Kd: 20
   layerMask:
     serializedVersion: 2
     m_Bits: 8
+  cameraPoint:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
   stickLaunchMagnitude: 0.99
   verticalLaunchForce: 2.5
   launchForce: 2.5
   rollSpeed: 500
+  maxRollTime: 4
 --- !u!4 &2999873467346498766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e12d7139c12f7b243bddd595110607af, type: 3}

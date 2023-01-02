@@ -98,6 +98,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d569ed79e56720979a579498eab3a553, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   thingName: 
   thingDescription: 
   thingIcon: {fileID: 0}
@@ -107,10 +116,12 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderers:
+  variables:
+    variables: []
+  _renderers:
   - {fileID: 4316743782520209365}
   _redColor: {r: 1, g: 1, b: 1, a: 1}
-  _greenColor: {r: 0.647, g: 0.204, b: 0.227, a: 1}
+  _greenColor: {r: 0.5568628, g: 0.14509805, b: 0.11372549, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &4316743782520209363
 MonoBehaviour:

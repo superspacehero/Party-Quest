@@ -97,6 +97,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d95c7a6d6ecb98d0584676591637e85a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   thingName: Hammer
   thingDescription: 
   thingIcon: {fileID: 0}
@@ -106,8 +115,10 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderers:
+  variables:
+    variables: []
+  _renderers:
   - {fileID: 4365136481624514757}
-  _redColor: {r: 0.596, g: 0.345, b: 0.235, a: 1}
-  _greenColor: {r: 0.435, g: 0.161, b: 0.063, a: 1}
-  _blueColor: {r: 0.776, g: 0.651, b: 0.349, a: 1}
+  _redColor: {r: 0.3647059, g: 0.17254902, b: 0.15686275, a: 1}
+  _greenColor: {r: 0.22352941, g: 0.12156863, b: 0.12941177, a: 1}
+  _blueColor: {r: 0.9019608, g: 0.6117647, b: 0.4117647, a: 1}
