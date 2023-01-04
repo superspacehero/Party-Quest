@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 981573648201477604}
-  - component: {fileID: 4268478293714792508}
   m_Layer: 0
   m_Name: Fire
   m_TagString: Untagged
@@ -33,70 +32,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4268478293714792508
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 981573648201477528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9eaa02d4d525fba76a49ad2b0e0ee479, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useLocalizedString: 0
-  nameString: 
-  localizedNameString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  properNoun: 0
-  descriptionString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  icon: {fileID: 0}
-  value: 0
-  deactivateIfInUndiscoveredRooms: 1
-  canDiscoverRooms: 0
-  rooms: []
-  mainSFX:
-    sfx: {fileID: 0}
-  _controlledThing: {fileID: 0}
-  _cameraPoint: {fileID: 0}
-  moveCameraToMeWhenControlling: 0
-  useUI: 0
-  tileMoveTime: 0.2
-  tileJumpTime: 0.3
-  maxStepHeight: 0.5
-  jumpHeight: 0.5
-  movement: {x: 0, y: 0, z: 0}
-  rotationBehavior: 0
-  _meshBase: {fileID: 0}
-  rotationTime: 0.25
-  primaryAction: 0
-  secondaryAction: 0
-  health:
-    health: 0
-    maxHealth: -1
-    initializeEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    hurtEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    dieEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  solid: 1
-  _movesLeft: 0
-  overlappingThings: []
-  thingsInFront: []
 --- !u!1 &3889184940156098988
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,7 +124,7 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3889184940156098988}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0

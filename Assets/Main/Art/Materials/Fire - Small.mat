@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Fire
+  m_Name: Fire - Small
   m_Shader: {fileID: 4800000, guid: 04f9e74b54a752a47b979c6e1f4e791f, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -34,11 +34,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0.1
     - _AlphaCutoff: 0.5
     - _DistortStrength: 0.5
     - _FlameSpeed: 0.5
-    - _GlowIntensity: 2
-    - _NoiseScale: 1
+    - _GlowIntensity: 20
+    - _NoiseScale: 0.1
     - _QueueControl: 0
     - _QueueOffset: 0
     - _YScale: 1

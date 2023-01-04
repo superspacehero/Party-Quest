@@ -167,8 +167,7 @@ public class GameThing : SerializedMonoBehaviour
             get
             {
                 if (_renderers.Count <= 0)
-                    if (TryGetComponent(out Renderer renderer))
-                        _renderers.Add(renderer);
+                    _renderers.AddRange(GetComponentsInChildren<Renderer>());
 
                 return _renderers;
             }
