@@ -231,6 +231,9 @@ public class GameThing : SerializedMonoBehaviour
 
             foreach (Renderer partRenderer in renderers)
             {
+                if (partRenderer == null)
+                    continue;
+
                 materialPropertyBlock.SetColor(colorName, color);
                 partRenderer.SetPropertyBlock(materialPropertyBlock);
             }
