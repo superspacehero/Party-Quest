@@ -30,6 +30,11 @@ public class MoveAction : ActionThing
         Vector3Int.right
     };
 
+    public override void Move(Vector2 direction)
+    {
+
+    }
+
     protected override IEnumerator RunAction(GameThing user)
     {
         // Calculate the set of valid grid spaces within the number of spaces the character can move
@@ -83,7 +88,7 @@ public class MoveAction : ActionThing
             }
 
             // Wait until the next frame
-            yield return null;
+            yield return General.waitForFixedUpdate;
         }
 
         // The action is no longer running

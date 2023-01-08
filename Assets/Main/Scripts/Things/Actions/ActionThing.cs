@@ -27,6 +27,24 @@ public class ActionThing : GameThing
         }
     }
 
+    public virtual void Move(Vector2 direction)
+    {
+        // This is the base Move() function for ActionThings.
+        // It does nothing, and is overridden by subclasses.
+    }
+
+    public virtual void PrimaryAction(bool pressed)
+    {
+        // This is the base PrimaryAction() function for ActionThings.
+        // It does nothing, and is overridden by subclasses.
+    }
+
+    public virtual void SecondaryAction(bool pressed)
+    {
+        // This is the base SecondaryAction() function for ActionThings.
+        // It does nothing, and is overridden by subclasses.
+    }
+
     protected virtual IEnumerator RunAction(GameThing user)
     {
         // This is the base RunAction() function for ActionThings.

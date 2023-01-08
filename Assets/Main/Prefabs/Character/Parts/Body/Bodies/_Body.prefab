@@ -245,6 +245,7 @@ GameObject:
   - component: {fileID: 7035756595655136296}
   - component: {fileID: 8949402724545770871}
   - component: {fileID: 2343948742304925031}
+  - component: {fileID: 3900796145286447622}
   m_Layer: 0
   m_Name: _Body
   m_TagString: Untagged
@@ -301,7 +302,7 @@ MonoBehaviour:
     thingType: 
   variables:
     variables: []
-  _partRenderers:
+  _renderers:
   - {fileID: 3609940238785323769}
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
@@ -349,6 +350,24 @@ MonoBehaviour:
     thingType: Pants
   inventoryTransform: {fileID: 0}
   canQuickAddItems: 1
+--- !u!143 &3900796145286447622
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7035756595655136297}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.5
+  m_Radius: 0.32
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.75, z: 0}
 --- !u!1 &7535787541844962667
 GameObject:
   m_ObjectHideFlags: 0

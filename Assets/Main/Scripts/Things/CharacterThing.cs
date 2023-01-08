@@ -19,19 +19,52 @@ public class CharacterThing : GameThing
         get => "Character";
     }
 
-    public override void Use(GameThing user)
-    {
-        // Attach this CharacterThing to the user.
-        // This is how characters are controlled.
-        
-        if (user != null)
+    #region Controlling Characters
+
+        private ActionList actionList
         {
-            if (user.GetAttachedThing() == this)
-                user.DetachThing();
-            else
-                user.AttachThing(this);
+            get
+            {
+                if (_actionList == null)
+                    TryGetComponent(out _actionList);
+                return _actionList;
+            }
         }
-    }
+        private ActionList _actionList;
+
+        public override void Use(GameThing user)
+        {
+            // Attach this CharacterThing to the user.
+            // This is how characters are controlled.
+            
+            if (user != null)
+            {
+                if (user.GetAttachedThing() == this)
+                    user.DetachThing();
+                else
+                    user.AttachThing(this);
+            }
+        }
+
+        public void Move(Vector2 direction)
+        {
+            if (actionList != null)
+                actionList.Move(direction);
+        }
+
+        public void PrimaryAction(bool pressed)
+        {
+            if (actionList != null)
+                actionList.PrimaryAction(pressed);
+        }
+
+        public void SecondaryAction(bool pressed)
+        {
+            if (actionList != null)
+                actionList.SecondaryAction(pressed);
+        }
+
+    #endregion
 
     // CharacterThings' bodies are made up of CharacterPartThings.
     // We need a way to be able to assemble them, and access the parts.
