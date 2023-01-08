@@ -108,7 +108,7 @@ Shader "Fire"
 				float4 texCoord0 : TEXCOORD0;
 				float4 color : TEXCOORD1;
 				float3 positionWS : TEXCOORD2;
-				
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -156,7 +156,12 @@ Shader "Fire"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				o.ase_texcoord3.xyz = ase_worldPos;
 				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord3.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -189,8 +194,8 @@ Shader "Fire"
 				float4 appendResult55 = (float4(_GlowIntensity , _GlowIntensity , _GlowIntensity , 1.0));
 				float2 appendResult35 = (float2(1.0 , _YScale));
 				float mulTime7 = _TimeParameters.x * _FlameSpeed;
-				float4 transform57 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float2 appendResult11 = (float2(0.0 , -( mulTime7 + transform57 ).x));
+				float3 ase_worldPos = IN.ase_texcoord3.xyz;
+				float2 appendResult11 = (float2(0.0 , -( mulTime7 + ase_worldPos ).x));
 				float simplePerlin2D13 = snoise( (IN.texCoord0.xy*_NoiseScale + appendResult11)*5.0 );
 				simplePerlin2D13 = simplePerlin2D13*0.5 + 0.5;
 				float2 appendResult37 = (float2(0.0 , ( IN.texCoord0.xy.y * ( _DistortStrength * ( simplePerlin2D13 - 0.5 ) ) )));
@@ -202,9 +207,9 @@ Shader "Fire"
 				float4 temp_cast_1 = (( ( temp_output_29_0 + 0.3 ) * 1.5 )).xxxx;
 				float div24=256.0/float(4);
 				float4 posterize24 = ( floor( temp_cast_1 * div24 ) / div24 );
-				float2 appendResult11_g3 = (float2(0.9 , 0.9));
-				float temp_output_17_0_g3 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g3 ) );
-				clip( saturate( ( ( 1.0 - temp_output_17_0_g3 ) / fwidth( temp_output_17_0_g3 ) ) ) - _AlphaClip);
+				float2 appendResult11_g5 = (float2(0.9 , 0.9));
+				float temp_output_17_0_g5 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g5 ) );
+				clip( saturate( ( ( 1.0 - temp_output_17_0_g5 ) / fwidth( temp_output_17_0_g5 ) ) ) - _AlphaClip);
 				
 				float4 Color = ( ( _BlueColor * appendResult55 ) * ( saturate( ( ( 1.0 - temp_output_17_0_g4 ) / fwidth( temp_output_17_0_g4 ) ) ) + posterize24 ) );
 
@@ -307,7 +312,7 @@ Shader "Fire"
 				float4 texCoord0 : TEXCOORD0;
 				float4 color : TEXCOORD1;
 				float3 positionWS : TEXCOORD2;
-				
+				float4 ase_texcoord3 : TEXCOORD3;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -355,7 +360,12 @@ Shader "Fire"
 				UNITY_TRANSFER_INSTANCE_ID( v, o );
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				o.ase_texcoord3.xyz = ase_worldPos;
 				
+				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord3.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -388,8 +398,8 @@ Shader "Fire"
 				float4 appendResult55 = (float4(_GlowIntensity , _GlowIntensity , _GlowIntensity , 1.0));
 				float2 appendResult35 = (float2(1.0 , _YScale));
 				float mulTime7 = _TimeParameters.x * _FlameSpeed;
-				float4 transform57 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float2 appendResult11 = (float2(0.0 , -( mulTime7 + transform57 ).x));
+				float3 ase_worldPos = IN.ase_texcoord3.xyz;
+				float2 appendResult11 = (float2(0.0 , -( mulTime7 + ase_worldPos ).x));
 				float simplePerlin2D13 = snoise( (IN.texCoord0.xy*_NoiseScale + appendResult11)*5.0 );
 				simplePerlin2D13 = simplePerlin2D13*0.5 + 0.5;
 				float2 appendResult37 = (float2(0.0 , ( IN.texCoord0.xy.y * ( _DistortStrength * ( simplePerlin2D13 - 0.5 ) ) )));
@@ -401,9 +411,9 @@ Shader "Fire"
 				float4 temp_cast_1 = (( ( temp_output_29_0 + 0.3 ) * 1.5 )).xxxx;
 				float div24=256.0/float(4);
 				float4 posterize24 = ( floor( temp_cast_1 * div24 ) / div24 );
-				float2 appendResult11_g3 = (float2(0.9 , 0.9));
-				float temp_output_17_0_g3 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g3 ) );
-				clip( saturate( ( ( 1.0 - temp_output_17_0_g3 ) / fwidth( temp_output_17_0_g3 ) ) ) - _AlphaClip);
+				float2 appendResult11_g5 = (float2(0.9 , 0.9));
+				float temp_output_17_0_g5 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g5 ) );
+				clip( saturate( ( ( 1.0 - temp_output_17_0_g5 ) / fwidth( temp_output_17_0_g5 ) ) ) - _AlphaClip);
 				
 				float4 Color = ( ( _BlueColor * appendResult55 ) * ( saturate( ( ( 1.0 - temp_output_17_0_g4 ) / fwidth( temp_output_17_0_g4 ) ) ) + posterize24 ) );
 
@@ -502,6 +512,7 @@ Shader "Fire"
 			{
 				float4 clipPos : SV_POSITION;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
         
@@ -545,10 +556,14 @@ Shader "Fire"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 				
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				o.ase_texcoord1.xyz = ase_worldPos;
+				
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord.zw = 0;
+				o.ase_texcoord1.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -573,8 +588,8 @@ Shader "Fire"
 				float4 appendResult55 = (float4(_GlowIntensity , _GlowIntensity , _GlowIntensity , 1.0));
 				float2 appendResult35 = (float2(1.0 , _YScale));
 				float mulTime7 = _TimeParameters.x * _FlameSpeed;
-				float4 transform57 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float2 appendResult11 = (float2(0.0 , -( mulTime7 + transform57 ).x));
+				float3 ase_worldPos = IN.ase_texcoord1.xyz;
+				float2 appendResult11 = (float2(0.0 , -( mulTime7 + ase_worldPos ).x));
 				float simplePerlin2D13 = snoise( (IN.ase_texcoord.xy*_NoiseScale + appendResult11)*5.0 );
 				simplePerlin2D13 = simplePerlin2D13*0.5 + 0.5;
 				float2 appendResult37 = (float2(0.0 , ( IN.ase_texcoord.xy.y * ( _DistortStrength * ( simplePerlin2D13 - 0.5 ) ) )));
@@ -586,9 +601,9 @@ Shader "Fire"
 				float4 temp_cast_1 = (( ( temp_output_29_0 + 0.3 ) * 1.5 )).xxxx;
 				float div24=256.0/float(4);
 				float4 posterize24 = ( floor( temp_cast_1 * div24 ) / div24 );
-				float2 appendResult11_g3 = (float2(0.9 , 0.9));
-				float temp_output_17_0_g3 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g3 ) );
-				clip( saturate( ( ( 1.0 - temp_output_17_0_g3 ) / fwidth( temp_output_17_0_g3 ) ) ) - _AlphaClip);
+				float2 appendResult11_g5 = (float2(0.9 , 0.9));
+				float temp_output_17_0_g5 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g5 ) );
+				clip( saturate( ( ( 1.0 - temp_output_17_0_g5 ) / fwidth( temp_output_17_0_g5 ) ) ) - _AlphaClip);
 				
 				float4 Color = ( ( _BlueColor * appendResult55 ) * ( saturate( ( ( 1.0 - temp_output_17_0_g4 ) / fwidth( temp_output_17_0_g4 ) ) ) + posterize24 ) );
 
@@ -667,6 +682,7 @@ Shader "Fire"
 			{
 				float4 clipPos : SV_POSITION;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
         
@@ -708,10 +724,14 @@ Shader "Fire"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
+				float3 ase_worldPos = TransformObjectToWorld( (v.vertex).xyz );
+				o.ase_texcoord1.xyz = ase_worldPos;
+				
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
 				//setting value to unused interpolator channels and avoid initialization warnings
 				o.ase_texcoord.zw = 0;
+				o.ase_texcoord1.w = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -736,8 +756,8 @@ Shader "Fire"
 				float4 appendResult55 = (float4(_GlowIntensity , _GlowIntensity , _GlowIntensity , 1.0));
 				float2 appendResult35 = (float2(1.0 , _YScale));
 				float mulTime7 = _TimeParameters.x * _FlameSpeed;
-				float4 transform57 = mul(GetWorldToObjectMatrix(),float4( 0,0,0,1 ));
-				float2 appendResult11 = (float2(0.0 , -( mulTime7 + transform57 ).x));
+				float3 ase_worldPos = IN.ase_texcoord1.xyz;
+				float2 appendResult11 = (float2(0.0 , -( mulTime7 + ase_worldPos ).x));
 				float simplePerlin2D13 = snoise( (IN.ase_texcoord.xy*_NoiseScale + appendResult11)*5.0 );
 				simplePerlin2D13 = simplePerlin2D13*0.5 + 0.5;
 				float2 appendResult37 = (float2(0.0 , ( IN.ase_texcoord.xy.y * ( _DistortStrength * ( simplePerlin2D13 - 0.5 ) ) )));
@@ -749,9 +769,9 @@ Shader "Fire"
 				float4 temp_cast_1 = (( ( temp_output_29_0 + 0.3 ) * 1.5 )).xxxx;
 				float div24=256.0/float(4);
 				float4 posterize24 = ( floor( temp_cast_1 * div24 ) / div24 );
-				float2 appendResult11_g3 = (float2(0.9 , 0.9));
-				float temp_output_17_0_g3 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g3 ) );
-				clip( saturate( ( ( 1.0 - temp_output_17_0_g3 ) / fwidth( temp_output_17_0_g3 ) ) ) - _AlphaClip);
+				float2 appendResult11_g5 = (float2(0.9 , 0.9));
+				float temp_output_17_0_g5 = length( ( (appendResult31*2.0 + -1.0) / appendResult11_g5 ) );
+				clip( saturate( ( ( 1.0 - temp_output_17_0_g5 ) / fwidth( temp_output_17_0_g5 ) ) ) - _AlphaClip);
 				
 				float4 Color = ( ( _BlueColor * appendResult55 ) * ( saturate( ( ( 1.0 - temp_output_17_0_g4 ) / fwidth( temp_output_17_0_g4 ) ) ) + posterize24 ) );
 				half4 outColor = _SelectionID;
@@ -794,22 +814,22 @@ Node;AmplifyShaderEditor.OneMinusNode;44;510.3022,302.5948;Inherit;False;1;0;FLO
 Node;AmplifyShaderEditor.BreakToComponentsNode;32;830.6676,-2.940002;Inherit;False;FLOAT2;1;0;FLOAT2;0,0;False;16;FLOAT;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4;FLOAT;5;FLOAT;6;FLOAT;7;FLOAT;8;FLOAT;9;FLOAT;10;FLOAT;11;FLOAT;12;FLOAT;13;FLOAT;14;FLOAT;15
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;27;1191.668,302.06;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;1.5;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleTimeNode;7;-1740.729,172.3843;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SimpleAddOpNode;50;-1567.571,190.5644;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.NegateNode;9;-1352.73,250.3842;Inherit;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+Node;AmplifyShaderEditor.SimpleAddOpNode;50;-1567.571,190.5644;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.NegateNode;9;-1352.73,250.3842;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;53;1705.087,-50.21368;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.DynamicAppendNode;55;1558.087,-77.21368;Inherit;False;COLOR;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;1;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;8;-1758.729,81.3843;Inherit;False;Property;_FlameSpeed;Flame Speed;2;0;Create;True;0;0;0;False;0;False;0.5;0.5;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;15;-1174.73,147.3843;Inherit;False;Property;_NoiseScale;Noise Scale;3;0;Create;True;0;0;0;False;0;False;1;0.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;56;1224.087,-62.21368;Inherit;False;Property;_GlowIntensity;Glow Intensity;6;0;Create;True;0;0;0;False;0;False;1;0;0;100;0;1;FLOAT;0
 Node;AmplifyShaderEditor.ColorNode;21;1468.864,-253.1679;Inherit;False;Property;_BlueColor;Color;0;1;[HDR];Create;False;0;0;0;False;0;True;2.274588,0.7757972,0.2274589,1;1,0.3137255,0,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.WorldToObjectTransfNode;57;-1748.913,247.7863;Inherit;False;1;0;FLOAT4;0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;73;2396.354,57.08057;Float;False;True;-1;2;ASEMaterialInspector;0;19;Fire;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;73;2396.354,57.08057;Float;False;True;-1;2;ASEMaterialInspector;0;15;Fire;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit;0;0;Sprite Unlit;4;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=Universal2D;False;False;0;Hidden/InternalErrorShader;0;0;Standard;3;Vertex Position;1;0;Debug Display;0;0;External Alpha;0;0;0;4;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;74;2205.254,25.88057;Float;False;False;-1;2;ASEMaterialInspector;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;Sprite Unlit Forward;0;1;Sprite Unlit Forward;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;True;2;5;False;;10;False;;3;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForward;False;False;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;75;2205.254,25.88057;Float;False;False;-1;2;ASEMaterialInspector;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;SceneSelectionPass;0;2;SceneSelectionPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=SceneSelectionPass;True;0;True;12;all;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;76;2205.254,25.88057;Float;False;False;-1;2;ASEMaterialInspector;0;1;New Amplify Shader;cf964e524c8e69742b1d21fbe2ebcc4a;True;ScenePickingPass;0;3;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;2;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;0;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;True;0;True;12;all;0;Hidden/InternalErrorShader;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.ClipNode;77;2142.709,80.72134;Inherit;False;3;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;6;1856.442,171.9384;Inherit;False;Property;_AlphaClip;Alpha Clip;1;0;Create;True;0;0;0;False;0;False;0.1;0.1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;25;1343.352,407.8529;Inherit;False;Ellipse;-1;;3;3ba94b7b3cfd5f447befde8107c04d52;0;3;2;FLOAT2;0,0;False;7;FLOAT;0.9;False;9;FLOAT;0.9;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;25;1343.352,407.8529;Inherit;False;Ellipse;-1;;5;3ba94b7b3cfd5f447befde8107c04d52;0;3;2;FLOAT2;0,0;False;7;FLOAT;0.9;False;9;FLOAT;0.9;False;1;FLOAT;0
+Node;AmplifyShaderEditor.WorldPosInputsNode;78;-1742.717,254.8309;Inherit;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 WireConnection;39;0;41;0
 WireConnection;39;1;42;0
 WireConnection;40;0;18;0
@@ -843,7 +863,7 @@ WireConnection;32;0;33;0
 WireConnection;27;0;28;0
 WireConnection;7;0;8;0
 WireConnection;50;0;7;0
-WireConnection;50;1;57;0
+WireConnection;50;1;78;0
 WireConnection;9;0;50;0
 WireConnection;53;0;21;0
 WireConnection;53;1;55;0
@@ -856,4 +876,4 @@ WireConnection;77;1;25;0
 WireConnection;77;2;6;0
 WireConnection;25;2;31;0
 ASEEND*/
-//CHKSM=6189D15766712B8B3270016731BC6505F387ABB4
+//CHKSM=8C2C4276A667E22629134262622070AF939FD747

@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
 
         public void AddThing(GameThing thingToAdd)
         {
-            if (thingToAdd == null || thingType != "" && thingType != thingToAdd.thingType)
+            if (thingToAdd == null || thingType != "" && (thingType != thingToAdd.thingType && thingType != thingToAdd.thingSubType))
             {
                 Debug.Log("Can't add thing to slot.", thingToAdd);
                 return;

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class MoveAction : ActionThing
 {
+    public override string thingSubType
+    {
+        get => "Move";
+    }
+
     // The number of spaces the character can move
     public int movementRange = 3;
 
