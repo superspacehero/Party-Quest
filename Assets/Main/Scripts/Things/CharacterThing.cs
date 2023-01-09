@@ -21,48 +21,59 @@ public class CharacterThing : GameThing
 
     #region Controlling Characters
 
-        private ActionList actionList
+    private ActionList actionList
+    {
+        get
         {
-            get
-            {
-                if (_actionList == null)
-                    TryGetComponent(out _actionList);
-                return _actionList;
-            }
+            if (_actionList == null)
+                TryGetComponent(out _actionList);
+            return _actionList;
         }
-        private ActionList _actionList;
+    }
+    private ActionList _actionList;
 
-        public override void Use(GameThing user)
+    public CharacterController characterController
+    {
+        get
         {
-            // Attach this CharacterThing to the user.
-            // This is how characters are controlled.
-            
-            if (user != null)
-            {
-                if (user.GetAttachedThing() == this)
-                    user.DetachThing();
-                else
-                    user.AttachThing(this);
-            }
+            if (_characterController == null)
+                _characterController = GetComponentInChildren<CharacterController>();
+            return _characterController;
         }
+    }
+    private CharacterController _characterController;
 
-        public void Move(Vector2 direction)
-        {
-            if (actionList != null)
-                actionList.Move(direction);
-        }
+    public override void Use(GameThing user)
+    {
+        // Attach this CharacterThing to the user.
+        // This is how characters are controlled.
 
-        public void PrimaryAction(bool pressed)
+        if (user != null)
         {
-            if (actionList != null)
-                actionList.PrimaryAction(pressed);
+            if (user.GetAttachedThing() == this)
+                user.DetachThing();
+            else
+                user.AttachThing(this);
         }
+    }
 
-        public void SecondaryAction(bool pressed)
-        {
-            if (actionList != null)
-                actionList.SecondaryAction(pressed);
-        }
+    public void Move(Vector2 direction)
+    {
+        if (actionList != null)
+            actionList.Move(direction);
+    }
+
+    public void PrimaryAction(bool pressed)
+    {
+        if (actionList != null)
+            actionList.PrimaryAction(pressed);
+    }
+
+    public void SecondaryAction(bool pressed)
+    {
+        if (actionList != null)
+            actionList.SecondaryAction(pressed);
+    }
 
     #endregion
 
@@ -144,13 +155,16 @@ public class CharacterThing : GameThing
 
         foreach (GameObject characterPartPrefab in characterPartPrefabs)
         {
+            if (characterPartPrefab == null)
+                continue;
+
             if (Instantiate(characterPartPrefab, characterBase.transform).TryGetComponent(out CharacterPartThing characterPartThing))
             {
                 parts.Add(characterPartThing);
                 characterPartThing.gameObject.SetActive(false);
             }
         }
-        
+
         AttachPartToSlot(characterBase);
 
         // foreach (GameThingVariables.Variable variable in variables.variables)
