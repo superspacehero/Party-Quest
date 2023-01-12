@@ -42,6 +42,20 @@ namespace AmplifyShaderEditor
 		ASE_SRP_14 = 140000
 	}
 
+	public class ASESRPPackageDesc
+	{
+		public ASESRPBaseline baseline = ASESRPBaseline.ASE_SRP_INVALID;
+		public string guidURP = string.Empty;
+		public string guidHDRP = string.Empty;
+
+		public ASESRPPackageDesc( ASESRPBaseline baseline, string guidURP, string guidHDRP )
+		{
+			this.baseline = baseline;
+			this.guidURP = guidURP;
+			this.guidHDRP = guidHDRP;
+		}
+	}
+
 	[Serializable]
 	[InitializeOnLoad]
 	public static class ASEPackageManagerHelper
@@ -54,20 +68,6 @@ namespace AmplifyShaderEditor
 		private static string PackageCRCFormat = "ASE_PkgCRC_{0}_{1}";
 
 		private static string SRPKeywordFormat = "ASE_SRP_VERSION {0}";
-
-		private class ASESRPPackageDesc
-		{
-			public ASESRPBaseline baseline = ASESRPBaseline.ASE_SRP_INVALID;
-			public string guidURP = string.Empty;
-			public string guidHDRP = string.Empty;
-
-			public ASESRPPackageDesc( ASESRPBaseline baseline, string guidURP, string guidHDRP )
-			{
-				this.baseline = baseline;
-				this.guidURP = guidURP;
-				this.guidHDRP = guidHDRP;
-			}
-		}
 
 		private static Dictionary<int, ASESRPPackageDesc> m_srpPackageSupport = new Dictionary<int,ASESRPPackageDesc>()
 		{
@@ -340,47 +340,51 @@ namespace AmplifyShaderEditor
 			Debug.Assert( flag == ASEImportFlags.HDRP || flag == ASEImportFlags.URP );
 
 			string path = AssetDatabase.GUIDToAssetPath( guid );
-			uint currentCRC = IOUtils.CRC32( File.ReadAllBytes( path ) );
 
-			string srpName = flag.ToString();
-			string packageBaseKey = string.Format( PackageBaseFormat, srpName, ProjectName );
-			string packageCRCKey = string.Format( PackageCRCFormat, srpName, ProjectName );
-
-			ASESRPBaseline savedBaseline = ( ASESRPBaseline )EditorPrefs.GetInt( packageBaseKey );
-			uint savedCRC = ( uint )EditorPrefs.GetInt( packageCRCKey, 0 );
-
-			bool foundNewVersion = ( savedBaseline != baseline ) || ( savedCRC != currentCRC );
-
-			EditorPrefs.SetInt( packageBaseKey, ( int )baseline );
-			EditorPrefs.SetInt( packageCRCKey, ( int )currentCRC );
-
-			string testPath0 = string.Empty;
-			string testPath1 = string.Empty;
-
-			switch ( flag )
+			if ( !string.IsNullOrEmpty( path ) && File.Exists( path ) )
 			{
-				case ASEImportFlags.URP:
-				{
-					testPath0 = AssetDatabase.GUIDToAssetPath( TemplatesManager.URPLitGUID );
-					testPath1 = AssetDatabase.GUIDToAssetPath( TemplatesManager.URPUnlitGUID );
-					break;
-				}
-				case ASEImportFlags.HDRP:
-				{
-					testPath0 = AssetDatabase.GUIDToAssetPath( TemplatesManager.HDRPLitGUID );
-					testPath1 = AssetDatabase.GUIDToAssetPath( TemplatesManager.HDRPUnlitGUID );
-					break;
-				}
-			}
+				uint currentCRC = IOUtils.CRC32( File.ReadAllBytes( path ) );
 
-			if ( !File.Exists( testPath0 ) || !File.Exists( testPath1 ) || foundNewVersion )
-			{
-				if ( foundNewVersion )
+				string srpName = flag.ToString();
+				string packageBaseKey = string.Format( PackageBaseFormat, srpName, ProjectName );
+				string packageCRCKey = string.Format( PackageCRCFormat, srpName, ProjectName );
+
+				ASESRPBaseline savedBaseline = ( ASESRPBaseline )EditorPrefs.GetInt( packageBaseKey );
+				uint savedCRC = ( uint )EditorPrefs.GetInt( packageCRCKey, 0 );
+
+				bool foundNewVersion = ( savedBaseline != baseline ) || ( savedCRC != currentCRC );
+
+				EditorPrefs.SetInt( packageBaseKey, ( int )baseline );
+				EditorPrefs.SetInt( packageCRCKey, ( int )currentCRC );
+
+				string testPath0 = string.Empty;
+				string testPath1 = string.Empty;
+
+				switch ( flag )
 				{
-					Debug.Log( string.Format( NewVersionDetectedFormat, srpName, version ) );
+					case ASEImportFlags.URP:
+					{
+						testPath0 = AssetDatabase.GUIDToAssetPath( TemplatesManager.URPLitGUID );
+						testPath1 = AssetDatabase.GUIDToAssetPath( TemplatesManager.URPUnlitGUID );
+						break;
+					}
+					case ASEImportFlags.HDRP:
+					{
+						testPath0 = AssetDatabase.GUIDToAssetPath( TemplatesManager.HDRPLitGUID );
+						testPath1 = AssetDatabase.GUIDToAssetPath( TemplatesManager.HDRPUnlitGUID );
+						break;
+					}
 				}
-				m_importingPackage |= flag;
-				StartImporting( path );
+
+				if ( !File.Exists( testPath0 ) || !File.Exists( testPath1 ) || foundNewVersion )
+				{
+					if ( foundNewVersion )
+					{
+						Debug.Log( string.Format( NewVersionDetectedFormat, srpName, version ) );
+					}
+					m_importingPackage |= flag;
+					StartImporting( path );
+				}
 			}
 		}
 
@@ -421,7 +425,7 @@ namespace AmplifyShaderEditor
 				}
 			}
 		}
-		
+
 		public static void SetSRPInfoOnDataCollector( ref MasterNodeDataCollector dataCollector )
 		{
 			if ( m_requireUpdateList )
