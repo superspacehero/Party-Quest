@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     #region Characters
         
-            [SerializeField] private CharacterUI nextCharacterUI;
+            [SerializeField] private ThingDisplay nextCharacterUI;
             public static List<Character> characters = new List<Character>();
             public static int currentCharacterIndex = 0;
 
@@ -134,6 +134,7 @@ public class GameManager : MonoBehaviour
                 if (currentCharacterIndex >= charactersInCurrentTeam.Count)
                     currentTeamIndex++;
 
+                // instance.nextCharacterUI.thing = currentCharacter;
                 instance.nextCharacterUI.gameObject.SetActive(true);
 
                 foreach (Player player in players)

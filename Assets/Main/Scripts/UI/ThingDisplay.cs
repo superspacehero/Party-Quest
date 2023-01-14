@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using I2.Loc;
 
 public class ThingDisplay : MonoBehaviour
 {
@@ -13,8 +14,11 @@ public class ThingDisplay : MonoBehaviour
     }
 
     [SerializeField] private UnityEngine.UI.Image iconImage;
+
     [SerializeField, Space(10)] private TMPro.TextMeshProUGUI nameText;
     [SerializeField] private TMPro.TextMeshProUGUI descriptionText;
+
+    [SerializeField] private LocalizationParamsManager localizationParamsManager;
 
     private void UpdateDisplay(GameThing displayThing)
     {
@@ -29,7 +33,9 @@ public class ThingDisplay : MonoBehaviour
         }
         else
         {
-            if (nameText != null)
+            if (localizationParamsManager != null)
+                localizationParamsManager.SetParameterValue("THING", displayThing.thingName, true);
+            else if (nameText != null)
                 nameText.text = displayThing.thingName;
             if (descriptionText != null)
                 descriptionText.text = displayThing.thingDescription;

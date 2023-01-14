@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.060784984, g: 0.5744517, b: 0.816042, a: 1}
+  m_IndirectSpecularColor: {r: 0.06100261, g: 0.5745371, b: 0.81606925, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -15217,7 +15217,7 @@ SortingGroup:
   m_SortingOrder: 0
 --- !u!95 &1274576908
 Animator:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -15234,7 +15234,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!114 &1274576909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20062,10 +20062,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mTarget: {fileID: 599118911}
-  mAlignment_RTL: 516
-  mAlignment_LTR: 513
+  mAlignment_RTL: 514
+  mAlignment_LTR: 514
   mAlignmentWasRTL: 0
-  mInitializeAlignment: 1
+  mInitializeAlignment: 0
 --- !u!1 &1695567165
 GameObject:
   m_ObjectHideFlags: 0
@@ -24187,7 +24187,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 965906493999691994, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_AspectRatio
-      value: 2.3263383
+      value: 3.978208
       objectReference: {fileID: 0}
     - target: {fileID: 1200746652443315568, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_RootOrder
@@ -36736,6 +36736,10 @@ PrefabInstance:
     - target: {fileID: 8092299575638546654, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 34.921997
+      objectReference: {fileID: 0}
+    - target: {fileID: 8265943973578240696, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8553406460984446069, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: level.rooms.Array.size
