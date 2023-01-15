@@ -61,10 +61,10 @@ public class GameManager : MonoBehaviour
     #region Characters
         
             [SerializeField] private ThingDisplay nextCharacterUI;
-            public static List<Character> characters = new List<Character>();
+            public static List<CharacterThing> characters = new List<CharacterThing>();
             public static int currentCharacterIndex = 0;
 
-            public static Character currentCharacter
+            public static CharacterThing currentCharacter
             {
                 get
                 {
@@ -75,12 +75,12 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            public static void AddCharacter(Character character)
+            public static void AddCharacter(CharacterThing character)
             {
                 characters.Add(character);
             }
             
-            public static void RemoveCharacter(Character character)
+            public static void RemoveCharacter(CharacterThing character)
             {
                 characters.Remove(character);
             }
@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
             #region Teams
 
                 public static List<int> teams = new List<int>();
-                public static List<Character> charactersInCurrentTeam = new List<Character>();
+                public static List<CharacterThing> charactersInCurrentTeam = new List<CharacterThing>();
 
                 public static int currentTeamIndex
                 {
@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour
                 if (currentCharacterIndex >= charactersInCurrentTeam.Count)
                     currentTeamIndex++;
 
-                // instance.nextCharacterUI.thing = currentCharacter;
+                instance.nextCharacterUI.thing = currentCharacter;
                 instance.nextCharacterUI.gameObject.SetActive(true);
 
                 foreach (Player player in players)

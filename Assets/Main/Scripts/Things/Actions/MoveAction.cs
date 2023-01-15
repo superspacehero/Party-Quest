@@ -91,10 +91,10 @@ public class MoveAction : ActionThing
             yield return General.waitForFixedUpdate;
         }
 
-        // The action is no longer running
-        actionRunning = false;
-
         // Hide the valid grid spaces
         NodeDisplay.instance.HideNodes();
+
+        // The action is no longer running
+        EndAction();
     }
 }

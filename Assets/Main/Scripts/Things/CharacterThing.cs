@@ -19,6 +19,8 @@ public class CharacterThing : GameThing
         get => "Character";
     }
 
+    public int team;
+
     #region Controlling Characters
 
     private ActionList actionList
@@ -181,5 +183,21 @@ public class CharacterThing : GameThing
     void Start()
     {
         AssembleCharacter();
+    }
+
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        GameManager.AddCharacter(this);
+    }
+    
+    /// <summary>
+    /// This function is called when the behaviour becomes disabled or inactive.
+    /// </summary>
+    void OnDisable()
+    {
+        GameManager.RemoveCharacter(this);
     }
 }

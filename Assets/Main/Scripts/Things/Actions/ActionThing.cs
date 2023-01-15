@@ -16,7 +16,9 @@ public class ActionThing : GameThing
         get => "Action";
     }
 
-    protected bool actionRunning = false;
+    public bool actionRunning = false;
+
+    public UnityEngine.Events.UnityEvent onActionEnd;
 
     public override void Use(GameThing user)
     {
@@ -50,5 +52,21 @@ public class ActionThing : GameThing
         // This is the base RunAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.
         yield return null;
+
+        EndAction();
+    }
+
+    protected void EndAction()
+    {
+        actionRunning = false;
+        onActionEnd.Invoke();
+    }
+
+    protected virtual void CancelAction()
+    {
+        onActionEnd.RemoveAllListeners();
+        StopAllCoroutines();
+
+        actionRunning = false;
     }
 }

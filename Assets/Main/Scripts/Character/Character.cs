@@ -29,13 +29,6 @@ public class Character : GridThing
     [FoldoutGroup("Info/Character/Inventory/Equipment")]
     public Thing head, body, leftHand, rightHand, leftFoot, rightFoot;
 
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        
-        GameManager.AddCharacter(this);
-    }
-
     public override void MyTurn()
     {
         availableActionCategories.Clear();
@@ -49,12 +42,5 @@ public class Character : GridThing
     public void AddActionCategoryForNextTurn(ThingAction.ActionCategory actionCategory)
     {
         nextTurnActionCategories.Add(actionCategory);
-    }
-
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        
-        GameManager.RemoveCharacter(this);
     }
 }

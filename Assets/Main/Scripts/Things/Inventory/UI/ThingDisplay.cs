@@ -1,19 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using I2.Loc;
 
 public class ThingDisplay : MonoBehaviour
 {
+    [HideInInspector] public GameThing thingOwner;
+
     public GameThing thing
     {
+        get => _thing;
         set
         {
             UpdateDisplay(value);
+
+            _thing = value;
         }
     }
+    private GameThing _thing;
 
-    [SerializeField] private UnityEngine.UI.Image iconImage;
+    [SerializeField] private Image iconImage;
+    public Button iconButton;
 
     [SerializeField, Space(10)] private TMPro.TextMeshProUGUI nameText;
     [SerializeField] private TMPro.TextMeshProUGUI descriptionText;
@@ -30,6 +36,11 @@ public class ThingDisplay : MonoBehaviour
                 descriptionText.text = "";
             if (iconImage != null)
                 iconImage.enabled = false;
+            if (iconButton != null)
+            {
+                iconButton.onClick.RemoveAllListeners();
+                iconButton.interactable = false;
+            }
         }
         else
         {
@@ -44,6 +55,15 @@ public class ThingDisplay : MonoBehaviour
                 iconImage.enabled = true;
                 iconImage.sprite = displayThing.thingIcon;
                 displayThing.SetColors(iconImage);
+            }
+            if (iconButton != null)
+            {
+                iconButton.onClick.RemoveAllListeners();
+
+                if (thingOwner != null)
+                    iconButton.onClick.AddListener(() => displayThing.Use(user:thingOwner));
+
+                iconButton.interactable = true;
             }
         }
     }
