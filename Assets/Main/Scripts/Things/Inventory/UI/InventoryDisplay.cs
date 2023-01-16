@@ -6,7 +6,24 @@ using UnityEngine.UI;
 public class InventoryDisplay : MonoBehaviour
 {
     public GameThing inventoryOwner;
-    public virtual Inventory inventory { get; set; }
+    public virtual Inventory inventory
+    {
+        get
+        {
+            if (_inventory != null)
+                return _inventory;
+
+            if (inventoryOwner != null)
+                inventoryOwner.TryGetComponent(out _inventory);
+            else
+                _inventory = GetComponentInParent<Inventory>();
+
+            return _inventory;
+        }
+        set => _inventory = value;
+    }
+    [SerializeField] private Inventory _inventory;
+
     public GameObject slotPrefab;
     public Transform slotContainer;
 
@@ -22,6 +39,8 @@ public class InventoryDisplay : MonoBehaviour
 
     protected virtual void PopulateThings()
     {
+        
+
         if (thingDisplays.Count < inventory.thingSlots.Length)
         {
             while (thingDisplays.Count < inventory.thingSlots.Length)

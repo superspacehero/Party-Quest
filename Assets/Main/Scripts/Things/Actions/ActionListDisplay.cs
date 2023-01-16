@@ -5,7 +5,7 @@ using UnityEngine;
 public class ActionListDisplay : InventoryDisplay
 {
     public override Inventory inventory { get => actionList; set => actionList = value as ActionList; }
-    private ActionList actionList;
+    [SerializeField] private ActionList actionList;
 
     protected override void PopulateThings()
     {
