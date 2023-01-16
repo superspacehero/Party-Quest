@@ -16,6 +16,11 @@ public class ActionThing : GameThing
         get => "Action";
     }
 
+    public override string thingSubType
+    {
+        get => "Action";
+    }
+
     public bool actionRunning = false;
 
     public UnityEngine.Events.UnityEvent onActionEnd;
