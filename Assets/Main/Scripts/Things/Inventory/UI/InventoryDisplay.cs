@@ -5,7 +5,21 @@ using UnityEngine.UI;
 
 public class InventoryDisplay : MonoBehaviour
 {
-    public GameThing inventoryOwner;
+    public GameThing inventoryOwner
+    {
+        get
+        {
+            if (_inventoryOwner != null)
+                return _inventoryOwner;
+
+            _inventoryOwner = GetComponentInParent<CharacterThing>();
+
+            return _inventoryOwner;
+        }
+        set => _inventoryOwner = value;
+    }
+    [SerializeField] private GameThing _inventoryOwner;
+
     public virtual Inventory inventory
     {
         get
@@ -39,7 +53,10 @@ public class InventoryDisplay : MonoBehaviour
 
     protected virtual void PopulateThings()
     {
-        
+        inventory = inventory;
+
+        if (inventory == null)
+            return;
 
         if (thingDisplays.Count < inventory.thingSlots.Length)
         {

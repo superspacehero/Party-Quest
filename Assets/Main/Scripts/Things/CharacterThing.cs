@@ -7,22 +7,16 @@ using Sirenix.OdinInspector;
 public class CharacterThing : GameThing
 {
     // CharacterThings are a subclass of GameThings that represent characters in the game.
-
-    // CharacterThings have all the properties of GameThings, as well as a list of stats.
-
-    // CharacterThings are assembled from CharacterPartThings, which are attached to them.
-
-    // CharacterThings can be controlled by the player, by AI, or by other characters.
-
     public override string thingType
     {
         get => "Character";
     }
 
+    // Team that the character belongs to
     public int team;
 
     #region Controlling Characters
-
+    // Action list for character
     private ActionList actionList
     {
         get
@@ -34,6 +28,7 @@ public class CharacterThing : GameThing
     }
     private ActionList _actionList;
 
+    // Character controller for character
     public CharacterController characterController
     {
         get
@@ -45,11 +40,9 @@ public class CharacterThing : GameThing
     }
     private CharacterController _characterController;
 
+    // Method to attach or detach this character thing to a user
     public override void Use(GameThing user)
     {
-        // Attach this CharacterThing to the user.
-        // This is how characters are controlled.
-
         if (user != null)
         {
             if (user.GetAttachedThing() == this)
@@ -59,52 +52,38 @@ public class CharacterThing : GameThing
         }
     }
 
+    // Method to move character
     public void Move(Vector2 direction)
     {
         if (actionList != null)
             actionList.Move(direction);
     }
 
+    // Method to perform primary action on character
     public void PrimaryAction(bool pressed)
     {
         if (actionList != null)
             actionList.PrimaryAction(pressed);
     }
 
+    // Method to perform secondary action on character
     public void SecondaryAction(bool pressed)
     {
         if (actionList != null)
             actionList.SecondaryAction(pressed);
     }
-
     #endregion
 
-    // CharacterThings' bodies are made up of CharacterPartThings.
-    // We need a way to be able to assemble them, and access the parts.
-    // The question is, what's the best way to go about dealing with instantiating the prefabs, and then assembling them?
-    // I ask this because, unless we destroy every single part when we replace a part, we'll have to have a way of knowing what instantiated parts to destroy.
-    // For now, we'll just do the former, but I'd like to think of a way to do the latter.
-
-
-
-    // Well, as it turns out, the character assembler works perfectly.
-    // There are some things I need to figure out, though.
-    // In particular, how do I handle equipment slots, and connect them with the character's parts?
-
-    // The best thing to do would probably be to build out the equipment inventory after having assembled the character.
-    // Because the assembler goes through every character part and every inventory slot they have, maybe we can just take every one of those slots,
-    // and if their type matches with a list of compatible equipment types, add them to the equipment inventory.
-
-    // Doing it this way would mean that adding equipment to a character wouldn't require a rebuild of the character in any way,
-    // but if for some reason, the character is rebuilt, the equipment would be lost.
-    // I guess there's an easy fix - just detach the equipment from the character, and then reattach it after the character is rebuilt.
-
+    // List of character part prefabs used to assemble the character
     public List<GameObject> characterPartPrefabs = new List<GameObject>();
+    // List of character parts that make up the character
     protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
     [FoldoutGroup("Variables")] public GameThingVariables baseVariables = new GameThingVariables();
 
+    // Base inventory slot for character
     [SerializeField] protected Inventory.ThingSlot characterBase;
 
+    // Method to attach parts to a character part
     void AttachPartsToPart(CharacterPartThing part)
     {
         if (part.TryGetComponent(out Inventory inventory))
@@ -116,6 +95,7 @@ public class CharacterThing : GameThing
         }
     }
 
+    // Method to attach a character part to a slot
     void AttachPartToSlot(Inventory.ThingSlot slot)
     {
         foreach (CharacterPartThing part in parts)
@@ -137,6 +117,7 @@ public class CharacterThing : GameThing
     }
 
     [Button]
+    // Method to assemble the character
     public void AssembleCharacter()
     {
         // Destroy all children of the characterBase first.

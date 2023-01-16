@@ -136,7 +136,10 @@ public class GameManager : MonoBehaviour
 
                 instance.nextCharacterUI.thing = currentCharacter;
                 instance.nextCharacterUI.gameObject.SetActive(true);
+            }
 
+            public static void ControlNextCharacter()
+            {
                 foreach (Player player in players)
                 {
                     if (player.controlledThing == currentCharacter)

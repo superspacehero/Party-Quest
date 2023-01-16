@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5663008962572408141}
   - component: {fileID: 5663008962572408142}
   - component: {fileID: 5663008962572408143}
-  - component: {fileID: 39750139711838450}
+  - component: {fileID: 6618238418253320058}
   m_Layer: 5
   m_Name: Action Menu
   m_TagString: Untagged
@@ -29,7 +29,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5663008962572408176}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -38,8 +38,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.75}
-  m_SizeDelta: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5663008962572408140
 Canvas:
@@ -84,7 +84,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &5663008962572408142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
   mAngleCenter: 90
   mAngleRange: 135
   mChildRotate: 0
---- !u!114 &39750139711838450
+--- !u!114 &6618238418253320058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,10 +140,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 5663008962572408176}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbc40dbe15984a93cbcda792ec912516, type: 3}
+  m_Script: {fileID: 11500000, guid: 4cc24249958fdc025aff76ad6959e7dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventoryOwner: {fileID: 0}
+  _inventoryOwner: {fileID: 0}
   _inventory: {fileID: 0}
   slotPrefab: {fileID: 2400070002152636919, guid: 5285ae16a2c073a069331052432c98ac, type: 3}
   slotContainer: {fileID: 5663008962572408139}

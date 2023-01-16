@@ -4,8 +4,29 @@ using UnityEngine;
 
 public class ActionListDisplay : InventoryDisplay
 {
-    public override Inventory inventory { get => actionList; set => actionList = value as ActionList; }
-    [SerializeField] private ActionList actionList;
+    public override Inventory inventory
+    {
+        get
+        {
+            if (actionList != null)
+                return actionList;
+
+            if (inventoryOwner != null)
+                inventoryOwner.TryGetComponent(out actionList);
+            else
+                actionList = GetComponentInParent<ActionList>();
+
+            return actionList;
+        }
+        set
+        {
+            if (value != null && value is ActionList)
+                actionList = value as ActionList;
+            else
+                actionList = null;
+        }
+    }
+    private ActionList actionList;
 
     protected override void PopulateThings()
     {
