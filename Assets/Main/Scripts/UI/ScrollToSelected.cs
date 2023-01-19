@@ -1,30 +1,34 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class ScrollToSelected : MonoBehaviour
 {
-    public ScrollRect scrollRect;
+    private ScrollRect scrollRect
+    {
+        get
+        {
+            if (_scrollRect == null)
+                TryGetComponent(out _scrollRect);
+
+            return _scrollRect;
+        }
+    }
+    [SerializeField] private ScrollRect _scrollRect;
+
+    [SerializeField] private float scrollTime = 0.2f;
+
+
     public GameObject selectedObject;
 
     private void Update()
     {
         if (selectedObject != null)
         {
-            var viewportPosition = scrollRect.viewport.InverseTransformPoint(selectedObject.transform.position);
-            var viewportHeight = scrollRect.viewport.rect.height;
-            var contentHeight = scrollRect.content.rect.height;
-            var scrollPosition = scrollRect.verticalNormalizedPosition;
-
-            if (viewportPosition.y > viewportHeight / 2)
-            {
-                scrollPosition -= (viewportPosition.y - viewportHeight / 2) / contentHeight;
-            }
-            else if (viewportPosition.y < -viewportHeight / 2)
-            {
-                scrollPosition -= (viewportPosition.y + viewportHeight / 2) / contentHeight;
-            }
-
-            scrollRect.verticalNormalizedPosition = scrollPosition;
+            scrollRect.content.DOAnchorPos(
+                (Vector2)scrollRect.transform.InverseTransformPoint(scrollRect.content.position)
+                - (Vector2)scrollRect.transform.InverseTransformPoint(selectedObject.transform.position),
+                scrollTime).OnUpdate(() => Debug.Log("Scrolling..."));
 
             selectedObject = null;
         }

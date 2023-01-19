@@ -58,7 +58,7 @@ public class ThingDisplay : MonoBehaviour
             }
             if (iconButton != null)
             {
-                iconButton.onClick.RemoveAllListeners();
+                iconButton.onClick.RemoveListener(() => displayThing.Use(user:thingOwner));
 
                 if (thingOwner != null)
                     iconButton.onClick.AddListener(() => displayThing.Use(user:thingOwner));
