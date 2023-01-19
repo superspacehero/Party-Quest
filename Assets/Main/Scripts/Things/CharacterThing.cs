@@ -28,6 +28,12 @@ public class CharacterThing : GameThing
     }
     private ActionList _actionList;
 
+    public void DisplayActionList(bool display)
+    {
+        if (actionList != null)
+            actionList.displayActionList = display;
+    }
+
     // Character controller for character
     public CharacterController characterController
     {
@@ -149,12 +155,6 @@ public class CharacterThing : GameThing
         }
 
         AttachPartToSlot(characterBase);
-
-        // foreach (GameThingVariables.Variable variable in variables.variables)
-        // {
-        //     if (variable.value < 0)
-        //         variable.value = 0;
-        // }
     }
 
     /// <summary>

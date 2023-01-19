@@ -5,7 +5,39 @@ using UnityEngine;
 [AddComponentMenu("Game Things/Inventories/Action List"), DisallowMultipleComponent]
 public class ActionList : Inventory
 {
-    private ActionThing currentAction;
+    private ActionThing currentAction
+    {
+        get => _currentAction;
+        set
+        {
+            _currentAction = value;
+            displayActionList = _currentAction == null;
+        }
+    }
+    private ActionThing _currentAction;
+
+    // Action list display for character
+    private ActionListDisplay actionListDisplay
+    {
+        get
+        {
+            if (_actionListDisplay == null)
+                _actionListDisplay = GetComponentInChildren<ActionListDisplay>();
+            return _actionListDisplay;
+        }
+    }
+    private ActionListDisplay _actionListDisplay;
+    public bool displayActionList
+    {
+        get => _displayActionList;
+        set
+        {
+            _displayActionList = value;
+            if (actionListDisplay != null)
+                actionListDisplay.gameObject.SetActive(_displayActionList);
+        }
+    }
+    private bool _displayActionList;
 
     public List<string> availableActionCategories = new List<string>();
     [SerializeField] private List<string> defaultActionCategories = new List<string>()

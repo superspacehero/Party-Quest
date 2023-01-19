@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scrollRect: {fileID: 0}
+  scrollTime: 0.2
   selectedObject: {fileID: 0}
 --- !u!1 &2645591248585950274
 GameObject:
@@ -239,7 +240,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0.047685184
+  m_Spacing: 0.02222222
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -532,7 +533,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!114 &5663008962572408142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -579,7 +580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: -1010.5, y: -257.5, z: 0}
+    LocalPosition: {x: 1, y: 0, z: 0}
     AnchoredPosition: {x: 1, y: 0}
     SizeDelta: {x: 4, y: 2}
     AnchorMin: {x: 0, y: 0}

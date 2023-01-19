@@ -140,6 +140,8 @@ public class GameManager : MonoBehaviour
 
             public static void ControlNextCharacter()
             {
+                currentCharacter.DisplayActionList(true);
+
                 foreach (Player player in players)
                 {
                     if (player.controlledThing == currentCharacter)
