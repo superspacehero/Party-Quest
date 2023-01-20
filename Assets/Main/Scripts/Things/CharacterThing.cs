@@ -17,12 +17,12 @@ public class CharacterThing : GameThing
 
     #region Controlling Characters
     // Action list for character
-    private ActionList actionList
+    public ActionList actionList
     {
         get
         {
             if (_actionList == null)
-                TryGetComponent(out _actionList);
+                _actionList = GetComponentInChildren<ActionList>();
             return _actionList;
         }
     }
@@ -141,6 +141,9 @@ public class CharacterThing : GameThing
         if (variables.variables != null)
             variables.variables.Clear();
         variables += baseVariables;
+
+        if (actionList != null)
+            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
 
         foreach (GameObject characterPartPrefab in characterPartPrefabs)
         {

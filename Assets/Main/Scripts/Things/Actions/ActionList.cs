@@ -69,6 +69,8 @@ public class ActionList : Inventory
         }
     }
 
+
+
     public void Move(Vector2 direction)
     {
         if (currentAction != null)
@@ -85,5 +87,25 @@ public class ActionList : Inventory
     {
         if (currentAction != null)
             currentAction.SecondaryAction(pressed);
+    }
+
+
+
+
+    public void PopulateInventorySlots()
+    {
+        PopulateInventorySlots(defaultActionCategories);
+    }
+
+    public void PopulateActionList(ActionThing[] actions)
+    {
+        if (actions == null)
+            return;
+
+        foreach (ActionThing action in actions)
+        {
+            if (action != null)
+                AddThing(action, true);
+        }
     }
 }

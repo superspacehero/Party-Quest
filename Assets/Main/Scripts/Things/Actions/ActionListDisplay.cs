@@ -12,9 +12,7 @@ public class ActionListDisplay : InventoryDisplay
                 return actionList;
 
             if (inventoryOwner != null)
-                inventoryOwner.TryGetComponent(out actionList);
-            else
-                actionList = GetComponentInParent<ActionList>();
+                actionList = (inventoryOwner as CharacterThing).actionList;
 
             return actionList;
         }
