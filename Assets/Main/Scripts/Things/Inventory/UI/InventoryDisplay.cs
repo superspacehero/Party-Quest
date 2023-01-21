@@ -79,5 +79,8 @@ public class InventoryDisplay : MonoBehaviour
             else
                 thingDisplays[i].thing = null;
         }
+
+        if (thingDisplays.Count > 0)
+            thingDisplays[0].Select();
     }
 }

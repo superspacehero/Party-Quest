@@ -36,7 +36,12 @@ public class ActionListDisplay : InventoryDisplay
         foreach (ThingDisplay thingDisplay in thingDisplays)
         {
             if (thingDisplay.iconButton != null)
+            {
+                if (inventoryOwner != null)
+                    thingDisplay.iconButton.onClick.AddListener(() => (inventoryOwner as CharacterThing).DisplayActionList(false));
+
                 thingDisplay.iconButton.interactable = actionList.availableActionCategories.Contains(thingDisplay.thing.thingSubType);
+            }
         }
     }
 }

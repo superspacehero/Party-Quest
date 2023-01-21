@@ -22,7 +22,19 @@ public class ActionList : Inventory
         get
         {
             if (_actionListDisplay == null)
-                _actionListDisplay = GetComponentInChildren<ActionListDisplay>();
+            {
+                Transform parent = transform.parent;
+                while (parent != null)
+                {
+                    if (parent.parent == null)
+                        break;
+                    else
+                        parent = parent.parent;
+                }
+
+                if (parent != null)
+                    _actionListDisplay = parent.GetComponentsInChildren<ActionListDisplay>(true)[0];
+            }
             return _actionListDisplay;
         }
     }
@@ -35,6 +47,8 @@ public class ActionList : Inventory
             _displayActionList = value;
             if (actionListDisplay != null)
                 actionListDisplay.gameObject.SetActive(_displayActionList);
+            else
+                Debug.LogWarning("No ActionListDisplay found on " + gameObject.name, this);
         }
     }
     private bool _displayActionList;
@@ -69,6 +83,11 @@ public class ActionList : Inventory
         }
     }
 
+    public void ResetActions()
+    {
+        availableActionCategories = new List<string>(defaultActionCategories);
+    }
+
 
 
     public void Move(Vector2 direction)
@@ -91,21 +110,22 @@ public class ActionList : Inventory
 
 
 
-
-    public void PopulateInventorySlots()
-    {
-        PopulateInventorySlots(defaultActionCategories);
-    }
-
     public void PopulateActionList(ActionThing[] actions)
     {
         if (actions == null)
             return;
 
+        // string actionDebug = "Populating action list with: ";
+
         foreach (ActionThing action in actions)
         {
-            if (action != null)
-                AddThing(action, true);
+            if (action == null)
+                continue;
+
+            AddThing(action, true);
+            // actionDebug += action.thingName + (action == actions[actions.Length - 1] ? "" : ", ");
         }
+
+        // Debug.Log(actionDebug, this);
     }
 }

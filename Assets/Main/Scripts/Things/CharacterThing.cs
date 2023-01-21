@@ -28,6 +28,13 @@ public class CharacterThing : GameThing
     }
     private ActionList _actionList;
 
+    public void MyTurn()
+    {
+        if (actionList != null)
+            actionList.ResetActions();
+        DisplayActionList(true);
+    }
+
     public void DisplayActionList(bool display)
     {
         if (actionList != null)
@@ -144,9 +151,6 @@ public class CharacterThing : GameThing
             variables.variables.Clear();
         variables += baseVariables;
 
-        if (actionList != null)
-            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
-
         foreach (GameObject characterPartPrefab in characterPartPrefabs)
         {
             if (characterPartPrefab == null)
@@ -160,6 +164,11 @@ public class CharacterThing : GameThing
         }
 
         AttachPartToSlot(characterBase);
+
+        if (actionList != null)
+            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
+        else
+            Debug.LogWarning("No action list found for character " + thingName);
     }
 
     /// <summary>

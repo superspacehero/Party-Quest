@@ -64,20 +64,6 @@ public class Inventory : MonoBehaviour
 
 
 
-    public void PopulateInventorySlots(List<string> actionTypes)
-    {
-        // Clear the inventory before adding new actions.
-        thingSlots = new ThingSlot[actionTypes.Count];
-
-        // Add a new ThingSlot for each action type.
-        for (int i = 0; i < actionTypes.Count; i++)
-        {
-            thingSlots[i].thingType = actionTypes[i];
-        }
-    }
-
-
-
     public void AddThing(GameThing item, ThingSlot slot)
     {
         if (Contains(item, out ThingSlot? thingSlot))
@@ -98,16 +84,27 @@ public class Inventory : MonoBehaviour
             {
                 newThingSlots[i] = thingSlots[i];
             }
-            newThingSlots[thingSlots.Length] = new ThingSlot();
-            thingSlots = newThingSlots;
-        }
 
-        foreach (ThingSlot slot in thingSlots)
-        {
-            if (slot.thing == null && (slot.thingType == "" || slot.thingType == item.thingType))
+            if (item != null)
             {
-                AddThing(item, slot);
-                return;
+                newThingSlots[thingSlots.Length] = new ThingSlot();
+                newThingSlots[thingSlots.Length].transform = inventoryTransform;
+                newThingSlots[thingSlots.Length].disableWhenInInventory = false;
+                newThingSlots[thingSlots.Length].thingType = (item.thingSubType != "" ? item.thingSubType : item.thingType);
+                newThingSlots[thingSlots.Length].AddThing(item);
+
+                thingSlots = newThingSlots;
+            }
+        }
+        else
+        {
+            foreach (ThingSlot slot in thingSlots)
+            {
+                if (slot.thing == null && (slot.thingType == "" || slot.thingType == item.thingType))
+                {
+                    AddThing(item, slot);
+                    return;
+                }
             }
         }
     }

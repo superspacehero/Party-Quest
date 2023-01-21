@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour
 
             public static void ControlNextCharacter()
             {
-                currentCharacter.DisplayActionList(true);
+                currentCharacter.MyTurn();
 
                 foreach (Player player in players)
                 {

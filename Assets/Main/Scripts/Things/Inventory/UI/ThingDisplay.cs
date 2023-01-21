@@ -26,6 +26,12 @@ public class ThingDisplay : MonoBehaviour
 
     [SerializeField] private LocalizationParamsManager localizationParamsManager;
 
+    public void Select()
+    {
+        if (iconButton != null)
+            iconButton.Select();
+    }
+
     private void UpdateDisplay(GameThing displayThing)
     {
         if (displayThing == null)

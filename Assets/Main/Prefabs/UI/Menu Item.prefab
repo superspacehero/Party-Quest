@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5342098947022467995}
   - component: {fileID: 7041167308505878141}
   - component: {fileID: 6844587207403431010}
-  - component: {fileID: 5293179547220010582}
   m_Layer: 5
   m_Name: Sprite Image
   m_TagString: Untagged
@@ -59,7 +58,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 2100000, guid: efca4dc92743a2c48bb820e738caf1b9, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
@@ -77,21 +76,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5293179547220010582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2001502505398120854}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &2400070002152636919
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,6 +92,7 @@ GameObject:
   - component: {fileID: 3988450670989388677}
   - component: {fileID: 2938659682811146027}
   - component: {fileID: 2800991302801022969}
+  - component: {fileID: 9134421872886195567}
   m_Layer: 5
   m_Name: Menu Item
   m_TagString: Untagged
@@ -228,7 +213,7 @@ MonoBehaviour:
     m_HighlightedColor: {r: 0, g: 0, b: 0, a: 0}
     m_PressedColor: {r: 0, g: 0, b: 0, a: 0.2}
     m_SelectedColor: {r: 0, g: 0, b: 0, a: 0}
-    m_DisabledColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.7490196}
+    m_DisabledColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -310,6 +295,21 @@ MonoBehaviour:
   nameText: {fileID: 5423081513547326849}
   descriptionText: {fileID: 0}
   localizationParamsManager: {fileID: 0}
+--- !u!114 &9134421872886195567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2400070002152636919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfabb0440166ab443bba8876756fdfa9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 0.05, y: -0.05}
+  m_UseGraphicAlpha: 1
 --- !u!1 &3089849478233133126
 GameObject:
   m_ObjectHideFlags: 0
