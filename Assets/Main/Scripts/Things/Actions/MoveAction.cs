@@ -14,7 +14,17 @@ public class MoveAction : ActionThing
     public int movementRange = 3;
 
     // The grid graph to use for pathfinding
-    public GridGraph gridGraph;
+    private GridGraph gridGraph
+    {
+        get
+        {
+            if (_gridGraph == null)
+                _gridGraph = AstarPath.active.data.gridGraph;
+
+            return _gridGraph;
+        }
+    }
+    private GridGraph _gridGraph;
 
     // The position on the grid the character is currently located at
     public GraphNode currentPosition;
@@ -43,27 +53,36 @@ public class MoveAction : ActionThing
         currentPosition = gridGraph.GetNearest(user.transform.position).node;
         validSpaces.Add(currentPosition);
 
-        GraphNode currentNode = currentPosition;
+        Queue<GraphNode> queue = new Queue<GraphNode>();
+        queue.Enqueue(currentPosition);
 
         // Iterate through all the nodes in the movement range
         for (int i = 0; i < movementRange; i++)
         {
-            // Iterate through all the directions
-            foreach (Vector3 direction in directions)
+            int queueCount = queue.Count;
+            for (int j = 0; j < queueCount; j++)
             {
-                // Get the node in the direction
-                GraphNode node = gridGraph.GetNearest((Vector3)currentNode.position + direction).node;
-
-                // If the node is not in the valid spaces list and is walkable, add it
-                if (!validSpaces.Contains(node) && node.Walkable)
+                GraphNode currentNode = queue.Dequeue();
+                // Iterate through all the directions
+                foreach (Vector3 direction in directions)
                 {
-                    validSpaces.Add(node);
+                    // Get the node in the direction
+                    GraphNode node = gridGraph.GetNearest((Vector3)currentNode.position + direction).node;
+                    // If the node is not in the valid spaces list and is walkable, add it
+                    if (!validSpaces.Contains(node) && node.Walkable)
+                    {
+                        validSpaces.Add(node);
+                        queue.Enqueue(node);
+                    }
                 }
             }
         }
 
         // Display the valid grid spaces
-        NodeDisplay.instance.DisplayNodes(validSpaces);
+        if (NodeDisplay.instance != null)
+            NodeDisplay.instance.DisplayNodes(validSpaces);
+        else
+            Debug.LogWarning("NodeDisplay is null");
 
         // The previous position of the user
         Vector3 previousPosition = user.transform.position;
