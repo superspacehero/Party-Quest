@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3083506475333640754}
   - component: {fileID: 5315812088176879432}
   - component: {fileID: 3083506475333640752}
+  - component: {fileID: 8351394857788636668}
   m_Layer: 0
   m_Name: _Hand
   m_TagString: Untagged
@@ -45,6 +46,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a41e0b9169e7cc360b6480b8db39e447, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
   thingName: Hand
   thingDescription: 
   thingIcon: {fileID: 0}
@@ -54,7 +64,10 @@ MonoBehaviour:
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderer: {fileID: 3083506475333640752}
+  variables:
+    variables: []
+  _renderers:
+  - {fileID: 3083506475333640752}
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
@@ -110,3 +123,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8351394857788636668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083506475333640755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationProgress: 0
+  sprites:
+  - sprite: {fileID: -420708069126236202, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+    backSprite: {fileID: -8518731291383657922, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+    time: 0
+  isBackSprite: 0

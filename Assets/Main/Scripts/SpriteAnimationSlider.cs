@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 // [ExecuteInEditMode]
 public class SpriteAnimationSlider : MonoBehaviour
@@ -15,7 +16,7 @@ public class SpriteAnimationSlider : MonoBehaviour
         {
             _animationProgress = value;
 
-            if (Application.isPlaying)
+            // if (Application.isPlaying)
                 UpdateSprite();
         }
     }
@@ -25,12 +26,14 @@ public class SpriteAnimationSlider : MonoBehaviour
     [System.Serializable]
     public struct SpriteTime
     {
-        public Sprite sprite;
+        public Sprite sprite, backSprite;
         [Range(0f,1f)]
         public float time;
     }
 
     public List<SpriteTime> sprites = new List<SpriteTime>();
+
+    public bool isBackSprite;
 
     private SpriteRenderer spriteRenderer
     {
@@ -47,7 +50,7 @@ public class SpriteAnimationSlider : MonoBehaviour
 
     private Sprite spriteToShow;
 
-    private void UpdateSprite()
+    public void UpdateSprite()
     {
         if (spriteRenderer == null)
         {
@@ -63,7 +66,7 @@ public class SpriteAnimationSlider : MonoBehaviour
         foreach (SpriteTime spriteTime in sprites)
         {
             if (animationProgress >= spriteTime.time)
-                spriteToShow = spriteTime.sprite;
+                spriteToShow = (isBackSprite && spriteTime.backSprite != null) ? spriteTime.backSprite : spriteTime.sprite;
             else
                 break;
         }
@@ -76,13 +79,18 @@ public class SpriteAnimationSlider : MonoBehaviour
 
     private void OnEnable()
     {
-        animationProgress = animationProgress;
+        General.DelayedFunctionFrames(this, UpdateAnimation);
 
         TryGetComponent(out spriteMask);
     }
 
-    private void OnValidate()
+    private void UpdateAnimation()
     {
         animationProgress = animationProgress;
+    }
+
+    private void OnValidate()
+    {
+        UpdateAnimation();
     }
 }

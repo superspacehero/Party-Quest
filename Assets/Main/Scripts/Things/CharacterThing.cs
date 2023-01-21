@@ -114,6 +114,8 @@ public class CharacterThing : GameThing
 
                 part.SetColors();
                 part.gameObject.SetActive(true);
+                part.isBackPart = slot.transform.name.Contains("Back");
+                part.CheckIsBackPart();
 
                 AttachPartsToPart(part);
 
