@@ -40,7 +40,8 @@ public class SpriteAnimationSlider : MonoBehaviour
         get
         {
             if (_spriteRenderer == null)
-                TryGetComponent(out _spriteRenderer);
+                if (TryGetComponent(out _spriteRenderer))
+                    _spriteRenderer.TryGetComponent(out spriteMask);
             return _spriteRenderer;
         }
     }
@@ -79,18 +80,11 @@ public class SpriteAnimationSlider : MonoBehaviour
 
     private void OnEnable()
     {
-        General.DelayedFunctionFrames(this, UpdateAnimation);
-
-        TryGetComponent(out spriteMask);
-    }
-
-    private void UpdateAnimation()
-    {
-        animationProgress = animationProgress;
+        General.DelayedFunctionFrames(this, UpdateSprite);
     }
 
     private void OnValidate()
     {
-        UpdateAnimation();
+        UpdateSprite();
     }
 }
