@@ -89,7 +89,7 @@ public class Inventory : MonoBehaviour
             {
                 newThingSlots[thingSlots.Length] = new ThingSlot();
                 newThingSlots[thingSlots.Length].transform = inventoryTransform;
-                newThingSlots[thingSlots.Length].disableWhenInInventory = false;
+                newThingSlots[thingSlots.Length].disableWhenInInventory = true;
                 newThingSlots[thingSlots.Length].thingType = (item.thingSubType != "" ? item.thingSubType : item.thingType);
                 newThingSlots[thingSlots.Length].AddThing(item);
 

@@ -30,6 +30,7 @@ public class ActionThing : GameThing
         if (!actionRunning)
         {
             actionRunning = true;
+            gameObject.SetActive(true);
             StartCoroutine(RunAction(user));
         }
     }
@@ -65,6 +66,8 @@ public class ActionThing : GameThing
     {
         actionRunning = false;
         onActionEnd.Invoke();
+
+        gameObject.SetActive(false);
     }
 
     protected virtual void CancelAction()
