@@ -161,6 +161,14 @@ public class CharacterThing : GameThing
             if (Instantiate(characterPartPrefab, characterBase.transform).TryGetComponent(out CharacterPartThing characterPartThing))
             {
                 parts.Add(characterPartThing);
+
+                if (characterPartThing.TryGetComponent(out CapsuleCollider capsuleCollider) && TryGetComponent(out CMF.Mover mover))
+                {
+                    capsuleCollider.enabled = false;
+                    mover.SetColliderThickness(capsuleCollider.radius * 2);
+                    mover.SetColliderHeight(capsuleCollider.height);
+                }
+
                 characterPartThing.gameObject.SetActive(false);
             }
         }
