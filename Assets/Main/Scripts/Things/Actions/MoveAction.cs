@@ -40,13 +40,14 @@ public class MoveAction : ActionThing
         Vector3Int.right
     };
 
-    public override void Move(Vector2 direction)
-    {
-
-    }
-
     protected override IEnumerator RunAction(GameThing user)
     {
+        // Enable movement control
+        user.TryGetComponent(out MovementController controller);
+
+        if (controller != null)
+            controller.canMove = true;
+
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         validSpaces = new List<GraphNode>();
 
@@ -112,6 +113,10 @@ public class MoveAction : ActionThing
 
         // Hide the valid grid spaces
         NodeDisplay.instance.HideNodes();
+
+        // Disable movement control
+        if (controller != null)
+            controller.canMove = false;
 
         // The action is no longer running
         EndAction();

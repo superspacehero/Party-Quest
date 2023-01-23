@@ -135,6 +135,8 @@ public class CharacterThing : GameThing
     // Method to assemble the character
     public void AssembleCharacter()
     {
+        gameObject.name = thingName;
+
         // Destroy all children of the characterBase first.
         for (int i = characterBase.transform.childCount - 1; i >= 0; i--)
         {

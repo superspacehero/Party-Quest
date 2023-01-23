@@ -86,7 +86,7 @@ namespace CMF
 			if(col == null)
 			{
 				tr.gameObject.AddComponent<CapsuleCollider>();
-				col = GetComponent<Collider>();
+				col = GetComponentInChildren<Collider>();
 			}
 
 			rig = GetComponent<Rigidbody>();
@@ -98,9 +98,9 @@ namespace CMF
 				rig = GetComponent<Rigidbody>();
 			}
 
-			boxCollider = GetComponent<BoxCollider>();
-			sphereCollider = GetComponent<SphereCollider>();
-			capsuleCollider = GetComponent<CapsuleCollider>();
+			boxCollider = GetComponentInChildren<BoxCollider>();
+			sphereCollider = GetComponentInChildren<SphereCollider>();
+			capsuleCollider = GetComponentInChildren<CapsuleCollider>();
 
 			//Freeze rigidbody rotation and disable rigidbody gravity;
 			rig.freezeRotation = true;

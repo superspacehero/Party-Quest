@@ -21,6 +21,8 @@ public class ActionThing : GameThing
         get => "Action";
     }
 
+    private GameThing user;
+
     public bool actionRunning = false;
 
     public UnityEngine.Events.UnityEvent onActionEnd;
@@ -29,6 +31,7 @@ public class ActionThing : GameThing
     {
         if (!actionRunning)
         {
+            this.user = user;
             actionRunning = true;
             gameObject.SetActive(true);
             StartCoroutine(RunAction(user));
@@ -57,9 +60,9 @@ public class ActionThing : GameThing
     {
         // This is the base RunAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.
-        yield return null;
-
         EndAction();
+
+        yield return null;
     }
 
     protected void EndAction()
