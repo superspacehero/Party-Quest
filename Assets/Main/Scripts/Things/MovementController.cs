@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CMF;
+using Sirenix.OdinInspector;
 
 //A very simplified controller script;
 //This script is an example of a very simple walker controller that covers only the basics of character movement;
@@ -19,8 +20,11 @@ public class MovementController : Controller
     public Transform cameraTransform;
     Transform tr;
 
-    public bool canMove;
+    [FoldoutGroup("Controls")]
+    public bool canControl, canMove;
+    [FoldoutGroup("Controls"), Apxfly.Editor.Attributes.Vector2Selector]
     public Vector2 movementInput;
+    [FoldoutGroup("Controls")]
     public bool canJump, jumpInput;
 
     // Use this for initialization
@@ -59,7 +63,7 @@ public class MovementController : Controller
         }
 
         //Handle jumping;
-        if (isGrounded && canJump && jumpInput)
+        if (isGrounded && canControl && canJump && jumpInput)
         {
             OnJumpStart();
             currentVerticalSpeed = jumpSpeed;
@@ -79,7 +83,7 @@ public class MovementController : Controller
     private Vector3 CalculateMovementDirection()
     {
         //If no character input script is attached to this object, return no input;
-        if (!canMove)
+        if (!canControl || !canMove)
             return Vector3.zero;
 
         Vector3 _direction = Vector3.zero;

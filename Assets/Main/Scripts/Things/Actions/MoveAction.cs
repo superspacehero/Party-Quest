@@ -26,8 +26,11 @@ public class MoveAction : ActionThing
     }
     private GridGraph _gridGraph;
 
+    // The direction the character is moving in
+    private Vector3 movement;
+
     // The position on the grid the character is currently located at
-    public GraphNode currentPosition;
+    public GraphNode currentNode;
 
     // The set of valid grid spaces within the movement range
     List<GraphNode> validSpaces;
@@ -46,16 +49,21 @@ public class MoveAction : ActionThing
         user.TryGetComponent(out MovementController controller);
 
         if (controller != null)
+        {
+            controller.canControl = true;
+
             controller.canMove = true;
+            controller.canJump = true;
+        }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         validSpaces = new List<GraphNode>();
 
-        currentPosition = gridGraph.GetNearest(user.transform.position).node;
-        validSpaces.Add(currentPosition);
+        currentNode = gridGraph.GetNearest(user.transform.position).node;
+        validSpaces.Add(currentNode);
 
         Queue<GraphNode> queue = new Queue<GraphNode>();
-        queue.Enqueue(currentPosition);
+        queue.Enqueue(currentNode);
 
         // Iterate through all the nodes in the movement range
         for (int i = 0; i < movementRange; i++)
@@ -88,23 +96,42 @@ public class MoveAction : ActionThing
         // The previous position of the user
         Vector3 previousPosition = user.transform.position;
 
+        GraphNode previousNode = currentNode;
+
         // While the user is still moving and hasn't stopped their movement turn
         while (actionRunning)
         {
             // If the user has moved
             if (user.transform.position != previousPosition)
             {
-                // Update the previous position
-                previousPosition = user.transform.position;
-
                 // Update currentPosition to the grid-based position of the user
-                currentPosition = gridGraph.GetNearest(user.transform.position).node;
+                currentNode = gridGraph.GetNearest(user.transform.position).node;
 
-                // If the current position is not a valid space, snap back to the previous position
-                if (!validSpaces.Contains(currentPosition))
+                // If the current position is not a valid space
+                if (!validSpaces.Contains(currentNode))
                 {
-                    user.transform.position = previousPosition;
+                    // check the node in the direction of the x axis
+                    GraphNode xNode = gridGraph.GetNearest((Vector3)currentNode.position + new Vector3(Mathf.Sign(user.transform.position.x - previousPosition.x), 0, 0)).node;
+
+                    // check the node in the direction of the y axis
+                    GraphNode yNode = gridGraph.GetNearest((Vector3)currentNode.position + new Vector3(0, Mathf.Sign(user.transform.position.y - previousPosition.y), 0)).node;
+
+                    if (!validSpaces.Contains(xNode) || !validSpaces.Contains(yNode))
+                    {
+                        // revert the appropriate axes to the previous position
+                        user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(yNode) ? previousPosition.z : user.transform.position.z);
+                    }
+                    else
+                    {
+                        // revert to the previous node
+                        currentNode = previousNode;
+                        user.transform.position = previousPosition;
+                    }
                 }
+
+                // Update the previous position
+                previousNode = currentNode;
+                previousPosition = user.transform.position;
             }
 
             // Wait until the next frame
@@ -116,7 +143,7 @@ public class MoveAction : ActionThing
 
         // Disable movement control
         if (controller != null)
-            controller.canMove = false;
+            controller.canControl = false;
 
         // The action is no longer running
         EndAction();
