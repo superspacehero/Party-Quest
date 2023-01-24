@@ -110,11 +110,13 @@ public class MoveAction : ActionThing
                 // If the current position is not a valid space
                 if (!validSpaces.Contains(currentNode))
                 {
+                    movement = user.transform.position - previousPosition;
+
                     // check the node in the direction of the x axis
-                    GraphNode xNode = gridGraph.GetNearest((Vector3)currentNode.position + new Vector3(Mathf.Sign(user.transform.position.x - previousPosition.x), 0, 0)).node;
+                    GraphNode xNode = gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
 
                     // check the node in the direction of the y axis
-                    GraphNode yNode = gridGraph.GetNearest((Vector3)currentNode.position + new Vector3(0, Mathf.Sign(user.transform.position.y - previousPosition.y), 0)).node;
+                    GraphNode yNode = gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
 
                     if (!validSpaces.Contains(xNode) || !validSpaces.Contains(yNode))
                     {
