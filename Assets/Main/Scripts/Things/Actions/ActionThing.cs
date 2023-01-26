@@ -65,6 +65,12 @@ public class ActionThing : GameThing
         yield return null;
     }
 
+    [Sirenix.OdinInspector.Button]
+    protected void StopActionRunning()
+    {
+        actionRunning = false;
+    }
+
     protected void EndAction()
     {
         actionRunning = false;

@@ -125,18 +125,10 @@ public class MoveAction : ActionThing
                     GraphNode xNode = gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
 
                     // check the node in the direction of the y axis
-                    GraphNode yNode = gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
+                    GraphNode zNode = gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
 
-                    if (!validSpaces.Contains(xNode) || !validSpaces.Contains(yNode))
-                    {
-                        // revert the appropriate axes to the previous position
-                        user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(yNode) ? previousPosition.z : user.transform.position.z);
-                    }
-                    else
-                    {
-                        // revert to the previous node
-                        user.transform.position = previousPosition;
-                    }
+                    // revert the appropriate axes to the previous position
+                    user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(zNode) ? previousPosition.z : user.transform.position.z);
 
                     currentNode = previousNode;
                 }
@@ -166,6 +158,8 @@ public class MoveAction : ActionThing
         // Disable movement control
         if (controller != null)
             controller.canControl = false;
+
+        user.transform.position = (Vector3)currentNode.position;
 
         // The action is no longer running
         EndAction();
