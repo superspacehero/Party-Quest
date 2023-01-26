@@ -53,10 +53,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: gridGraph
-      Entry: 6
-      Data: 
-    - Name: currentPosition
+    - Name: currentNode
       Entry: 6
       Data: 
   thingName: Move
@@ -79,3 +76,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   movementRange: 3
+  walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0.59607846, b: 0.8627451, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0.2509804, a: 1}

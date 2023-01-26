@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.059687912, g: 0.5741569, b: 0.81611, a: 1}
+  m_IndirectSpecularColor: {r: 0.060815442, g: 0.57446575, b: 0.81604975, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -9900,6 +9900,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   movementRange: 3
+  walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &745462722
 GameObject:
   m_ObjectHideFlags: 0
@@ -10932,6 +10935,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   movementRange: 3
+  walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!21 &774072560
 Material:
   serializedVersion: 8
@@ -21867,6 +21873,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   movementRange: 3
+  walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1596305164
 GameObject:
   m_ObjectHideFlags: 0
@@ -27147,15 +27156,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1314971412645416423, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
       propertyPath: m_Height
-      value: 1.125
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1314971412645416423, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
       propertyPath: m_Radius
-      value: 0.32
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1314971412645416423, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
       propertyPath: m_Center.y
-      value: 0.9375
+      value: 1.25
       objectReference: {fileID: 0}
     - target: {fileID: 3603719429506319070, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
       propertyPath: thingName
@@ -27425,6 +27434,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   movementRange: 3
+  walkableColor: {r: 1, g: 1, b: 1, a: 1}
+  currentColor: {r: 0, g: 0, b: 1, a: 1}
+  invalidColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &1981955350
 GameObject:
   m_ObjectHideFlags: 0

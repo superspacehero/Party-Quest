@@ -71,4 +71,30 @@ public class NodeDisplay : MonoBehaviour
         // Clear the dictionary
         nodeObjects.Clear();
     }
+
+    public GameObject GetNodeObject(GraphNode node)
+    {
+        // Return the node display object for the GraphNode
+        return (nodeObjects.ContainsKey(node)) ? nodeObjects[node] : null;
+    }
+
+    public void ColorNodeObject(GraphNode node, Color color)
+    {
+        // Get the node display object for the GraphNode,
+        if (GetNodeObject(node) != null && GetNodeObject(node).transform.GetChild(0).TryGetComponent(out SpriteRenderer renderer))
+        {
+            // and set the color of the node display object        
+            renderer.color = color;
+        }
+    }
+
+    public void ColorNodeObjects(List<GraphNode> nodes, Color color)
+    {
+        // Iterate through the GraphNodes
+        foreach (GraphNode node in nodes)
+        {
+            // Color the node display object for the GraphNode
+            ColorNodeObject(node, color);
+        }
+    }
 }

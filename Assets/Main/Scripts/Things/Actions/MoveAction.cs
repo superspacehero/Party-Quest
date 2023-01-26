@@ -26,6 +26,9 @@ public class MoveAction : ActionThing
     }
     private GridGraph _gridGraph;
 
+    [SerializeField, Sirenix.OdinInspector.FoldoutGroup("Colors")]
+    private Color walkableColor = Color.white, currentColor = Color.blue, invalidColor = Color.red;
+
     // The direction the character is moving in
     private Vector3 movement;
 
@@ -89,7 +92,13 @@ public class MoveAction : ActionThing
 
         // Display the valid grid spaces
         if (NodeDisplay.instance != null)
+        {
             NodeDisplay.instance.DisplayNodes(validSpaces);
+
+            NodeDisplay.instance.ColorNodeObjects(validSpaces, walkableColor);
+
+            NodeDisplay.instance.ColorNodeObject(currentNode, currentColor);
+        }
         else
             Debug.LogWarning("NodeDisplay is null");
 
@@ -126,8 +135,19 @@ public class MoveAction : ActionThing
                     else
                     {
                         // revert to the previous node
-                        currentNode = previousNode;
                         user.transform.position = previousPosition;
+                    }
+
+                    currentNode = previousNode;
+                }
+
+                if (previousNode != currentNode)
+                {
+                    // Highlight the current node
+                    if (NodeDisplay.instance != null)
+                    {
+                        NodeDisplay.instance.ColorNodeObject(previousNode, walkableColor);
+                        NodeDisplay.instance.ColorNodeObject(currentNode, currentColor);
                     }
                 }
 
