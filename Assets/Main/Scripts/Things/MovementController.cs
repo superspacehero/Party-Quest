@@ -17,6 +17,17 @@ public class MovementController : Controller
 
     Vector3 lastVelocity = Vector3.zero;
 
+    Rigidbody rb
+    {
+        get
+        {
+            if (_rb == null)
+                TryGetComponent(out _rb);
+            return _rb;
+        }
+    }
+    Rigidbody _rb;
+
     public Transform cameraTransform;
     Transform tr;
 
@@ -78,6 +89,10 @@ public class MovementController : Controller
 
         mover.SetExtendSensorRange(isGrounded);
         mover.SetVelocity(_velocity);
+
+        //If the character is not allowed to control itself, freeze all rotation and horizontal position changes;
+        if (rb)
+            rb.constraints = (canControl && canMove) ? RigidbodyConstraints.FreezeRotation : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
     }
 
     private Vector3 CalculateMovementDirection()

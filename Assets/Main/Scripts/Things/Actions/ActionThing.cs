@@ -21,7 +21,7 @@ public class ActionThing : GameThing
         get => "Action";
     }
 
-    private GameThing user;
+    protected GameThing user;
 
     public bool actionRunning = false;
 
@@ -34,7 +34,7 @@ public class ActionThing : GameThing
             this.user = user;
             actionRunning = true;
             gameObject.SetActive(true);
-            StartCoroutine(RunAction(user));
+            StartCoroutine(RunAction());
         }
     }
 
@@ -56,7 +56,7 @@ public class ActionThing : GameThing
         // It does nothing, and is overridden by subclasses.
     }
 
-    protected virtual IEnumerator RunAction(GameThing user)
+    protected virtual IEnumerator RunAction()
     {
         // This is the base RunAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.

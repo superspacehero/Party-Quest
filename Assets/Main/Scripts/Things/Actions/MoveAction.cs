@@ -46,7 +46,7 @@ public class MoveAction : ActionThing
         Vector3Int.right
     };
 
-    protected override IEnumerator RunAction(GameThing user)
+    protected override IEnumerator RunAction()
     {
         // Enable movement control
         user.TryGetComponent(out MovementController controller);

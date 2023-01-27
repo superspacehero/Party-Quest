@@ -7,7 +7,7 @@ public class EndAction : ActionThing
         get => "End";
     }
 
-    protected override IEnumerator RunAction(GameThing user)
+    protected override IEnumerator RunAction()
     {
         GameManager.NextCharacter();
 

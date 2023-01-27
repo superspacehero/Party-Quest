@@ -41,17 +41,17 @@ public class CharacterThing : GameThing
             actionList.displayActionList = display;
     }
 
-    // Character controller for character
-    public CharacterController characterController
+    // Movement controller for moving the character
+    public MovementController movementController
     {
         get
         {
             if (_characterController == null)
-                _characterController = GetComponentInChildren<CharacterController>();
+                _characterController = GetComponentInChildren<MovementController>();
             return _characterController;
         }
     }
-    private CharacterController _characterController;
+    private MovementController _characterController;
 
     // Method to attach or detach this character thing to a user
     public override void Use(GameThing user)
@@ -70,6 +70,9 @@ public class CharacterThing : GameThing
     {
         if (actionList != null)
             actionList.Move(direction);
+
+        if (movementController != null)
+            movementController.movementInput = direction;
     }
 
     // Method to perform primary action on character
@@ -77,6 +80,9 @@ public class CharacterThing : GameThing
     {
         if (actionList != null)
             actionList.PrimaryAction(pressed);
+
+        if (movementController != null)
+            movementController.jumpInput = pressed;
     }
 
     // Method to perform secondary action on character
