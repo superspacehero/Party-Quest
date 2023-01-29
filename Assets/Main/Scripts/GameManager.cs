@@ -58,11 +58,13 @@ public class GameManager : MonoBehaviour
 
         public static List<Thing> things = new List<Thing>();
 
-    #region Characters
+        #region Characters
         
             [SerializeField] private ThingDisplay nextCharacterUI;
             public static List<CharacterThing> characters = new List<CharacterThing>();
             public static int currentCharacterIndex = 0;
+
+            public CharacterPartList characterPartList;
 
             public static CharacterThing currentCharacter
             {
