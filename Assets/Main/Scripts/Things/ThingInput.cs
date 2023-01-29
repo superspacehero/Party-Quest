@@ -14,8 +14,8 @@ public class ThingInput : GameThing
             
             _moving = value.magnitude > 0;
 
-            if (attachedThing.thing != null)
-                attachedThing.thing.SendMessage("Move", _movement, SendMessageOptions.DontRequireReceiver);
+            if (attachedThing.thing is CharacterThing)
+                (attachedThing.thing as CharacterThing).Move(_movement);
         }
     }
     private Vector2 _movement;
@@ -28,8 +28,8 @@ public class ThingInput : GameThing
         {
             _primaryAction = value;
             
-            if (attachedThing.thing != null)
-                attachedThing.thing.SendMessage("PrimaryAction", _primaryAction, SendMessageOptions.DontRequireReceiver);
+            if (attachedThing.thing is CharacterThing)
+                (attachedThing.thing as CharacterThing).PrimaryAction(_primaryAction);
         }
     }
     private bool _primaryAction;
@@ -41,23 +41,23 @@ public class ThingInput : GameThing
         {
             _secondaryAction = value;
             
-            if (attachedThing.thing != null)
-                attachedThing.thing.SendMessage("SecondaryAction", _secondaryAction, SendMessageOptions.DontRequireReceiver);
+            if (attachedThing.thing is CharacterThing)
+                (attachedThing.thing as CharacterThing).SecondaryAction(_secondaryAction);
         }
     }
     private bool _secondaryAction;
 
-    public void Move(InputValue value)
+    public void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
     }
     
-    public void PrimaryAction(InputValue value)
+    public void OnButton1(InputValue value)
     {
         primaryAction = value.isPressed;
     }
 
-    public void SecondaryAction(InputValue value)
+    public void OnButton2(InputValue value)
     {
         secondaryAction = value.isPressed;
     }

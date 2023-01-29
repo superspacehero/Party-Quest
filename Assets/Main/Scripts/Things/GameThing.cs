@@ -274,7 +274,7 @@ public class GameThing : SerializedMonoBehaviour
         }
 
 
-    [Sirenix.OdinInspector.Button]
+        [Sirenix.OdinInspector.Button]
         void GetRenderers()
         {
             _renderers.Clear();
