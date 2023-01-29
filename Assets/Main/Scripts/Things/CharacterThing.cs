@@ -16,17 +16,6 @@ public class CharacterThing : GameThing
     public int team;
 
     #region Controlling Characters
-    // Action list for character
-    public ActionList actionList
-    {
-        get
-        {
-            if (_actionList == null)
-                _actionList = GetComponentInChildren<ActionList>();
-            return _actionList;
-        }
-    }
-    private ActionList _actionList;
 
     public void MyTurn()
     {

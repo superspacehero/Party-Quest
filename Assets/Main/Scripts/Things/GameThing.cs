@@ -73,7 +73,20 @@ public class GameThing : SerializedMonoBehaviour
         {
             gameObject.AddComponent<Inventory>();
         }
+
     #endif
+
+    // Action list for the thing
+    public ActionList actionList
+    {
+        get
+        {
+            if (_actionList == null)
+                _actionList = GetComponentInChildren<ActionList>();
+            return _actionList;
+        }
+    }
+    private ActionList _actionList;
 
     [FoldoutGroup("Variables")] public GameThingVariables variables;
     
@@ -207,7 +220,7 @@ public class GameThing : SerializedMonoBehaviour
             }
         }
 
-        [SerializeField, Sirenix.OdinInspector.ColorPalette]
+        [SerializeField]
         private Color _redColor = Color.white, _greenColor = Color.white, _blueColor = Color.white;
 
         /// <summary>

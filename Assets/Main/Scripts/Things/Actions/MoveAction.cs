@@ -164,4 +164,16 @@ public class MoveAction : ActionThing
         // The action is no longer running
         EndAction();
     }
+
+    public override void SecondaryAction(bool pressed)
+    {
+        if (pressed)
+        {
+            if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
+            {
+                controller.canControl = !controller.canControl;
+                (user as CharacterThing).DisplayActionList(!controller.canControl);
+            }
+        }
+    }
 }

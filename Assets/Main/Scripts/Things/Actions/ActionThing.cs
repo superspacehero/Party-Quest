@@ -33,6 +33,9 @@ public class ActionThing : GameThing
         {
             this.user = user;
             actionRunning = true;
+
+            user.actionList.SetAction(this);
+
             gameObject.SetActive(true);
             StartCoroutine(RunAction());
         }
