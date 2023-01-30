@@ -64,17 +64,30 @@ public class GameThing : SerializedMonoBehaviour
         return attachedThing.thing;
     }
 
-    #if UNITY_EDITOR
+    private bool hasInventory { get => inventory != null; }
 
-        private bool hasInventory { get { return TryGetComponent(out Inventory inventory); } }
+    [Button, HideIf("hasInventory")]
+    protected void AddInventory()
+    {
+        gameObject.AddComponent<Inventory>();
+    }
 
-        [Button, HideIf("hasInventory")]
-        void AddInventory()
+    // Inventory for the thing
+    public Inventory inventory
+    {
+        get
         {
-            gameObject.AddComponent<Inventory>();
+            if (_inventory == null)
+                TryGetComponent(out _inventory);
+            return _inventory;
         }
 
-    #endif
+        set
+        {
+            _inventory = value;
+        }
+    }
+    private Inventory _inventory;
 
     // Action list for the thing
     public ActionList actionList

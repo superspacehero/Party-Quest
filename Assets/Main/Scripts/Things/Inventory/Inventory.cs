@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[AddComponentMenu("Game Things/Inventories/Inventory")]
+[AddComponentMenu("Game Things/Inventories/Inventory"), System.Serializable, DisallowMultipleComponent]
 public class Inventory : MonoBehaviour
 {
     // Inventories are an array of GameThings that can be used by a GameThing.
