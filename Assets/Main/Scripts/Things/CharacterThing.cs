@@ -80,6 +80,7 @@ public class CharacterThing : GameThing
         if (actionList != null)
             actionList.SecondaryAction(pressed);
     }
+
     #endregion
 
     #region Character Assembly
@@ -128,7 +129,6 @@ public class CharacterThing : GameThing
             }
         }
 
-        [Button]
         // Method to assemble the character
         public void AssembleCharacter()
         {
@@ -178,15 +178,21 @@ public class CharacterThing : GameThing
                 Debug.LogWarning("No action list found for character " + thingName);
         }
 
-        // Method to save the character to a JSON string
-        public string Save()
+        // Method to convert the character to a JSON string
+        new public string ToString()
         {
             string characterSaveData = "{";
 
             // Save the character information
             characterSaveData += "\"thingName\": \"" + thingName + "\",";
             characterSaveData += "\"thingValue\": " + thingValue + ",";
-            characterSaveData += JsonUtility.ToJson(baseVariables);
+
+            characterSaveData += "\"baseVariables\": {";
+            foreach (GameThingVariables.Variable variable in baseVariables.variables)
+            {
+                characterSaveData += "\"" + variable.name + "\": " + variable.value + (variable.name != baseVariables.variables[baseVariables.variables.Count - 1].name ? "," : "");
+            }
+            characterSaveData += "},";
 
             // Save the character parts
             characterSaveData += ",\"parts\": [";
@@ -199,10 +205,15 @@ public class CharacterThing : GameThing
                 // Save the character part prefab's ID
                 characterSaveData += "\"thingName\": \"" + characterPartPrefabs[i].name + "\",";
 
+                    characterPartPrefabs[i].TryGetComponent(out CharacterPartThing characterPartThing);
+                    
+                    if (parts != null && parts.Count > i)
+                        characterPartThing = parts[i];
+
                     // Save the character part's red, green, and blue colors
-                    characterSaveData += "\"r\": " + parts[i].redColor + ",";
-                    characterSaveData += "\"g\": " + parts[i].greenColor + ",";
-                    characterSaveData += "\"b\": " + parts[i].blueColor;
+                    characterSaveData += "\"r\": " + characterPartThing.redColor + ",";
+                    characterSaveData += "\"g\": " + characterPartThing.greenColor + ",";
+                    characterSaveData += "\"b\": " + characterPartThing.blueColor;
 
                 characterSaveData += "}";
 
@@ -216,11 +227,45 @@ public class CharacterThing : GameThing
             return characterSaveData;
         }
 
-        // Method to load the character from a JSON string
-        public void Load(string characterSaveData)
+        // Method to save the character to player prefs
+        [Button]
+        public void SaveCharacter(string characterCategory = "Player")
+        {
+            PlayerPrefs.SetString(characterCategory + "_" + thingName, ToString());
+
+            PlayerPrefs.Save();
+        }
+
+        // Method to create the character from a JSON string
+        [Button]
+        public void FromString(string characterSaveData)
         {
             // Load the character information
-            JsonUtility.FromJsonOverwrite(characterSaveData, this);
+
+            thingName = characterSaveData.Split(new string[] { "\"thingName\": \"" }, StringSplitOptions.None)[1].Split(new string[] { "\"," }, StringSplitOptions.None)[0];
+            thingValue = int.Parse(characterSaveData.Split(new string[] { "\"thingValue\": " }, StringSplitOptions.None)[1].Split(new string[] { "," }, StringSplitOptions.None)[0]);
+
+            // Load the character's base variables
+            if (characterSaveData.Contains("\"baseVariables\": {"))
+            {
+                string[] baseVariableString = characterSaveData.Split(new string[] { "\"baseVariables\": {" }, StringSplitOptions.None)[1].Split(new string[] { "}}" }, StringSplitOptions.None)[0].Split(new string[] { "," }, StringSplitOptions.None);
+
+                foreach (string variable in baseVariableString)
+                {
+                    if (!string.IsNullOrEmpty(variable))
+                    {
+                        string variableKey = variable.Split(new string[] { "\"" }, StringSplitOptions.None)[1];
+                        string variableValue = variable.Split(new string[] { "\"" }, StringSplitOptions.None)[3];
+
+                        baseVariables.variables.Add(new GameThingVariables.Variable(variableKey, int.Parse(variableValue)));
+                    }
+                }
+            }
+            else
+            {
+                // Handle error for index going outside bounds of array
+                Debug.LogError("No base variables found for character " + thingName, this);
+            }
 
             // Load the character parts
             string[] parts = characterSaveData.Split(new string[] { "\"parts\": [" }, StringSplitOptions.None)[1].Split(new string[] { "]}" }, StringSplitOptions.None)[0].Split(new string[] { "},{" }, StringSplitOptions.None);
@@ -228,11 +273,6 @@ public class CharacterThing : GameThing
             {
                 // Load the character part prefab's name
                 string partName = parts[i].Split(new string[] { "\"thingName\": \"" }, StringSplitOptions.None)[1].Split(new string[] { "\"," }, StringSplitOptions.None)[0];
-
-                // Load the character part's red, green, and blue colors
-                float r = float.Parse(parts[i].Split(new string[] { "\"r\": " }, StringSplitOptions.None)[1].Split(new string[] { "," }, StringSplitOptions.None)[0]);
-                float g = float.Parse(parts[i].Split(new string[] { "\"g\": " }, StringSplitOptions.None)[1].Split(new string[] { "," }, StringSplitOptions.None)[0]);
-                float b = float.Parse(parts[i].Split(new string[] { "\"b\": " }, StringSplitOptions.None)[1].Split(new string[] { "}" }, StringSplitOptions.None)[0]);
 
                 // Find the prefab with this name
                 foreach (GameObject characterPart in GameManager.instance.characterPartList.characterParts)
@@ -246,7 +286,24 @@ public class CharacterThing : GameThing
                 }
             }
 
+            // Assemble the character
             AssembleCharacter();
+
+            // Load the character part colors
+            for (int i = 0; i < parts.Length; i++)
+            {
+                // Load the character part's red, green, and blue colors
+                float r = float.Parse(parts[i].Split(new string[] { "\"r\": " }, StringSplitOptions.None)[1].Split(new string[] { "," }, StringSplitOptions.None)[0]);
+                float g = float.Parse(parts[i].Split(new string[] { "\"g\": " }, StringSplitOptions.None)[1].Split(new string[] { "," }, StringSplitOptions.None)[0]);
+                float b = float.Parse(parts[i].Split(new string[] { "\"b\": " }, StringSplitOptions.None)[1].Split(new string[] { "}" }, StringSplitOptions.None)[0]);
+            }
+        }
+
+        // Method to load the character from player prefs
+        [Button]
+        public void LoadCharacter(string characterName, string characterCategory = "Player")
+        {
+            FromString(PlayerPrefs.GetString(characterCategory + "_" + characterName));
         }
 
     #endregion

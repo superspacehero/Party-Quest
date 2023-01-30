@@ -52,6 +52,7 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
         PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(GameManager.instance.level));
+        PlayerPrefs.Save();
         
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {
