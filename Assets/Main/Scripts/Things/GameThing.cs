@@ -290,7 +290,10 @@ public class GameThing : SerializedMonoBehaviour
 
         public virtual void SetColors(UnityEngine.UI.Graphic graphic)
         {
-            Material materialForRendering = graphic.materialForRendering;
+            // Check if the graphic has a material and hasn't been instantiated yet.
+            Material materialForRendering = (graphic.materialForRendering == graphic.defaultMaterial) ?
+                graphic.materialForRendering : Instantiate(graphic.materialForRendering);
+
 
             materialForRendering.SetColor("_RedColor", redColor);
             materialForRendering.SetColor("_GreenColor", greenColor);

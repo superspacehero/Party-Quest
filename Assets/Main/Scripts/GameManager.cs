@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
 
     /// <summary>
     /// Callback to draw gizmos that are pickable and always drawn.
-    /// /// </summary>
+    /// </summary>
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

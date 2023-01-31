@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  jumpSpeed: 10
+  jumpSpeed: 12
   gravity: 50
   cameraTransform: {fileID: 0}
   canControl: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   team: 0
-  characterPartPrefabs: []
+  characterParts: []
   baseVariables:
     variables:
     - name: health
