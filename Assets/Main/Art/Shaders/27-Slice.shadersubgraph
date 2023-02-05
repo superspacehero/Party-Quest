@@ -2555,7 +2555,7 @@
     "m_SourceType": 1,
     "m_FunctionName": "Remap_Center",
     "m_FunctionSource": "",
-    "m_FunctionBody": "val += offset;\n\n_out =\nsaturate(\n               \tlerp( \n                    val * to/from, \n               \t    (val-from)/(bound-from) * (bound-to) + to, \n                    step(from, val) \n\t)\n);"
+    "m_FunctionBody": "_out =\nsaturate(\n               \tlerp( \n                    val * to/from, \n               \t    (val-from)/(bound-from) * (bound-to) + to, \n                    step(from, val) \n\t)\n);"
 }
 
 {
