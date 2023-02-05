@@ -20,16 +20,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Paintbrush
-  m_Shader: {fileID: -6465566751694194690, guid: 64e70546cffbae1558f0ab8b95938144, type: 3}
+  m_Name: Nature - Toon
+  m_Shader: {fileID: -6465566751694194690, guid: 8b32d2551f6cd659a91952bea3f635d2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 2
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -95,7 +94,6 @@ Material:
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _CastShadows: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _ColorRandomization: 0.25
@@ -120,16 +118,14 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _WorkflowMode: 1
-    - _ZTest: 4
     - _ZWrite: 1
-    - _ZWriteControl: 0
     - __dirty: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
-    - _BlueColor: {r: 0, g: 0, b: 1, a: 1}
+    - _BlueColor: {r: 0.76862746, g: 0.14117648, b: 0.1882353, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _GreenColor: {r: 1, g: 0.68319905, b: 0.2688679, a: 1}
-    - _RedColor: {r: 1, g: 0, b: 0, a: 1}
+    - _GreenColor: {r: 0.8784314, g: 0.45490196, b: 0.21960784, a: 1}
+    - _RedColor: {r: 0.2, g: 0.59607846, b: 0.29411766, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []

@@ -4819,9 +4819,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8c0d5ec7c2f146f886f7281f1c00cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonSong: '{   "name": "Test Song",   "tempo": 240,   "loop": 5,   "tracks": [    
-    { "instrument": { "name": "Piano" }, "noteString": "12 32 52 62 82 a2 c2 13"
-    }  ] } '
+  jsonSong: "{\n  \"name\": \"Test Song\",\n  \"tempo\": 240,\n  \"loop\": 0,\n 
+    \"tracks\": [\n    {\n      \"instrument\": { \"name\": \"Piano\" },\n      \"noteString\":
+    \"52 52 - 53 . 52 - 33 . 52 - 13 . 52 - b2 . 52 - c2 13 .\"\n    }\n  ]\n}\n"
   instruments: {fileID: 11400000, guid: e21154fbb2ea0e41aa4b7e8a854b9aac, type: 2}
   audioMixerGroup: {fileID: -3104771224508644411, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
 --- !u!1 &6050932689369001574
