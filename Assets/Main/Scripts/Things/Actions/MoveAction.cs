@@ -11,7 +11,7 @@ public class MoveAction : ActionThing
     }
 
     // The number of spaces the character can move
-    public int movementRange = 3;
+    private int movementRange = 3;
 
     // The grid graph to use for pathfinding
     private GridGraph gridGraph
@@ -80,8 +80,8 @@ public class MoveAction : ActionThing
                 {
                     // Get the node in the direction
                     GraphNode node = gridGraph.GetNearest((Vector3)currentNode.position + direction).node;
-                    // If the node is not in the valid spaces list and is walkable, add it
-                    if (!validSpaces.Contains(node) && node.Walkable)
+                    // If the node is not in the valid spaces list, is walkable, and is within the step height, add it to the list
+                    if (!validSpaces.Contains(node) && node.Walkable && Mathf.Abs(((Vector3)node.position).y - ((Vector3)currentNode.position).y) <= 1)
                     {
                         validSpaces.Add(node);
                         queue.Enqueue(node);
