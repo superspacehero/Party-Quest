@@ -6,8 +6,6 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
-    // public TileType tileType;
-
     /// <summary>
     /// StartUp is called on the first frame of the running Scene.
     /// </summary>
@@ -22,13 +20,12 @@ public class LevelTile : RuleTile
             Tilemap tmpMap = tilemap.GetComponent<Tilemap>();
             Matrix4x4 orientMatrix = tmpMap.orientationMatrix;
 
-            var iden = Matrix4x4.identity;
             Vector3 gameObjectTranslation = new Vector3();
             Quaternion gameObjectRotation = new Quaternion();
             Vector3 gameObjectScale = new Vector3();
 
             bool ruleMatched = false;
-            Matrix4x4 transform = iden;
+            Matrix4x4 transform = Matrix4x4.identity;
             foreach (TilingRule rule in m_TilingRules)
             {
                 if (RuleMatches(rule, position, tilemap, ref transform))
@@ -59,15 +56,4 @@ public class LevelTile : RuleTile
 
         return true;
     }
-}
-
-public enum TileType
-{
-    Grass = 0,
-    Dirt = 1,
-    Stone = 2,
-    Water = 3,
-    Sand = 4,
-    Snow = 5,
-    Lava = 6
 }
