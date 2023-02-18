@@ -48,6 +48,8 @@ public class InventoryDisplay : MonoBehaviour
     /// </summary>
     private void OnEnable()
     {
+        transform.rotation = Quaternion.identity;
+
         PopulateThings();
     }
 

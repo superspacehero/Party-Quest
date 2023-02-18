@@ -11,6 +11,7 @@ public class MovementController : Controller
     private Mover mover;
     float currentVerticalSpeed = 0f;
     bool isGrounded;
+
     public float movementSpeed = 7f;
     public float jumpSpeed = 10f;
     public float gravity = 10f;
@@ -93,6 +94,9 @@ public class MovementController : Controller
         //If the character is not allowed to control itself, freeze all rotation and horizontal position changes;
         if (rb)
             rb.constraints = (canControl && canMove) ? RigidbodyConstraints.FreezeRotation : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+        //Rotate the character;
+        RotateTowardsGotoRotation();
     }
 
     private Vector3 CalculateMovementDirection()
@@ -121,6 +125,11 @@ public class MovementController : Controller
         if (_direction.magnitude > 1f)
             _direction.Normalize();
 
+        // Use this direction to rotate the character towards the movement direction;
+        if (_direction.magnitude > 0.01f)
+            Rotate(_direction);
+
+        // Return the calculated movement direction;
         return _direction;
     }
 
@@ -158,4 +167,77 @@ public class MovementController : Controller
         return isGrounded;
     }
 
+    #region Rotation
+
+        public enum MovementRotationBehavior
+        {
+            None,
+            FullRotation,
+            LeftRightRotation
+        }
+        [SerializeField, FoldoutGroup("Rotation")]
+        private MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
+
+        protected Transform meshBase
+        {
+            get
+            {
+                if (_meshBase == null)
+                    _meshBase = transform;
+
+                return _meshBase;
+            }
+        }
+        [SerializeField, InfoBox("If left empty, the base object will be used."), FoldoutGroup("Rotation")]
+        private Transform _meshBase;
+
+        private float gotoRotation;
+
+        [FoldoutGroup("Rotation")]
+        public float rotationTime = 0.25f;
+
+        protected Vector3 rotationDirection = Vector3.right;
+
+        public void Rotate(Vector3 direction)
+        {
+            switch (rotationBehavior)
+            {
+                case MovementRotationBehavior.None:
+                    return;
+                case MovementRotationBehavior.FullRotation:
+                    break;
+                case MovementRotationBehavior.LeftRightRotation:
+                    // Round direction.x to -1 or 1 if it's not 0
+                    if (direction.x != 0)
+                        direction.x = Mathf.Sign(direction.x);
+
+                    direction = Vector3Int.RoundToInt(direction);
+
+                    if (direction.x == 0)
+                        direction.x = rotationDirection.x;
+
+                    direction.z *= 0.5f;
+                    break;
+            }
+
+            rotationDirection = direction;
+            gotoRotation = ((Mathf.Atan2(rotationDirection.x, rotationDirection.z)) * Mathf.Rad2Deg) + (rotationBehavior == MovementRotationBehavior.LeftRightRotation ? -90 : 0);
+        }
+
+        [Button, FoldoutGroup("Rotation"), HideInEditorMode]
+        public void RandomRotation()
+        {
+            gotoRotation = Random.Range(0f, 360f);
+        }
+
+        private void RotateTowardsGotoRotation()
+        {
+            _meshBase.localEulerAngles = new Vector3(
+                _meshBase.localEulerAngles.x,
+                Mathf.LerpAngle(_meshBase.localEulerAngles.y, gotoRotation, Time.fixedDeltaTime / rotationTime),
+                _meshBase.localEulerAngles.z
+            );
+        }
+
+    #endregion
 }

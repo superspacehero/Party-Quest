@@ -145,10 +145,7 @@ public class GameManager : MonoBehaviour
                 currentCharacter.MyTurn();
 
                 foreach (Player player in players)
-                {
-                    if (player.controlledThing == currentCharacter)
-                        player.SetControlObject(_canControl:true);
-                }
+                    player.SetControlObject(_canControl: player.controlledThing == currentCharacter);
             }
 
         #endregion
