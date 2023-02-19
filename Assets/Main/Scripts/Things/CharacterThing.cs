@@ -276,6 +276,8 @@ public class CharacterThing : GameThing
     void OnEnable()
     {
         GameManager.AddCharacter(this);
+
+        General.DelayedFunctionFrames(this, () => MoveAction.OccupyNode(transform.position));
     }
 
     /// <summary>
@@ -284,5 +286,6 @@ public class CharacterThing : GameThing
     void OnDisable()
     {
         GameManager.RemoveCharacter(this);
+        MoveAction.UnoccupyNode(transform.position);
     }
 }

@@ -88,13 +88,16 @@ public class NodeDisplay : MonoBehaviour
         }
     }
 
-    public void ColorNodeObjects(List<GraphNode> nodes, Color color)
+    public void ColorNodeObjects(List<GraphNode> nodes, Color color, Color occupiedColor)
     {
         // Iterate through the GraphNodes
         foreach (GraphNode node in nodes)
         {
             // Color the node display object for the GraphNode
-            ColorNodeObject(node, color);
+            if (MoveAction.CheckNodeOccupied(node))
+                ColorNodeObject(node, occupiedColor);
+            else
+                ColorNodeObject(node, color);
         }
     }
 }

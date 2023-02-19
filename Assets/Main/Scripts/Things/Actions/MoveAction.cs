@@ -27,7 +27,9 @@ public class MoveAction : ActionThing
     private GridGraph _gridGraph;
 
     [SerializeField, Sirenix.OdinInspector.FoldoutGroup("Colors")]
-    private Color walkableColor = Color.white, currentColor = Color.blue, invalidColor = Color.red;
+    private Color walkableColor = Color.white, currentColor = Color.blue;
+    [SerializeField, Sirenix.OdinInspector.FoldoutGroup("Colors"), UnityEngine.Serialization.FormerlySerializedAs("invalidColor")]
+    private Color occupiedColor = Color.red;
 
     // The direction the character is moving in
     private Vector3 movement;
@@ -65,6 +67,8 @@ public class MoveAction : ActionThing
         currentNode = gridGraph.GetNearest(user.transform.position).node;
         validSpaces.Add(currentNode);
 
+        UnoccupyNode(currentNode);
+
         Queue<GraphNode> queue = new Queue<GraphNode>();
         queue.Enqueue(currentNode);
 
@@ -95,7 +99,7 @@ public class MoveAction : ActionThing
         {
             NodeDisplay.instance.DisplayNodes(validSpaces);
 
-            NodeDisplay.instance.ColorNodeObjects(validSpaces, walkableColor);
+            NodeDisplay.instance.ColorNodeObjects(validSpaces, walkableColor, occupiedColor);
 
             NodeDisplay.instance.ColorNodeObject(currentNode, currentColor);
         }
@@ -132,6 +136,10 @@ public class MoveAction : ActionThing
 
                     currentNode = previousNode;
                 }
+                else if (CheckNodeOccupied(currentNode))
+                {
+                    currentNode = previousNode;
+                }
 
                 if (previousNode != currentNode)
                 {
@@ -161,8 +169,40 @@ public class MoveAction : ActionThing
 
         user.transform.position = (Vector3)currentNode.position;
 
+        // Occupy the node
+        OccupyNode(currentNode);
+
         // The action is no longer running
         EndAction();
+    }
+
+    public static void OccupyNode(GraphNode node)
+    {
+        if (node != null)
+            node.Tag = 1;
+    }
+
+    public static void OccupyNode(Vector3 position)
+    {
+        if (AstarPath.active != null)
+            OccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
+    }
+
+    public static void UnoccupyNode(GraphNode node)
+    {
+        if (node != null)
+            node.Tag = 0;
+    }
+
+    public static void UnoccupyNode(Vector3 position)
+    {
+        if (AstarPath.active != null)
+            UnoccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
+    }
+
+    public static bool CheckNodeOccupied(GraphNode node)
+    {
+        return node.Tag == 1;
     }
 
     public override void SecondaryAction(bool pressed)
