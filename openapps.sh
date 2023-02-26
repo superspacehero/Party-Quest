@@ -15,7 +15,7 @@ case "$first_letter" in
         $unity -openfile $scenepath/SampleScene.unity & flatpak run org.audacityteam.Audacity & flatpak run io.github.shiftey.Desktop &
         ;;
     "g")
-        $unity -openfile $scenepath/SampleScene.unity & flatpak run org.glimpse_editor.Glimpse & flatpak run io.github.shiftey.Desktop &
+        $unity -openfile $scenepath/SampleScene.unity & flatpak run org.gimp.GIMP & flatpak run io.github.shiftey.Desktop &
         ;;
     "i")
         $unity -openfile $scenepath/SampleScene.unity & flatpak run org.inkscape.Inkscape & flatpak run io.github.shiftey.Desktop &
