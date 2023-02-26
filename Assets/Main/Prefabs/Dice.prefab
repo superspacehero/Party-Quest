@@ -212,7 +212,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.05
+  m_AngularDrag: 2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -271,8 +271,8 @@ MonoBehaviour:
     variables: []
   _renderers:
   - {fileID: 2012962141309948856}
-  _redColor: {r: 1, g: 0, b: 0.2509804, a: 1}
-  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _redColor: {r: 0, g: 0.4117647, b: 0.6666667, a: 1}
+  _greenColor: {r: 0.9764706, g: 0.9019608, b: 0.8117647, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   enabledEvent:
     m_PersistentCalls:
@@ -293,11 +293,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 8
-  cameraPoint:
-    thing: {fileID: 0}
-    transform: {fileID: 0}
-    disableWhenInInventory: 0
-    thingType: 
+  cameraPoint: {fileID: 4136202228221795525}
   stickLaunchMagnitude: 0.99
   verticalLaunchForce: 2.5
   launchForce: 2.5

@@ -32,7 +32,7 @@ public class Dice : GameThing
         [SerializeField, FoldoutGroup("Dice")]
         private LayerMask layerMask;
 
-        [SerializeField, FoldoutGroup("Attached Things")] protected Inventory.ThingSlot cameraPoint;
+        [SerializeField, FoldoutGroup("Dice")] protected Transform cameraPoint;
 
     #endregion
 
@@ -44,7 +44,7 @@ public class Dice : GameThing
             get
             {
                 if (_rb == null)
-                    attachedThing.transform.TryGetComponent(out _rb);
+                    _rb = GetComponentInChildren<Rigidbody>();
 
                 return _rb;
             }
@@ -86,25 +86,27 @@ public class Dice : GameThing
 
             rolled = false;
             thingValue = 0;
-            cameraPoint.transform.localPosition = cameraPointOffset;
+            cameraPoint.localPosition = cameraPointOffset;
             rollTime = 0f;
 
             enabledEvent.Invoke();
 
             rb.constraints = RigidbodyConstraints.FreezePosition;
             rb.angularVelocity = Vector3.zero;
+
+            Vector2 rotationDirection = Vector2.zero;
             
-            attachedThing.transform.localPosition = Vector3.zero;
-            attachedThing.transform.localRotation = Quaternion.identity;
+            rb.transform.localPosition = Vector3.zero;
+            rb.transform.localRotation = Quaternion.identity;
 
             // Spin dice until it's rolled.
             while (!rolled)
             {
-                // rotationDirection.x = Mathf.PingPong(Time.time * rollSpeed, 180f);
-                // rotationDirection.y = Mathf.Repeat(Time.time * rollSpeed, 360f);
+                rotationDirection.x = Mathf.PingPong(Time.time * rollSpeed, 180f);
+                rotationDirection.y = Mathf.Repeat(Time.time * rollSpeed, 360f);
                 
-                // // Roll the dice around to show all sides.
-                // rb.AddTorque(rotationDirection, ForceMode.Impulse);
+                // Roll the dice around to show all sides.
+                rb.AddTorque(rotationDirection, ForceMode.Impulse);
 
                 yield return General.waitForFixedUpdate;
             }
@@ -119,14 +121,14 @@ public class Dice : GameThing
                 //     rb.AddTorque(Kp * err - Kd * rb.angularVelocity, ForceMode.Acceleration);
                 // }
 
-                cameraPoint.transform.position = attachedThing.transform.position + cameraPointOffset;
+                cameraPoint.position = rb.transform.position + cameraPointOffset;
 
                 yield return General.waitForFixedUpdate;
                 rollTime += Time.fixedDeltaTime;
             }
 
-            // Dice behavior when it's stopped rolling.
-            var upDir = dirs.OrderBy(x => Vector3.Angle(attachedThing.transform.TransformDirection(x), Vector3.up)).First();
+            // Dice behavior when it's stopped rolling - find the side facing the camera.
+            var upDir = dirs.OrderBy(x => Vector3.Angle(rb.transform.TransformDirection(x), Vector3.up)).First();
 
             thingValue = dirs.IndexOf(upDir) + 1;
             onValueChanged.Invoke(thingValue);
@@ -134,7 +136,7 @@ public class Dice : GameThing
             Debug.Log($"Value: {thingValue}");
         }
 
-        private void Launch(Vector3 direction)
+        private void Launch(Vector2 direction)
         {
             if (rolled && thingValue <= 0)
                 return;
@@ -152,9 +154,9 @@ public class Dice : GameThing
 
             rb.constraints = RigidbodyConstraints.None;
 
-            rb.AddForce((direction * launchForce) + (Vector3.up * verticalLaunchForce), ForceMode.Impulse);
+            rb.AddForce((((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * launchForce) + (Vector3.up * verticalLaunchForce), ForceMode.Impulse);
             
-            rb.AddTorque(((Vector3.right * direction.z) + (Vector3.back * direction.x)) * rollSpeed, ForceMode.Impulse);
+            rb.AddTorque(((Vector3.right * direction.y) + (Vector3.back * direction.x)) * rollSpeed, ForceMode.Impulse);
         }
 
     #endregion
@@ -163,20 +165,23 @@ public class Dice : GameThing
 
         void RandomLaunch()
         {
-            Vector3 launchDirection = Random.insideUnitCircle.normalized;
-            launchDirection.z = launchDirection.y;
-            launchDirection.y = 0;
+            Vector2 launchDirection = Random.insideUnitCircle.normalized;
 
             Launch(launchDirection);
         }
 
-        // public override void Move(Vector3 direction, bool rotate = true, bool ignoreCollisions = false, bool checkHeight = true)
-        // {
-        //     if (direction.magnitude >= stickLaunchMagnitude)
-        //         Launch(direction);
-        // }
+        public override void Move(Vector2 direction)
+        {
+            if (direction.magnitude >= stickLaunchMagnitude)
+                Launch(direction);
+        }
 
-        public override void Use(GameThing user)
+        public override void PrimaryAction(bool pressed)
+        {
+            RandomLaunch();
+        }
+
+        public override void SecondaryAction(bool pressed)
         {
             RandomLaunch();
         }

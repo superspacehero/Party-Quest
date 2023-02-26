@@ -105,30 +105,36 @@ public class CharacterThing : GameThing
     }
 
     // Method to move character
-    public void Move(Vector2 direction)
+    public override void Move(Vector2 direction)
     {
         if (actionList != null)
             actionList.Move(direction);
 
         if (movementController != null)
             movementController.movementInput = direction;
+
+        base.Move(direction);
     }
 
     // Method to perform primary action on character
-    public void PrimaryAction(bool pressed)
+    public override void PrimaryAction(bool pressed)
     {
         if (actionList != null)
             actionList.PrimaryAction(pressed);
 
         if (movementController != null)
             movementController.jumpInput = pressed;
+
+        base.PrimaryAction(pressed);
     }
 
     // Method to perform secondary action on character
-    public void SecondaryAction(bool pressed)
+    public override void SecondaryAction(bool pressed)
     {
         if (actionList != null)
             actionList.SecondaryAction(pressed);
+            
+        base.SecondaryAction(pressed);
     }
 
     #endregion

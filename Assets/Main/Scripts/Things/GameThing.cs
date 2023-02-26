@@ -315,4 +315,29 @@ public class GameThing : SerializedMonoBehaviour
         }
 
     #endregion
+
+    #region Input
+
+        // Movement input
+        public virtual void Move(Vector2 direction)
+        {
+            if (GetAttachedThing() != null)
+                GetAttachedThing().Move(direction);
+        }
+
+        // Primary input
+        public virtual void PrimaryAction(bool pressed)
+        {
+            if (GetAttachedThing() != null)
+                GetAttachedThing().PrimaryAction(pressed);
+        }
+
+        // Secondary input
+        public virtual void SecondaryAction(bool pressed)
+        {
+            if (GetAttachedThing() != null)
+                GetAttachedThing().SecondaryAction(pressed);
+        }
+
+    #endregion
 }
