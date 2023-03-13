@@ -75,7 +75,7 @@ public class Inventory : MonoBehaviour
         slot.AddThing(item);
     }
 
-    public void AddThing(GameThing item, bool addSlot = false)
+    public void AddThing(GameThing item, bool addSlot = false, Transform slotTransform = null)
     {
         if (addSlot)
         {
@@ -88,7 +88,11 @@ public class Inventory : MonoBehaviour
             if (item != null)
             {
                 newThingSlots[thingSlots.Length] = new ThingSlot();
-                newThingSlots[thingSlots.Length].transform = inventoryTransform;
+
+                if (slotTransform == null)
+                    slotTransform = inventoryTransform;
+                newThingSlots[thingSlots.Length].transform = slotTransform;
+
                 newThingSlots[thingSlots.Length].disableWhenInInventory = true;
                 newThingSlots[thingSlots.Length].thingType = (item.thingSubType != "" ? item.thingSubType : item.thingType);
                 newThingSlots[thingSlots.Length].AddThing(item);
@@ -152,6 +156,17 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public bool Contains(string thingName)
+    {
+        foreach (ThingSlot slot in thingSlots)
+        {
+            if (slot.thing != null && slot.thing.thingName == thingName)
+                return true;
+        }
+        
+        return false;
+    }
+
     public bool inventoryFull
     {
         get
@@ -165,4 +180,41 @@ public class Inventory : MonoBehaviour
             return true;
         }
     }
+
+    // Displaying the inventory in-game
+    protected InventoryDisplay inventoryDisplay
+    {
+        get
+        {
+            if (_inventoryDisplay == null)
+            {
+                Transform parent = transform.parent;
+                while (parent != null)
+                {
+                    if (parent.parent == null)
+                        break;
+                    else
+                        parent = parent.parent;
+                }
+
+                if (parent != null)
+                    _inventoryDisplay = parent.GetComponentsInChildren<InventoryDisplay>(true)[0];
+            }
+            return _inventoryDisplay;
+        }
+    }
+    [SerializeField] private InventoryDisplay _inventoryDisplay;
+    public bool displayInventory
+    {
+        get => _displayInventory;
+        set
+        {
+            _displayInventory = value;
+            if (inventoryDisplay != null)
+                inventoryDisplay.gameObject.SetActive(_displayInventory);
+            else
+                Debug.LogWarning("No InventoryDisplay found on " + gameObject.name, this);
+        }
+    }
+    private bool _displayInventory;
 }

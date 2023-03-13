@@ -27,9 +27,29 @@ public class GameThing : SerializedMonoBehaviour
     // - Mechanism Trigger and Mechanism GameThings, the former of which can be used to toggle, activate, or deactivate the latter
     //   (used for doors, switches, and other objects that can be interacted with in a variety of ways);
     
-    public string thingName;
+    public virtual string thingName
+    {
+        get => _thingName;
+        set => _thingName = value;
+    }
+    [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("thingName")] protected string _thingName;
     public string thingDescription;
-    public Sprite thingIcon;
+
+    public virtual Sprite thingIcon
+    {
+        get
+        {
+            if (_thingIcon == null)
+                if (TryGetComponent(out SpriteRenderer spriteRenderer))
+                    _thingIcon = spriteRenderer.sprite;
+                else
+                    Debug.LogWarning($"GameThing {name} has no icon.");
+
+            return _thingIcon;
+        }
+    }
+    [SerializeField] protected Sprite _thingIcon;
+
     public int thingValue;
     [SerializeField, FoldoutGroup("Attached Things")] protected Inventory.ThingSlot attachedThing;
 

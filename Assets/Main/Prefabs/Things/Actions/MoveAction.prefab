@@ -58,7 +58,7 @@ MonoBehaviour:
       Data: 
   thingName: Move
   thingDescription: 
-  thingIcon: {fileID: 713617979, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+  _thingIcon: {fileID: 713617979, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -75,7 +75,6 @@ MonoBehaviour:
   onActionEnd:
     m_PersistentCalls:
       m_Calls: []
-  movementRange: 3
   walkableColor: {r: 1, g: 1, b: 1, a: 1}
   currentColor: {r: 0, g: 0.59607846, b: 0.8627451, a: 1}
-  invalidColor: {r: 1, g: 0, b: 0.2509804, a: 1}
+  occupiedColor: {r: 1, g: 0, b: 0.2509804, a: 1}

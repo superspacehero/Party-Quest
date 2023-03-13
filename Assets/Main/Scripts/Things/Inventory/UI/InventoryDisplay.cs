@@ -36,7 +36,7 @@ public class InventoryDisplay : MonoBehaviour
         }
         set => _inventory = value;
     }
-    [SerializeField] private Inventory _inventory;
+    [SerializeField] protected Inventory _inventory;
 
     public GameObject slotPrefab;
     public Transform slotContainer;
@@ -77,12 +77,20 @@ public class InventoryDisplay : MonoBehaviour
 
                 thingDisplays[i].thingOwner = inventoryOwner;
                 thingDisplays[i].thing = inventory.thingSlots[i].thing;
+
+                thingDisplays[i].gameObject.name = thingDisplays[i].thing == null ? "Empty Slot" : thingDisplays[i].thing.thingName;
             }
             else
                 thingDisplays[i].thing = null;
         }
 
-        if (thingDisplays.Count > 0)
-            thingDisplays[0].Select();
+        foreach (ThingDisplay thingDisplay in thingDisplays)
+        {
+            if (thingDisplay.iconButton != null && thingDisplay.iconButton.interactable == true)
+            {
+                thingDisplay.iconButton.Select();
+                break;
+            }
+        }
     }
 }

@@ -11,7 +11,9 @@ public class ColorList : ScriptableObject
     [Sirenix.OdinInspector.Button]
     private void GetColorsFromString(string hexValues)
     {
-        UnityEditor.Undo.RecordObject(this, "Get Colors From String");
+        #if UNITY_EDITOR
+            UnityEditor.Undo.RecordObject(this, "Get Colors From String");
+        #endif
 
         // Split the string into an array of individual hex values
         string[] hexArray = hexValues.Split(' ');

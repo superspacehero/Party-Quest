@@ -69,15 +69,25 @@ public class CharacterThing : GameThing
 
     public void MyTurn()
     {
+
         if (actionList != null)
+        {
+            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
             actionList.ResetActions();
-        DisplayActionList(true);
+        }
+        else
+            Debug.LogWarning("No action list found for character " + thingName);
+
+        DisplayInventory(true);
     }
 
-    public void DisplayActionList(bool display)
+    public void DisplayInventory(bool display, ActionList actionListToUse = null)
     {
-        if (actionList != null)
-            actionList.displayActionList = display;
+        if (actionListToUse == null)
+            actionListToUse = actionList;
+
+        if (actionListToUse != null)
+            actionListToUse.displayInventory = display;
     }
 
     // Movement controller for moving the character
@@ -133,7 +143,7 @@ public class CharacterThing : GameThing
     {
         if (actionList != null)
             actionList.SecondaryAction(pressed);
-            
+
         base.SecondaryAction(pressed);
     }
 
@@ -228,11 +238,6 @@ public class CharacterThing : GameThing
         }
 
         AttachPartToSlot(characterBase);
-
-        if (actionList != null)
-            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
-        else
-            Debug.LogWarning("No action list found for character " + thingName);
     }
 
     // Method to convert the character to a JSON string

@@ -8,39 +8,38 @@ public class ActionListDisplay : InventoryDisplay
     {
         get
         {
-            if (actionList != null)
-                return actionList;
+            if (_inventory != null)
+                return _inventory;
 
             if (inventoryOwner != null)
-                actionList = (inventoryOwner as CharacterThing).actionList;
+                _inventory = (inventoryOwner as CharacterThing).actionList;
 
-            return actionList;
+            return _inventory;
         }
         set
         {
             if (value != null && value is ActionList)
-                actionList = value as ActionList;
+                _inventory = value;
             else
-                actionList = null;
+                _inventory = null;
         }
     }
-    private ActionList actionList;
+    // [SerializeField] private ActionList actionList;
 
     protected override void PopulateThings()
     {
         base.PopulateThings();
 
-        if (actionList == null)
+        if (inventory is not ActionList)
             return;
 
         foreach (ThingDisplay thingDisplay in thingDisplays)
         {
             if (thingDisplay.iconButton != null)
             {
-                if (inventoryOwner != null)
-                    thingDisplay.iconButton.onClick.AddListener(() => (inventoryOwner as CharacterThing).DisplayActionList(false));
+                thingDisplay.iconButton.onClick.AddListener(() => inventory.displayInventory = false);
 
-                thingDisplay.iconButton.interactable = actionList.availableActionCategories.Contains(thingDisplay.thing.thingSubType);
+                thingDisplay.iconButton.interactable = (inventory as ActionList).availableActionCategories.Contains(thingDisplay.thing.thingSubType);
             }
         }
     }

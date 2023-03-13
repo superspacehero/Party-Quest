@@ -184,6 +184,7 @@ public class MoveAction : ActionThing
 
     public static void OccupyNode(Vector3 position)
     {
+
         if (AstarPath.active != null)
             OccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
     }
@@ -212,7 +213,7 @@ public class MoveAction : ActionThing
             if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
             {
                 controller.canControl = !controller.canControl;
-                (user as CharacterThing).DisplayActionList(!controller.canControl);
+                (user as CharacterThing).DisplayInventory(!controller.canControl);
             }
         }
     }

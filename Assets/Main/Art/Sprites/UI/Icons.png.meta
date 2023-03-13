@@ -377,7 +377,7 @@ TextureImporter:
         width: 64
         height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -385,6 +385,27 @@ TextureImporter:
       bones: []
       spriteID: e78b0051df799d7e591caeb3e3e3377e
       internalID: -1751049092
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icons_Attack
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 384
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c477556dd48a71cc78af33386f1afd33
+      internalID: -1634446236
       vertices: []
       indices: 
       edges: []
@@ -407,6 +428,7 @@ TextureImporter:
       Icons_Stop: 184950751378207249
       Icons_Play: 1161201145128540330
       Icons_Dice: 5543941588292853863
+      Icons_Attack: -1634446236
       Icons_Download: 7374845061861626600
       Icons_EndTurn: -1751049092
       Icons_Report: 1202984965197363600

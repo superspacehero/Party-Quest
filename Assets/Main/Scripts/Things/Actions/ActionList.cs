@@ -11,55 +11,26 @@ public class ActionList : Inventory
         set
         {
             _currentAction = value;
-            displayActionList = _currentAction == null;
+            displayInventory = _currentAction == null;
         }
     }
     private ActionThing _currentAction;
 
-    // Action list display for character
-    private ActionListDisplay actionListDisplay
-    {
-        get
-        {
-            if (_actionListDisplay == null)
-            {
-                Transform parent = transform.parent;
-                while (parent != null)
-                {
-                    if (parent.parent == null)
-                        break;
-                    else
-                        parent = parent.parent;
-                }
-
-                if (parent != null)
-                    _actionListDisplay = parent.GetComponentsInChildren<ActionListDisplay>(true)[0];
-            }
-            return _actionListDisplay;
-        }
-    }
-    private ActionListDisplay _actionListDisplay;
-    public bool displayActionList
-    {
-        get => _displayActionList;
-        set
-        {
-            _displayActionList = value;
-            if (actionListDisplay != null)
-                actionListDisplay.gameObject.SetActive(_displayActionList);
-            else
-                Debug.LogWarning("No ActionListDisplay found on " + gameObject.name, this);
-        }
-    }
-    private bool _displayActionList;
-
     public List<string> availableActionCategories = new List<string>();
-    [SerializeField] private List<string> defaultActionCategories = new List<string>()
+    [SerializeField]
+    private List<string> defaultActionCategories = new List<string>()
     {
         "Move",
         "Action",
         "End"
     };
+
+    [SerializeField, Space]
+    private List<string> actionBlacklist = new List<string>()
+    {
+        "Attack"
+    },
+    actionWhitelist = new List<string>();
 
     public void SetAction(ActionThing action)
     {
@@ -108,24 +79,48 @@ public class ActionList : Inventory
             currentAction.SecondaryAction(pressed);
     }
 
-
-
     public void PopulateActionList(ActionThing[] actions)
     {
         if (actions == null)
             return;
 
-        // string actionDebug = "Populating action list with: ";
+        bool canAddAction = true;
 
         foreach (ActionThing action in actions)
         {
             if (action == null)
                 continue;
 
-            AddThing(action, true);
-            // actionDebug += action.thingName + (action == actions[actions.Length - 1] ? "" : ", ");
-        }
+            canAddAction = true;
 
-        // Debug.Log(actionDebug, this);
+            foreach (string includedAction in actionWhitelist)
+            {
+                if (action.thingType.Contains(includedAction))
+                {
+                    canAddAction = true;
+                    break;
+                }
+
+                canAddAction = false;
+            }
+
+            if (!canAddAction)
+                continue;
+
+            foreach (string excludedAction in actionBlacklist)
+            {
+                if (action.thingType.Contains(excludedAction))
+                {
+                    canAddAction = false;
+                    break;
+                }
+            }
+
+            if (Contains(action.thingName))
+                canAddAction = false;
+
+            if (canAddAction)
+                AddThing(action, true, action.transform.parent);
+        }
     }
 }
