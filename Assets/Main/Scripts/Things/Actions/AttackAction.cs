@@ -8,6 +8,11 @@ public class AttackAction : ActionThing
     public override string thingType => "Attack";
     public override string thingSubType => "Attack";
 
+    [SerializeField, Range(0f, 1f)]
+    private float selectionMagnitude = 0.99f;
+
+    private CharacterThing target;
+
     public WeaponThing weapon
     {
         get
@@ -65,13 +70,24 @@ public class AttackAction : ActionThing
 
     public override void Move(Vector2 direction)
     {
-        // This is the base Move() function for ActionThings.
-        // It does nothing, and is overridden by subclasses.
+        if (!attacking)
+        {
+            if (direction.magnitude > selectionMagnitude)
+            {
+                MoveAction.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * weapon.range), out target);
+            }
+        }        
     }
 
     public override void PrimaryAction(bool pressed)
     {
+        if (pressed && !attacking && target != null)
+        {
+            attacking = true;
+            user.actionList.SetAction(this);
 
+            Debug.Log("Attacking " + target.thingName);
+        }
     }
 
     public override void SecondaryAction(bool pressed)

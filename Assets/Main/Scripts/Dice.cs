@@ -51,8 +51,10 @@ public class Dice : GameThing
         }
         private Rigidbody _rb;
 
-        [SerializeField, FoldoutGroup("Dice"), Min(0f)]
-        private float stickLaunchMagnitude = 0.99f, verticalLaunchForce = 5f, launchForce = 10f, rollSpeed = 500f, maxRollTime = 4f;
+    [SerializeField, FoldoutGroup("Dice"), Range(0f, 1f)]
+    private float stickLaunchMagnitude = 0.99f;
+    [SerializeField, FoldoutGroup("Dice"), Min(0f)]
+    private float verticalLaunchForce = 5f, launchForce = 10f, rollSpeed = 500f, maxRollTime = 4f;
 
         private float rollTime = 0f;
         

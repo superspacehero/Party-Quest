@@ -206,6 +206,30 @@ public class MoveAction : ActionThing
         return node.Tag == 1;
     }
 
+    public static bool CheckNodeOccupied(Vector3 position, out CharacterThing outCharacter)
+    {
+        outCharacter = null;
+
+        if (AstarPath.active != null)
+        {
+            GraphNode node = AstarPath.active.data.gridGraph.GetNearest(position).node;
+
+            if (node.Tag == 1)
+            {
+                foreach (CharacterThing character in GameManager.characters)
+                {
+                    if (character.transform.position == (Vector3)node.position)
+                    {
+                        outCharacter = character;
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
     public override void SecondaryAction(bool pressed)
     {
         if (pressed)

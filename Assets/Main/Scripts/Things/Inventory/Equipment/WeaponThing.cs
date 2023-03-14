@@ -9,5 +9,5 @@ public class WeaponThing : EquipmentThing
         get => "Weapon";
     }
 
-    [Min(0f)] public float attackRange = 1f;
+    [Min(0f)] public float range = 1f;
 }
