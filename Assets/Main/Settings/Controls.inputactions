@@ -10,7 +10,7 @@
                     "type": "Value",
                     "id": "69c508ee-ddb3-409a-9961-e493e0b046cd",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "NormalizeVector2",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -186,6 +186,17 @@
                 },
                 {
                     "name": "",
+                    "id": "04fd6bab-247f-4cf3-9de6-37047a828033",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3ea4d645-4504-4529-b061-ab81934c3752",
                     "path": "<Joystick>/stick",
                     "interactions": "",
@@ -224,6 +235,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Touch",
+                    "action": "Button1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d734a559-9a77-4d76-b5a0-528424a2a012",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
                     "action": "Button1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -280,6 +302,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Update",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb92d46a-a7b3-4f51-b759-dc96d3c703b1",
+                    "path": "<Touchscreen>/touch0/tap",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touch",
+                    "action": "Button2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "603639e9-3ea4-417c-9d34-df0601256ec6",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Button2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

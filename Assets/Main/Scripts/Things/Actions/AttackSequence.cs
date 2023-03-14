@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponThing : EquipmentThing
+public class AttackSequenceThing : GameThing
 {
     public override string thingType
     {
-        get => "Weapon";
+        get => "AttackSequence";
     }
 
-    public AttackSequenceThing sideAttack, upAttack, downAttack;
+    [Min(0f)] public float range = 1f;
 }

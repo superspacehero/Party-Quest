@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Pathfinding;
 using UnityEngine;
 
 public class AttackAction : ActionThing
@@ -59,40 +58,98 @@ public class AttackAction : ActionThing
         }
     }
 
-    private bool attacking = false;
+    private enum AttackState
+    {
+        None,
+        PickingAttack,
+        PickingTarget,
+        Attacking
+    }
+    private AttackState attackState
+    {
+        get => _attackState;
+        set
+        {
+            _attackState = value;
+
+            switch (_attackState)
+            {
+                case AttackState.None:
+                    CancelAction();
+                    break;
+                case AttackState.PickingAttack:
+                    break;
+                case AttackState.PickingTarget:
+                    break;
+                case AttackState.Attacking:
+                    break;
+            }
+
+            Debug.Log("AttackState: " + _attackState);
+        }
+    }
+    private AttackState _attackState = AttackState.PickingAttack;
 
     public override void Use(GameThing user)
     {
         base.Use(user);
 
-        Debug.Log("Attack!");
+        attackState = AttackState.PickingAttack;
     }
 
     public override void Move(Vector2 direction)
     {
-        if (!attacking)
+        switch (attackState)
         {
-            if (direction.magnitude > selectionMagnitude)
+            case AttackState.PickingAttack:
+                PickAttack(direction);
+                break;
+            case AttackState.PickingTarget:
+                PickTarget(direction);
+                break;
+        }
+    }
+
+    private AttackSequenceThing attack;
+
+    private void PickAttack(Vector2 direction)
+    {
+        if (direction.magnitude > selectionMagnitude)
+        {
+            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
             {
-                MoveAction.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * weapon.range), out target);
+                attack = weapon.sideAttack;
             }
-        }        
+            else if (direction.y > 0f)
+                attack = weapon.upAttack;
+            else if (direction.y < 0f)
+                attack = weapon.downAttack;
+
+            Debug.Log("Attack: " + attack);
+        }
+    }
+
+    private void PickTarget(Vector2 direction)
+    {
+        if (direction.magnitude > selectionMagnitude)
+        {
+            MoveAction.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * attack.range), out target);
+        }
     }
 
     public override void PrimaryAction(bool pressed)
     {
-        if (pressed && !attacking && target != null)
+        if (pressed && attackState != AttackState.Attacking)
         {
-            attacking = true;
-            user.actionList.SetAction(this);
-
-            Debug.Log("Attacking " + target.thingName);
+            attackState++;
         }
     }
 
     public override void SecondaryAction(bool pressed)
     {
-        if (pressed && !attacking)
-            CancelAction();
+        if (pressed && attackState != AttackState.Attacking)
+        {
+            attackState--;
+        }
     }
 }

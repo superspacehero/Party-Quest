@@ -65,6 +65,18 @@ public class CharacterThing : GameThing
     // Team that the character belongs to
     public int team;
 
+    // The character's Attack Menu
+    public AttackMenu attackMenu
+    {
+        get
+        {
+            if (_attackMenu == null)
+                _attackMenu = GetComponentInChildren<AttackMenu>(true);
+            return _attackMenu;
+        }
+    }
+    private AttackMenu _attackMenu;
+
     #region Controlling Characters
 
     public void MyTurn()
