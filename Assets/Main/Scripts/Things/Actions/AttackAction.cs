@@ -58,6 +58,21 @@ public class AttackAction : ActionThing
         }
     }
 
+    private AttackMenu attackMenu
+    {
+        get
+        {
+            if (_attackMenu == null)
+            {
+                if (user is CharacterThing)
+                    _attackMenu = (user as CharacterThing).attackMenu;
+            }
+
+            return _attackMenu;
+        }
+    }
+    private AttackMenu _attackMenu;
+
     private enum AttackState
     {
         None,
@@ -71,6 +86,8 @@ public class AttackAction : ActionThing
         set
         {
             _attackState = value;
+
+            attackMenu.SetActive(_attackState == AttackState.PickingAttack, weapon);
 
             switch (_attackState)
             {
@@ -92,7 +109,15 @@ public class AttackAction : ActionThing
 
     public override void Use(GameThing user)
     {
-        base.Use(user);
+        if (!actionRunning)
+        {
+            this.user = user;
+            actionRunning = true;
+
+            user.actionList.SetAction(this);
+
+            gameObject.SetActive(true);
+        }
 
         attackState = AttackState.PickingAttack;
     }
@@ -116,16 +141,7 @@ public class AttackAction : ActionThing
     {
         if (direction.magnitude > selectionMagnitude)
         {
-            if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-            {
-                attack = weapon.sideAttack;
-            }
-            else if (direction.y > 0f)
-                attack = weapon.upAttack;
-            else if (direction.y < 0f)
-                attack = weapon.downAttack;
-
-            Debug.Log("Attack: " + attack);
+            attackMenu.PickAttack(direction, out attack);
         }
     }
 
