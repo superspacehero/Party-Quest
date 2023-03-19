@@ -5,6 +5,18 @@ using UnityEngine.InputSystem;
 
 public class ThingInput : GameThing
 {
+    public bool canControl;
+
+    void OnEnable()
+    {
+        GameManager.AddPlayer(this);
+    }
+
+    void OnDisable()
+    {
+        GameManager.RemovePlayer(this);
+    }
+
     public Vector2 movement
     {
         get => _movement;

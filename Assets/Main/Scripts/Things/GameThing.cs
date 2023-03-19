@@ -289,6 +289,11 @@ public class GameThing : SerializedMonoBehaviour
         {
             if (renderer != null)
                 renderer.GetPropertyBlock(materialPropertyBlock);
+            else
+            {
+                Debug.LogWarning("Renderer is null!");
+                return;
+            }
 
             materialPropertyBlock.SetColor(colorName, color);
             renderer.SetPropertyBlock(materialPropertyBlock);

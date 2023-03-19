@@ -24,8 +24,8 @@ public class MovingThing : Thing
 
                 if (value != null)
                 {
-                    if (_controlledThing.moveCameraToMeWhenControlling && GameplayCamera.cameraObject == this)
-                        GameplayCamera.SetCameraObject(_controlledThing);
+                    // if (_controlledThing.moveCameraToMeWhenControlling && GameplayCamera.cameraObject == this)
+                    //     GameplayCamera.SetCameraObject(_controlledThing);
                 }
             }
         }

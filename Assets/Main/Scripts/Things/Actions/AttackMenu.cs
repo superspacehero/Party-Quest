@@ -16,6 +16,11 @@ public class AttackMenu : MonoBehaviour
             downAttack.thing = value.downAttack;
             leftAttack.thing = value.sideAttack;
             rightAttack.thing = value.sideAttack;
+
+            upAttack.gameObject.SetActive(value.upAttack != null);
+            downAttack.gameObject.SetActive(value.downAttack != null);
+            leftAttack.gameObject.SetActive(value.sideAttack != null);
+            rightAttack.gameObject.SetActive(value.sideAttack != null);
         }
     }
     private WeaponThing _weapon;
@@ -26,6 +31,9 @@ public class AttackMenu : MonoBehaviour
             this.weapon = weapon;
 
         gameObject.SetActive(active);
+
+        if (active)
+            transform.rotation = Quaternion.identity;
     }
 
     public void PickAttack(Vector2 direction, out AttackSequenceThing attack)

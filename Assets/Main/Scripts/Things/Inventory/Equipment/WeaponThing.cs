@@ -9,5 +9,6 @@ public class WeaponThing : EquipmentThing
         get => "Weapon";
     }
 
+    [Sirenix.OdinInspector.FoldoutGroup("Attacks")]
     public AttackSequenceThing sideAttack, upAttack, downAttack;
 }

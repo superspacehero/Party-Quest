@@ -5,21 +5,21 @@ using Sirenix.OdinInspector;
 
 public class RotateTowardsCamera : MonoBehaviour
 {
-    /// <summary>
-    /// This function is called when the object becomes enabled and active.
-    /// </summary>
-    void OnEnable()
-    {
-        GameplayCamera.cameraRotators.Add(this);
-    }
+    // /// <summary>
+    // /// This function is called when the object becomes enabled and active.
+    // /// </summary>
+    // void OnEnable()
+    // {
+    //     GameplayCamera.cameraRotators.Add(this);
+    // }
 
-    /// <summary>
-    /// This function is called when the behaviour becomes disabled or inactive.
-    /// </summary>
-    void OnDisable()
-    {
-        GameplayCamera.cameraRotators.Remove(this);
-    }
+    // /// <summary>
+    // /// This function is called when the behaviour becomes disabled or inactive.
+    // /// </summary>
+    // void OnDisable()
+    // {
+    //     GameplayCamera.cameraRotators.Remove(this);
+    // }
 
     private Renderer referenceRenderer
     {

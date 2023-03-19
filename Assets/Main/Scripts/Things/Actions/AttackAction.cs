@@ -12,6 +12,15 @@ public class AttackAction : ActionThing
 
     private CharacterThing target;
 
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        if (user != null)
+            transform.position = user.transform.position;
+    }
+
     public WeaponThing weapon
     {
         get
@@ -102,7 +111,9 @@ public class AttackAction : ActionThing
                     break;
             }
 
-            Debug.Log("AttackState: " + _attackState);
+            // GameplayCamera.SetCameraObject((_attackState == AttackState.PickingAttack) ? this : user);
+
+            // Debug.Log("AttackState: " + _attackState);
         }
     }
     private AttackState _attackState = AttackState.PickingAttack;
@@ -132,6 +143,10 @@ public class AttackAction : ActionThing
             case AttackState.PickingTarget:
                 PickTarget(direction);
                 break;
+            case AttackState.Attacking:
+                if (attack != null && target != null)
+                    attack.Move(direction);
+                break;
         }
     }
 
@@ -155,17 +170,39 @@ public class AttackAction : ActionThing
 
     public override void PrimaryAction(bool pressed)
     {
-        if (pressed && attackState != AttackState.Attacking)
+        switch (attackState)
         {
-            attackState++;
+            default:
+                if (pressed)
+                    attackState++;
+                break;
+            case AttackState.PickingAttack:
+                if (pressed && attack != null)
+                    attackState++;
+                break;
+            case AttackState.PickingTarget:
+                if (pressed && target != null)
+                    attackState++;
+                break;
+            case AttackState.Attacking:
+                if (attack != null && target != null)
+                    attack.PrimaryAction(pressed);
+                break;
         }
     }
 
     public override void SecondaryAction(bool pressed)
     {
-        if (pressed && attackState != AttackState.Attacking)
+        switch (attackState)
         {
-            attackState--;
+            default:
+                if (pressed)
+                    attackState--;
+                break;
+            case AttackState.Attacking:
+                if (attack != null && target != null)
+                    attack.SecondaryAction(pressed);
+                break;
         }
     }
 }

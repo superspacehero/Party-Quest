@@ -18,6 +18,15 @@ public class GameplayCamera : MonoBehaviour
         }
         private static GameplayCamera _instance;
 
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        void OnDisable()
+        {
+            if (_instance == this)
+                _instance = null;
+        }
+
         public float cameraAdjustTime = 0.25f;
         private Camera myCamera
         {
@@ -31,7 +40,9 @@ public class GameplayCamera : MonoBehaviour
         }
         private Camera _myCamera;
 
-        public static Thing cameraObject;
+        public static GameThing cameraObject;
+
+        public Vector3 cameraOffset = new Vector3(0f, 3.5f, -7f), cameraRotation = new Vector3(22.5f, 0f, 0f);
 
     #endregion
 
@@ -39,20 +50,29 @@ public class GameplayCamera : MonoBehaviour
 
     #region Camera functions
 
-        public static void SetCameraObject(MovingThing thingToFollow, bool immediateCameraShift = false)
+        public static void SetCameraObject(GameThing thingToFollow, bool immediateCameraShift = false)
         {
-            if (thingToFollow.controlledThing != null && thingToFollow.controlledThing.moveCameraToMeWhenControlling)
-                thingToFollow = thingToFollow.controlledThing;
-
-            if (!thingToFollow.moveCameraToMeWhenControlling)
+            if (thingToFollow == null)
+            {
+                Debug.LogError("Tried to set camera object to null!");
                 return;
+            }
+
+            if (thingToFollow.GetAttachedThing() != null)
+            {
+                SetCameraObject(thingToFollow.GetAttachedThing(), immediateCameraShift);
+                return;
+            }
 
             cameraObject = thingToFollow;
 
-            instance.transform.SetParent(thingToFollow.cameraPoint, true);
+            instance.transform.SetParent(thingToFollow.transform, true);
 
             if (immediateCameraShift)
-                instance.transform.localPosition = Vector3.zero;
+            {
+                instance.transform.localPosition = instance.cameraOffset;
+                instance.transform.localEulerAngles = instance.cameraRotation;
+            }
             else
                 instance.StartCoroutine(instance.CenterCamera());
 
@@ -63,39 +83,19 @@ public class GameplayCamera : MonoBehaviour
         {
             float cameraProgress = 0;
             Vector3 originalPosition = transform.localPosition;
-            Quaternion originalRotation = transform.localRotation;
+            Vector3 originalRotation = transform.localEulerAngles;
 
             while (cameraProgress <= 1)
             {
                 cameraProgress += Time.deltaTime / cameraAdjustTime;
-                transform.localPosition = Vector3.Slerp(originalPosition, Vector3.zero, cameraProgress);
-                transform.localRotation = Quaternion.Slerp(originalRotation, Quaternion.identity, cameraProgress);
+                transform.localPosition = Vector3.Slerp(originalPosition, cameraOffset, cameraProgress);
+                transform.localEulerAngles = Vector3.Slerp(originalRotation, cameraRotation, cameraProgress);
 
                 yield return null;
             }
 
-            transform.localPosition = Vector3.zero;
-        }
-
-    #endregion
-
-    #region Rotating Things
-
-        private float previousRotation;
-
-        public static List<RotateTowardsCamera> cameraRotators = new List<RotateTowardsCamera>();
-
-        /// <summary>
-        /// Update is called every frame, if the MonoBehaviour is enabled.
-        /// </summary>
-        void Update()
-        {
-            // if (transform.hasChanged)
-            if (previousRotation != transform.eulerAngles.y)
-                foreach (RotateTowardsCamera rotator in cameraRotators)
-                    rotator.Rotate(myCamera);
-
-            previousRotation = transform.eulerAngles.y;
+            transform.localPosition = cameraOffset;
+            transform.localEulerAngles = cameraRotation;
         }
 
     #endregion

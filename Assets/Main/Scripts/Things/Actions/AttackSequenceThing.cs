@@ -10,4 +10,6 @@ public class AttackSequenceThing : GameThing
     }
 
     [Min(0f)] public float range = 1f;
+
+    
 }

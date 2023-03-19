@@ -76,7 +76,7 @@ public class Player : NetworkBehaviour
         /// </summary>
         void OnEnable()
         {
-            GameManager.AddPlayer(this);
+            // GameManager.AddPlayer(this);
 
             SetControlObject();
         }
@@ -101,13 +101,13 @@ public class Player : NetworkBehaviour
             button2 = value.isPressed;
         }
 
-        /// <summary>
-        /// This function is called when the behaviour becomes disabled or inactive.
-        /// </summary>
-        void OnDisable()
-        {
-            GameManager.RemovePlayer(this);
-        }
+        // /// <summary>
+        // /// This function is called when the behaviour becomes disabled or inactive.
+        // /// </summary>
+        // void OnDisable()
+        // {
+        //     GameManager.RemovePlayer(this);
+        // }
 
         public void Update()
         {
@@ -178,7 +178,7 @@ public class Player : NetworkBehaviour
 
             canControl = _canControl;
 
-            GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
+            // GameplayCamera.SetCameraObject(_controlledThing, immediateCameraShift);
         }
 
         public void SetControlObject(bool _canControl = false)

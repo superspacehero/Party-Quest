@@ -35,20 +35,20 @@ public class GameManager : MonoBehaviour
 
     #region Players
 
-        public static List<Player> players = new List<Player>();
-        public static void AddPlayer(Player player)
+        public static List<ThingInput> players = new List<ThingInput>();
+        public static void AddPlayer(ThingInput player)
         {
             players.Add(player);
         }
 
-        public static void RemovePlayer(Player player)
+        public static void RemovePlayer(ThingInput player)
         {
             players.Remove(player);
         }
 
         public static void SetAllPlayersCanControl(bool canControl)
         {
-            foreach (Player player in players)
+            foreach (ThingInput player in players)
                 player.canControl = canControl;
         }
 
@@ -136,6 +136,7 @@ public class GameManager : MonoBehaviour
                 if (currentCharacterIndex >= charactersInCurrentTeam.Count)
                     currentTeamIndex++;
 
+                GameplayCamera.SetCameraObject(currentCharacter);
                 instance.nextCharacterUI.thing = currentCharacter;
                 instance.nextCharacterUI.gameObject.SetActive(true);
             }
@@ -144,8 +145,8 @@ public class GameManager : MonoBehaviour
             {
                 currentCharacter.MyTurn();
 
-                foreach (Player player in players)
-                    player.SetControlObject(_canControl: player.controlledThing == currentCharacter);
+                foreach (ThingInput player in players)
+                    player.canControl = player.GetAttachedThing() == currentCharacter;
             }
 
         #endregion
