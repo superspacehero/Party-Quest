@@ -98,14 +98,29 @@ public class AttackAction : ActionThing
 
             attackMenu.SetActive(_attackState == AttackState.PickingAttack, weapon);
 
+            if (_attackState == AttackState.PickingTarget)
+                Nodes.UnoccupyNode(Nodes.gridGraph.GetNearest(user.transform.position).node);
+            else
+                Nodes.OccupyNode(Nodes.gridGraph.GetNearest(user.transform.position).node);
+
             switch (_attackState)
             {
+                default:
+                    Nodes.instance.HideNodes();
+                    break;
                 case AttackState.None:
                     CancelAction();
                     break;
                 case AttackState.PickingAttack:
                     break;
                 case AttackState.PickingTarget:
+                    if (Nodes.instance != null)
+                    {
+                        List<Pathfinding.GraphNode> nodes = Nodes.GetNodesInRadius(user.transform.position, attack.range);
+
+                        Nodes.instance.DisplayNodes(nodes);
+                        Nodes.instance.ColorNodeObjects(nodes);
+                    }
                     break;
                 case AttackState.Attacking:
                     break;
@@ -144,7 +159,7 @@ public class AttackAction : ActionThing
                 PickTarget(direction);
                 break;
             case AttackState.Attacking:
-                if (attack != null && target != null)
+                if (attack != null)
                     attack.Move(direction);
                 break;
         }
@@ -164,7 +179,7 @@ public class AttackAction : ActionThing
     {
         if (direction.magnitude > selectionMagnitude)
         {
-            MoveAction.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * attack.range), out target);
+            Nodes.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * attack.range), out target);
         }
     }
 
@@ -181,11 +196,11 @@ public class AttackAction : ActionThing
                     attackState++;
                 break;
             case AttackState.PickingTarget:
-                if (pressed && target != null)
+                if (pressed && target != null && target != user)
                     attackState++;
                 break;
             case AttackState.Attacking:
-                if (attack != null && target != null)
+                if (attack != null)
                     attack.PrimaryAction(pressed);
                 break;
         }
@@ -200,7 +215,7 @@ public class AttackAction : ActionThing
                     attackState--;
                 break;
             case AttackState.Attacking:
-                if (attack != null && target != null)
+                if (attack != null)
                     attack.SecondaryAction(pressed);
                 break;
         }

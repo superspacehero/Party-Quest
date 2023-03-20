@@ -13,24 +13,6 @@ public class MoveAction : ActionThing
     // The number of spaces the character can move
     private int movementRange = 3;
 
-    // The grid graph to use for pathfinding
-    private GridGraph gridGraph
-    {
-        get
-        {
-            if (_gridGraph == null)
-                _gridGraph = AstarPath.active.data.gridGraph;
-
-            return _gridGraph;
-        }
-    }
-    private GridGraph _gridGraph;
-
-    [SerializeField, Sirenix.OdinInspector.FoldoutGroup("Colors")]
-    private Color walkableColor = Color.white, currentColor = Color.blue;
-    [SerializeField, Sirenix.OdinInspector.FoldoutGroup("Colors"), UnityEngine.Serialization.FormerlySerializedAs("invalidColor")]
-    private Color occupiedColor = Color.red;
-
     // The direction the character is moving in
     private Vector3 movement;
 
@@ -62,46 +44,18 @@ public class MoveAction : ActionThing
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
-        validSpaces = new List<GraphNode>();
-
-        currentNode = gridGraph.GetNearest(user.transform.position).node;
-        validSpaces.Add(currentNode);
-
-        UnoccupyNode(currentNode);
-
-        Queue<GraphNode> queue = new Queue<GraphNode>();
-        queue.Enqueue(currentNode);
-
-        // Iterate through all the nodes in the movement range
-        for (int i = 0; i < movementRange; i++)
-        {
-            int queueCount = queue.Count;
-            for (int j = 0; j < queueCount; j++)
-            {
-                GraphNode currentNode = queue.Dequeue();
-                // Iterate through all the directions
-                foreach (Vector3 direction in directions)
-                {
-                    // Get the node in the direction
-                    GraphNode node = gridGraph.GetNearest((Vector3)currentNode.position + direction).node;
-                    // If the node is not in the valid spaces list, is walkable, and is either lower than the current height or just one unit higher at most, add it to the list
-                    if (!validSpaces.Contains(node) && node.Walkable && (node.position.y <= currentNode.position.y || node.position.y - currentNode.position.y <= 1))
-                    {
-                        validSpaces.Add(node);
-                        queue.Enqueue(node);
-                    }
-                }
-            }
-        }
+        currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
+        Nodes.UnoccupyNode(currentNode);
+        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange);
 
         // Display the valid grid spaces
-        if (NodeDisplay.instance != null)
+        if (Nodes.instance != null)
         {
-            NodeDisplay.instance.DisplayNodes(validSpaces);
+            Nodes.instance.DisplayNodes(validSpaces);
 
-            NodeDisplay.instance.ColorNodeObjects(validSpaces, walkableColor, occupiedColor);
+            Nodes.instance.ColorNodeObjects(validSpaces);
 
-            NodeDisplay.instance.ColorNodeObject(currentNode, currentColor);
+            Nodes.instance.ColorNodeObject(currentNode, Nodes.instance.currentColor);
         }
         else
             Debug.LogWarning("NodeDisplay is null");
@@ -118,7 +72,7 @@ public class MoveAction : ActionThing
             if (user.transform.position != previousPosition)
             {
                 // Update currentPosition to the grid-based position of the user
-                currentNode = gridGraph.GetNearest(user.transform.position).node;
+                currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
 
                 // If the current position is not a valid space
                 if (!validSpaces.Contains(currentNode))
@@ -126,17 +80,17 @@ public class MoveAction : ActionThing
                     movement = user.transform.position - previousPosition;
 
                     // check the node in the direction of the x axis
-                    GraphNode xNode = gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
+                    GraphNode xNode = Nodes.gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
 
                     // check the node in the direction of the z axis
-                    GraphNode zNode = gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
+                    GraphNode zNode = Nodes.gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
 
                     // revert the appropriate axes to the previous position
                     user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(zNode) ? previousPosition.z : user.transform.position.z);
 
                     currentNode = previousNode;
                 }
-                else if (CheckNodeOccupied(currentNode))
+                else if (Nodes.CheckNodeOccupied(currentNode))
                 {
                     currentNode = previousNode;
                 }
@@ -144,10 +98,10 @@ public class MoveAction : ActionThing
                 if (previousNode != currentNode)
                 {
                     // Highlight the current node
-                    if (NodeDisplay.instance != null)
+                    if (Nodes.instance != null)
                     {
-                        NodeDisplay.instance.ColorNodeObject(previousNode, walkableColor);
-                        NodeDisplay.instance.ColorNodeObject(currentNode, currentColor);
+                        Nodes.instance.ColorNodeObject(previousNode, Nodes.instance.walkableColor);
+                        Nodes.instance.ColorNodeObject(currentNode, Nodes.instance.currentColor);
                     }
                 }
 
@@ -161,7 +115,7 @@ public class MoveAction : ActionThing
         }
 
         // Hide the valid grid spaces
-        NodeDisplay.instance.HideNodes();
+        Nodes.instance.HideNodes();
 
         // Disable movement control
         if (controller != null)
@@ -170,64 +124,10 @@ public class MoveAction : ActionThing
         user.transform.position = (Vector3)currentNode.position;
 
         // Occupy the node
-        OccupyNode(currentNode);
+        Nodes.OccupyNode(currentNode);
 
         // The action is no longer running
         EndAction();
-    }
-
-    public static void OccupyNode(GraphNode node)
-    {
-        if (node != null)
-            node.Tag = 1;
-    }
-
-    public static void OccupyNode(Vector3 position)
-    {
-
-        if (AstarPath.active != null)
-            OccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
-    }
-
-    public static void UnoccupyNode(GraphNode node)
-    {
-        if (node != null)
-            node.Tag = 0;
-    }
-
-    public static void UnoccupyNode(Vector3 position)
-    {
-        if (AstarPath.active != null)
-            UnoccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
-    }
-
-    public static bool CheckNodeOccupied(GraphNode node)
-    {
-        return node.Tag == 1;
-    }
-
-    public static bool CheckNodeOccupied(Vector3 position, out CharacterThing outCharacter)
-    {
-        outCharacter = null;
-
-        if (AstarPath.active != null)
-        {
-            GraphNode node = AstarPath.active.data.gridGraph.GetNearest(position).node;
-
-            if (node.Tag == 1)
-            {
-                foreach (CharacterThing character in GameManager.characters)
-                {
-                    if (character.transform.position == (Vector3)node.position)
-                    {
-                        outCharacter = character;
-                        return true;
-                    }
-                }
-            }
-        }
-
-        return false;
     }
 
     public override void SecondaryAction(bool pressed)

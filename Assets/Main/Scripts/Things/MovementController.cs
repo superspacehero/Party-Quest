@@ -44,6 +44,10 @@ public class MovementController : Controller
     {
         tr = transform;
         TryGetComponent(out mover);
+
+        //Set the camera transform;
+        if (cameraTransform == null)
+            cameraTransform = GameplayCamera.instance.transform;
     }
 
     void FixedUpdate()

@@ -63,6 +63,6 @@ public class AttackMenu : MonoBehaviour
             attackDisplay.Select();
         }
 
-        Debug.Log("Attack: " + attack);
+        // Debug.Log("Attack: " + attack);
     }
 }

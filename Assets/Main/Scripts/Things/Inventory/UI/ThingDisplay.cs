@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using I2.Loc;
+using TMPro;
 
 public class ThingDisplay : MonoBehaviour
 {
@@ -21,10 +23,10 @@ public class ThingDisplay : MonoBehaviour
     [SerializeField] private Image iconImage;
     public Button iconButton;
 
-    [SerializeField, Space(10)] private TMPro.TextMeshProUGUI nameText;
-    [SerializeField] private TMPro.TextMeshProUGUI descriptionText;
+    [SerializeField, Space(10)] private List<TextMeshProUGUI> nameTexts;
+    [SerializeField] private List<TextMeshProUGUI> descriptionTexts;
 
-    [SerializeField] private LocalizationParamsManager localizationParamsManager;
+    [SerializeField] private List<LocalizationParamsManager> localizationParamsManagers;
 
     public void Select()
     {
@@ -36,10 +38,10 @@ public class ThingDisplay : MonoBehaviour
     {
         if (displayThing == null)
         {
-            if (nameText != null)
-                nameText.text = "";
-            if (descriptionText != null)
-                descriptionText.text = "";
+            foreach (TextMeshProUGUI text in nameTexts)
+                text.text = "";
+            foreach (TextMeshProUGUI text in descriptionTexts)
+                text.text = "";
             if (iconImage != null)
                 iconImage.enabled = false;
             if (iconButton != null)
@@ -50,12 +52,14 @@ public class ThingDisplay : MonoBehaviour
         }
         else
         {
-            if (localizationParamsManager != null)
+            foreach (TextMeshProUGUI text in nameTexts)
+                text.text = displayThing.thingName;
+            foreach (TextMeshProUGUI text in descriptionTexts)
+                text.text = displayThing.thingDescription;
+
+            foreach (LocalizationParamsManager localizationParamsManager in localizationParamsManagers)
                 localizationParamsManager.SetParameterValue("THING", displayThing.thingName, true);
-            else if (nameText != null)
-                nameText.text = displayThing.thingName;
-            if (descriptionText != null)
-                descriptionText.text = displayThing.thingDescription;
+
             if (iconImage != null)
             {
                 iconImage.enabled = true;
