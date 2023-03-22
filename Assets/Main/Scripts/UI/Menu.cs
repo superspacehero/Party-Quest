@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Sirenix.OdinInspector;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class Menu : MonoBehaviour
 {
     #region Static Variables
@@ -21,6 +22,18 @@ public class Menu : MonoBehaviour
             }
         }
         private static Menu _currentMenuOption;
+
+        private CanvasGroup canvasGroup
+        {
+            get
+            {
+                if (_canvasGroup == null)
+                    TryGetComponent(out _canvasGroup);
+
+                return _canvasGroup;
+            }
+        }
+        private CanvasGroup _canvasGroup;
 
         public static List<Menu> menuOptions = new List<Menu>();
 
@@ -102,8 +115,6 @@ public class Menu : MonoBehaviour
     [FoldoutGroup("Select Events")]
     public UnityEvent onSelect, onDeselect;
 
-    private CanvasGroup canvasGroup;
-
     protected List<Selectable> selectables
     {
         get
@@ -158,8 +169,6 @@ public class Menu : MonoBehaviour
             if (!menuOptions.Contains(this))
                 menuOptions.Add(this);
 
-            TryGetComponent(out canvasGroup);
-
             StartCoroutine(SelectSelf());
         }
     }
@@ -203,12 +212,10 @@ public class Menu : MonoBehaviour
 
         if (canvasGroup)
             canvasGroup.interactable = true;
-
-        foreach (Selectable selectable in _selectables)
-            selectable.enabled = true;
         
         if (EventSystem.current != null)
             EventSystem.current.SetSelectedGameObject(objectToSelect);
+
         onSelect.Invoke();
 
         selected = true;
@@ -224,9 +231,6 @@ public class Menu : MonoBehaviour
 
         if (canvasGroup)
             canvasGroup.interactable = false;
-
-        foreach (Selectable selectable in _selectables)
-            selectable.enabled = false;
 
         selected = false;
     }

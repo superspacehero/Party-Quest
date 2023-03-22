@@ -17,6 +17,99 @@ MonoBehaviour:
     UserAgreesToHaveItInsideThePluginsFolder: 0
     GoogleLiveSyncIsUptoDate: 1
     mTerms:
+    - Term: Title/Title_Game
+      TermType: 0
+      Description: The name of the game
+      Languages:
+      - Party Quest
+      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
+      - "B\xFAsqueda De Fiesta"
+      - "Qu\xEAte De F\xEAte"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat the {[THING]}
+      - "{[THING]}\u3092\u5012\u3059"
+      - Derrota al {[THING]}
+      - Vaincre le {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find {[THING]}
+      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
+      - Encontrar {[THING]}
+      - Trouver {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Normal_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet the {[THING]}
+      - "{[THING]}\u306B\u4F1A\u3046"
+      - Conoce al {[THING]}
+      - Rencontrez les {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Defeat
+      TermType: 0
+      Description: 
+      Languages:
+      - Defeat {[THING]}
+      - "\u6557\u5317 {[THING]}"
+      - Derrota {[THING]}
+      - "D\xE9faite {[THING]}"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Find
+      TermType: 0
+      Description: 
+      Languages:
+      - Find {[THING]}
+      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
+      - Encontrar {[THING]}
+      - Trouver {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Thing Actions/Thing_Proper_Meet
+      TermType: 0
+      Description: 
+      Languages:
+      - Meet {[THING]}
+      - "\u4F1A\u3046 {[THING]}"
+      - Conocer {[THING]}
+      - Rencontrer {[THING]}
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Main
+      TermType: 0
+      Description: 
+      Languages:
+      - Main Quests[i2p_Zero]No Main Quests[i2p_One]Main Quest
+      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - "Misiones principales[i2p_Zero]Sin misiones principales[i2p_One]Misi\xF3n
+        principal"
+      - "Qu\xEAtes principales[i2p_Zero]Aucune qu\xEAte principale[i2p_One]Qu\xEAte
+        principale"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Quest/Quest_Optional
+      TermType: 0
+      Description: 
+      Languages:
+      - Optional Quests[i2p_Zero]No Optional Quests[i2p_One]Optional Quest
+      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
+      - Misiones opcionales[i2p_Zero]Sin misiones opcionales[i2p_One]Misiones opcionales
+      - "Qu\xEAtes facultatives[i2p_Zero]Aucune qu\xEAte facultative[i2p_One]Qu\xEAte
+        facultative"
+      Flags: 00000000
+      Languages_Touch: []
     - Term: Input Actions/Action_Roll
       TermType: 0
       Description: Rolling dice
@@ -25,6 +118,20 @@ MonoBehaviour:
       - "\u30B5\u30A4\u30B3\u30ED\u3092\u632F\u308B[i2p_Zero]\u30B5\u30A4\u30B3\u30ED\u306A\u3057[i2p_One]\u30B5\u30A4\u30B3\u30ED\u3092\u632F\u308B"
       - Lanzar dados[i2p_Zero]Sin dados[i2p_One]Lanzar dados
       - "Lancer les d\xE9s[i2p_Zero]Aucun d\xE9[i2p_One]Lancer le d\xE9"
+      Flags: 00000000
+      Languages_Touch: []
+    - Term: Menu/Menu_Create
+      TermType: 0
+      Description: 
+      Languages:
+      - '<sprite tint=1 name="Icons_Download">
+
+        Create'
+      - "<sprite tint=1 name=\"Icons_Download\">\n\u4F5C\u6210"
+      - '<sprite tint=1 name="Icons_Download">
+
+        Crear'
+      - "<sprite tint=1 name=\"Icons_Download\">\nCr\xE9er"
       Flags: 00000000
       Languages_Touch: []
     - Term: Menu/Menu_Download
@@ -111,101 +218,8 @@ MonoBehaviour:
       Languages:
       - '{[THING]}''s turn'
       - "{[THING]}\u3055\u3093\u306E\u756A\u3067\u3059"
-      - apagar {[THING]}
+      - Apagar {[THING]}
       - Tour de {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Main
-      TermType: 0
-      Description: 
-      Languages:
-      - Main Quests[i2p_Zero]No Main Quests[i2p_One]Main Quest
-      - "\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30E1\u30A4\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - "Misiones principales[i2p_Zero]Sin misiones principales[i2p_One]Misi\xF3n
-        principal"
-      - "Qu\xEAtes principales[i2p_Zero]Aucune qu\xEAte principale[i2p_One]Qu\xEAte
-        principale"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Quest/Quest_Optional
-      TermType: 0
-      Description: 
-      Languages:
-      - Optional Quests[i2p_Zero]No Optional Quests[i2p_One]Optional Quest
-      - "\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8[i2p_Zero]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8\u306A\u3057[i2p_One]\u30AA\u30D7\u30B7\u30E7\u30F3\u30AF\u30A8\u30B9\u30C8"
-      - Misiones opcionales[i2p_Zero]Sin misiones opcionales[i2p_One]Misiones opcionales
-      - "Qu\xEAtes facultatives[i2p_Zero]Aucune qu\xEAte facultative[i2p_One]Qu\xEAte
-        facultative"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Defeat
-      TermType: 0
-      Description: 
-      Languages:
-      - Defeat the {[THING]}
-      - "{[THING]}\u3092\u5012\u3059"
-      - Derrota al {[THING]}
-      - Vaincre le {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Find
-      TermType: 0
-      Description: 
-      Languages:
-      - Find {[THING]}
-      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
-      - Encontrar {[THING]}
-      - Trouver {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Normal_Meet
-      TermType: 0
-      Description: 
-      Languages:
-      - Meet the {[THING]}
-      - "{[THING]}\u306B\u4F1A\u3046"
-      - Conoce al {[THING]}
-      - Rencontrez les {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Defeat
-      TermType: 0
-      Description: 
-      Languages:
-      - Defeat {[THING]}
-      - "\u6557\u5317 {[THING]}"
-      - Derrota {[THING]}
-      - "D\xE9faite {[THING]}"
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Find
-      TermType: 0
-      Description: 
-      Languages:
-      - Find {[THING]}
-      - "{[THING]}\u3092\u898B\u3064\u3051\u308B"
-      - Encontrar {[THING]}
-      - Trouver {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Thing Actions/Thing_Proper_Meet
-      TermType: 0
-      Description: 
-      Languages:
-      - Meet {[THING]}
-      - "\u4F1A\u3046 {[THING]}"
-      - Conocer {[THING]}
-      - Rencontrer {[THING]}
-      Flags: 00000000
-      Languages_Touch: []
-    - Term: Title/Title_Game
-      TermType: 0
-      Description: The name of the game
-      Languages:
-      - Party Quest
-      - "\u30D1\u30FC\u30C6\u30A3\u30FC\u30AF\u30A8\u30B9\u30C8"
-      - "B\xFAsqueda De Fiesta"
-      - "Qu\xEAte De F\xEAte"
       Flags: 00000000
       Languages_Touch: []
     CaseInsensitiveTerms: 0
@@ -229,7 +243,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1664757973712
+    Google_LastUpdatedVersion: 1679436823272
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
