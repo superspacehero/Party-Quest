@@ -6,11 +6,15 @@ using TMPro;
 
 public class LevelUI : MonoBehaviour
 {
+    // UI elements
     public TextMeshProUGUI levelName, levelDescription, levelAuthorName;
     public TextList levelQuests;
     public Image levelAuthorImage;
 
+    // Whether to use the global level or not
     public bool useGlobalLevel = true;
+
+    // The current level
     public Level level
     {
         set
@@ -28,43 +32,53 @@ public class LevelUI : MonoBehaviour
                 foreach (QuestGoal goal in value.mainQuests)
                     mainQuests.entries.Add(new TextList.TextSection.TextEntry() { text = goal.GetDescription() });
 
-                optionalQuests = levelQuests.AddNewSection(I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Singular"), I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Plural"));
+                sideQuests = levelQuests.AddNewSection(I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Singular"), I2.Loc.LocalizationManager.GetTranslation("Quest_Optional_Plural"));
                 foreach (QuestGoal goal in value.sideQuests)
-                    optionalQuests.entries.Add(new TextList.TextSection.TextEntry() { text = goal.GetDescription() });
+                    sideQuests.entries.Add(new TextList.TextSection.TextEntry() { text = goal.GetDescription() });
 
                 levelQuests.CompileString();
             }
 
             General.User author = General.User.GetUserFromID(value.levelAuthorID);
 
-            if (levelAuthorName != null)
-                levelAuthorImage.sprite  = author.GetUserProfilePicture();
             if (levelAuthorImage != null)
+                levelAuthorImage.sprite  = author.GetUserProfilePicture();
+            if (levelAuthorName != null)
                 levelAuthorName.text = author.username;
         }
     }
 
-    TextList.TextSection mainQuests, optionalQuests;
+    // The main and side quests sections in the TextList
+    TextList.TextSection mainQuests, sideQuests;
 
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
     void OnEnable()
     {
-        if (useGlobalLevel && GameManager.instance.level.levelName != "")
+        if (useGlobalLevel && GameManager.instance?.level.levelName != null)
             level = GameManager.instance.level;
     }
 
+    // Update the quest status in the TextList
     public void UpdateQuests()
     {
-        if (levelQuests == null)
+        if (levelQuests == null || GameManager.instance?.level == null)
             return;
 
         foreach (QuestGoal goal in GameManager.instance.level.mainQuests)
-            mainQuests.entries[GameManager.instance.level.mainQuests.IndexOf(goal)].isStruckOut = goal.completed;
-            
+        {
+            int index = GameManager.instance.level.mainQuests.IndexOf(goal);
+            if (index < mainQuests.entries.Count)
+                mainQuests.entries[index].isStruckOut = goal.completed;
+        }
+
         foreach (QuestGoal goal in GameManager.instance.level.sideQuests)
-            optionalQuests.entries[GameManager.instance.level.sideQuests.IndexOf(goal)].isStruckOut = goal.completed;
+        {
+            int index = GameManager.instance.level.sideQuests.IndexOf(goal);
+            if (index < sideQuests.entries.Count)
+                sideQuests.entries[index].isStruckOut = goal.completed;
+        }
 
         levelQuests.CompileString();
     }

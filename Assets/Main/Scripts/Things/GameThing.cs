@@ -33,6 +33,9 @@ public class GameThing : SerializedMonoBehaviour
         set => _thingName = value;
     }
     [SerializeField, UnityEngine.Serialization.FormerlySerializedAs("thingName")] protected string _thingName;
+
+    public bool properNoun = false;
+
     public string thingDescription;
 
     public virtual Sprite thingIcon

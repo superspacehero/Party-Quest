@@ -81,7 +81,7 @@ public struct Level
             return position.x >= min.x && position.x <= max.x && position.y >= min.y && position.y <= max.y && position.z >= min.z && position.z <= max.z;
         }
 
-        public bool Contains(Thing thing)
+        public bool Contains(GameThing thing)
         {
             return Contains(thing.transform.position);
         }

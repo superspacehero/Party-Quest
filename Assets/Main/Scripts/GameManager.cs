@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     #region Things
 
-        public static List<Thing> things = new List<Thing>();
+        public static List<GameThing> things = new List<GameThing>();
 
         #region Characters
         

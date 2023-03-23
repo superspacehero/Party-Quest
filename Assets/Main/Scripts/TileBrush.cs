@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class TileBrush : MovingThing
+public class TileBrush : GameThing
 {
     [SerializeField] private Tilemap currentTilemap;
     private LevelTile currentTile
@@ -12,8 +12,8 @@ public class TileBrush : MovingThing
         set
         {
             _currentTile = value;
-            if (meshBase.TryGetComponent(out Renderer renderer) && currentTile.m_DefaultGameObject != null && currentTile.m_DefaultGameObject.TryGetComponent(out Renderer tileRenderer))
-                renderer.material.SetColor("_RedColor", tileRenderer.material.GetColor("_RedColor"));
+            if (currentTile.m_DefaultGameObject != null && currentTile.m_DefaultGameObject.TryGetComponent(out Renderer tileRenderer))
+                redColor = tileRenderer.material.GetColor("_RedColor");
         }
     }
     [SerializeField]

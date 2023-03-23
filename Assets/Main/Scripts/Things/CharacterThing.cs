@@ -31,6 +31,18 @@ public class CharacterThing : GameThing
         {
             return JsonUtility.FromJson<CharacterInfo>(json);
         }
+
+        public CharacterInfo LoadCharacter(string characterName, string characterCategory = "Player")
+        {
+            return FromString(PlayerPrefs.GetString(characterCategory + "_" + characterName));
+        }
+
+        public void SaveCharacter(string characterName, string characterCategory = "Player")
+        {
+            PlayerPrefs.SetString(characterCategory + "_" + characterName, ToString());
+
+            PlayerPrefs.Save();
+        }
     }
     public CharacterInfo characterInfo
     {
@@ -262,9 +274,7 @@ public class CharacterThing : GameThing
     [Button]
     public void SaveCharacter(string characterCategory = "Player")
     {
-        PlayerPrefs.SetString(characterCategory + "_" + thingName, ToString());
-
-        PlayerPrefs.Save();
+        characterInfo.SaveCharacter(characterCategory);
     }
 
     // Method to create the character from a JSON string
@@ -279,7 +289,7 @@ public class CharacterThing : GameThing
     [Button]
     public void LoadCharacter(string characterName, string characterCategory = "Player")
     {
-        FromString(PlayerPrefs.GetString(characterCategory + "_" + characterName));
+        characterInfo.LoadCharacter(characterName, characterCategory);
     }
 
     #endregion

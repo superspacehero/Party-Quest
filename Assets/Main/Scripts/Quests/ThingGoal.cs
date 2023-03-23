@@ -5,14 +5,13 @@ using I2.Loc;
 
 public class ThingGoal : QuestGoal
 {
-    public Thing thing;
+    public GameThing thing;
 
-    private string normalDescriptionKey = "Thing_Normal_", properDescriptionKey = "Thing_Proper_";
     protected string descriptionAction = "";
 
     new protected LocalizedString description
     {
-        get => I2.Loc.LocalizationManager.GetTranslation((thing.properNoun ? properDescriptionKey : normalDescriptionKey) + descriptionAction);
+        get => I2.Loc.LocalizationManager.GetTranslation($"Thing_{descriptionAction}_{(thing.properNoun ? "Proper" : "Normal")}");
     }
 
     public override string GetDescription()

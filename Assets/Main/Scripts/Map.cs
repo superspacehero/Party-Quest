@@ -6,7 +6,7 @@ using Pathfinding;
 [RequireComponent(typeof(AstarPath))]
 public class Map : MonoBehaviour
 {
-    public static List<GridThing> things = new List<GridThing>();
+    public static List<GameThing> things = new List<GameThing>();
 
     private AstarPath pathfinder
     {
@@ -28,21 +28,18 @@ public class Map : MonoBehaviour
 
     #region Nodes and Things
 
-        public static bool TestNodeWalkable(GraphNode node, GridThing referenceThing, bool checkHeight = true, bool ignoreCollisions = false)
+        public static bool TestNodeWalkable(GraphNode node, GameThing referenceThing, bool ignoreCollisions = false)
         {
             if (node != null && node.Walkable)
             {
-                if (checkHeight && Mathf.Abs(referenceThing.transform.position.y - ((Vector3)node.position).y) > referenceThing.maxStepHeight)
-                    return false;
-
-                List<GridThing> nodeThings = CheckForThingsAtPosition(node);
+                List<GameThing> nodeThings = CheckForThingsAtPosition(node);
 
                 if (nodeThings.Count > 0)
                 {
                     if (!ignoreCollisions)
                     {
-                        foreach (GridThing thingInNode in nodeThings)
-                            if (thingInNode != referenceThing && thingInNode.solid)
+                        foreach (GameThing thingInNode in nodeThings)
+                            if (thingInNode != referenceThing && Nodes.CheckNodeOccupied(node))
                                 return false;
                     }
                 }
@@ -62,15 +59,15 @@ public class Map : MonoBehaviour
             return null;            
         }
 
-        public static List<GridThing> CheckForThingsAtPosition(GraphNode node)
+        public static List<GameThing> CheckForThingsAtPosition(GraphNode node)
         {
             if (node != null)
             {
-                List<GridThing> thingsAtPosition = new List<GridThing>();
+                List<GameThing> thingsAtPosition = new List<GameThing>();
 
-                foreach (GridThing thing in things)
+                foreach (GameThing thing in things)
                 {
-                    if (thing.currentNode == node)
+                    if (GetNode(thing.transform.position) == node)
                         thingsAtPosition.Add(thing);
                 }
 
@@ -80,7 +77,7 @@ public class Map : MonoBehaviour
             return null;
         }
 
-        public static List<GridThing> CheckForThingsAtPosition(Vector3 position)
+        public static List<GameThing> CheckForThingsAtPosition(Vector3 position)
         {
             GraphNode testNode = GetNode(position);
             return CheckForThingsAtPosition(testNode);
