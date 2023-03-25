@@ -15,7 +15,7 @@ MonoBehaviour:
   mSource:
     UserAgreesToHaveItOnTheScene: 0
     UserAgreesToHaveItInsideThePluginsFolder: 0
-    GoogleLiveSyncIsUptoDate: 0
+    GoogleLiveSyncIsUptoDate: 1
     mTerms:
     - Term: Input Actions/Action_Roll
       TermType: 0
@@ -250,6 +250,17 @@ MonoBehaviour:
       - Party Quest
       Flags: 0000000000
       Languages_Touch: []
+    - Term: Title/Title_WhosPlaying
+      TermType: 0
+      Description: 
+      Languages:
+      - Who's playing?
+      - "\u8AB0\u304C\u6F14\u594F\u3057\u3066\u3044\u307E\u3059\u304B\uFF1F"
+      - "\xBFQui\xE9n est\xE1 jugando?"
+      - Qui joue?
+      - Wer spielt?
+      Flags: 0000000000
+      Languages_Touch: []
     CaseInsensitiveTerms: 0
     OnMissingTranslation: 1
     mTerm_AppName: Title/Title_Game
@@ -274,7 +285,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1679525168469
+    Google_LastUpdatedVersion: 1679796115203
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2
