@@ -12,9 +12,12 @@ public class CharacterThing : GameThing
         get => "Character";
     }
 
+    // The character's portrait
+    public Sprite thingPortrait;
+
     public struct CharacterInfo
     {
-        public string name;
+        public string name, portrait;
         public int value;
         public Inventory inventory;
         public GameThingVariables baseVariables;
@@ -51,6 +54,7 @@ public class CharacterThing : GameThing
             return new CharacterInfo()
             {
                 name = thingName,
+                portrait = General.SpriteToString(thingPortrait),
                 value = thingValue,
                 inventory = inventory,
                 baseVariables = this.baseVariables,
@@ -61,6 +65,8 @@ public class CharacterThing : GameThing
         set
         {
             thingName = value.name;
+            thingPortrait = General.StringToSprite(value.portrait);
+
             thingValue = value.value;
 
             if (value.inventory != null)

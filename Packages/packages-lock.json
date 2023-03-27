@@ -264,6 +264,16 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.services.cloudsave": {
+      "version": "2.0.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.services.authentication": "2.0.0",
+        "com.unity.services.core": "1.4.0"
+      },
+      "url": "https://packages.unity.com"
+    },
     "com.unity.services.core": {
       "version": "1.8.1",
       "depth": 0,
@@ -417,11 +427,30 @@
       }
     },
     "com.unity.uiextensions": {
-      "version": "https://github.com/Unity-UI-Extensions/com.unity.uiextensions.git",
+      "version": "2.3.2-pre.2",
       "depth": 0,
-      "source": "git",
+      "source": "registry",
       "dependencies": {},
-      "hash": "9fadad0f729068b360ce4257df39850a3349f0a4"
+      "url": "https://package.openupm.com"
+    },
+    "com.unity.vectorgraphics": {
+      "version": "2.0.0-preview.20",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.2d.sprite": "1.0.0",
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.animation": "1.0.0",
+        "com.unity.modules.imageconversion": "1.0.0",
+        "com.unity.modules.physics": "1.0.0",
+        "com.unity.modules.physics2d": "1.0.0",
+        "com.unity.modules.ui": "1.0.0",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.modules.unitywebrequest": "1.0.0",
+        "com.unity.modules.unitywebrequesttexture": "1.0.0",
+        "com.unity.modules.unitywebrequestwww": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.visualeffectgraph": {
       "version": "12.1.8",

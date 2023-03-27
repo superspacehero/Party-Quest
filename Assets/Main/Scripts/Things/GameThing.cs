@@ -150,6 +150,23 @@ public class GameThing : SerializedMonoBehaviour
             }
         }
 
+        // Get the value of a variable.
+        public int GetVariable(string name)
+        {
+            // If the variable list is null, return 0.
+            if (variables == null)
+                return 0;
+
+            // Find the variable with the given name.
+            Variable variable = variables.Find(v => v.name == name);
+            // If the variable is not found, return 0.
+            if (variable.name == null)
+                return 0;
+
+            // Return the value of the variable.
+            return variable.value;
+        }
+
         // Operator to add two instances of GameThingVariables together.
         public static GameThingVariables operator +(GameThingVariables a, GameThingVariables b)
         {

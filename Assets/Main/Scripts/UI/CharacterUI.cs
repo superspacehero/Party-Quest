@@ -24,12 +24,21 @@ public class CharacterUI : MonoBehaviour
         set
         {
             _characterInfo = value;
-            characterNameText.text = _characterInfo.name;
+
+            if (characterNameText != null)
+                characterNameText.text = _characterInfo.name;
+            if (characterPortraitImage != null)
+                characterPortraitImage.sprite = General.StringToSprite(_characterInfo.portrait);
+
+            if (characterValueText != null)
+                characterValueText.text = _characterInfo.value.ToString();
         }
     }
     [SerializeField] private CharacterThing.CharacterInfo _characterInfo;
 
     [SerializeField] private TextMeshProUGUI characterNameText;
+    [SerializeField] private TextMeshProUGUI characterValueText;
+    [SerializeField] private Image characterPortraitImage;
 
     private void Start()
     {
