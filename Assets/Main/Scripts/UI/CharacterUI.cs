@@ -10,15 +10,17 @@ public class CharacterUI : MonoBehaviour
 
     public string characterName
     {
-        get => _characterName;
+        get
+        {
+            return characterInfo.name;
+        }
         set
         {
             characterInfo = characterInfo.LoadCharacter(value, characterCategory);
         }
     }
-    [SerializeField] private string _characterName;
 
-    private CharacterThing.CharacterInfo characterInfo
+    public CharacterThing.CharacterInfo characterInfo
     {
         get => _characterInfo;
         set
@@ -36,12 +38,15 @@ public class CharacterUI : MonoBehaviour
     }
     [SerializeField] private CharacterThing.CharacterInfo _characterInfo;
 
+    [SerializeField] private bool loadCharacterOnStart;
+
     [SerializeField] private TextMeshProUGUI characterNameText;
     [SerializeField] private TextMeshProUGUI characterValueText;
     [SerializeField] private Image characterPortraitImage;
 
     private void Start()
     {
-        characterName = characterName;
+        if (loadCharacterOnStart)
+            characterName = characterName;
     }
 }

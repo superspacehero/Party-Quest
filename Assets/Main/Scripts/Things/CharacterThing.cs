@@ -44,7 +44,75 @@ public class CharacterThing : GameThing
         {
             PlayerPrefs.SetString(characterCategory + "_" + characterName, ToString());
 
+            // Save the character name to the list of characters
+            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
+
+            if (!characterList.Contains(characterName))
+            {
+                characterList += characterName + ",";
+                PlayerPrefs.SetString("Characters_" + characterCategory, characterList);
+            }
+
             PlayerPrefs.Save();
+        }
+
+        public static List<CharacterInfo> LoadCharacters(string characterCategory = "Player")
+        {
+            List<CharacterInfo> characters = new List<CharacterInfo>();
+
+            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
+
+            if (characterList != "")
+            {
+                string[] characterNames = characterList.Split(',');
+
+                foreach (string characterName in characterNames)
+                {
+                    if (characterName != "")
+                    {
+                        CharacterInfo character = new CharacterInfo().LoadCharacter(characterName, characterCategory);
+                        characters.Add(character);
+                    }
+                }
+            }
+
+            return characters;
+        }
+
+        public static void DeleteCharacter(string characterName, string characterCategory = "Player")
+        {
+            PlayerPrefs.DeleteKey(characterCategory + "_" + characterName);
+
+            // Remove the character name from the list of characters
+            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
+
+            if (characterList.Contains(characterName))
+            {
+                characterList = characterList.Replace(characterName + ",", "");
+                PlayerPrefs.SetString("Characters_" + characterCategory, characterList);
+            }
+
+            PlayerPrefs.Save();
+        }
+
+        public CharacterInfo(string name, string portrait, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
+        {
+            this.name = name;
+            this.portrait = portrait;
+            this.value = value;
+            this.inventory = inventory;
+            this.baseVariables = baseVariables;
+            this.characterParts = characterParts;
+        }
+
+        public CharacterInfo(string name, Sprite portrait, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
+        {
+            this.name = name;
+            this.portrait = General.SpriteToString(portrait);
+            this.value = value;
+            this.inventory = inventory;
+            this.baseVariables = baseVariables;
+            this.characterParts = characterParts;
         }
     }
     public CharacterInfo characterInfo

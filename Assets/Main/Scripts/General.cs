@@ -90,6 +90,10 @@ public class General
 
         public static Sprite StringToSprite(string spriteString)
         {
+            // Check if the string is empty or null
+            if (string.IsNullOrEmpty(spriteString))
+                return null;
+
             byte[] imageBytes = System.Convert.FromBase64String(spriteString);
             Texture2D tex = new Texture2D(2, 2);
             tex.LoadImage( imageBytes );
@@ -100,8 +104,13 @@ public class General
 
         public static string SpriteToString(Sprite sprite)
         {
+            // If the sprite is null, return an empty string
+            if (sprite == null || sprite.texture == null)
+                return "";
+
             Texture2D tex = sprite.texture;
             byte[] imageBytes = tex.EncodeToPNG();
+
             string base64String = System.Convert.ToBase64String(imageBytes);
 
             return base64String;
