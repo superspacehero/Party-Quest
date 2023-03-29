@@ -87,6 +87,9 @@ public class CharacterSelect : GameThing
             {
                 initialized = true;
 
+                if (CharacterSelectMenu.instance != null)
+                    transform.SetParent(CharacterSelectMenu.instance.characterSelectParent, false);
+
                 // Find all the characters of the category "Player" in player prefs
                 while (characters == null)
                 {
