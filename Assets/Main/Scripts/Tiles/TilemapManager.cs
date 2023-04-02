@@ -41,7 +41,7 @@ public class TilemapManager : MonoBehaviour
     }
 
     [Button]
-    public void SaveMap()
+    public void SaveMap(int mapSlot = 0)
     {
         // Save the map to a file
 
@@ -50,9 +50,6 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
         GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
         GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
-
-        PlayerPrefs.SetString("TestLevel", JsonUtility.ToJson(GameManager.instance.level));
-        PlayerPrefs.Save();
         
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {
@@ -70,15 +67,18 @@ public class TilemapManager : MonoBehaviour
                 }
             }
         }
+
+        PlayerPrefs.SetString($"Map_{mapSlot}", JsonUtility.ToJson(GameManager.instance.level));
+        PlayerPrefs.Save();
     }
 
     [Button]
-    public void LoadMap()
+    public void LoadMap(string mapString)
     {
         // Load the map from a file
         ClearMap(false);
 
-        GameManager.instance.level = Level.Deserialize(PlayerPrefs.GetString("TestLevel"));
+        GameManager.instance.level = Level.Deserialize(mapString);
 
         lightTransform.eulerAngles = GameManager.instance.level.lightDirection;
 
@@ -100,6 +100,12 @@ public class TilemapManager : MonoBehaviour
         UpdateNavMesh();
     }
 
+    [Button]
+    public void LoadMap(int mapSlot)
+    {
+        LoadMap(PlayerPrefs.GetString($"Map_{mapSlot}"));
+    }
+
     public void ClearMap(bool clearPathfinder = true)
     {
         // Clear the map
@@ -114,6 +120,12 @@ public class TilemapManager : MonoBehaviour
 
         if (clearPathfinder)
             pathfinder.Scan();
+    }
+
+    public void LoadMap()
+    {
+        if (!string.IsNullOrEmpty(GameManager.levelString))
+            LoadMap(GameManager.levelString);
     }
 
     [Button]

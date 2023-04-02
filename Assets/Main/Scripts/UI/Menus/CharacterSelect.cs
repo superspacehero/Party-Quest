@@ -7,18 +7,38 @@ using I2.Loc;
 public class CharacterSelect : GameThing
 {
     #region Fields
-        private static List<CharacterThing.CharacterInfo> characters;
-        private static bool initialized = false;
-        [SerializeField] private bool canAddNewCharacter;
+        [SerializeField] private bool initialized, canAddNewCharacter;
         [SerializeField] private CharacterThing.CharacterInfo newCharacter;
         [SerializeField] private LocalizedString newCharacterName;
         [SerializeField] private Sprite newCharacterSprite;
 
-        [SerializeField] private GameObject newCharacterArrow, existingCharacterArrow;
+        [SerializeField] private GameObject toNewCharacterArrow, characterSelectArrows, toCharacterSelectArrow;
     #endregion
 
     #region Properties
-        private CharacterUI _characterUI;
+        private static List<CharacterThing.CharacterInfo> characters, selectedCharacters = new List<CharacterThing.CharacterInfo>();
+        private static bool charactersLoaded = false;
+
+        public CharacterThing.CharacterInfo? selectedCharacter
+        {
+            get => _selectedCharacter;
+            set
+            {
+                _selectedCharacter = value;
+
+                if (charactersLoaded)
+                {
+                    if (value != null)
+                    {
+                        characterSelectArrows.SetActive(false);
+                        toCharacterSelectArrow.SetActive(false);
+                    }
+                    else
+                        newCharacterSelected = newCharacterSelected;
+                }
+            }
+        }
+        private CharacterThing.CharacterInfo? _selectedCharacter = null;
 
         private CharacterUI characterUI
         {
@@ -31,35 +51,38 @@ public class CharacterSelect : GameThing
                 return _characterUI;
             }
         }
-
-        private bool _newCharacterSelected = false;
+        private CharacterUI _characterUI;
 
         private bool newCharacterSelected
         {
             get => _newCharacterSelected;
             set
             {
-                _newCharacterSelected = value;
-                characterUI.characterInfo = value ? newCharacter : characters[characterIndex];
+                _newCharacterSelected = (canAddNewCharacter && value) ? true : false;
 
-                if (newCharacterArrow && canAddNewCharacter)
-                    newCharacterArrow.SetActive(value);
-                if (existingCharacterArrow)
-                    existingCharacterArrow.SetActive(!value);
+                if (charactersLoaded)
+                    characterUI.characterInfo = _newCharacterSelected ? newCharacter : characters[characterIndex];
+
+                if (toNewCharacterArrow)
+                {
+                    if (canAddNewCharacter)
+                        toNewCharacterArrow.SetActive(!_newCharacterSelected);
+                    else
+                        toNewCharacterArrow.SetActive(false);
+                }
+                if (characterSelectArrows)
+                    characterSelectArrows.SetActive(!_newCharacterSelected);
+                if (toCharacterSelectArrow)
+                    toCharacterSelectArrow.SetActive(_newCharacterSelected);
             }
         }
-
-        private int _characterIndex = 1;
+        private bool _newCharacterSelected = false;
 
         private int characterIndex
         {
             get => _characterIndex;
             set
             {
-                // Don't allow the value to equal 0, because that's the new character
-                if (value >= 0)
-                    value++;
-
                 // Wrap the value around if it's too high or too low
                 if (value >= characters.Count)
                     value = 1;
@@ -67,11 +90,34 @@ public class CharacterSelect : GameThing
                     value = characters.Count - 1;
 
                 _characterIndex = value;
+
+                if (charactersLoaded && !newCharacterSelected)
+                    characterUI.characterInfo = characters[characterIndex];
             }
         }
+        private int _characterIndex = 1;
     #endregion
 
     #region Methods
+        /// <summary>
+        /// This function is called when the object becomes enabled and active.
+        /// </summary>
+        void OnEnable()
+        {
+            if (CharacterSelectMenu.instance != null)
+                CharacterSelectMenu.instance.characterSelects.Add(this);
+
+            selectedCharacter = null;
+        }
+        /// <summary>
+        /// This function is called when the behaviour becomes disabled or inactive.
+        /// </summary>
+        void OnDisable()
+        {
+            if (CharacterSelectMenu.instance != null)
+                CharacterSelectMenu.instance.characterSelects.Remove(this);
+        }
+
         /// <summary>
         /// Start is called on the frame when a script is enabled just before
         /// any of the Update methods is called the first time.
@@ -83,34 +129,41 @@ public class CharacterSelect : GameThing
 
         public IEnumerator Initialize()
         {
-            if (!initialized)
+            if (!charactersLoaded)
             {
-                initialized = true;
-
-                if (CharacterSelectMenu.instance != null)
-                    transform.SetParent(CharacterSelectMenu.instance.characterSelectParent, false);
+                charactersLoaded = true;
 
                 // Find all the characters of the category "Player" in player prefs
                 while (characters == null)
                 {
+                    // Load the characters
                     characters = CharacterThing.CharacterInfo.LoadCharacters("Player");
-                    characters.Insert(0,
-                        new CharacterThing.CharacterInfo(
-                            newCharacterName,
-                            newCharacterSprite,
-                            0,
-                            null,
-                            new GameThing.GameThingVariables(),
-                            null
-                        )
+
+                    Debug.Log($"Found {characters.Count} characters in player prefs");
+
+                    // Create the new character
+                    newCharacter = new CharacterThing.CharacterInfo
+                    (
+                        newCharacterName,
+                        newCharacterSprite,
+                        0,
+                        null,
+                        new GameThing.GameThingVariables(),
+                        null
                     );
+                    
+                    // Add the new character to the list of characters
+                    characters.Insert(0, newCharacter);
                 }
             }
 
             yield return null;
 
-            // Create the new character
-            newCharacter = characters[0];
+            initialized = true;
+
+            // Make the character select a child of the character select menu
+            if (CharacterSelectMenu.instance != null)
+                transform.SetParent(CharacterSelectMenu.instance.characterSelectParent, false);
 
             // Set the character UI
             newCharacterSelected = characters.Count == 1;
@@ -123,11 +176,17 @@ public class CharacterSelect : GameThing
             {
                 base.Move(direction);
 
+                if (!charactersLoaded || !initialized)
+                    return;
+
                 Vector2Int newInputDirection = Vector2Int.RoundToInt(direction);
 
                 if (newInputDirection != inputDirection)
                 {
                     inputDirection = newInputDirection;
+
+                    if (selectedCharacter != null)
+                        return;
 
                     if (Mathf.Abs(inputDirection.x) > Mathf.Abs(inputDirection.y))
                     {
@@ -136,10 +195,89 @@ public class CharacterSelect : GameThing
                     }
                     else if (Mathf.Abs(inputDirection.x) < Mathf.Abs(inputDirection.y))
                     {
-                        if (inputDirection.y > 0)
-                            newCharacterSelected = true;
-                        else if (inputDirection.y < 0)
-                            newCharacterSelected = false;
+                        if (canAddNewCharacter)
+                            if (inputDirection.y > 0)
+                                newCharacterSelected = true;
+                            else if (inputDirection.y < 0)
+                                newCharacterSelected = false;
+                    }
+                }
+            }
+
+            public override void PrimaryAction(bool value)
+            {
+                base.PrimaryAction(value);
+
+                if (!charactersLoaded || !initialized)
+                    return;
+
+                if (!gameObject.activeSelf)
+                {
+                    gameObject.SetActive(true);
+                    return;
+                }
+
+                if (value)
+                {
+                    if (newCharacterSelected)
+                    {
+                        if (canAddNewCharacter)
+                        {
+
+                        }
+                    }
+                    else
+                    {
+                        // If all players have selected a character, go to the next menu
+                        if (CharacterSelectMenu.instance != null && selectedCharacters.Count == CharacterSelectMenu.instance.characterSelects.Count)
+                        {
+                            CharacterSelectMenu.instance.NextMenu();
+                            return;
+                        }
+
+                        // Set the character as our selected character
+                        selectedCharacter = characters[characterIndex];
+
+                        // Add the character to the list of selected characters
+                        selectedCharacters.Add(characters[characterIndex]);
+
+                        // Remove the character from the list of characters
+                        characters.RemoveAt(characterIndex);
+                    }
+                }
+            }
+            
+            public override void SecondaryAction(bool value)
+            {
+                base.SecondaryAction(value);
+
+                if (!charactersLoaded || !initialized)
+                    return;
+
+                if (value)
+                {
+                    if (selectedCharacter != null)
+                    {
+                        if (!newCharacterSelected)
+                        {
+                            // Add the character back to the list of characters
+                            characters.Insert(characterIndex, selectedCharacter.Value);
+
+                            // Remove the character from the list of selected characters
+                            selectedCharacters.Remove(selectedCharacter.Value);
+                        }
+
+                        // Set the character as not selected
+                        selectedCharacter = null;
+                    }
+                    else
+                    {
+                        // Remove this character select
+                        if (CharacterSelectMenu.instance != null)
+                            CharacterSelectMenu.instance.characterSelects.Remove(this);
+
+                        // Destroy this character select
+                        Destroy(gameObject);
                     }
                 }
             }

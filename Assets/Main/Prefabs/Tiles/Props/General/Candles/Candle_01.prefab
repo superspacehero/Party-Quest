@@ -138,9 +138,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: 
+  _thingName: 
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -151,7 +152,6 @@ MonoBehaviour:
     variables: []
   _renderers:
   - {fileID: 923118584006545087}
-  - {fileID: 8012643253514484894}
   _redColor: {r: 0.92941177, g: 0.67058825, b: 0.3137255, a: 1}
   _greenColor: {r: 0, g: 0, b: 0, a: 1}
   _blueColor: {r: 1, g: 0.6666667, b: 0, a: 1}
@@ -184,11 +184,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d0adc0117cd5b871ab59483f31adb27, type: 3}
---- !u!23 &8012643253514484894 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 9064879836487681425, guid: 5d0adc0117cd5b871ab59483f31adb27, type: 3}
-  m_PrefabInstance: {fileID: 1368615693898627343}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8282926945716946183 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6921067895860657160, guid: 5d0adc0117cd5b871ab59483f31adb27, type: 3}

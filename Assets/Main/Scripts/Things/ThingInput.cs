@@ -26,8 +26,8 @@ public class ThingInput : GameThing
             
             _moving = value.magnitude > 0;
 
-            if (attachedThing.thing is CharacterThing)
-                (attachedThing.thing as CharacterThing).Move(_movement);
+            if (attachedThing.thing)
+                attachedThing.thing.Move(_movement);
         }
     }
     private Vector2 _movement;
@@ -40,8 +40,8 @@ public class ThingInput : GameThing
         {
             _primaryAction = value;
             
-            if (attachedThing.thing is CharacterThing)
-                (attachedThing.thing as CharacterThing).PrimaryAction(_primaryAction);
+            if (attachedThing.thing)
+                attachedThing.thing.PrimaryAction(_primaryAction);
         }
     }
     private bool _primaryAction;
@@ -53,8 +53,8 @@ public class ThingInput : GameThing
         {
             _secondaryAction = value;
             
-            if (attachedThing.thing is CharacterThing)
-                (attachedThing.thing as CharacterThing).SecondaryAction(_secondaryAction);
+            if (attachedThing.thing)
+                attachedThing.thing.SecondaryAction(_secondaryAction);
         }
     }
     private bool _secondaryAction;

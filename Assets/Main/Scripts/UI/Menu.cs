@@ -77,23 +77,35 @@ public class Menu : MonoBehaviour
 
     #endregion
 
-    #region Other Menu Options
+    #region Other Menus
 
-        [FoldoutGroup("Other Menu Options")]
+        [FoldoutGroup("Other Menus")]
         public Menu previousOption, nextOption;
 
-        [FoldoutGroup("Other Menu Options"), Button, ContextMenu("Set Connected Objects")]
-        private void SetConnectedMenuObjects()
-        {
-            if (previousOption != null)
-                previousOption.nextOption = this;
+        #if UNITY_EDITOR
+            [FoldoutGroup("Other Menus"), Button, ContextMenu("Set Connected Objects")]
+            private void SetConnectedMenuObjects()
+            {
+                UnityEditor.EditorUtility.SetDirty(this);
 
-            if (nextOption != null)
-                nextOption.previousOption = this;
-        }
+                if (previousOption != null)
+                {
+                    previousOption.nextOption = this;
+                    UnityEditor.EditorUtility.SetDirty(previousOption);
+                }
 
-        [HorizontalGroup("Other Menu Options/Menus"), Button, ContextMenu("Previous Menu")]
-        public void PreviousMenu()
+                if (nextOption != null)
+                {
+                    nextOption.previousOption = this;
+                    UnityEditor.EditorUtility.SetDirty(nextOption);
+                }
+
+                UnityEditor.Undo.RecordObject(this, "Set Connected Menu Objects");
+            }
+        #endif
+
+        [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Previous Menu")]
+        public virtual void PreviousMenu()
         {
             if (previousOption != null)
                 previousOption.Select();
@@ -101,8 +113,8 @@ public class Menu : MonoBehaviour
                 Debug.LogWarning("No previous menu found.");
         }
 
-        [HorizontalGroup("Other Menu Options/Menus"), Button, ContextMenu("Next Menu")]
-        public void NextMenu()
+        [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Next Menu")]
+        public virtual void NextMenu()
         {
             if (nextOption != null)
                 nextOption.Select();

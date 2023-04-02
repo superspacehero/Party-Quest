@@ -49,7 +49,7 @@ public class CharacterThing : GameThing
 
             if (!characterList.Contains(characterName))
             {
-                characterList += characterName + ",";
+                characterList += (characterList == "" ? "" : ",") + characterName;
                 PlayerPrefs.SetString("Characters_" + characterCategory, characterList);
             }
 
@@ -348,7 +348,7 @@ public class CharacterThing : GameThing
     [Button]
     public void SaveCharacter(string characterCategory = "Player")
     {
-        characterInfo.SaveCharacter(characterCategory);
+        characterInfo.SaveCharacter(thingName, characterCategory);
     }
 
     // Method to create the character from a JSON string
