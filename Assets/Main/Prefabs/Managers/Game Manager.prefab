@@ -3770,6 +3770,7 @@ GameObject:
   - component: {fileID: 9082534867526833346}
   - component: {fileID: 7490559499978496616}
   - component: {fileID: 2064746194176320353}
+  - component: {fileID: 9167950448058799416}
   m_Layer: 5
   m_Name: Actions
   m_TagString: Untagged
@@ -3940,6 +3941,18 @@ MonoBehaviour:
   customSettings:
     items: []
   orientation: 0
+--- !u!225 &9167950448058799416
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3287861644640028499}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3462534680478567924
 GameObject:
   m_ObjectHideFlags: 0
@@ -3952,6 +3965,7 @@ GameObject:
   - component: {fileID: 8730434162375011743}
   - component: {fileID: 4519111212084231035}
   - component: {fileID: 821097788636268181}
+  - component: {fileID: 3624187199072587734}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -4135,6 +4149,18 @@ MonoBehaviour:
         isRelative: 0
         scale: {x: 0, y: 0, z: 0}
         axisConstraint: 0
+--- !u!225 &3624187199072587734
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3462534680478567924}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &3971636468281534115
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,6 +4171,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7957264796186100676}
   - component: {fileID: 9191818344374028857}
+  - component: {fileID: 2036046632614252307}
   m_Layer: 5
   m_Name: None
   m_TagString: Untagged
@@ -4218,6 +4245,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!225 &2036046632614252307
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971636468281534115}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &4017098556756982979
 GameObject:
   m_ObjectHideFlags: 0
@@ -4296,7 +4335,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.25
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -4411,7 +4450,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 0.25
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082
@@ -5175,6 +5214,7 @@ MonoBehaviour:
     objectTiles: []
     things: []
     rooms: []
+  characterPrefab: {fileID: 0}
   changeCharacterDelay: 0
   nextCharacterUI: {fileID: 3254549891512399179}
   characterPartList: {fileID: 11400000, guid: b777c992050d4479c9d968363883674a, type: 2}

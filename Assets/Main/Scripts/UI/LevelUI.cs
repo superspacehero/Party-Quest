@@ -17,6 +17,7 @@ public class LevelUI : MonoBehaviour
     // The current level
     public Level level
     {
+        get => _level;
         set
         {
             if (levelName != null)
@@ -45,7 +46,16 @@ public class LevelUI : MonoBehaviour
                 levelAuthorImage.sprite  = author.GetUserProfilePicture();
             if (levelAuthorName != null)
                 levelAuthorName.text = author.username;
+
+            _level = value;
         }
+    }
+    private Level _level;
+
+    // Alternatively, the string for the level
+    public string levelString
+    {
+        set => level = Level.Deserialize(value);
     }
 
     // The main and side quests sections in the TextList

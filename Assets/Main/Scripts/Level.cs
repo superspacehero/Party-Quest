@@ -42,10 +42,13 @@ public struct Level
         // return builder.ToString();
     }
 
-    public static Level Deserialize(string levelString)
+    public static Level Deserialize(string levelString, bool isPreview = false)
     {
         Debug.Log(levelString);
         Level level = JsonUtility.FromJson<Level>(levelString);
+
+        if (isPreview)
+        
 
         foreach (Room room in level.rooms)
             room.SetDiscovered(false);
