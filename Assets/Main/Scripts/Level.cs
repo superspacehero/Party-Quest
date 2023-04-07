@@ -48,12 +48,34 @@ public struct Level
         Level level = JsonUtility.FromJson<Level>(levelString);
 
         if (isPreview)
+        {
+            level.things.Clear();
+            level.groundTiles.Clear();
+            level.propTiles.Clear();
+            level.objectTiles.Clear();
+            level.rooms.Clear();
+
+            return level;
+        }
         
 
         foreach (Room room in level.rooms)
             room.SetDiscovered(false);
 
         return level;
+    }
+
+    public static List<string> GetLevels()
+    {
+        List<string> levels = new List<string>();
+
+        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Levels/"))
+            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Levels/");
+
+        foreach (string level in System.IO.Directory.GetFiles(Application.persistentDataPath + "/Levels/"))
+            levels.Add(System.IO.Path.GetFileNameWithoutExtension(level));
+
+        return levels;
     }
 
     [System.Serializable]

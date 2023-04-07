@@ -50,7 +50,14 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
         GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
         GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
-        
+
+        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Levels/"))
+            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Levels/");
+
+        string levelString = JsonUtility.ToJson(GameManager.instance.level);
+        System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{mapSlot}.json", levelString);
+
+
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {
             foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
@@ -67,9 +74,6 @@ public class TilemapManager : MonoBehaviour
                 }
             }
         }
-
-        PlayerPrefs.SetString($"Map_{mapSlot}", JsonUtility.ToJson(GameManager.instance.level));
-        PlayerPrefs.Save();
     }
 
     [Button]

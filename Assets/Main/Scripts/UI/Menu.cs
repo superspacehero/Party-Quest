@@ -66,6 +66,8 @@ public class Menu : MonoBehaviour
 
                 return _objectToSelect;
             }
+
+            set { _objectToSelect = value; }
         }
         [SerializeField, FoldoutGroup("Variables")]
         protected GameObject _objectToSelect;

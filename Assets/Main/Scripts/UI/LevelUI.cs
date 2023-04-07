@@ -10,6 +10,17 @@ public class LevelUI : MonoBehaviour
     public TextMeshProUGUI levelName, levelDescription, levelAuthorName;
     public TextList levelQuests;
     public Image levelAuthorImage;
+    public Selectable levelSelectable
+    {
+        get
+        {
+            if (_levelSelectable == null)
+                TryGetComponent(out _levelSelectable);
+
+            return _levelSelectable;
+        }
+    }
+    [SerializeField] private Selectable _levelSelectable;
 
     // Whether to use the global level or not
     public bool useGlobalLevel = true;
@@ -55,7 +66,7 @@ public class LevelUI : MonoBehaviour
     // Alternatively, the string for the level
     public string levelString
     {
-        set => level = Level.Deserialize(value);
+        set => level = Level.Deserialize(value, isPreview: true);
     }
 
     // The main and side quests sections in the TextList
