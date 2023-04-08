@@ -51,12 +51,7 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
         GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
-        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Levels/"))
-            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Levels/");
-
-        string levelString = JsonUtility.ToJson(GameManager.instance.level);
-        System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{mapSlot}.json", levelString);
-
+        Level.SaveLevel(GameManager.instance.level, mapSlot);
 
         IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
         {

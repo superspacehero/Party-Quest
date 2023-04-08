@@ -65,17 +65,41 @@ public struct Level
         return level;
     }
 
-    public static List<string> GetLevels()
+    private static void CheckLevelDirectory()
     {
-        List<string> levels = new List<string>();
-
         if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Levels/"))
             System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Levels/");
+    }
 
+    public static List<string> GetLevels()
+    {
+        CheckLevelDirectory();
+
+        if (levels.Count == System.IO.Directory.GetFiles(Application.persistentDataPath + "/Levels/").Length)
+            return levels;
+
+        levels.Clear();
+
+        // Get the level files
         foreach (string level in System.IO.Directory.GetFiles(Application.persistentDataPath + "/Levels/"))
-            levels.Add(System.IO.Path.GetFileNameWithoutExtension(level));
+            levels.Add(System.IO.File.ReadAllText(level));
 
         return levels;
+    }
+    private static List<string> levels = new List<string>();
+
+    public static void SaveLevel(Level level, int levelSlot)
+    {
+        CheckLevelDirectory();
+
+        System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json", level.Serialize());
+    }
+
+    public static void DeleteLevel(int levelSlot)
+    {
+        CheckLevelDirectory();
+
+        System.IO.File.Delete(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json");
     }
 
     [System.Serializable]

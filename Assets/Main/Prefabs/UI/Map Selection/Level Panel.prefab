@@ -649,6 +649,7 @@ MonoBehaviour:
   levelAuthorImage: {fileID: 1272610710900262391}
   _levelSelectable: {fileID: 0}
   useGlobalLevel: 1
+  levelIndex: 0
 --- !u!1 &1272610710392749166
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,8 +687,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 293.44046, y: -324.43552}
-  m_SizeDelta: {x: 570.8809, y: 106.41015}
+  m_AnchoredPosition: {x: 340.85715, y: -443.75}
+  m_SizeDelta: {x: 665.7143, y: 140.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1272610710392749161
 CanvasRenderer:
@@ -795,9 +796,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: -78.81152, y: 0, z: 0}
-    AnchoredPosition: {x: 320.86902, y: -224.8203}
-    SizeDelta: {x: 641.73804, y: 449.6406}
+    LocalPosition: {x: -74.24008, y: 0, z: 0}
+    AnchoredPosition: {x: 293.44046, y: -192.8203}
+    SizeDelta: {x: 586.8809, y: 385.6406}
     AnchorMin: {x: 0, y: 1}
     AnchorMax: {x: 0, y: 1}
     Pivot: {x: 0.5, y: 0.5}
@@ -840,7 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.9717647, b: 0.9, a: 1}
+  m_Color: {r: 0.8509804, g: 0.827451, b: 0.7647059, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1039,8 +1040,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 293.44046, y: -135.61522}
-  m_SizeDelta: {x: 570.8809, y: 255.23044}
+  m_AnchoredPosition: {x: 340.85715, y: -186.75}
+  m_SizeDelta: {x: 665.7143, y: 357.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1272610710582849637
 CanvasRenderer:
@@ -1643,9 +1644,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: 297.0119, y: 0, z: 0}
-    AnchoredPosition: {x: 664.19244, y: -192.8203}
-    SizeDelta: {x: 140.3373, y: 385.6406}
+    LocalPosition: {x: 297.44043, y: 0, z: 0}
+    AnchoredPosition: {x: 665.121, y: -192.8203}
+    SizeDelta: {x: 140.48016, y: 385.6406}
     AnchorMin: {x: 0, y: 1}
     AnchorMax: {x: 0, y: 1}
     Pivot: {x: 0.5, y: 0.5}
@@ -2105,6 +2106,22 @@ PrefabInstance:
       propertyPath: m_AspectRatio
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5643727484537514657}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Name
       value: Play Button
@@ -2269,9 +2286,29 @@ PrefabInstance:
       propertyPath: m_AspectRatio
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5643727484537514657}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UploadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Name
-      value: Info Button
+      value: Upload Button
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Pivot.x
@@ -2291,7 +2328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AnchorMin.x
@@ -2299,15 +2336,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 140.2857
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 120.5
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2339,11 +2376,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 78.14285
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -325.25
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -2428,6 +2465,22 @@ PrefabInstance:
     - target: {fileID: 4139030199303736712, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_AspectRatio
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5643727484537514657}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DownloadLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Name
@@ -2596,6 +2649,22 @@ PrefabInstance:
     - target: {fileID: 4524701612011895192, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Color.g
       value: 0.92941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5643727484537514657}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReportLevel
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4524701612011895195, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_Name

@@ -8,6 +8,8 @@ public class LevelUI : MonoBehaviour
 {
     // UI elements
     public TextMeshProUGUI levelName, levelDescription, levelAuthorName;
+
+    public Image levelImage;
     public TextList levelQuests;
     public Image levelAuthorImage;
     public Selectable levelSelectable
@@ -36,6 +38,9 @@ public class LevelUI : MonoBehaviour
             if (levelDescription != null)
                 levelDescription.text = value.levelDescription;
 
+            if (levelImage != null)
+                levelImage.sprite = General.StringToSprite(value.levelPreview);
+
             if (levelQuests != null)
             {
                 levelQuests.Clear();
@@ -62,12 +67,19 @@ public class LevelUI : MonoBehaviour
         }
     }
     private Level _level;
+    [HideInInspector] public int levelIndex;
 
     // Alternatively, the string for the level
     public string levelString
     {
-        set => level = Level.Deserialize(value, isPreview: true);
+        get => _levelString;
+        set
+        {
+            level = Level.Deserialize(value, isPreview: true);
+            _levelString = value;
+        }
     }
+    private string _levelString;
 
     // The main and side quests sections in the TextList
     TextList.TextSection mainQuests, sideQuests;
@@ -102,5 +114,37 @@ public class LevelUI : MonoBehaviour
         }
 
         levelQuests.CompileString();
+    }
+
+    public void PlayLevel()
+    {
+        GameManager.levelString = levelString;
+        // GameManager.instance.LoadLevel();
+    }
+
+    public void EditLevel()
+    {
+        GameManager.levelString = levelString;
+        // GameManager.instance.LoadLevelEditor();
+    }
+
+    public void DownloadLevel()
+    {
+        // TODO: Download the level from the server
+    }
+
+    public void UploadLevel()
+    {
+        // TODO: Upload the level to the server
+    }
+
+    public void DeleteLevel()
+    {
+        Level.DeleteLevel(levelIndex);
+    }
+
+    public void ReportLevel()
+    {
+        // TODO: Report the level to the server
     }
 }
