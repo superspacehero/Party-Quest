@@ -1070,9 +1070,12 @@ MonoBehaviour:
   levelName: {fileID: 0}
   levelDescription: {fileID: 0}
   levelAuthorName: {fileID: 0}
+  levelImage: {fileID: 0}
   levelQuests: {fileID: 0}
   levelAuthorImage: {fileID: 0}
-  useGlobalLevel: 1
+  _levelSelectable: {fileID: 0}
+  levelIndex: 0
+  levelScene: 
 --- !u!1 &636968500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1413,9 +1416,12 @@ MonoBehaviour:
   levelName: {fileID: 190191134}
   levelDescription: {fileID: 0}
   levelAuthorName: {fileID: 0}
+  levelImage: {fileID: 0}
   levelQuests: {fileID: 0}
   levelAuthorImage: {fileID: 0}
-  useGlobalLevel: 1
+  _levelSelectable: {fileID: 0}
+  levelIndex: 0
+  levelScene: 
 --- !u!114 &5595276887958448253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3850,6 +3856,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  previousMenuOnCancel: 1
 --- !u!114 &2064746194176320353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4063,6 +4070,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  previousMenuOnCancel: 1
 --- !u!114 &4519111212084231035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4245,6 +4253,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  previousMenuOnCancel: 1
 --- !u!225 &2036046632614252307
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -5201,9 +5210,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   level:
-    levelName: The Street Sharks of Onett
-    levelDescription: The street-punk Sharks are menacing the town. Put a stop to
-      'em, and the mayor will let you go to Giant Step!
+    levelName: 
+    levelDescription: 
     levelPreview: 
     levelAuthorID: 
     mainQuests: []
@@ -5214,7 +5222,7 @@ MonoBehaviour:
     objectTiles: []
     things: []
     rooms: []
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 5061016846897795855, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
   changeCharacterDelay: 0
   nextCharacterUI: {fileID: 3254549891512399179}
   characterPartList: {fileID: 11400000, guid: b777c992050d4479c9d968363883674a, type: 2}

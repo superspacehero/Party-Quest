@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour
 
     #endregion
 
-
     #region Players
 
     [SerializeField] private GameObject characterPrefab;

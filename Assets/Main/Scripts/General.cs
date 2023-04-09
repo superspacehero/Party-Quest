@@ -142,7 +142,45 @@ public class General
             }
         }
 
+    #endregion
 
+    #region Scene Management
+
+        public static void LoadScene(string sceneName)
+        {
+            if (!string.IsNullOrEmpty(sceneName))
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        }
+
+        public static void LoadScene(int sceneIndex)
+        {
+            if (sceneIndex >= 0)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex);
+        }
+
+        public static void LoadSceneAdditive(string sceneName)
+        {
+            if (!string.IsNullOrEmpty(sceneName))
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        }
+
+        public static void LoadSceneAdditive(int sceneIndex)
+        {
+            if (sceneIndex >= 0)
+                UnityEngine.SceneManagement.SceneManager.LoadScene(sceneIndex, UnityEngine.SceneManagement.LoadSceneMode.Additive);
+        }
+
+        public static void UnloadScene(string sceneName)
+        {
+            if (!string.IsNullOrEmpty(sceneName))
+                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneName);
+        }
+
+        public static void UnloadScene(int sceneIndex)
+        {
+            if (sceneIndex >= 0)
+                UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(sceneIndex);
+        }
 
     #endregion
 }

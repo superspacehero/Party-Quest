@@ -24,9 +24,6 @@ public class LevelUI : MonoBehaviour
     }
     [SerializeField] private Selectable _levelSelectable;
 
-    // Whether to use the global level or not
-    public bool useGlobalLevel = true;
-
     // The current level
     public Level level
     {
@@ -87,15 +84,6 @@ public class LevelUI : MonoBehaviour
     // The main and side quests sections in the TextList
     TextList.TextSection mainQuests, sideQuests;
 
-    /// <summary>
-    /// This function is called when the object becomes enabled and active.
-    /// </summary>
-    void OnEnable()
-    {
-        if (useGlobalLevel && GameManager.instance?.level.levelName != null)
-            level = GameManager.instance.level;
-    }
-
     // Update the quest status in the TextList
     public void UpdateQuests()
     {
@@ -119,10 +107,13 @@ public class LevelUI : MonoBehaviour
         levelQuests.CompileString();
     }
 
+    [SerializeField, NaughtyAttributes.Scene]
+    private string levelScene;
+
     public void PlayLevel()
     {
         GameManager.levelString = levelString;
-        // GameManager.instance.LoadLevel();
+        General.LoadScene(levelScene);
     }
 
     public void EditLevel()

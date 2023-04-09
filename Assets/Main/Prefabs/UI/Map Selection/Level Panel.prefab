@@ -654,6 +654,7 @@ MonoBehaviour:
   _levelSelectable: {fileID: 0}
   useGlobalLevel: 1
   levelIndex: 0
+  levelScene: Level
 --- !u!225 &2843841472278103651
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -678,7 +679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deecda360feadaba8ab20e31096f8d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _objectToSelect: {fileID: 0}
+  _objectToSelect: {fileID: 3414784693683751774}
   menuGroup: 1
   previousOption: {fileID: 0}
   nextOption: {fileID: 0}
@@ -2330,6 +2331,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+--- !u!1 &3414784693683751774 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4524701612011895196, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
+  m_PrefabInstance: {fileID: 1272610709044015810}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &3414784693683751775 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4524701612011895197, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
