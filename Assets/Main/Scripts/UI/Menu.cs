@@ -187,6 +187,58 @@ public class Menu : MonoBehaviour
         }
     }
 
+    protected EventTrigger eventTrigger
+    {
+        get
+        {
+            if (_eventTrigger == null)
+                TryGetComponent(out _eventTrigger);
+
+            return _eventTrigger;
+        }
+    }
+    protected EventTrigger _eventTrigger;
+    private bool hasEventTrigger
+    {
+        get
+        {
+            if (eventTrigger == null)
+                return false;
+
+            return true;
+        }
+    }
+    [SerializeField, ShowIf("hasEventTrigger"), FoldoutGroup("Event Trigger")]
+    protected bool previousMenuOnCancel = true;
+
+    #if UNITY_EDITOR
+        [Button, ContextMenu("Add Event Trigger"), HideIf("hasEventTrigger"), FoldoutGroup("Event Trigger")]
+        private void AddEventTrigger()
+        {
+            if (TryGetComponent(out EventTrigger eventTrigger))
+                return;
+
+            gameObject.AddComponent<EventTrigger>();
+        }
+    #endif
+
+    /// <summary>
+    /// Start is called on the frame when a script is enabled just before
+    /// any of the Update methods is called the first time.
+    /// </summary>
+    public void Start()
+    {
+        // If we have an event trigger and we want to go to the previous menu on cancel, we add the event trigger
+        if (eventTrigger && previousMenuOnCancel)
+        {
+            EventTrigger.Entry entry = new EventTrigger.Entry();
+            entry.eventID = EventTriggerType.Cancel;
+            entry.callback.AddListener((data) => { PreviousMenu(); });
+
+            eventTrigger.triggers.Add(entry);
+        }
+    }
+
     IEnumerator SelectSelf()
     {
         yield return null;

@@ -58,6 +58,9 @@ public class LevelUI : MonoBehaviour
 
             General.User author = General.User.GetUserFromID(value.levelAuthorID);
 
+            if (author == null)
+                author = new General.User() { username = "Unknown" };
+
             if (levelAuthorImage != null)
                 levelAuthorImage.sprite  = author.GetUserProfilePicture();
             if (levelAuthorName != null)

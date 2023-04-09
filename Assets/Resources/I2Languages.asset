@@ -45,6 +45,17 @@ MonoBehaviour:
         Erstellen'
       Flags: 0000000000
       Languages_Touch: []
+    - Term: Menu/Menu_Delete
+      TermType: 0
+      Description: 
+      Languages:
+      - Delete
+      - "\u6D88\u53BB"
+      - Borrar
+      - Supprimer
+      - "L\xF6schen"
+      Flags: 0000000000
+      Languages_Touch: []
     - Term: Menu/Menu_Download
       TermType: 0
       Description: 
@@ -60,6 +71,17 @@ MonoBehaviour:
       - '<sprite tint=1 name="Icons_Download">
 
         Herunterladen'
+      Flags: 0000000000
+      Languages_Touch: []
+    - Term: Menu/Menu_Edit
+      TermType: 0
+      Description: 
+      Languages:
+      - Edit
+      - "\u7DE8\u96C6"
+      - Editar
+      - Modifier
+      - Bearbeiten
       Flags: 0000000000
       Languages_Touch: []
     - Term: Menu/Menu_Info
@@ -146,6 +168,17 @@ MonoBehaviour:
       - '<sprite tint=1 name="Icons_Report">
 
         Bericht'
+      Flags: 0000000000
+      Languages_Touch: []
+    - Term: Menu/Menu_Upload
+      TermType: 0
+      Description: 
+      Languages:
+      - Upload
+      - "\u30A2\u30C3\u30D7\u30ED\u30FC\u30C9"
+      - Subir
+      - "T\xE9l\xE9charger"
+      - Hochladen
       Flags: 0000000000
       Languages_Touch: []
     - Term: Messages/Message_GoCharacter
@@ -307,7 +340,7 @@ MonoBehaviour:
     Google_WebServiceURL: https://script.google.com/macros/s/AKfycbwyyYO78P8wd4ob0WUhZKKphMpaWSWiW8mT1A2N/exec
     Google_SpreadsheetKey: 13m1BKlberB7QCHSZrSuRuV0pho-NpeS9BIJfGvHkrgU
     Google_SpreadsheetName: I2Loc - Party Quest
-    Google_LastUpdatedVersion: 1680824831078
+    Google_LastUpdatedVersion: 1680959352039
     Google_Password: change_this
     GoogleUpdateFrequency: 3
     GoogleInEditorCheckFrequency: 2

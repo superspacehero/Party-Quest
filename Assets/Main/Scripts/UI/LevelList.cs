@@ -77,5 +77,7 @@ public class LevelList : Menu
     public void SetLevelPreview(string levelString)
     {
         levelPreview.levelString = levelString;
+        if (levelPreview.TryGetComponent(out Menu menu))
+            menu.Select();
     }
 }

@@ -74,21 +74,23 @@ public class CursorEventSystem : EventSystem
         selectionCursor.offsetMax = Vector2.zero;
     }
 
-    [UnityEditor.MenuItem("Tools/Replace Event System")]
-    private static void ReplaceEventSystem()
-    {
-        var eventSystem = FindObjectOfType<EventSystem>();
-        if (eventSystem != null)
+    #if UNITY_EDITOR
+        [UnityEditor.MenuItem("Tools/Replace Event System")]
+        private static void ReplaceEventSystem()
         {
-            DestroyImmediate(eventSystem);
-            var cursorEventSystem = eventSystem.gameObject.AddComponent<CursorEventSystem>();
+            var eventSystem = FindObjectOfType<EventSystem>();
+            if (eventSystem != null)
+            {
+                DestroyImmediate(eventSystem);
+                var cursorEventSystem = eventSystem.gameObject.AddComponent<CursorEventSystem>();
 
-            // Add an undo action to the undo stack
-            UnityEditor.Undo.RegisterCreatedObjectUndo(cursorEventSystem.gameObject, "Replace Event System");
+                // Add an undo action to the undo stack
+                UnityEditor.Undo.RegisterCreatedObjectUndo(cursorEventSystem.gameObject, "Replace Event System");
+            }
+            else
+            {
+                Debug.LogError("No EventSystem found in scene");
+            }
         }
-        else
-        {
-            Debug.LogError("No EventSystem found in scene");
-        }
-    }
+    #endif
 }
