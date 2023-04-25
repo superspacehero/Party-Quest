@@ -92,7 +92,8 @@ public class GameThing : SerializedMonoBehaviour
     [Button, HideIf("hasInventory")]
     protected void AddInventory()
     {
-        gameObject.AddComponent<Inventory>();
+        if (inventory == null)
+            _inventory = gameObject.AddComponent<Inventory>();
     }
 
     // Inventory for the thing

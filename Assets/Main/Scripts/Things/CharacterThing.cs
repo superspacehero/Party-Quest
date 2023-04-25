@@ -15,6 +15,9 @@ public class CharacterThing : GameThing
     // The character's portrait
     public Sprite thingPortrait;
 
+    // The list of character parts
+    public CharacterPartList characterPartList;
+
     public struct CharacterInfo
     {
         public string name, portrait;
@@ -35,45 +38,47 @@ public class CharacterThing : GameThing
             return JsonUtility.FromJson<CharacterInfo>(json);
         }
 
+        private static void CheckCharacterDirectory()
+        {
+            if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Characters/"))
+                System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Characters/");
+        }
+
         public CharacterInfo LoadCharacter(string characterName, string characterCategory = "Player")
         {
-            return FromString(PlayerPrefs.GetString(characterCategory + "_" + characterName));
+            CheckCharacterDirectory();
+
+            if (System.IO.File.Exists(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json"))
+            {
+                string json = System.IO.File.ReadAllText(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json");
+                return FromString(json);
+            }
+            else
+            {
+                Debug.LogError($"Character {characterName} does not exist");
+                return new CharacterInfo();
+            }
         }
 
         public void SaveCharacter(string characterName, string characterCategory = "Player")
         {
-            PlayerPrefs.SetString(characterCategory + "_" + characterName, ToString());
+            CheckCharacterDirectory();
 
-            // Save the character name to the list of characters
-            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
+            string json = ToString();
 
-            if (!characterList.Contains(characterName))
-            {
-                characterList += (characterList == "" ? "" : ",") + characterName;
-                PlayerPrefs.SetString("Characters_" + characterCategory, characterList);
-            }
-
-            PlayerPrefs.Save();
+            System.IO.File.WriteAllText(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json", json);
         }
 
         public static List<CharacterInfo> LoadCharacters(string characterCategory = "Player")
         {
+            CheckCharacterDirectory();
+
             List<CharacterInfo> characters = new List<CharacterInfo>();
 
-            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
-
-            if (characterList != "")
+            foreach (string characterFile in System.IO.Directory.GetFiles(Application.persistentDataPath + $"/Characters/", $"{characterCategory}_*.json"))
             {
-                string[] characterNames = characterList.Split(',');
-
-                foreach (string characterName in characterNames)
-                {
-                    if (characterName != "")
-                    {
-                        CharacterInfo character = new CharacterInfo().LoadCharacter(characterName, characterCategory);
-                        characters.Add(character);
-                    }
-                }
+                string json = System.IO.File.ReadAllText(characterFile);
+                characters.Add(FromString(json));
             }
 
             return characters;
@@ -81,18 +86,9 @@ public class CharacterThing : GameThing
 
         public static void DeleteCharacter(string characterName, string characterCategory = "Player")
         {
-            PlayerPrefs.DeleteKey(characterCategory + "_" + characterName);
+            CheckCharacterDirectory();
 
-            // Remove the character name from the list of characters
-            string characterList = PlayerPrefs.GetString("Characters_" + characterCategory);
-
-            if (characterList.Contains(characterName))
-            {
-                characterList = characterList.Replace(characterName + ",", "");
-                PlayerPrefs.SetString("Characters_" + characterCategory, characterList);
-            }
-
-            PlayerPrefs.Save();
+            System.IO.File.Delete(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json");
         }
 
         public CharacterInfo(string name, string portrait, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
@@ -137,10 +133,7 @@ public class CharacterThing : GameThing
 
             thingValue = value.value;
 
-            if (value.inventory != null)
-                inventory = value.inventory;
-            else
-                AddInventory();
+            AddInventory();
 
             baseVariables = value.baseVariables;
 
@@ -250,7 +243,8 @@ public class CharacterThing : GameThing
     #region Character Assembly
 
     // List of character part prefabs used to assemble the character
-    [UnityEngine.Serialization.FormerlySerializedAs("characterPartPrefabs")] public List<CharacterPartThing.CharacterPartInfo> characterParts = new List<CharacterPartThing.CharacterPartInfo>();
+    [UnityEngine.Serialization.FormerlySerializedAs("characterPartPrefabs")]
+    public List<CharacterPartThing.CharacterPartInfo> characterParts = new List<CharacterPartThing.CharacterPartInfo>();
     // List of character parts that make up the character
     protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
     [FoldoutGroup("Variables")] public GameThingVariables baseVariables = new GameThingVariables();
@@ -317,10 +311,12 @@ public class CharacterThing : GameThing
 
         foreach (CharacterPartThing.CharacterPartInfo characterPart in characterParts)
         {
-            if (characterPart.prefab == null)
+            if (string.IsNullOrEmpty(characterPart.prefabName))
                 continue;
 
-            if (CharacterPartThing.Instantiate(out CharacterPartThing characterPartThing, characterPart, characterBase.transform))
+            Debug.Log("Instantiating " + characterPart.prefabName);
+
+            if (CharacterPartThing.Instantiate(out CharacterPartThing characterPartThing, characterPartList, characterPart, characterBase.transform))
             {
                 parts.Add(characterPartThing);
 
@@ -344,7 +340,7 @@ public class CharacterThing : GameThing
         return characterInfo.ToString();
     }
 
-    // Method to save the character to player prefs
+    // Method to save the character to a file
     [Button]
     public void SaveCharacter(string characterCategory = "Player")
     {
@@ -359,11 +355,13 @@ public class CharacterThing : GameThing
         AssembleCharacter();
     }
 
-    // Method to load the character from player prefs
+    // Method to load the character from a file
     [Button]
     public void LoadCharacter(string characterName, string characterCategory = "Player")
     {
-        characterInfo.LoadCharacter(characterName, characterCategory);
+        characterInfo = characterInfo.LoadCharacter(characterName, characterCategory);
+
+        AssembleCharacter();
     }
 
     #endregion

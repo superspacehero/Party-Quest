@@ -19,7 +19,7 @@ public class CharacterPartThing : GameThing
     [System.Serializable]
     public struct CharacterPartInfo
     {
-        public GameObject prefab;
+        public string prefabName;
         public Color redColor;
         public Color greenColor;
         public Color blueColor;
@@ -33,42 +33,63 @@ public class CharacterPartThing : GameThing
     {
         get => new CharacterPartInfo()
         {
-            prefab = originalPrefab,
+            prefabName = originalPrefab.name,
             redColor = redColor,
             greenColor = greenColor,
             blueColor = blueColor
         };
     }
 
-    public static bool Instantiate(out CharacterPartThing part, GameObject prefab, Transform parent, Color redColor = default, Color greenColor = default, Color blueColor = default)
+    public static bool Instantiate(out CharacterPartThing part, CharacterPartList partList, string prefabName, Transform parent, Color redColor = default, Color greenColor = default, Color blueColor = default)
     {
-        if (Instantiate(prefab, parent).TryGetComponent(out CharacterPartThing characterPartThing))
+        if (partList == null)
         {
-            characterPartThing.name = prefab.name;
+            Debug.LogError("CharacterPartList is null");
+            part = null;
+            return false;
+        }
 
-            characterPartThing.originalPrefab = prefab;
+        if (!string.IsNullOrEmpty(prefabName))
+        {
+            GameObject prefab = partList.characterParts.Find(prefab => prefab.name == prefabName);
+            if (prefab != null && Instantiate(prefab, parent).TryGetComponent(out CharacterPartThing characterPartThing))
+            {
+                characterPartThing.name = prefabName;
 
-            if (redColor != default)
-                characterPartThing.redColor = redColor;
-            if (greenColor != default)
-                characterPartThing.greenColor = greenColor;
-            if (blueColor != default)
-                characterPartThing.blueColor = blueColor;
+                characterPartThing.originalPrefab = prefab;
 
-            part = characterPartThing;
+                if (redColor != default)
+                    characterPartThing.redColor = redColor;
+                if (greenColor != default)
+                    characterPartThing.greenColor = greenColor;
+                if (blueColor != default)
+                    characterPartThing.blueColor = blueColor;
+
+                part = characterPartThing;
+            }
+            else
+            {
+                Debug.LogError("Could not instantiate " + prefabName + " as CharacterPartThing");
+                part = null;
+            }
         }
         else
         {
-            Debug.LogError("Could not instantiate " + prefab.name + " as CharacterPartThing");
+            Debug.LogError("Could not find prefab with name " + prefabName);
             part = null;
         }
 
         return part != null;
     }
 
-    public static bool Instantiate(out CharacterPartThing part, CharacterPartInfo characterPartInfo, Transform parent)
+    public static bool Instantiate(out CharacterPartThing part, CharacterPartList partList, CharacterPartInfo characterPartInfo, Transform parent)
     {
-        return Instantiate(out part, characterPartInfo.prefab, parent, characterPartInfo.redColor, characterPartInfo.greenColor, characterPartInfo.blueColor);
+        return Instantiate(out part,
+        partList,
+        characterPartInfo.prefabName,
+        parent, characterPartInfo.redColor,
+        characterPartInfo.greenColor,
+        characterPartInfo.blueColor);
     }
 
     [HideInInspector] public GameObject originalPrefab;

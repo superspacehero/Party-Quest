@@ -16,6 +16,9 @@ public class Menu : MonoBehaviour
             get { return _currentMenuOption; }
             set
             {
+                if (value == _currentMenuOption)
+                    return;
+
                 _currentMenuOption = value;
 
                 DeselectMenuOption(exceptingMenuOption: value);

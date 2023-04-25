@@ -3,7 +3,7 @@
 first_letter="$(echo $1 | head -c1)"
 unity="/home/superspacehero/Applications/Unity/2021.3.16f1/Editor/Unity"
 scenepath="$(pwd)/Assets/Main/Scenes"
-defaultScene="SampleScene.unity"
+defaultScene="Level.unity"
 github="flatpak run io.github.shiftey.Desktop"
 
 case "$first_letter" in
