@@ -49,10 +49,10 @@ public class GameManager : MonoBehaviour
     {
         // The device that the player is using
         public InputDevice player;
-        
+
         // The character that the player is controlling
         public CharacterThing.CharacterInfo character;
-        
+
         // The team that the player is on
         public int team;
 
@@ -95,8 +95,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ThingDisplay nextCharacterUI;
     public static List<CharacterThing> characters = new List<CharacterThing>();
     public static int currentCharacterIndex = 0;
-
-    public CharacterPartList characterPartList;
 
     public static CharacterThing currentCharacter
     {
@@ -193,10 +191,20 @@ public class GameManager : MonoBehaviour
     {
         foreach (PlayerAndCharacter player in players)
         {
-            if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
+            // Create the player
+            if (GetComponentInChildren<PlayerInputManager>().TryGetComponent(out PlayerInputManager playerInputManager))
             {
-                character.characterInfo = player.character;
-                character.team = player.team;
+                playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input);
+
+                // Create the character
+                if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
+                {
+                    character.characterInfo = player.character;
+                    character.team = player.team;
+
+                    // Add the character to the player's input
+                    input.AttachThing(character);
+                }
             }
         }
     }

@@ -299,7 +299,7 @@ public class CharacterThing : GameThing
 #if UNITY_EDITOR
             DestroyImmediate(characterBase.transform.GetChild(i).gameObject);
 #else
-                    Destroy(characterBase.transform.GetChild(i).gameObject);
+            Destroy(characterBase.transform.GetChild(i).gameObject);
 #endif
         }
 
@@ -314,7 +314,7 @@ public class CharacterThing : GameThing
             if (string.IsNullOrEmpty(characterPart.prefabName))
                 continue;
 
-            Debug.Log("Instantiating " + characterPart.prefabName);
+            // Debug.Log("Instantiating " + characterPart.prefabName);
 
             if (CharacterPartThing.Instantiate(out CharacterPartThing characterPartThing, characterPartList, characterPart, characterBase.transform))
             {

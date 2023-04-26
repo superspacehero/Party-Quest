@@ -21,8 +21,8 @@ public class LevelList : Menu
     /// </summary>
     public override void OnEnable()
     {
-        LoadLevels();
         base.OnEnable();
+        General.DelayedFunctionFrames(this, LoadLevels);
     }
 
     private void LoadLevels()
@@ -62,7 +62,7 @@ public class LevelList : Menu
             foreach (var levelUI in _levelUIs)
             {
                 levelUI.levelString = _levels[_levelUIs.IndexOf(levelUI)];
-                
+
                 if (levelUI.levelSelectable != null && levelUI.levelSelectable is Button)
                     (levelUI.levelSelectable as Button).onClick.AddListener(() => SetLevelPreview(_levels[_levelUIs.IndexOf(levelUI)]));
             }

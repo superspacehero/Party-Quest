@@ -11,121 +11,126 @@ public class Menu : MonoBehaviour
 {
     #region Static Variables
 
-        public static Menu currentMenuOption
+    public static Menu currentMenuOption
+    {
+        get { return _currentMenuOption; }
+        set
         {
-            get { return _currentMenuOption; }
-            set
-            {
-                if (value == _currentMenuOption)
-                    return;
-
-                _currentMenuOption = value;
-
-                DeselectMenuOption(exceptingMenuOption: value);
-            }
-        }
-        private static Menu _currentMenuOption;
-
-        private CanvasGroup canvasGroup
-        {
-            get
-            {
-                if (_canvasGroup == null)
-                    TryGetComponent(out _canvasGroup);
-
-                return _canvasGroup;
-            }
-        }
-        private CanvasGroup _canvasGroup;
-
-        public static List<Menu> menuOptions = new List<Menu>();
-
-        private static void FindMenuOptions()
-        {
-            foreach (Menu menuOption in FindObjectsOfType<Menu>())
-                menuOptions.Add(menuOption);
-        }
-
-        private static void DeselectMenuOption(Menu exceptingMenuOption)
-        {
-            if (exceptingMenuOption == null)
+            if (value == _currentMenuOption)
                 return;
-                
-            foreach (Menu option in menuOptions)
-                if (option != exceptingMenuOption && option.menuGroup == exceptingMenuOption.menuGroup)
-                    option.Deselect();
+
+            _currentMenuOption = value;
+
+            DeselectMenuOption(exceptingMenuOption: value);
         }
+    }
+    private static Menu _currentMenuOption;
+
+    private CanvasGroup canvasGroup
+    {
+        get
+        {
+            if (_canvasGroup == null)
+                TryGetComponent(out _canvasGroup);
+
+            return _canvasGroup;
+        }
+    }
+    private CanvasGroup _canvasGroup;
+
+    public static List<Menu> menuOptions = new List<Menu>();
+
+    private static void FindMenuOptions()
+    {
+        foreach (Menu menuOption in FindObjectsOfType<Menu>())
+            menuOptions.Add(menuOption);
+    }
+
+    private static void DeselectMenuOption(Menu exceptingMenuOption)
+    {
+        if (exceptingMenuOption == null)
+            return;
+
+        foreach (Menu option in menuOptions)
+            if (option != exceptingMenuOption && option.menuGroup == exceptingMenuOption.menuGroup)
+                option.Deselect();
+    }
 
     #endregion
 
     #region Variables
 
-        protected GameObject objectToSelect
+    protected GameObject objectToSelect
+    {
+        get
         {
-            get
-            {
-                if (_objectToSelect == null)
-                    _objectToSelect = gameObject;
+            if (_objectToSelect == null)
+                _objectToSelect = gameObject;
 
-                return _objectToSelect;
-            }
-
-            set { _objectToSelect = value; }
+            return _objectToSelect;
         }
-        [SerializeField, FoldoutGroup("Variables")]
-        protected GameObject _objectToSelect;
 
-        [FoldoutGroup("Variables"), Min(0)]
-        public int menuGroup;
+        set
+        {
+            _objectToSelect = value;
+            if (enabled && _objectToSelect != null && _objectToSelect.TryGetComponent(out Selectable _selectable))
+                _selectable.Select();
+        }
+    }
+    [SerializeField, FoldoutGroup("Variables")]
+    protected GameObject _objectToSelect;
 
-        private bool selected;
+    [FoldoutGroup("Variables"), Min(0)]
+    public int menuGroup;
+
+    private bool selected;
 
     #endregion
 
     #region Other Menus
 
-        [FoldoutGroup("Other Menus")]
-        public Menu previousOption, nextOption;
+    [FoldoutGroup("Other Menus")]
+    public Menu previousOption, nextOption;
 
-        #if UNITY_EDITOR
-            [FoldoutGroup("Other Menus"), Button, ContextMenu("Set Connected Objects")]
-            private void SetConnectedMenuObjects()
-            {
-                UnityEditor.EditorUtility.SetDirty(this);
+#if UNITY_EDITOR
+    [FoldoutGroup("Other Menus"), Button, ContextMenu("Set Connected Objects")]
+    private void SetConnectedMenuObjects()
+    {
+        UnityEditor.EditorUtility.SetDirty(this);
 
-                if (previousOption != null)
-                {
-                    previousOption.nextOption = this;
-                    UnityEditor.EditorUtility.SetDirty(previousOption);
-                }
-
-                if (nextOption != null)
-                {
-                    nextOption.previousOption = this;
-                    UnityEditor.EditorUtility.SetDirty(nextOption);
-                }
-
-                UnityEditor.Undo.RecordObject(this, "Set Connected Menu Objects");
-            }
-        #endif
-
-        [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Previous Menu")]
-        public virtual void PreviousMenu()
+        if (previousOption != null)
         {
-            if (previousOption != null)
-                previousOption.Select();
-            else
-                Debug.LogWarning("No previous menu found.");
+            previousOption.nextOption = this;
+            UnityEditor.EditorUtility.SetDirty(previousOption);
         }
 
-        [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Next Menu")]
-        public virtual void NextMenu()
+        if (nextOption != null)
         {
-            if (nextOption != null)
-                nextOption.Select();
-            else
-                Debug.LogWarning("No next menu found.");
+            nextOption.previousOption = this;
+            UnityEditor.EditorUtility.SetDirty(nextOption);
         }
+
+        UnityEditor.Undo.RecordObject(this, "Set Connected Menu Objects");
+    }
+#endif
+
+    [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Previous Menu")]
+    public virtual void PreviousMenu()
+    {
+        if (previousOption != null)
+            previousOption.Select();
+        else
+            Debug.LogWarning("No previous menu found.");
+    }
+
+    [HorizontalGroup("Other Menus/Menus"), Button, ContextMenu("Next Menu")]
+    public virtual void NextMenu()
+    {
+        if (nextOption != null)
+            nextOption.Select();
+        else
+            Debug.LogWarning("No next menu found.");
+    }
 
     #endregion
 
@@ -214,16 +219,16 @@ public class Menu : MonoBehaviour
     [SerializeField, ShowIf("hasEventTrigger"), FoldoutGroup("Event Trigger")]
     protected bool previousMenuOnCancel = true;
 
-    #if UNITY_EDITOR
-        [Button, ContextMenu("Add Event Trigger"), HideIf("hasEventTrigger"), FoldoutGroup("Event Trigger")]
-        private void AddEventTrigger()
-        {
-            if (TryGetComponent(out EventTrigger eventTrigger))
-                return;
+#if UNITY_EDITOR
+    [Button, ContextMenu("Add Event Trigger"), HideIf("hasEventTrigger"), FoldoutGroup("Event Trigger")]
+    private void AddEventTrigger()
+    {
+        if (TryGetComponent(out EventTrigger eventTrigger))
+            return;
 
-            gameObject.AddComponent<EventTrigger>();
-        }
-    #endif
+        gameObject.AddComponent<EventTrigger>();
+    }
+#endif
 
     /// <summary>
     /// Start is called on the frame when a script is enabled just before
@@ -281,9 +286,9 @@ public class Menu : MonoBehaviour
 
         if (canvasGroup)
             canvasGroup.interactable = true;
-        
-        if (EventSystem.current != null)
-            EventSystem.current.SetSelectedGameObject(objectToSelect);
+
+        if (objectToSelect != null && objectToSelect.TryGetComponent(out Selectable selectable))
+            selectable.Select();
 
         onSelect.Invoke();
 
