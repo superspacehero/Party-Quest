@@ -9,83 +9,85 @@ public class RgbMaterial : MonoBehaviour
 {
     #region Renderers
 
-        private enum RendererType
+    private enum RendererType
+    {
+        None,
+        Sprite,
+        Image,
+        RawImage,
+        MeshRenderer,
+        SkinnedMeshRenderer
+    }
+    [SerializeField]
+    private RendererType rendererType = RendererType.None;
+
+    private SpriteRenderer _spriteRenderer;
+    private Image _image;
+    private RawImage _rawImage;
+    private MeshRenderer _meshRenderer;
+    private SkinnedMeshRenderer _skinnedMeshRenderer;
+
+#if UNITY_EDITOR
+
+    [SerializeField]
+    private Material rgbSprite, rgbMeshVertex;
+
+#endif
+
+    [Button]
+    void GetRendererType()
+    {
+        if (TryGetComponent(out _spriteRenderer))
         {
-            None,
-            Sprite,
-            Image,
-            RawImage,
-            MeshRenderer,
-            SkinnedMeshRenderer
+            rendererType = RendererType.Sprite;
+#if UNITY_EDITOR
+            _spriteRenderer.material = rgbSprite;
+#endif
         }
-        [SerializeField]
-        private RendererType rendererType = RendererType.None;
-
-        private SpriteRenderer _spriteRenderer;
-        private Image _image;
-        private RawImage _rawImage;
-        private MeshRenderer _meshRenderer;
-        private SkinnedMeshRenderer _skinnedMeshRenderer;
-
-        #if UNITY_EDITOR
-
-            [SerializeField]
-            private Material rgbSprite, rgbMeshVertex;
-
-        #endif
-
-        [Button]
-        void GetRendererType()
+        else if (TryGetComponent(out _image))
         {
-            if (TryGetComponent(out _spriteRenderer))
-            {
-                rendererType = RendererType.Sprite;
-                #if UNITY_EDITOR
-                    _spriteRenderer.material = rgbSprite;
-                #endif
-            }
-            else if (TryGetComponent(out _image))
-            {
-                rendererType = RendererType.Image;
-                #if UNITY_EDITOR
-                    _image.material = rgbSprite;
-                #endif
-            }
-            
-            else if (TryGetComponent(out _rawImage))
-            {
-                rendererType = RendererType.RawImage;
-                #if UNITY_EDITOR
-                    _rawImage.material = rgbSprite;
-                #endif
-            }
-            else if (TryGetComponent(out _meshRenderer))
-            {
-                rendererType = RendererType.MeshRenderer;
-                #if UNITY_EDITOR
-                    if (useVertexColors)
-                        _meshRenderer.material = rgbMeshVertex;
-                #endif
-            }
-            else if (TryGetComponent(out _skinnedMeshRenderer))
-            {
-                rendererType = RendererType.SkinnedMeshRenderer;
-                #if UNITY_EDITOR
-                    if (useVertexColors)
-                        _meshRenderer.material = rgbMeshVertex;
-                #endif
-            }
-            else
-                rendererType = RendererType.None;
+            rendererType = RendererType.Image;
+#if UNITY_EDITOR
+            _image.material = rgbSprite;
+#endif
         }
 
-        private bool isMeshRenderer
+        else if (TryGetComponent(out _rawImage))
         {
-            get => rendererType == RendererType.MeshRenderer || rendererType == RendererType.SkinnedMeshRenderer;
+            rendererType = RendererType.RawImage;
+#if UNITY_EDITOR
+            _rawImage.material = rgbSprite;
+#endif
         }
+        else if (TryGetComponent(out _meshRenderer))
+        {
+            rendererType = RendererType.MeshRenderer;
+#if UNITY_EDITOR
+            if (useVertexColors)
+                _meshRenderer.material = rgbMeshVertex;
+#endif
+        }
+        else if (TryGetComponent(out _skinnedMeshRenderer))
+        {
+            rendererType = RendererType.SkinnedMeshRenderer;
+#if UNITY_EDITOR
+            if (useVertexColors)
+                _meshRenderer.material = rgbMeshVertex;
+#endif
+        }
+        else
+            rendererType = RendererType.None;
 
-        [SerializeField, ShowIf("isMeshRenderer")]
-        private bool useVertexColors = false;
+        CacheOriginalMaterials();
+    }
+
+    private bool isMeshRenderer
+    {
+        get => rendererType == RendererType.MeshRenderer || rendererType == RendererType.SkinnedMeshRenderer;
+    }
+
+    [SerializeField, ShowIf("isMeshRenderer")]
+    private bool useVertexColors = false;
 
     #endregion
 
@@ -174,6 +176,27 @@ public class RgbMaterial : MonoBehaviour
         OnValidate();
     }
 
+    private Material _cachedSpriteMaterial;
+    private Material _cachedImageMaterial;
+    private Material _cachedRawImageMaterial;
+    private Material _cachedMeshRendererMaterial;
+    private Material _cachedSkinnedMeshRendererMaterial;
+
+    void CacheOriginalMaterials()
+    {
+        if (_spriteRenderer != null)
+            _cachedSpriteMaterial = _spriteRenderer.material;
+        if (_image != null)
+            _cachedImageMaterial = _image.material;
+        if (_rawImage != null)
+            _cachedRawImageMaterial = _rawImage.material;
+        if (_meshRenderer != null)
+            _cachedMeshRendererMaterial = _meshRenderer.material;
+        if (_skinnedMeshRenderer != null)
+            _cachedSkinnedMeshRendererMaterial = _skinnedMeshRenderer.material;
+    }
+
+
     private Material spriteMaterial
     {
         get
@@ -181,27 +204,16 @@ public class RgbMaterial : MonoBehaviour
             switch (rendererType)
             {
                 case RendererType.Sprite:
-                    if (_spriteRenderer != null)
-                        return _spriteRenderer.material;
-                    break;
+                    return _cachedSpriteMaterial;
                 case RendererType.Image:
-                    if (_image != null)
-                        return _image.materialForRendering;
-                    break;
+                    return _cachedImageMaterial;
                 case RendererType.RawImage:
-                    if (_rawImage != null)
-                        return _rawImage.materialForRendering;
-                    break;
+                    return _cachedRawImageMaterial;
                 case RendererType.MeshRenderer:
-                    if (_meshRenderer != null)
-                        return _meshRenderer.material;
-                    break;
+                    return _cachedMeshRendererMaterial;
                 case RendererType.SkinnedMeshRenderer:
-                    if (_skinnedMeshRenderer != null)
-                        return _skinnedMeshRenderer.material;
-                    break;
+                    return _cachedSkinnedMeshRendererMaterial;
             }
-
             return null;
         }
 
@@ -239,7 +251,7 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _redColor = value;
-            
+
             SetColor("_RedColor", _redColor);
         }
     }
@@ -250,7 +262,7 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _greenColor = value;
-            
+
             SetColor("_GreenColor", _greenColor);
         }
     }
@@ -261,7 +273,7 @@ public class RgbMaterial : MonoBehaviour
         set
         {
             _blueColor = value;
-            
+
             SetColor("_BlueColor", _blueColor);
         }
     }
@@ -270,7 +282,7 @@ public class RgbMaterial : MonoBehaviour
     {
         if (spriteMaterial == null)
             SetUpMaterial();
-        
+
         if (spriteMaterial != null)
             spriteMaterial.SetColor(colorName, color);
 
