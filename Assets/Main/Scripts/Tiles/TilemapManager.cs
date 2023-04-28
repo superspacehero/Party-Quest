@@ -21,6 +21,9 @@ public class TilemapManager : MonoBehaviour
     private AstarPath _pathfinder;
 
     [SerializeField]
+    private TileTypeList tileTypeList;
+
+    [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
     [SerializeField]
     private Transform lightTransform;
@@ -31,14 +34,19 @@ public class TilemapManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        if (instance != null && instance != this)
+        if (instance == null)
         {
-            Destroy(instance.gameObject);
             instance = this;
+        }
+        else if (instance != this)
+        {
+            Destroy(gameObject);
+            return;
         }
 
         LoadMap();
     }
+
 
     [Button]
     public void SaveMap(int mapSlot = 0)
@@ -64,7 +72,7 @@ public class TilemapManager : MonoBehaviour
                     yield return new SavedTile
                     {
                         position = pos,
-                        tileType = tile
+                        tileName = tile.name
                     };
                 }
             }
@@ -83,18 +91,22 @@ public class TilemapManager : MonoBehaviour
 
         foreach (SavedTile tile in GameManager.instance.level.groundTiles)
         {
-            _groundTilemap.SetTile(tile.position, tile.tileType);
+            LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
+            _groundTilemap.SetTile(tile.position, tileType);
         }
 
         foreach (SavedTile tile in GameManager.instance.level.propTiles)
         {
-            _propTilemap.SetTile(tile.position, tile.tileType);
+            LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
+            _propTilemap.SetTile(tile.position, tileType);
         }
 
         foreach (SavedTile tile in GameManager.instance.level.objectTiles)
         {
-            _objectTilemap.SetTile(tile.position, tile.tileType);
+            LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
+            _objectTilemap.SetTile(tile.position, tileType);
         }
+
 
         UpdateNavMesh();
     }
@@ -124,8 +136,20 @@ public class TilemapManager : MonoBehaviour
     public void LoadMap()
     {
         if (!string.IsNullOrEmpty(GameManager.levelString))
+        {
             LoadMap(GameManager.levelString);
+        }
+        else
+        {
+            List<string> levels = Level.GetLevels();
+            if (levels.Count > 0)
+            {
+                int desiredLevelSlot = 0; // Change this value to the desired level slot
+                LoadMap(levels[desiredLevelSlot]);
+            }
+        }
     }
+
 
     [Button]
     private void ClearMap()
@@ -158,5 +182,5 @@ public class TilemapManager : MonoBehaviour
 public class SavedTile
 {
     public Vector3Int position;
-    public LevelTile tileType;
+    public string tileName;
 }
