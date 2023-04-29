@@ -114,7 +114,7 @@ public class TilemapManager : MonoBehaviour
     [Button]
     public void LoadMap(int mapSlot)
     {
-        LoadMap(PlayerPrefs.GetString($"Map_{mapSlot}"));
+        LoadMap(Level.GetLevels()[mapSlot]);
     }
 
     public void ClearMap(bool clearPathfinder = true)

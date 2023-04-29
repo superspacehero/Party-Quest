@@ -13,6 +13,9 @@ public class MoveAction : ActionThing
     // The number of spaces the character can move
     private int movementRange = 3;
 
+    // The height the character can jump
+    private float jumpHeight = 1;
+
     // The direction the character is moving in
     private Vector3 movement;
 
@@ -41,12 +44,14 @@ public class MoveAction : ActionThing
 
             controller.canMove = true;
             controller.canJump = true;
+
+            jumpHeight = Mathf.Abs(controller.jumpSpeed / Physics.gravity.y);
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
         Nodes.UnoccupyNode(currentNode);
-        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange);
+        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, new Vector2(jumpHeight, -1));
 
         // Display the valid grid spaces
         if (Nodes.instance != null)

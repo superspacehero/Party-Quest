@@ -71,10 +71,10 @@ public class Nodes : MonoBehaviour
         }
     }
 
-    public void DisplayNodes(Vector3 position, float radius)
+    public void DisplayNodes(Vector3 position, float radius, Vector2 maxHeightLimits)
     {
         // Get the nodes within the radius
-        DisplayNodes(GetNodesInRadius(position, radius));
+        DisplayNodes(GetNodesInRadius(position, radius, maxHeightLimits));
     }
 
     private static Vector3Int[] directions = new Vector3Int[]
@@ -85,7 +85,7 @@ public class Nodes : MonoBehaviour
         Vector3Int.right
     };
 
-    public static List<GraphNode> GetNodesInRadius(Vector3 position, float radius)
+    public static List<GraphNode> GetNodesInRadius(Vector3 position, float radius, Vector2 maxHeightLimits)
     {
         List<GraphNode> nodes = new List<GraphNode>();
 
@@ -107,8 +107,13 @@ public class Nodes : MonoBehaviour
                 {
                     // Get the node in the direction
                     GraphNode node = gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
-                    // If the node is not in the valid spaces list, is walkable, and is either lower than the current height or just one unit higher at most, add it to the list
-                    if (!nodes.Contains(node) && node.Walkable && (node.position.y <= searchNode.position.y || node.position.y - searchNode.position.y <= 1))
+                    float deltaY = node.position.y - searchNode.position.y;
+
+                    bool withinUpwardLimit = maxHeightLimits.x == -1 || deltaY <= maxHeightLimits.x;
+                    bool withinDownwardLimit = maxHeightLimits.y == -1 || deltaY >= -maxHeightLimits.y;
+
+                    // If the node is not in the valid spaces list, is walkable, and the height difference is within the specified limits, add it to the list
+                    if (!nodes.Contains(node) && node.Walkable && withinUpwardLimit && withinDownwardLimit)
                     {
                         nodes.Add(node);
                         queue.Enqueue(node);

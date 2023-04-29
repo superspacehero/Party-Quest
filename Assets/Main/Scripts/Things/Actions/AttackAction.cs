@@ -116,7 +116,7 @@ public class AttackAction : ActionThing
                 case AttackState.PickingTarget:
                     if (Nodes.instance != null)
                     {
-                        List<Pathfinding.GraphNode> nodes = Nodes.GetNodesInRadius(user.transform.position, attack.range);
+                        List<Pathfinding.GraphNode> nodes = Nodes.GetNodesInRadius(user.transform.position, attack.range, Vector2.one * attack.range);
 
                         Nodes.instance.DisplayNodes(nodes);
                         Nodes.instance.ColorNodeObjects(nodes);

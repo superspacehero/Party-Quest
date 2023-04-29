@@ -194,16 +194,17 @@ public class GameManager : MonoBehaviour
             // Create the player
             if (GetComponentInChildren<PlayerInputManager>().TryGetComponent(out PlayerInputManager playerInputManager))
             {
-                playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input);
-
-                // Create the character
-                if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
+                if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
                 {
-                    character.characterInfo = player.character;
-                    character.team = player.team;
+                    // Create the character
+                    if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
+                    {
+                        character.characterInfo = player.character;
+                        character.team = player.team;
 
-                    // Add the character to the player's input
-                    input.AttachThing(character);
+                        // Add the character to the player's input
+                        input.AttachThing(character);
+                    }
                 }
             }
         }
