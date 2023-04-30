@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4316743782520209365}
   - component: {fileID: 4575824252436942943}
   - component: {fileID: 4316743782520209363}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,9 +107,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: 
+  _thingName: 
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -123,6 +124,7 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 0.5568628, g: 0.14509805, b: 0.11372549, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  originalPrefab: {fileID: 0}
 --- !u!114 &4316743782520209363
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,8 +140,12 @@ MonoBehaviour:
   _animationProgress: 0
   sprites:
   - sprite: {fileID: -1525302191403297663, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+    backSprite: {fileID: 0}
     time: 0
   - sprite: {fileID: 5816300591723108925, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+    backSprite: {fileID: 0}
     time: 0.5
   - sprite: {fileID: -7327318825333759484, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+    backSprite: {fileID: 0}
     time: 1
+  isBackSprite: 0

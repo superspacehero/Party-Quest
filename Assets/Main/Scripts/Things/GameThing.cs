@@ -211,6 +211,52 @@ public class GameThing : SerializedMonoBehaviour
             // Return the result.
             return result;
         }
+
+        // Operators to compare two instances of GameThingVariables.
+        public static bool operator ==(GameThingVariables a, GameThingVariables b)
+        {
+            // If a is null or b is null, return false.
+            if (a.variables == null || b.variables == null)
+                return false;
+
+            // Iterate over the variables in a.
+            foreach (Variable variable in a.variables)
+            {
+                // Check if the variable is also present in b.
+                Variable otherVariable = b.variables.Find(v => v.name == variable.name);
+                if (otherVariable.name != null)
+                {
+                    // If the variable is present in b, check if the values are equal.
+                    if (variable.value != otherVariable.value)
+                        return false;
+                }
+                else
+                {
+                    // If the variable is not present in b, return false.
+                    return false;
+                }
+            }
+
+            // Iterate over the variables in b.
+            foreach (Variable variable in b.variables)
+            {
+                // Check if the variable is not present in a.
+                Variable otherVariable = a.variables.Find(v => v.name == variable.name);
+                if (otherVariable.name == null)
+                {
+                    // If the variable is not present in a, return false.
+                    return false;
+                }
+            }
+
+            // Return true.
+            return true;
+        }
+
+        public static bool operator !=(GameThingVariables a, GameThingVariables b)
+        {
+            return !(a == b);
+        }
     }
 
     #region Colors

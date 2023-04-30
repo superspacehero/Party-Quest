@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5315812088176879432}
   - component: {fileID: 3083506475333640752}
   - component: {fileID: 8351394857788636668}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,9 +55,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Hand
+  _thingName: Hand
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -71,6 +72,7 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  originalPrefab: {fileID: 0}
 --- !u!212 &3083506475333640752
 SpriteRenderer:
   m_ObjectHideFlags: 0

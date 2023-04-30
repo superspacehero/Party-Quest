@@ -110,6 +110,22 @@ public class CharacterThing : GameThing
             this.baseVariables = baseVariables;
             this.characterParts = characterParts;
         }
+
+        // Operators to check if the character equals another character
+        public static bool operator ==(CharacterInfo characterInfo1, CharacterInfo characterInfo2)
+        {
+            return characterInfo1.name == characterInfo2.name &&
+                characterInfo1.portrait == characterInfo2.portrait &&
+                characterInfo1.value == characterInfo2.value &&
+                characterInfo1.inventory == characterInfo2.inventory &&
+                characterInfo1.baseVariables == characterInfo2.baseVariables &&
+                characterInfo1.characterParts == characterInfo2.characterParts;
+        }
+
+        public static bool operator !=(CharacterInfo characterInfo1, CharacterInfo characterInfo2)
+        {
+            return !(characterInfo1 == characterInfo2);
+        }
     }
     public CharacterInfo characterInfo
     {

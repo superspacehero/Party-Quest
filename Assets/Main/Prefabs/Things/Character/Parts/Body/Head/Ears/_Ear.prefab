@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7035756595655136296}
   - component: {fileID: 7035756595655136302}
   - component: {fileID: 6445952721228220797}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Ear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,16 +97,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06f1d6699dbf49b20b1f45ea3c6cef31, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingName: Ear
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _thingName: Ear
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderer: {fileID: 7035756595655136302}
+  variables:
+    variables: []
+  _renderers:
+  - {fileID: 7035756595655136302}
   _redColor: {r: 1, g: 1, b: 1, a: 0}
   _greenColor: {r: 1, g: 1, b: 1, a: 0}
   _blueColor: {r: 1, g: 1, b: 1, a: 0}
+  originalPrefab: {fileID: 0}

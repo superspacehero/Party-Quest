@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7534201877670210181}
   - component: {fileID: 5119371281565585451}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eye_Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1647900891386551940}
   - component: {fileID: 1629248488002981816}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ear_Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1009170958709686084}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Headgear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1065276107059956380}
   - component: {fileID: 3674771148865915589}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -170,7 +170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8602555010899448879}
   - component: {fileID: 6769237959844377602}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -217,7 +217,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1933846700729790980}
   - component: {fileID: 6367677239003830110}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eyebrow_Front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8997927071174155314}
   - component: {fileID: 7233907020091906228}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eyebrow_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6619139717212019777}
   - component: {fileID: 7519768880805368791}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Ear_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -345,7 +345,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7193639856050816601}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -377,7 +377,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1632136034326039104}
   - component: {fileID: 8035848874512288289}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eye_Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -423,7 +423,7 @@ GameObject:
   - component: {fileID: 2912661251368875577}
   - component: {fileID: 2343948742304925031}
   - component: {fileID: 5884023676244647587}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -516,19 +516,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e82d488eacbe682b990ffd672c4d815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingName: Head
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _thingName: Head
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderer: {fileID: 7035756595655136302}
+  variables:
+    variables: []
+  _renderers:
+  - {fileID: 7035756595655136302}
   _redColor: {r: 1, g: 1, b: 1, a: 0}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  originalPrefab: {fileID: 0}
 --- !u!114 &2343948742304925031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +594,7 @@ MonoBehaviour:
     thingType: Headgear
   inventoryTransform: {fileID: 0}
   canQuickAddItems: 1
+  _inventoryDisplay: {fileID: 0}
 --- !u!114 &5884023676244647587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,7 +626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5203318604663647323}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -643,7 +658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4556442242653246748}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}

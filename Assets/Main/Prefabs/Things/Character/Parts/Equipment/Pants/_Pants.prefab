@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
   - component: {fileID: -28033865924947889}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Pants
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,9 +107,10 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Pants
+  _thingName: Pants
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -124,6 +125,7 @@ MonoBehaviour:
   _redColor: {r: 0, g: 0.22352941, b: 0.42745098, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  originalPrefab: {fileID: 0}
 --- !u!1 &6692167342160435046
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +136,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7224165454328929567}
   - component: {fileID: 3548897997636377796}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Back
   m_TagString: Untagged
   m_Icon: {fileID: 0}

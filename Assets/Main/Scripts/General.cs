@@ -116,6 +116,24 @@ public class General
             return base64String;
         }
 
+        public static string TextureToString(Texture2D texture)
+        {
+            byte[] imageBytes = texture.EncodeToPNG();
+            string base64String = System.Convert.ToBase64String(imageBytes);
+
+            return base64String;
+        }
+
+        public static string TextureToString(RenderTexture renderTexture)
+        {
+            Texture2D texture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+            RenderTexture.active = renderTexture;
+            texture.ReadPixels(new Rect(0, 0, renderTexture.width, renderTexture.height), 0, 0);
+            texture.Apply();
+
+            return TextureToString(texture);
+        }
+
     #endregion
 
     #region UI

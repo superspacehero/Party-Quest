@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
   - component: {fileID: 7571217883892976824}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Headgear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -97,16 +97,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 061cded47ba23cd06822823a9785be57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingName: Headgear
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _thingName: Headgear
+  properNoun: 0
   thingDescription: 
-  thingIcon: {fileID: 0}
+  _thingIcon: {fileID: 0}
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
     transform: {fileID: 0}
     disableWhenInInventory: 0
     thingType: 
-  _partRenderer: {fileID: 4365136481624514757}
+  variables:
+    variables: []
+  _renderers:
+  - {fileID: 4365136481624514757}
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  originalPrefab: {fileID: 0}

@@ -32,18 +32,27 @@ public class CharacterSelectMenu : Menu
 
     public List<CharacterSelect> characterSelects = new List<CharacterSelect>();
 
-    private bool allCharacterSelectsReady
+    public bool allCharacterSelectsReady
     {
         get
         {
+            _allCharacterSelectsReady = true;
             foreach (CharacterSelect characterSelect in characterSelects)
             {
-                if (characterSelect.selectedCharacter == null)
-                    return false;
+                if (characterSelect != null)
+                {
+                    characterSelect.UpdateCharacterSelect();
+
+                    if (characterSelect.selectedCharacter == null)
+                        _allCharacterSelectsReady = false;
+                }
             }
-            return true;
+
+            return _allCharacterSelectsReady;
         }
     }
+    private bool _allCharacterSelectsReady;
+
     public void CheckAllCharacterSelectsReady()
     {
         if (allCharacterSelectsReady)

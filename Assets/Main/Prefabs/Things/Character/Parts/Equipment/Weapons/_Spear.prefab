@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5801960338175817370}
   - component: {fileID: 253430466092858648}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Attack
+  _thingName: Attack
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -72,6 +73,7 @@ MonoBehaviour:
   onActionEnd:
     m_PersistentCalls:
       m_Calls: []
+  selectionMagnitude: 0.99
 --- !u!1 &2572198047482347496
 GameObject:
   m_ObjectHideFlags: 0
@@ -83,7 +85,7 @@ GameObject:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
   - component: {fileID: -4590612302170490425}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -179,7 +181,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Spear
+  _thingName: Spear
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -196,3 +199,6 @@ MonoBehaviour:
   _greenColor: {r: 0.5411765, g: 0.28235295, b: 0.21176471, a: 1}
   _blueColor: {r: 0.92941177, g: 0.67058825, b: 0.3137255, a: 1}
   originalPrefab: {fileID: 0}
+  sideAttack: {fileID: 0}
+  upAttack: {fileID: 0}
+  downAttack: {fileID: 0}

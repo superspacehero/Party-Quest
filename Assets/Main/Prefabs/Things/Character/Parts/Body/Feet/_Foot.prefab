@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1095514916785579193}
   - component: {fileID: 4786231860162118412}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,6 +55,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _thingName: Attack
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -85,7 +86,7 @@ GameObject:
   - component: {fileID: 1805025314463658328}
   - component: {fileID: 4834256540702155305}
   - component: {fileID: 1805025314463658335}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Foot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,6 +131,7 @@ MonoBehaviour:
     PrefabModifications: []
     SerializationNodes: []
   _thingName: Foot
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -211,6 +213,10 @@ PrefabInstance:
     - target: {fileID: 2375837015626762368, guid: ec743289288d2ab53a0b0b6e7fd0246d, type: 3}
       propertyPath: m_Name
       value: Jump
+      objectReference: {fileID: 0}
+    - target: {fileID: 2375837015626762368, guid: ec743289288d2ab53a0b0b6e7fd0246d, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5312962364357879894, guid: ec743289288d2ab53a0b0b6e7fd0246d, type: 3}
       propertyPath: serializationData.Prefab

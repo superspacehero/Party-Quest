@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
   - component: {fileID: 5789246309451100871}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: _Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,7 +107,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Hammer
+  _thingName: Hammer
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -124,6 +125,9 @@ MonoBehaviour:
   _greenColor: {r: 0.22352941, g: 0.12156863, b: 0.12941177, a: 1}
   _blueColor: {r: 0.9019608, g: 0.6117647, b: 0.4117647, a: 1}
   originalPrefab: {fileID: 0}
+  sideAttack: {fileID: 0}
+  upAttack: {fileID: 0}
+  downAttack: {fileID: 0}
 --- !u!1 &3773883140306688839
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,7 +138,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1688671173548649153}
   - component: {fileID: 715243335538763423}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Attack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +181,8 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  thingName: Attack
+  _thingName: Attack
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
   thingValue: 0
@@ -196,3 +201,4 @@ MonoBehaviour:
   onActionEnd:
     m_PersistentCalls:
       m_Calls: []
+  selectionMagnitude: 0.99
