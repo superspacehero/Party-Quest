@@ -34,7 +34,7 @@ public class CharacterSelect : GameThing
                         toCharacterSelectArrow.SetActive(false);
                     }
                     else
-                        newCharacterSelected = newCharacterSelected;
+                        newCharacterSelected = true;
                 }
             }
         }
@@ -58,7 +58,7 @@ public class CharacterSelect : GameThing
             get => _newCharacterSelected;
             set
             {
-                _newCharacterSelected = (canAddNewCharacter && value) ? true : false;
+                _newCharacterSelected = ((canAddNewCharacter && value) || characters.Count == 1) ? true : false; 
 
                 if (charactersLoaded)
                     characterUI.characterInfo = _newCharacterSelected ? newCharacter : characters[characterIndex];
@@ -73,7 +73,7 @@ public class CharacterSelect : GameThing
                 if (characterSelectArrows)
                     characterSelectArrows.SetActive(!_newCharacterSelected);
                 if (toCharacterSelectArrow)
-                    toCharacterSelectArrow.SetActive(_newCharacterSelected);
+                    toCharacterSelectArrow.SetActive(_newCharacterSelected && characters.Count > 1);
             }
         }
         private bool _newCharacterSelected = false;
@@ -83,15 +83,12 @@ public class CharacterSelect : GameThing
             get => _characterIndex;
             set
             {
-                // Wrap the value around if it's too high or too low
-                if (value >= characters.Count)
-                    value = 1;
-                else if (value < 1)
-                    value = characters.Count - 1;
+                value = Mathf.Clamp(value, 1, characters.Count - 1);
 
-                _characterIndex = value;
+                if (!newCharacterSelected)
+                    _characterIndex = value;
 
-                if (charactersLoaded && !newCharacterSelected)
+                if (charactersLoaded)
                     characterUI.characterInfo = characters[characterIndex];
             }
         }
@@ -122,24 +119,19 @@ public class CharacterSelect : GameThing
         /// Start is called on the frame when a script is enabled just before
         /// any of the Update methods is called the first time.
         /// </summary>
-        void Start()
-        {
-            StartCoroutine(Initialize());
-        }
-
-        public IEnumerator Initialize()
+        public IEnumerator Start()
         {
             if (!charactersLoaded)
             {
                 charactersLoaded = true;
 
-                // Find all the characters of the category "Player" in player prefs
+                // Find all the characters of the category "Player"
                 while (characters == null)
                 {
                     // Load the characters
                     characters = CharacterThing.CharacterInfo.LoadCharacters("Player");
 
-                    Debug.Log($"Found {characters.Count} characters in player prefs");
+                    Debug.Log($"Found {characters.Count} characters");
 
                     // Create the new character
                     newCharacter = new CharacterThing.CharacterInfo
