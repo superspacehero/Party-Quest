@@ -46,7 +46,7 @@ public class MovementController : Controller
         TryGetComponent(out mover);
 
         //Set the camera transform;
-        if (cameraTransform == null)
+        if (cameraTransform == null && GameplayCamera.instance != null)
             cameraTransform = GameplayCamera.instance.transform;
     }
 

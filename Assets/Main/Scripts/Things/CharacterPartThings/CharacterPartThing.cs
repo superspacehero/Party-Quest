@@ -29,7 +29,7 @@ public class CharacterPartThing : GameThing
     {
         get => new CharacterPartInfo()
         {
-            prefabName = originalPrefab.name,
+            prefabName = (originalPrefab) ? originalPrefab.name : name,
             redColor = redColor,
             greenColor = greenColor,
             blueColor = blueColor

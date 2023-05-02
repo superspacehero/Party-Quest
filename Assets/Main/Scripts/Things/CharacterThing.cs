@@ -66,7 +66,7 @@ public class CharacterThing : GameThing
 
             string json = ToString();
 
-            System.IO.File.WriteAllText(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json", json);
+            System.IO.File.WriteAllText(Application.persistentDataPath + $"/Characters/{characterCategory}_{LoadCharacters(characterCategory).Count + 1}_{characterName}.json", json);
         }
 
         public static List<CharacterInfo> LoadCharacters(string characterCategory = "Player")
@@ -263,6 +263,27 @@ public class CharacterThing : GameThing
 
     // Base inventory slot for character
     [SerializeField] protected Inventory.ThingSlot characterBase;
+
+    // Method to get all the character part slots, including the base slot
+    public List<Inventory.ThingSlot> GetCharacterPartSlots()
+    {
+        List<Inventory.ThingSlot> slots = new List<Inventory.ThingSlot>();
+
+        slots.Add(characterBase);
+
+        foreach (CharacterPartThing part in parts)
+        {
+            if (part.TryGetComponent(out Inventory inventory))
+            {
+                foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                {
+                    slots.Add(slot);
+                }
+            }
+        }
+
+        return slots;
+    }
 
     // Method to attach parts to a character part
     void AttachPartsToPart(CharacterPartThing part)

@@ -199,10 +199,14 @@ public class CharacterSelect : GameThing
     }
 
     #region Input
+    [SerializeField, Range(0f, 1f)] private float inputDeadzone = 0.75f;
     private Vector2Int inputDirection = Vector2Int.zero;
 
     public override void Move(Vector2 direction)
     {
+        if (direction.normalized.magnitude < inputDeadzone)
+            direction = Vector2.zero;
+
         Vector2Int newInputDirection = Vector2Int.RoundToInt(direction);
 
         if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)

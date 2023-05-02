@@ -1,37 +1,91 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using I2.Loc;
 
 [RequireComponent(typeof(CharacterUI))]
 public class CharacterCreator : GameThing
 {
+    // CharacterCreator is a menu that allows the player to create a character.
+    // It uses a CharacterThing instance to visualize the character as it is being created.
+    // It also uses a CharacterUI instance to display the character's stats.
+
+    // The general flow of the CharacterCreator is as follows:
+    // 1. Initialize by categorizing the character parts in the characterPartList by thingType.
+    // 2. Get a list of all available character part slots in the CharacterThing instance.
+    //  - This is done by calling CharacterThing.GetCharacterPartSlots().
+    // 3. Make a dictionary with each slot as the key and the index for the selected part as the value.
+    //  - This will need to be updated as the player selects different parts, but it will still need to maintain the selected parts.
+    // 4. Allow the player to scroll through the different slots and select a part for each slot.
+    //  - This can be done by using the inputDirection to change the currentSlotIndex.
+    //  - The currentSlotIndex can be used to get the current slot from the list of slots.
+    //  - The currentSlot can be used to get the current slot's thingType.
+    //  - The currentSlot's thingType can be used to get the list of parts of that type from the dictionary.
+    // 5. Update the CharacterThing instance with the selected parts.
+    // 6. Repeat steps 2-5 until the player is satisfied with the character.
+
     #region Fields
 
     // The list of character parts
     public CharacterPartList characterPartList;
 
-    // The parent transform for character parts
-    public Transform characterPartParent;
-
     // Reference to the CharacterThing instance for visualization
-    public CharacterThing characterThing;
+    private CharacterThing characterThing
+    {
+        get
+        {
+            if (_characterThing == null)
+            {
+                _characterThing = GetComponentInChildren<CharacterThing>();
+            }
+
+            return _characterThing;
+        }
+    }
+    [SerializeField] private CharacterThing _characterThing;
+
+    [SerializeField] private RawImage characterPreviewImage;
+    [SerializeField] private TMPro.TextMeshProUGUI characterText;
 
     #endregion
 
     #region Properties
 
-    // A reference to the character currently being created
-    private CharacterThing.CharacterInfo currentCharacter;
+    private Dictionary<string, List<GameObject>> categorizedParts;
+    private Dictionary<Inventory.ThingSlot, int> selectedParts;
+    private List<Inventory.ThingSlot> availableSlots;
+    private int currentSlotIndex;
 
-    // A dictionary to store the selected parts for the current character
-    private Dictionary<string, int> selectedParts;
+    private RenderTexture characterPreviewTexture
+    {
+        get
+        {
+            if (_characterPreviewTexture == null)
+            {
+                _characterPreviewTexture = new RenderTexture(256, 256, 24);
+                _characterPreviewTexture.Create();
+            }
 
-    // The current category index
-    private int currentCategoryIndex;
+            return _characterPreviewTexture;
+        }
+    }
+    private RenderTexture _characterPreviewTexture;
+    private Camera characterCamera
+    {
+        get
+        {
+            if (_characterCamera == null)
+            {
+                _characterCamera = characterThing.GetComponentInChildren<Camera>(true);
+                if (_characterCamera != null)
+                    _characterCamera.gameObject.SetActive(true);
+            }
 
-    // Dictionary to map thingType to the list of parts of that type
-    private Dictionary<string, List<CharacterPartThing.CharacterPartInfo>> categorizedParts;
+            return _characterCamera;
+        }
+    }
+    private Camera _characterCamera;
 
     #endregion
 
@@ -39,72 +93,122 @@ public class CharacterCreator : GameThing
 
     private void Start()
     {
-        // Initialize the current character with default parts and values
-        InitializeCharacter();
+        // Step 1: Categorize the character parts
+        CategorizeCharacterParts();
+
+        // Step 2: Get a list of all available character part slots
+        if (characterThing == null)
+        {
+            Debug.LogError("CharacterThing is null");
+            return;
+        }
+
+        availableSlots = characterThing.GetCharacterPartSlots();
+
+        // Step 3: Make a dictionary with each slot as the key and the index for the selected part as the value
+        InitializeSelectedParts();
+
+        // Step 4: Allow the player to scroll through the different slots and select a part for each slot
+        // This will be done in the Move() method
+        characterPreviewImage.texture = characterPreviewTexture;
+        SetText();
     }
 
-    private void InitializeCharacter()
+    private void OnDestroy()
     {
-        // Initialize the selectedParts dictionary
-        selectedParts = new Dictionary<string, int>();
+        Destroy(characterThing.gameObject);
+    }
 
-        // Initialize the categorizedParts dictionary
-        categorizedParts = new Dictionary<string, List<CharacterPartThing.CharacterPartInfo>>();
+    private void SetText()
+    {
+        if (characterText != null)
+            characterText.text = availableSlots[currentSlotIndex].thingType;
+    }
 
-        // Initialize the current character with default values
-        // (set the default name, sprite, and other values as needed)
-        currentCharacter = new CharacterThing.CharacterInfo(/*...*/);
+    private void CategorizeCharacterParts()
+    {
+        categorizedParts = new Dictionary<string, List<GameObject>>();
 
-        // Set the default parts for each category in the characterPartList
-        foreach (GameObject characterPart in characterPartList.characterParts)
+        foreach (GameObject part in characterPartList.characterParts)
         {
-            CharacterPartThing partThing = characterPart.GetComponent<CharacterPartThing>();
+            CharacterPartThing partThing = part.GetComponent<CharacterPartThing>();
             if (partThing != null)
             {
                 string category = partThing.thingType;
-                if (!selectedParts.ContainsKey(category))
-                {
-                    selectedParts[category] = 0;
-                }
 
-                // Add the part to the categorizedParts dictionary
                 if (!categorizedParts.ContainsKey(category))
                 {
-                    categorizedParts[category] = new List<CharacterPartThing.CharacterPartInfo>();
+                    categorizedParts[category] = new List<GameObject>();
                 }
-                categorizedParts[category].Add(partThing.characterPartInfo);
+                categorizedParts[category].Add(part);
             }
         }
+    }
 
-        // Update the character with the initial parts
-        UpdateCharacter();
+    private void InitializeSelectedParts()
+    {
+        selectedParts = new Dictionary<Inventory.ThingSlot, int>();
+
+        foreach (Inventory.ThingSlot slot in availableSlots)
+        {
+            selectedParts[slot] = 0;
+        }
+    }
+
+    private void UpdateSelectedParts()
+    {
+        foreach (Inventory.ThingSlot slot in availableSlots)
+        {
+            if (!selectedParts.ContainsKey(slot))
+            {
+                selectedParts[slot] = 0;
+            }
+        }
     }
 
     private void UpdateCharacter()
     {
-        // Build a list of chosen CharacterPartThing.CharacterPartInfo instances
-        List<CharacterPartThing.CharacterPartInfo> chosenParts = new List<CharacterPartThing.CharacterPartInfo>();
-
-        foreach (KeyValuePair<string, int> selectedPart in selectedParts)
+        // Step 5: Update the CharacterThing instance with the selected parts
+        characterThing.characterParts = new List<CharacterPartThing.CharacterPartInfo>();
+        foreach (Inventory.ThingSlot slot in availableSlots)
         {
-            string category = selectedPart.Key;
-            int index = selectedPart.Value;
+            // Get the current slot's thingType
+            string thingType = slot.thingType;
 
-            // Add the selected part to the list of chosen parts
-            chosenParts.Add(categorizedParts[category][index]);
+            // Get the list of parts of that type from the dictionary
+            List<GameObject> parts = categorizedParts[thingType];
+
+            // Get the index for the selected part
+            int index = selectedParts[slot];
+
+            // Get the selected part
+            if (parts[index] != null && parts[index].TryGetComponent(out CharacterPartThing partThing))
+            {
+                // Add the selected part to the character
+                characterThing.characterParts.Add(partThing.characterPartInfo);
+            }
         }
 
-        // Set the currentCharacter's characterParts list to the list of chosen parts
-        currentCharacter.characterParts = chosenParts;
-
-        // Set the CharacterThing's characterInfo to the currentCharacter
-        characterThing.characterInfo = currentCharacter;
-
-        // Call AssembleCharacter() on the CharacterThing instance
         characterThing.AssembleCharacter();
 
+        // Update the available slots and selected parts after assembling the character
+        availableSlots = characterThing.GetCharacterPartSlots();
+        UpdateSelectedParts();
+
         // Update the character UI with the modified character
-        GetComponent<CharacterUI>().characterInfo = currentCharacter;
+        GetComponent<CharacterUI>().characterInfo = characterThing.characterInfo;
+
+        if (characterCamera != null)
+        {
+            characterPreviewImage.enabled = true;
+            characterCamera.targetTexture = characterPreviewTexture;
+        }
+        else
+        {
+            characterPreviewImage.enabled = false;
+        }
+
+        SetText();
     }
 
     #region Input
@@ -116,19 +220,18 @@ public class CharacterCreator : GameThing
 
         inputDirection = Vector2Int.RoundToInt(direction);
 
-        List<string> categories = new List<string>(selectedParts.Keys);
-
         if (Mathf.Abs(inputDirection.x) > Mathf.Abs(inputDirection.y))
         {
-            // Change the selected part index based on the input direction
-            string currentCategory = categories[currentCategoryIndex];
-            selectedParts[currentCategory] += inputDirection.x;
+            Inventory.ThingSlot currentSlot = availableSlots[currentSlotIndex];
+            selectedParts[currentSlot] += inputDirection.x;
+
+            int partCount = categorizedParts[currentSlot.thingType].Count;
+            selectedParts[currentSlot] = ((selectedParts[currentSlot] % partCount) + partCount) % partCount;
         }
         else if (Mathf.Abs(inputDirection.x) < Mathf.Abs(inputDirection.y))
         {
-            // Change the selected part category based on the input direction
-            currentCategoryIndex += inputDirection.y;
-            currentCategoryIndex = Mathf.Clamp(currentCategoryIndex, 0, categories.Count - 1);
+            currentSlotIndex -= inputDirection.y;
+            currentSlotIndex = Mathf.Clamp(currentSlotIndex, 0, availableSlots.Count - 1);
         }
 
         // Update the character with the modified parts
@@ -144,8 +247,15 @@ public class CharacterCreator : GameThing
             // Confirm the current character and return to the character selection screen
             // (add the created character to the list of available characters, etc.)
 
+            if (characterCamera != null)
+            {
+                CharacterThing.CharacterInfo characterInfo = characterThing.characterInfo;
+                characterInfo.portrait = General.TextureToString(characterCamera.targetTexture);
+                characterThing.characterInfo = characterInfo;
+            }
+
             // Save the character
-            currentCharacter.SaveCharacter(currentCharacter.name, "Player");
+            characterThing.SaveCharacter("Player");
 
             // Load the characters
             CharacterSelect.LoadCharacters();
