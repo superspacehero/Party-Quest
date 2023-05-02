@@ -111,8 +111,8 @@ public class CharacterThing : GameThing
             this.characterParts = characterParts;
         }
 
-        // Operators to check if the character equals another character
-        public static bool operator ==(CharacterInfo characterInfo1, CharacterInfo characterInfo2)
+        // Operator to check if the character equals another character
+        public static bool Equals(CharacterInfo characterInfo1, CharacterInfo characterInfo2)
         {
             return characterInfo1.name == characterInfo2.name &&
                 characterInfo1.portrait == characterInfo2.portrait &&
@@ -120,11 +120,6 @@ public class CharacterThing : GameThing
                 characterInfo1.inventory == characterInfo2.inventory &&
                 characterInfo1.baseVariables == characterInfo2.baseVariables &&
                 characterInfo1.characterParts == characterInfo2.characterParts;
-        }
-
-        public static bool operator !=(CharacterInfo characterInfo1, CharacterInfo characterInfo2)
-        {
-            return !(characterInfo1 == characterInfo2);
         }
     }
     public CharacterInfo characterInfo
@@ -262,7 +257,8 @@ public class CharacterThing : GameThing
     [UnityEngine.Serialization.FormerlySerializedAs("characterPartPrefabs")]
     public List<CharacterPartThing.CharacterPartInfo> characterParts = new List<CharacterPartThing.CharacterPartInfo>();
     // List of character parts that make up the character
-    protected List<CharacterPartThing> parts = new List<CharacterPartThing>(), addedParts = new List<CharacterPartThing>();
+    public List<CharacterPartThing> parts = new List<CharacterPartThing>();
+    protected List<CharacterPartThing> addedParts = new List<CharacterPartThing>();
     [FoldoutGroup("Variables")] public GameThingVariables baseVariables = new GameThingVariables();
 
     // Base inventory slot for character
