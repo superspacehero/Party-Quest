@@ -53,7 +53,7 @@ public class CharacterCreator : GameThing
     #region Properties
 
     private Dictionary<string, List<GameObject>> categorizedParts;
-    private Dictionary<Inventory.ThingSlot, int> selectedParts;
+    private Dictionary<string, int> selectedParts;
     private List<Inventory.ThingSlot> availableSlots;
     private int currentSlotIndex;
 
@@ -147,11 +147,14 @@ public class CharacterCreator : GameThing
 
     private void InitializeSelectedParts()
     {
-        selectedParts = new Dictionary<Inventory.ThingSlot, int>();
+        selectedParts = new Dictionary<string, int>();
 
         foreach (Inventory.ThingSlot slot in availableSlots)
         {
-            selectedParts[slot] = 0;
+            if (!selectedParts.ContainsKey(slot.thingType))
+            {
+                selectedParts[slot.thingType] = 0;
+            }
         }
     }
 
@@ -159,9 +162,9 @@ public class CharacterCreator : GameThing
     {
         foreach (Inventory.ThingSlot slot in availableSlots)
         {
-            if (!selectedParts.ContainsKey(slot))
+            if (!selectedParts.ContainsKey(slot.thingType))
             {
-                selectedParts[slot] = 0;
+                selectedParts[slot.thingType] = 0;
             }
         }
     }
@@ -179,7 +182,7 @@ public class CharacterCreator : GameThing
             List<GameObject> parts = categorizedParts[thingType];
 
             // Get the index for the selected part
-            int index = selectedParts[slot];
+            int index = selectedParts[thingType];
 
             // Get the selected part
             if (parts[index] != null && parts[index].TryGetComponent(out CharacterPartThing partThing))
@@ -222,15 +225,15 @@ public class CharacterCreator : GameThing
 
         if (Mathf.Abs(inputDirection.x) > Mathf.Abs(inputDirection.y))
         {
-            Inventory.ThingSlot currentSlot = availableSlots[currentSlotIndex];
-            selectedParts[currentSlot] += inputDirection.x;
+            string thingType = availableSlots[currentSlotIndex].thingType;
+            selectedParts[thingType] += inputDirection.x;
 
-            int partCount = categorizedParts[currentSlot.thingType].Count;
-            selectedParts[currentSlot] = ((selectedParts[currentSlot] % partCount) + partCount) % partCount;
+            int partCount = categorizedParts[thingType].Count;
+            selectedParts[thingType] = ((selectedParts[thingType] % partCount) + partCount) % partCount;
         }
         else if (Mathf.Abs(inputDirection.x) < Mathf.Abs(inputDirection.y))
         {
-            currentSlotIndex -= inputDirection.y;
+            currentSlotIndex += inputDirection.y;
             currentSlotIndex = Mathf.Clamp(currentSlotIndex, 0, availableSlots.Count - 1);
         }
 
