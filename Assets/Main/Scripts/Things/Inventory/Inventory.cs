@@ -167,6 +167,22 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public List<ThingSlot> GetSlotsByThingType(string thingType)
+    {
+        List<ThingSlot> slots = new List<ThingSlot>();
+
+        foreach (ThingSlot slot in thingSlots)
+        {
+            if (slot.thingType == thingType)
+            {
+                slots.Add(slot);
+            }
+        }
+
+        return slots;
+    }
+
+
     public bool inventoryFull
     {
         get

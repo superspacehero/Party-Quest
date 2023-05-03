@@ -1,5 +1,79 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1453889837799486534
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5801960338175817370}
+  - component: {fileID: 253430466092858648}
+  m_Layer: 7
+  m_Name: Attack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5801960338175817370
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453889837799486534}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 576256720114046197}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &253430466092858648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1453889837799486534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64cee1e7d584aad35967a32c862dd0a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  _thingName: Attack
+  properNoun: 0
+  thingDescription: 
+  _thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
+  variables:
+    variables: []
+  _renderers: []
+  _redColor: {r: 1, g: 1, b: 1, a: 1}
+  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  actionRunning: 0
+  onActionEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  selectionMagnitude: 0.99
 --- !u!1 &2572198047482347496
 GameObject:
   m_ObjectHideFlags: 0
@@ -10,9 +84,9 @@ GameObject:
   m_Component:
   - component: {fileID: 576256720114046197}
   - component: {fileID: 4365136481624514757}
-  - component: {fileID: 3311325264081487544}
+  - component: {fileID: -4590612302170490425}
   m_Layer: 7
-  m_Name: _Sword
+  m_Name: Weapon_Spear
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30,7 +104,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 4872661939121341419}
+  - {fileID: 5801960338175817370}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -75,7 +149,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 9007964797165763916, guid: abc9742696cd82142b46a15241b74020, type: 3}
+  m_Sprite: {fileID: 8851434551470437518, guid: abc9742696cd82142b46a15241b74020, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +160,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3311325264081487544
+--- !u!114 &-4590612302170490425
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -95,7 +169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2572198047482347496}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1fc11faad7e008b84bafa099f58f2f99, type: 3}
+  m_Script: {fileID: 11500000, guid: 40966cbb7eb6eb03e98efaef497c190f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
@@ -107,7 +181,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  _thingName: Sword
+  _thingName: Spear
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
@@ -121,84 +195,10 @@ MonoBehaviour:
     variables: []
   _renderers:
   - {fileID: 4365136481624514757}
-  _redColor: {r: 0.78039217, g: 0.8117647, b: 0.8666667, a: 1}
+  _redColor: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
   _greenColor: {r: 0.5411765, g: 0.28235295, b: 0.21176471, a: 1}
   _blueColor: {r: 0.92941177, g: 0.67058825, b: 0.3137255, a: 1}
   originalPrefab: {fileID: 0}
   sideAttack: {fileID: 0}
   upAttack: {fileID: 0}
   downAttack: {fileID: 0}
---- !u!1 &5176290623320828831
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4872661939121341419}
-  - component: {fileID: 9177996543404499613}
-  m_Layer: 7
-  m_Name: Attack
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4872661939121341419
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5176290623320828831}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 576256720114046197}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9177996543404499613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5176290623320828831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64cee1e7d584aad35967a32c862dd0a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  _thingName: Attack
-  properNoun: 0
-  thingDescription: 
-  _thingIcon: {fileID: 0}
-  thingValue: 0
-  attachedThing:
-    thing: {fileID: 0}
-    transform: {fileID: 0}
-    disableWhenInInventory: 0
-    thingType: 
-  variables:
-    variables: []
-  _renderers: []
-  _redColor: {r: 1, g: 1, b: 1, a: 1}
-  _greenColor: {r: 1, g: 1, b: 1, a: 1}
-  _blueColor: {r: 1, g: 1, b: 1, a: 1}
-  actionRunning: 0
-  onActionEnd:
-    m_PersistentCalls:
-      m_Calls: []
-  selectionMagnitude: 0.99

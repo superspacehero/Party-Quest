@@ -53,7 +53,7 @@ public class CharacterCreator : GameThing
     #region Properties
 
     private Dictionary<string, List<GameObject>> categorizedParts;
-    private Dictionary<string, int> selectedParts;
+    private List<int> selectedParts;
     private List<Inventory.ThingSlot> availableSlots;
     private int currentSlotIndex;
 
@@ -116,13 +116,14 @@ public class CharacterCreator : GameThing
 
     private void OnDestroy()
     {
-        Destroy(characterThing.gameObject);
+        if (characterThing != null)
+            Destroy(characterThing.gameObject);
     }
 
     private void SetText()
     {
         if (characterText != null)
-            characterText.text = availableSlots[currentSlotIndex].thingType;
+            characterText.text = $"{availableSlots[currentSlotIndex].thingType} - {currentSlotIndex + 1}/{availableSlots.Count}";
     }
 
     private void CategorizeCharacterParts()
@@ -147,25 +148,24 @@ public class CharacterCreator : GameThing
 
     private void InitializeSelectedParts()
     {
-        selectedParts = new Dictionary<string, int>();
-
-        foreach (Inventory.ThingSlot slot in availableSlots)
-        {
-            if (!selectedParts.ContainsKey(slot.thingType))
-            {
-                selectedParts[slot.thingType] = 0;
-            }
-        }
+        selectedParts = new List<int>(new int[availableSlots.Count]);
     }
 
-    private void UpdateSelectedParts()
+    private void UpdateSelectedPartsList()
     {
-        foreach (Inventory.ThingSlot slot in availableSlots)
+        int newSize = availableSlots.Count;
+        if (selectedParts.Count < newSize)
         {
-            if (!selectedParts.ContainsKey(slot.thingType))
+            // Add default elements (0) to the list to match the new size
+            for (int i = selectedParts.Count; i < newSize; i++)
             {
-                selectedParts[slot.thingType] = 0;
+                selectedParts.Add(0);
             }
+        }
+        else if (selectedParts.Count > newSize)
+        {
+            // Remove elements from the list to match the new size
+            selectedParts.RemoveRange(newSize, selectedParts.Count - newSize);
         }
     }
 
@@ -173,8 +173,10 @@ public class CharacterCreator : GameThing
     {
         // Step 5: Update the CharacterThing instance with the selected parts
         characterThing.characterParts = new List<CharacterPartThing.CharacterPartInfo>();
-        foreach (Inventory.ThingSlot slot in availableSlots)
+        for (int i = 0; i < availableSlots.Count; i++)
         {
+            Inventory.ThingSlot slot = availableSlots[i];
+
             // Get the current slot's thingType
             string thingType = slot.thingType;
 
@@ -182,10 +184,10 @@ public class CharacterCreator : GameThing
             List<GameObject> parts = categorizedParts[thingType];
 
             // Get the index for the selected part
-            int index = selectedParts[thingType];
+            int index = selectedParts[i];
 
             // Get the selected part
-            if (parts[index] != null && parts[index].TryGetComponent(out CharacterPartThing partThing))
+            if (parts[index] != null && index > 0 && parts[index].TryGetComponent(out CharacterPartThing partThing))
             {
                 // Add the selected part to the character
                 characterThing.characterParts.Add(partThing.characterPartInfo);
@@ -196,7 +198,7 @@ public class CharacterCreator : GameThing
 
         // Update the available slots and selected parts after assembling the character
         availableSlots = characterThing.GetCharacterPartSlots();
-        UpdateSelectedParts();
+        UpdateSelectedPartsList();
 
         // Update the character UI with the modified character
         GetComponent<CharacterUI>().characterInfo = characterThing.characterInfo;
@@ -226,14 +228,14 @@ public class CharacterCreator : GameThing
         if (Mathf.Abs(inputDirection.x) > Mathf.Abs(inputDirection.y))
         {
             string thingType = availableSlots[currentSlotIndex].thingType;
-            selectedParts[thingType] += inputDirection.x;
+            selectedParts[currentSlotIndex] += inputDirection.x;
 
             int partCount = categorizedParts[thingType].Count;
-            selectedParts[thingType] = ((selectedParts[thingType] % partCount) + partCount) % partCount;
+            selectedParts[currentSlotIndex] = ((selectedParts[currentSlotIndex] % partCount) + partCount) % partCount;
         }
         else if (Mathf.Abs(inputDirection.x) < Mathf.Abs(inputDirection.y))
         {
-            currentSlotIndex += inputDirection.y;
+            currentSlotIndex -= inputDirection.y;
             currentSlotIndex = Mathf.Clamp(currentSlotIndex, 0, availableSlots.Count - 1);
         }
 

@@ -118,7 +118,7 @@ public class CharacterThing : GameThing
                 characterInfo1.portrait == characterInfo2.portrait &&
                 characterInfo1.value == characterInfo2.value &&
                 characterInfo1.inventory == characterInfo2.inventory &&
-                characterInfo1.baseVariables == characterInfo2.baseVariables &&
+                characterInfo1.baseVariables.Equals(characterInfo2.baseVariables) &&
                 characterInfo1.characterParts == characterInfo2.characterParts;
         }
     }

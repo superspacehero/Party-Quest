@@ -213,7 +213,7 @@ public class GameThing : SerializedMonoBehaviour
         }
 
         // Operators to compare two instances of GameThingVariables.
-        public static bool operator ==(GameThingVariables a, GameThingVariables b)
+        public static bool Equals(GameThingVariables a, GameThingVariables b)
         {
             // If a is null or b is null, return false.
             if (a.variables == null || b.variables == null)
@@ -251,11 +251,6 @@ public class GameThing : SerializedMonoBehaviour
 
             // Return true.
             return true;
-        }
-
-        public static bool operator !=(GameThingVariables a, GameThingVariables b)
-        {
-            return !(a == b);
         }
     }
 
