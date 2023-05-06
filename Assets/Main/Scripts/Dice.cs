@@ -39,7 +39,7 @@ public class Dice : GameThing
     #region Movement
 
         private bool rolled;
-        private Rigidbody rb
+        public Rigidbody rb
         {
             get
             {
@@ -95,6 +95,7 @@ public class Dice : GameThing
 
             rb.constraints = RigidbodyConstraints.FreezePosition;
             rb.angularVelocity = Vector3.zero;
+            rb.useGravity = false;
 
             Vector2 rotationDirection = Vector2.zero;
             
@@ -152,12 +153,12 @@ public class Dice : GameThing
 
             direction.Normalize();
 
+            rb.useGravity = true;
+
             rb.transform.Rotate(Random.Range(0, 4) * 90f, Random.Range(0, 4) * 90f, 0, Space.Self);
 
             rb.constraints = RigidbodyConstraints.None;
-
             rb.AddForce((((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * launchForce) + (Vector3.up * verticalLaunchForce), ForceMode.Impulse);
-            
             rb.AddTorque(((Vector3.right * direction.y) + (Vector3.back * direction.x)) * rollSpeed, ForceMode.Impulse);
         }
 
@@ -212,7 +213,7 @@ public class DicePool
 
         if (die == null)
         {
-            die = GameObject.Instantiate(dicePrefab).GetComponent<Dice>();
+            die = GameObject.Instantiate(dicePrefab, diePosition, Quaternion.identity).GetComponent<Dice>();
             dicePool.Add(die);
         }
 
@@ -230,8 +231,8 @@ public class DicePool
         if (diceDisabledAction != null)
             die.disabledEvent.AddListener(diceDisabledAction);
             
-        die.transform.position = diePosition;
         die.gameObject.SetActive(true);
+        die.transform.position = diePosition;
 
         return die;
     }

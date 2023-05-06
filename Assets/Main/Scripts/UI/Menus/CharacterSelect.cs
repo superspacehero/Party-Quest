@@ -98,6 +98,9 @@ public class CharacterSelect : GameThing
 
             if (charactersLoaded)
             {
+                if (characters.Count <= 0)
+                    newCharacterSelected = true;
+
                 currentCharacter = _newCharacterSelected ? newCharacter : characters[characterIndex];
                 characterUI.characterInfo = currentCharacter;
 
@@ -195,7 +198,8 @@ public class CharacterSelect : GameThing
             return;
 
         // Update the character select
-        characterIndex = characters.IndexOf(currentCharacter);
+        if (characters.Count > 0)
+            characterIndex = characters.IndexOf(currentCharacter);
     }
 
     #region Input

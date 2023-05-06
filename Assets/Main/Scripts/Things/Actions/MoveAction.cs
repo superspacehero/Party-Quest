@@ -43,7 +43,7 @@ public class MoveAction : ActionThing
         for (int i = 0; i < numberOfDiceRolls; i++)
         {
             // Roll the dice to determine the movement range
-            Dice diceInstance = GameManager.instance.dicePool.GetDieFromPool(user.transform.position, OnDiceRollStarted, OnDiceRollFinished);
+            Dice diceInstance = GameManager.instance.dicePool.GetDieFromPool(user.thingTop.position, OnDiceRollStarted, OnDiceRollFinished);
             user.AttachThing(diceInstance);
 
             // Wait until the dice roll is finished
@@ -53,6 +53,7 @@ public class MoveAction : ActionThing
             }
 
             sumOfDiceRolls += currentDiceValue; // Add the current dice value to the sum of dice rolls
+            user.DetachThing();
             GameManager.instance.dicePool.ReturnDieToPool(diceInstance);
         }
 

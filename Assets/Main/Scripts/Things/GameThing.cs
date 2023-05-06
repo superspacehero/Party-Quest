@@ -125,7 +125,48 @@ public class GameThing : SerializedMonoBehaviour
     }
     private ActionList _actionList;
 
-    [FoldoutGroup("Variables")] public GameThingVariables variables;
+    public Transform thingTop
+    {
+        get
+        {
+            // If the thingTop is null, recursively check every GameObject with a tag of "ThingTop" to see if it is a descendant of the GameThing.
+            if (_thingTop == null)
+            {
+                // Get all GameObjects with a tag of "ThingTop".
+                GameObject[] thingTops = GameObject.FindGameObjectsWithTag("ThingTop");
+
+                // For each GameObject with a tag of "ThingTop", recursively check up its hierarchy to see if it is a descendant of the GameThing.
+                Transform thingTopRoot = null;
+                foreach (GameObject thingTopObject in thingTops)
+                {
+                    thingTopRoot = thingTopObject.transform;
+                    while (thingTopRoot != null)
+                    {
+                        if (thingTopRoot == transform)
+                        {
+                            _thingTop = thingTopObject.transform;
+                            Debug.Log($"Found thingTop {_thingTop.name} for {name}.");
+                            break;
+                        }
+                        else
+                            thingTopRoot = thingTopRoot.parent;
+                    }
+                }
+
+                // If the thingTop is still null, set it to the transform of the GameThing.
+                if (_thingTop == null)
+                {
+                    Debug.LogWarning($"No thingTop found for {name}. Setting to transform.");
+                    _thingTop = transform;
+                }
+            }
+
+            return _thingTop;
+        }
+    }
+    private Transform _thingTop;
+
+    public GameThingVariables variables;
     
     // We need a way to be able to add variables to the GameThing class without having to modify the class itself - we can do that with a struct.
     [System.Serializable]

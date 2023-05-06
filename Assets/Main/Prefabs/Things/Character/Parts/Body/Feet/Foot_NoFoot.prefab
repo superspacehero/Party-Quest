@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1805025314463658333, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: m_Name
-      value: Foot_Invisible
+      value: Foot_NoFoot
       objectReference: {fileID: 0}
     - target: {fileID: 1805025314463658335, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: m_Enabled
@@ -109,11 +109,11 @@ PrefabInstance:
       objectReference: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
     - target: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: variables.variables.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: variables.variables.Array.data[0].name
-      value: movement
+      value: attack
       objectReference: {fileID: 0}
     - target: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: variables.variables.Array.data[1].name
@@ -121,7 +121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: variables.variables.Array.data[0].value
-      value: -1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4834256540702155305, guid: ce2a37c589df45fa1b3813f0f98c8452, type: 3}
       propertyPath: variables.variables.Array.data[1].value
