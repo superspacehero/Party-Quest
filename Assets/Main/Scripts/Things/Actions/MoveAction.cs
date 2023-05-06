@@ -10,6 +10,8 @@ public class MoveAction : ActionThing
         get => "Move";
     }
 
+    [SerializeField] private GameObject dicePrefab;
+
     // The number of spaces the character can move
     private int movementRange = 3;
 
@@ -35,6 +37,27 @@ public class MoveAction : ActionThing
 
     protected override IEnumerator RunAction()
     {
+        int numberOfDiceRolls = (int)user.variables.GetVariable("movement"); // Get the number of dice rolls from user variables
+        int sumOfDiceRolls = 0;
+
+        for (int i = 0; i < numberOfDiceRolls; i++)
+        {
+            // Roll the dice to determine the movement range
+            Dice diceInstance = GameManager.instance.dicePool.GetDieFromPool(user.transform.position, OnDiceRollStarted, OnDiceRollFinished);
+            user.AttachThing(diceInstance);
+
+            // Wait until the dice roll is finished
+            while (!diceRollFinished)
+            {
+                yield return null;
+            }
+
+            sumOfDiceRolls += currentDiceValue; // Add the current dice value to the sum of dice rolls
+            GameManager.instance.dicePool.ReturnDieToPool(diceInstance);
+        }
+
+        movementRange = sumOfDiceRolls; // Set the movement range based on the sum of dice rolls
+
         // Enable movement control
         user.TryGetComponent(out MovementController controller);
 
@@ -133,6 +156,20 @@ public class MoveAction : ActionThing
 
         // The action is no longer running
         EndAction();
+    }
+
+    private bool diceRollFinished = false;
+    private int currentDiceValue = 0;
+
+    private void OnDiceRollStarted()
+    {
+        diceRollFinished = false;
+    }
+
+    private void OnDiceRollFinished(int diceValue)
+    {
+        currentDiceValue = diceValue;
+        diceRollFinished = true;
     }
 
     public override void SecondaryAction(bool pressed)

@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
     #region Things
 
     public static List<GameThing> things = new List<GameThing>();
+    public DicePool dicePool;
 
     #region Characters
 

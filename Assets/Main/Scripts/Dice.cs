@@ -10,10 +10,10 @@ public class Dice : GameThing
     #region Dice
 
         [SerializeField, FoldoutGroup("Dice")]
-        private UnityEvent enabledEvent, disabledEvent;
+        public UnityEvent enabledEvent, disabledEvent;
 
         [SerializeField, FoldoutGroup("Dice")]
-        private UnityEvent<int> onValueChanged = new UnityEvent<int>();
+        public UnityEvent<int> onValueChanged = new UnityEvent<int>();
 
         [SerializeField, FoldoutGroup("Dice")]
         List<Vector3> dirs = new List<Vector3>(new Vector3[]
@@ -189,4 +189,55 @@ public class Dice : GameThing
         }
 
     #endregion
+}
+
+[System.Serializable]
+public class DicePool
+{
+    [SerializeField] private GameObject dicePrefab;
+    private List<Dice> dicePool = new List<Dice>();
+
+    public Dice GetDieFromPool(Vector3 diePosition, UnityEngine.Events.UnityAction diceEnabledAction = null, UnityEngine.Events.UnityAction<int> diceValueChangeAction = null, UnityEngine.Events.UnityAction diceDisabledAction = null)
+    {
+        Dice die = null;
+
+        foreach (Dice pooledDie in dicePool)
+        {
+            if (!pooledDie.gameObject.activeInHierarchy)
+            {
+                die = pooledDie;
+                break;
+            }
+        }
+
+        if (die == null)
+        {
+            die = GameObject.Instantiate(dicePrefab).GetComponent<Dice>();
+            dicePool.Add(die);
+        }
+
+
+        die.enabledEvent.RemoveAllListeners();
+        die.onValueChanged.RemoveAllListeners();
+        die.disabledEvent.RemoveAllListeners();
+
+        if (diceEnabledAction != null)
+            die.enabledEvent.AddListener(diceEnabledAction);
+
+        if (diceValueChangeAction != null)
+            die.onValueChanged.AddListener(diceValueChangeAction);
+
+        if (diceDisabledAction != null)
+            die.disabledEvent.AddListener(diceDisabledAction);
+            
+        die.transform.position = diePosition;
+        die.gameObject.SetActive(true);
+
+        return die;
+    }
+
+    public void ReturnDieToPool(Dice dice)
+    {
+        dice.gameObject.SetActive(false);
+    }
 }
