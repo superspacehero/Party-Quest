@@ -5,7 +5,7 @@ using UnityEngine;
 [AddComponentMenu("Game Things/Inventories/Action List"), DisallowMultipleComponent]
 public class ActionList : Inventory
 {
-    private ActionThing currentAction
+    public ActionThing currentAction
     {
         get => _currentAction;
         set

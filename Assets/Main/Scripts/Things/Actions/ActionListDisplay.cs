@@ -26,12 +26,21 @@ public class ActionListDisplay : InventoryDisplay
     }
     // [SerializeField] private ActionList actionList;
 
-    protected override void PopulateThings()
+    protected override void PopulateThings(List<GameThing> excludedThings = null)
     {
-        base.PopulateThings();
-
         if (inventory is not ActionList)
             return;
+
+        excludedThings = new List<GameThing>();
+        
+        foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+        {
+            if (slot.thing != null && slot.thing is ActionThing && (slot.thing as ActionThing).actionRunning)
+                excludedThings.Add(slot.thing);
+        }
+
+        base.PopulateThings(excludedThings);
+
 
         foreach (ThingDisplay thingDisplay in thingDisplays)
         {

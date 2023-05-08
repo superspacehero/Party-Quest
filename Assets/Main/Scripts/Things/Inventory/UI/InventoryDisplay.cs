@@ -53,12 +53,15 @@ public class InventoryDisplay : MonoBehaviour
         PopulateThings();
     }
 
-    protected virtual void PopulateThings()
+    protected virtual void PopulateThings(List<GameThing> excludedThings = null)
     {
         inventory = inventory;
 
         if (inventory == null)
             return;
+
+        if (excludedThings == null)
+            excludedThings = new List<GameThing>();
 
         if (thingDisplays.Count < inventory.thingSlots.Length)
         {
@@ -73,7 +76,10 @@ public class InventoryDisplay : MonoBehaviour
         {
             if (i < inventory.thingSlots.Length)
             {
-                thingDisplays[i].gameObject.SetActive(true);
+                if (inventory.thingSlots[i].thing != null && excludedThings.Contains(inventory.thingSlots[i].thing))
+                    thingDisplays[i].gameObject.SetActive(false);
+                else
+                    thingDisplays[i].gameObject.SetActive(true);
 
                 thingDisplays[i].thingOwner = inventoryOwner;
                 thingDisplays[i].thing = inventory.thingSlots[i].thing;
