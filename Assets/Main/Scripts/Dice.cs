@@ -61,6 +61,7 @@ public class Dice : GameThing
         #region Initialization
         
             private Vector3 cameraPointOffset;
+            public Vector3 spawnPosition;
             private bool initialized;
 
         #endregion
@@ -98,8 +99,10 @@ public class Dice : GameThing
             rb.useGravity = false;
 
             Vector2 rotationDirection = Vector2.zero;
+
+            yield return General.waitForFixedUpdate;
             
-            rb.transform.localPosition = Vector3.zero;
+            rb.transform.position = spawnPosition;
             rb.transform.localRotation = Quaternion.identity;
 
             // Spin dice until it's rolled.
@@ -181,12 +184,14 @@ public class Dice : GameThing
 
         public override void PrimaryAction(bool pressed)
         {
-            RandomLaunch();
+            if (pressed)
+                RandomLaunch();
         }
 
         public override void SecondaryAction(bool pressed)
         {
-            RandomLaunch();
+            if (pressed)
+                RandomLaunch();
         }
 
     #endregion
@@ -231,8 +236,8 @@ public class DicePool
         if (diceDisabledAction != null)
             die.disabledEvent.AddListener(diceDisabledAction);
             
+        die.spawnPosition = diePosition;
         die.gameObject.SetActive(true);
-        die.transform.position = diePosition;
 
         return die;
     }

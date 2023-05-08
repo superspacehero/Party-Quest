@@ -40,6 +40,8 @@ public class MoveAction : ActionThing
         int numberOfDiceRolls = (int)user.variables.GetVariable("movement"); // Get the number of dice rolls from user variables
         int sumOfDiceRolls = 0;
 
+        yield return null;
+
         for (int i = 0; i < numberOfDiceRolls; i++)
         {
             // Roll the dice to determine the movement range
