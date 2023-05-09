@@ -52,8 +52,33 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: attackSteps
+      Entry: 7
+      Data: 0|System.Collections.Generic.List`1[[AttackStep, Assembly-CSharp]], mscorlib
+    - Name: 
+      Entry: 12
+      Data: 1
+    - Name: 
+      Entry: 7
+      Data: 1|HoldInputStep, Assembly-CSharp
+    - Name: holdInputAction
+      Entry: 6
+      Data: 
+    - Name: requiredHoldTime
+      Entry: 4
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
   _thingName: Jump
+  properNoun: 0
   thingDescription: Press just before landing on an enemy!
   _thingIcon: {fileID: 713617979, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
   thingValue: 0

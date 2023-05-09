@@ -7,7 +7,7 @@ public class AttackSequenceThing : GameThing
     public override string thingType => "AttackSequence";
 
     [Min(0f)] public float range = 1f;
-    public List<AttackStep> attackSteps;
+    public AttackStep[] attackSteps;
 
     public void StartAttack(CharacterThing attacker, CharacterThing target)
     {
