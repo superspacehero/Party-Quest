@@ -10,8 +10,6 @@ public class AttackAction : ActionThing
     [SerializeField, Range(0f, 1f)]
     private float selectionMagnitude = 0.99f;
 
-    private CharacterThing target;
-
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>
@@ -89,6 +87,8 @@ public class AttackAction : ActionThing
         PickingTarget,
         Attacking
     }
+    private List<Pathfinding.GraphNode> _reachableNodes;
+
     private AttackState attackState
     {
         get => _attackState;
@@ -112,14 +112,15 @@ public class AttackAction : ActionThing
                     CancelAction();
                     break;
                 case AttackState.PickingAttack:
+                    targetPosition = user.transform.position;
                     break;
                 case AttackState.PickingTarget:
                     if (Nodes.instance != null)
                     {
-                        List<Pathfinding.GraphNode> nodes = Nodes.GetNodesInRadius(user.transform.position, attack.range, Vector2.one * attack.range);
+                        _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attack.range, Vector2.one * attack.range);
 
-                        Nodes.instance.DisplayNodes(nodes);
-                        Nodes.instance.ColorNodeObjects(nodes);
+                        Nodes.instance.DisplayNodes(_reachableNodes);
+                        Nodes.instance.ColorNodeObjects(_reachableNodes);
                     }
                     break;
                 case AttackState.Attacking:
@@ -175,13 +176,42 @@ public class AttackAction : ActionThing
         }
     }
 
+    private Vector3 targetPosition;
+    private Vector2Int targetDirection;
+
     private void PickTarget(Vector2 direction)
     {
         if (direction.magnitude > selectionMagnitude)
         {
-            Nodes.CheckNodeOccupied(user.transform.position + (((Vector3.right * direction.x) + (Vector3.forward * direction.y)) * attack.range), out target);
+            Vector2Int newTargetDirection = Vector2Int.RoundToInt(direction);
+
+            if (newTargetDirection != targetDirection)
+            {
+                targetDirection = newTargetDirection;
+                Vector3 potentialTargetPosition = targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range);
+
+                // Check if the potential target position is within the attack range
+                Pathfinding.GraphNode potentialTargetNode = Nodes.gridGraph.GetNearest(potentialTargetPosition).node;
+                if (_reachableNodes.Contains(potentialTargetNode))
+                {
+                    // Color the previous target node
+                    if (Nodes.instance != null && targetPosition != Vector3.zero)
+                    {
+                        Nodes.instance.ColorNodeObject(Nodes.gridGraph.GetNearest(targetPosition).node, Nodes.instance.walkableColor);
+                    }
+
+                    targetPosition = potentialTargetPosition;
+
+                    // Color the new target node
+                    if (Nodes.instance != null)
+                    {
+                        Nodes.instance.ColorNodeObject(potentialTargetNode, Nodes.instance.currentColor);
+                    }
+                }
+            }
         }
     }
+
 
     public override void PrimaryAction(bool pressed)
     {
@@ -196,7 +226,7 @@ public class AttackAction : ActionThing
                     attackState++;
                 break;
             case AttackState.PickingTarget:
-                if (pressed && target != null && target != user)
+                if (pressed && targetPosition != Vector3.zero)
                     attackState++;
                 break;
             case AttackState.Attacking:

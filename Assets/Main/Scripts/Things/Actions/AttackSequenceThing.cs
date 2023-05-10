@@ -9,6 +9,8 @@ public class AttackSequenceThing : GameThing
     [Min(0f)] public float range = 1f;
     public AttackStep[] attackSteps;
 
+    private int currentStepIndex = 0;
+
     public void StartAttack(CharacterThing attacker, CharacterThing target)
     {
         StartCoroutine(AttackCoroutine(attacker, target));
@@ -17,6 +19,8 @@ public class AttackSequenceThing : GameThing
     private IEnumerator AttackCoroutine(CharacterThing attacker, CharacterThing target)
     {
         bool allStepsSuccessful = true;
+
+        currentStepIndex = 0;
 
         foreach (AttackStep step in attackSteps)
         {
@@ -28,6 +32,8 @@ public class AttackSequenceThing : GameThing
                 allStepsSuccessful = false;
                 break;
             }
+
+            currentStepIndex++;
         }
 
         if (allStepsSuccessful)
@@ -40,18 +46,26 @@ public class AttackSequenceThing : GameThing
         }
     }
 
+    private bool currentStepExists => (attackSteps.Length > 0 && currentStepIndex < attackSteps.Length && attackSteps[currentStepIndex] != null);
+
     public override void Move(Vector2 direction)
     {
         // Implement character movement during attack sequence if needed.
+        if (currentStepExists)
+            attackSteps[currentStepIndex].Move(direction);
     }
 
     public override void PrimaryAction(bool pressed)
     {
         // Implement primary action during attack sequence if needed.
+        if (currentStepExists)
+            attackSteps[currentStepIndex].PrimaryAction(pressed);
     }
 
     public override void SecondaryAction(bool pressed)
     {
         // Implement secondary action during attack sequence if needed.
+        if (currentStepExists)
+            attackSteps[currentStepIndex].SecondaryAction(pressed);
     }
 }

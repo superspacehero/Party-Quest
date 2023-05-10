@@ -55,19 +55,34 @@ MonoBehaviour:
     SerializationNodes:
     - Name: attackSteps
       Entry: 7
-      Data: 0|System.Collections.Generic.List`1[[AttackStep, Assembly-CSharp]], mscorlib
+      Data: 0|AttackStep[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 1
+      Data: 2
     - Name: 
       Entry: 7
-      Data: 1|HoldInputStep, Assembly-CSharp
-    - Name: holdInputAction
-      Entry: 6
+      Data: 1|WaitForTimeStep, Assembly-CSharp
+    - Name: waitTime
+      Entry: 4
+      Data: 1
+    - Name: 
+      Entry: 8
       Data: 
-    - Name: requiredHoldTime
+    - Name: 
+      Entry: 7
+      Data: 2|InputStep, Assembly-CSharp
+    - Name: requiredInput
+      Entry: 3
+      Data: 0
+    - Name: wrongInputFailsStep
+      Entry: 5
+      Data: true
+    - Name: minHoldTime
       Entry: 4
       Data: 0
+    - Name: maxHoldTime
+      Entry: 4
+      Data: Infinity
     - Name: 
       Entry: 8
       Data: 
