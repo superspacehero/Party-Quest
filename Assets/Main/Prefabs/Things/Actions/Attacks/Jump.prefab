@@ -61,10 +61,13 @@ MonoBehaviour:
       Data: 2
     - Name: 
       Entry: 7
-      Data: 1|WaitForTimeStep, Assembly-CSharp
-    - Name: waitTime
+      Data: 1|WaitForProximityStep, Assembly-CSharp
+    - Name: distance
       Entry: 4
-      Data: 1
+      Data: 0.01
+    - Name: useThingTop
+      Entry: 5
+      Data: true
     - Name: 
       Entry: 8
       Data: 

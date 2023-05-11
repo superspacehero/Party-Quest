@@ -124,6 +124,11 @@ public class AttackAction : ActionThing
                     }
                     break;
                 case AttackState.Attacking:
+                    if (Nodes.instance != null)
+                        Nodes.instance.HideNodes();
+
+                    if (attack != null)
+                        attack.StartAttack(user, targetPosition);
                     break;
             }
 
@@ -183,12 +188,15 @@ public class AttackAction : ActionThing
     {
         if (direction.magnitude > selectionMagnitude)
         {
-            Vector2Int newTargetDirection = Vector2Int.RoundToInt(direction);
+            Vector2Int newTargetDirection = Vector2Int.RoundToInt(direction.normalized);
 
             if (newTargetDirection != targetDirection)
             {
                 targetDirection = newTargetDirection;
-                Vector3 potentialTargetPosition = targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range);
+                Vector3 potentialTargetPosition =
+                    (attack.range <= 1)
+                        ? user.transform.position + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range)
+                        : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range);
 
                 // Check if the potential target position is within the attack range
                 Pathfinding.GraphNode potentialTargetNode = Nodes.gridGraph.GetNearest(potentialTargetPosition).node;

@@ -88,7 +88,6 @@ public class GameManager : MonoBehaviour
 
     #region Things
 
-    public static List<GameThing> things = new List<GameThing>();
     public DicePool dicePool;
 
     #region Characters
@@ -116,6 +115,17 @@ public class GameManager : MonoBehaviour
     public static void RemoveCharacter(CharacterThing character)
     {
         characters.Remove(character);
+    }
+
+    public static CharacterThing GetCharacterAtPosition(Vector3 position)
+    {
+        foreach (CharacterThing character in characters)
+        {
+            if (character.transform.position == position)
+                return character;
+        }
+
+        return null;
     }
 
     #region Teams

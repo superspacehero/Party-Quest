@@ -5,10 +5,11 @@ public abstract class WaitForStep : AttackStep
 {
     protected bool waitConditionMet = false;
 
-    public override IEnumerator ExecuteStep(CharacterThing attacker, CharacterThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
     {
         while (!waitConditionMet)
         {
+            CheckWaitCondition();
             yield return null;
         }
 
@@ -26,16 +27,11 @@ public class WaitForTimeStep : WaitForStep
 
     private float elapsedTime = 0;
 
-    public override IEnumerator ExecuteStep(CharacterThing attacker, CharacterThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
     {
         elapsedTime = 0;
 
         return base.ExecuteStep(attacker, target, callback);
-    }
-
-    private void Update()
-    {
-        CheckWaitCondition();
     }
 
     protected override void CheckWaitCondition()
@@ -49,20 +45,68 @@ public class WaitForTimeStep : WaitForStep
     }
 }
 
-public class WaitForCollisionStep : WaitForStep
+public class WaitForDistanceStep : WaitForStep
 {
-    public LayerMask collisionLayers;
+    public float distance = 1f;
+    public bool useThingTop = false;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private GameThing attackerThing = null, targetThing = null;
+
+    private float currentDistance = 0f;
+
+    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
     {
-        if (((1 << collision.gameObject.layer) & collisionLayers) != 0)
-        {
-            CheckWaitCondition();
-        }
+        currentDistance = 0f;
+
+        attackerThing = attacker;
+        targetThing = target;
+
+        return base.ExecuteStep(attacker, target, callback);
     }
 
     protected override void CheckWaitCondition()
     {
-        waitConditionMet = true;
+        if (attackerThing != null && targetThing != null)
+        {
+            currentDistance = Vector2.Distance(attackerThing.transform.position, (useThingTop) ? targetThing.thingTop.position : targetThing.transform.position);
+
+            if (currentDistance >= distance)
+            {
+                waitConditionMet = true;
+            }
+        }
+    }
+}
+
+public class WaitForProximityStep : WaitForStep
+{
+    public float distance = 1f;
+    public bool useThingTop = false;
+
+    private GameThing attackerThing = null, targetThing = null;
+
+    private float currentDistance = 0f;
+
+    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    {
+        currentDistance = 0f;
+
+        attackerThing = attacker;
+        targetThing = target;
+
+        return base.ExecuteStep(attacker, target, callback);
+    }
+
+    protected override void CheckWaitCondition()
+    {
+        if (attackerThing != null && targetThing != null)
+        {
+            currentDistance = Vector2.Distance(attackerThing.transform.position, (useThingTop) ? targetThing.thingTop.position : targetThing.transform.position);
+
+            if (currentDistance <= distance)
+            {
+                waitConditionMet = true;
+            }
+        }
     }
 }

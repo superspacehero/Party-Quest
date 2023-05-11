@@ -11,12 +11,18 @@ public class AttackSequenceThing : GameThing
 
     private int currentStepIndex = 0;
 
-    public void StartAttack(CharacterThing attacker, CharacterThing target)
+    public void StartAttack(GameThing attacker, GameThing target)
     {
         StartCoroutine(AttackCoroutine(attacker, target));
     }
 
-    private IEnumerator AttackCoroutine(CharacterThing attacker, CharacterThing target)
+    public void StartAttack(GameThing attacker, Vector2 targetPosition)
+    {
+        if (GameManager.instance)
+            StartCoroutine(AttackCoroutine(attacker, GameManager.GetCharacterAtPosition(targetPosition)));
+    }
+
+    private IEnumerator AttackCoroutine(GameThing attacker, GameThing target)
     {
         bool allStepsSuccessful = true;
 

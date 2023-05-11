@@ -21,7 +21,7 @@ public class InputStep : AttackStep
     private bool? inputSuccess = null;
     private float elapsedTime = 0;
 
-    public override IEnumerator ExecuteStep(CharacterThing attacker, CharacterThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
     {
         while (inputSuccess == null)
         {
