@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 4
-  jumpSpeed: 15
+  jumpHeight: 1.15
   gravity: 50
   cameraTransform: {fileID: 0}
   canControl: 0
@@ -135,6 +135,7 @@ MonoBehaviour:
   characterPartList: {fileID: 11400000, guid: b777c992050d4479c9d968363883674a, type: 2}
   team: 0
   characterParts: []
+  parts: []
   baseVariables:
     variables:
     - name: health

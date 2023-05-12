@@ -133,13 +133,13 @@ public class Dice : GameThing
                 rollTime += Time.fixedDeltaTime;
             }
 
-            // Dice behavior when it's stopped rolling - find the side facing the camera.
+            // Dice behavior when it's stopped rolling - find the side facing up.
             var upDir = dirs.OrderBy(x => Vector3.Angle(rb.transform.TransformDirection(x), Vector3.up)).First();
 
             thingValue = dirs.IndexOf(upDir) + 1;
             onValueChanged.Invoke(thingValue);
 
-            Debug.Log($"Value: {thingValue}");
+            // Debug.Log($"Value: {thingValue}");
         }
 
         private void Launch(Vector2 direction)

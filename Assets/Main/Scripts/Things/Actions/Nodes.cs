@@ -107,13 +107,16 @@ public class Nodes : MonoBehaviour
                 {
                     // Get the node in the direction
                     GraphNode node = gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
-                    float deltaY = node.position.y - searchNode.position.y;
+                    // float deltaY = Mathf.Abs(node.position.y - searchNode.position.y);
 
-                    bool withinUpwardLimit = maxHeightLimits.x == -1 || deltaY <= maxHeightLimits.x;
-                    bool withinDownwardLimit = maxHeightLimits.y == -1 || deltaY >= -maxHeightLimits.y;
+                    // bool withinUpwardLimit = maxHeightLimits.x == -1 || deltaY <= maxHeightLimits.x;
+                    // bool withinDownwardLimit = maxHeightLimits.y == -1 || deltaY <= maxHeightLimits.y;
+
+                    // if (deltaY != 0)
+                    //     Debug.Log($"Node: {node.position}, SearchNode: {searchNode.position}, DeltaY: {deltaY}, UpwardLimit: {withinUpwardLimit}, DownwardLimit: {withinDownwardLimit}");
 
                     // If the node is not in the valid spaces list, is walkable, and the height difference is within the specified limits, add it to the list
-                    if (!nodes.Contains(node) && node.Walkable && withinUpwardLimit && withinDownwardLimit)
+                    if (!nodes.Contains(node) && node.Walkable)// && withinUpwardLimit && withinDownwardLimit)
                     {
                         nodes.Add(node);
                         queue.Enqueue(node);

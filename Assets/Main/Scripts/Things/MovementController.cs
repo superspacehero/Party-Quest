@@ -13,7 +13,7 @@ public class MovementController : Controller
     bool isGrounded;
 
     public float movementSpeed = 7f;
-    public float jumpSpeed = 10f;
+    public float jumpHeight = 1.1f;
     public float gravity = 10f;
 
     Vector3 lastVelocity = Vector3.zero;
@@ -38,6 +38,8 @@ public class MovementController : Controller
     public Vector2 movementInput;
     [FoldoutGroup("Controls")]
     public bool canJump, jumpInput;
+
+    private bool isJumping;
 
     // Use this for initialization
     void Start()
@@ -79,11 +81,18 @@ public class MovementController : Controller
         }
 
         //Handle jumping;
-        if (isGrounded && canControl && canJump && jumpInput)
+        if (isGrounded && canControl && canJump && jumpInput && !isJumping)
         {
             OnJumpStart();
-            currentVerticalSpeed = jumpSpeed;
+            currentVerticalSpeed = Mathf.Sqrt(2 * gravity * jumpHeight);
             isGrounded = false;
+            isJumping = true; // Set isJumping to true after jump starts
+        }
+
+        // Reset isJumping to false when character touches the ground
+        if (!jumpInput && isGrounded)
+        {
+            isJumping = false;
         }
 
         //Add vertical velocity;

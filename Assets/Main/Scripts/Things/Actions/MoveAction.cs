@@ -71,7 +71,7 @@ public class MoveAction : ActionThing
             controller.canMove = true;
             controller.canJump = true;
 
-            jumpHeight = Mathf.Abs(controller.jumpSpeed / Physics.gravity.y);
+            jumpHeight = controller.jumpHeight;
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
