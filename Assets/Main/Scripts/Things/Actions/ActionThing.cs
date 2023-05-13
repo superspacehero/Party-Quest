@@ -56,10 +56,13 @@ public class ActionThing : GameThing
         actionRunning = false;
     }
 
-    protected void EndAction()
+    protected void EndAction(bool displayInventory = true)
     {
         actionRunning = false;
         onActionEnd.Invoke();
+
+        if (user is CharacterThing && displayInventory)
+            (user as CharacterThing).DisplayInventory(true);
 
         gameObject.SetActive(false);
     }

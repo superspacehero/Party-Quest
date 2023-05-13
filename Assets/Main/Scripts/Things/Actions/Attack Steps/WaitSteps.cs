@@ -16,6 +16,11 @@ public abstract class WaitForStep : AttackStep
         callback?.Invoke(StepResult.Success);
     }
 
+    public override void InitializeStep()
+    {
+        waitConditionMet = false;
+    }
+
     protected abstract void CheckWaitCondition();
 }
 

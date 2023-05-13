@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class AttackSequenceThing : GameThing
 {
@@ -9,18 +10,30 @@ public class AttackSequenceThing : GameThing
     [Min(0f)] public float range = 1f;
     public bool canUseEmptyTarget = false;
     public AttackStep[] attackSteps;
+    public UnityEvent<bool> AttackSequenceFinished;
+
 
     private int currentStepIndex = 0;
 
     public void StartAttack(GameThing attacker, GameThing target)
     {
+        ResetAttackSequence();
         StartCoroutine(AttackCoroutine(attacker, target, target.transform.position));
     }
 
     public void StartAttack(GameThing attacker, Vector2 targetPosition)
     {
+        ResetAttackSequence();
         if (GameManager.instance)
             StartCoroutine(AttackCoroutine(attacker, null, targetPosition));
+    }
+
+    private void ResetAttackSequence()
+    {
+        // Stop the ongoing attack sequence if any
+        StopAllCoroutines();
+        // Reset the current step index
+        currentStepIndex = 0;
     }
 
     private IEnumerator AttackCoroutine(GameThing attacker, GameThing target, Vector3 targetPosition)
@@ -31,6 +44,10 @@ public class AttackSequenceThing : GameThing
 
         foreach (AttackStep step in attackSteps)
         {
+            if (step == null)
+                continue;
+            else
+                step.InitializeStep();
             StepResult result = StepResult.Failure;
             yield return StartCoroutine(step.ExecuteStep(attacker, target, stepResult => result = stepResult));
 
@@ -41,18 +58,10 @@ public class AttackSequenceThing : GameThing
             }
 
             currentStepIndex++;
+            // Debug.Log("Step " + currentStepIndex + " finished with result: " + result);
         }
-
-        if (allStepsSuccessful)
-        {
-            // Handle success, e.g., deal damage or apply effects.
-        }
-        else
-        {
-            // Handle failure, e.g., display a message or play a sound.
-        }
-
-
+        
+        AttackSequenceFinished?.Invoke(allStepsSuccessful);
     }
 
     private bool currentStepExists => (attackSteps.Length > 0 && currentStepIndex < attackSteps.Length && attackSteps[currentStepIndex] != null);

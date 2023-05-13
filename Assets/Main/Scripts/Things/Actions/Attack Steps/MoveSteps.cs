@@ -23,8 +23,6 @@ public abstract class MovementControllerStep : AttackStep
             yield return null;
         }
 
-        callback?.Invoke(StepResult.Success);
-
         if (moveController != null)
         {
             moveController.canControl = 0;
@@ -32,6 +30,15 @@ public abstract class MovementControllerStep : AttackStep
             moveController.canJump = false;
             moveController.jumpHeight = null;
         }
+
+        callback?.Invoke(StepResult.Success);
+    }
+
+    public override void InitializeStep()
+    {
+        moveConditionMet = false;
+        targetThing = null;
+        moveController = null;
     }
 
     protected abstract void CheckWaitCondition();
@@ -65,10 +72,20 @@ public class MoveToTargetStep : MovementControllerStep
 
 public class JumpOnTargetStep : MovementControllerStep
 {
-    public float jumpDistance = 2f;
-
+    public float jumpDistance = 0.1f;
     private float? jumpHeight = null;
     private bool jumped = false;
+
+    private bool checkGroundedCondition = false;
+
+    public override void InitializeStep()
+    {
+        base.InitializeStep();
+
+        checkGroundedCondition = false;
+        jumpHeight = null;
+        jumped = false;
+    }
 
     protected override void CheckWaitCondition()
     {
@@ -92,15 +109,24 @@ public class JumpOnTargetStep : MovementControllerStep
 
         // Condition for stopping movement
         float distanceToTarget = Vector3.Distance(moveController.transform.position, targetThing.thingTop.position);
-        if (distanceToTarget <= jumpDistance || (moveController.IsGrounded() && jumped))
+        if (distanceToTarget <= jumpDistance || (checkGroundedCondition && moveController.IsGrounded() && jumped))
         {
             moveController.movementInput = Vector2.zero;
             jumpHeight = null;
             jumped = false; // Reset the flag as the jump has been completed and the character has landed
             moveConditionMet = true;
+            checkGroundedCondition = false;
+        }
+        else if (jumped)
+        {
+            moveController.StartCoroutine(WaitToCheckGroundedCondition());
         }
         jumped = true; // Set the flag to true as a jump has been initiated
+    }
 
-        Debug.Log($"JumpOnTargetStep: distanceToTarget: {distanceToTarget}, jumpHeight: {jumpHeight}, jumped: {jumped}");
+    private IEnumerator WaitToCheckGroundedCondition()
+    {
+        yield return General.waitForFixedUpdate; // Wait for the next fixed update to check if the character has landed
+        checkGroundedCondition = true;
     }
 }

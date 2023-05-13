@@ -12,7 +12,7 @@ public class EndAction : ActionThing
         GameManager.NextCharacter();
 
         // The action is no longer running
-        EndAction();
+        EndAction(false);
 
         yield return null;
     }

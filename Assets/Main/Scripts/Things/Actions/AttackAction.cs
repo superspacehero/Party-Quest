@@ -131,10 +131,15 @@ public class AttackAction : ActionThing
                         else if (attack.canUseEmptyTarget)
                             attack.StartAttack(user, targetPosition);
                         else
+                        {
                             _attackState = AttackState.PickingTarget;
+                            return;
+                        }
 
                         if (_attackState == AttackState.Attacking && Nodes.instance != null)
                             Nodes.instance.HideNodes();
+
+                        attack.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
                     }
                     break;
             }
@@ -148,27 +153,30 @@ public class AttackAction : ActionThing
 
     public override void Use(GameThing user)
     {
-        if (!actionRunning)
-        {
-            this.user = user;
-            actionRunning = true;
+        base.Use(user);
 
-            user.actionList.SetAction(this);
-
-            gameObject.SetActive(true);
-        }
-
+        ResetAttack();
         attackState = AttackState.PickingAttack;
     }
 
+    private void ResetAttack()
+    {
+        // Reset all the variables that need to be reset here
+        _attackState = AttackState.None;
+        _reachableNodes = null;
+        targetPosition = Vector3.zero;
+        targetDirection = Vector2Int.zero;
+        if (attack != null)
+        {
+            attack.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attack = null;
+        }
+    }
+
+
     protected override IEnumerator RunAction()
     {
-        while (actionRunning)
-        {
-            yield return null;
-        }
-
-        EndAction();
+        yield return null;
     }
 
     public override void Move(Vector2 direction)
@@ -237,6 +245,20 @@ public class AttackAction : ActionThing
         }
     }
 
+    private void OnAttackSequenceFinished(bool allStepsSuccessful)
+    {
+        // Unsubscribe from the AttackSequenceFinished event to avoid memory leaks
+        if (attack != null)
+        {
+            attack.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attack = null;
+        }
+
+        Debug.Log("AttackSequenceFinished: " + allStepsSuccessful);
+
+        // End the action when the attack sequence finishes
+        EndAction();
+    }
 
     public override void PrimaryAction(bool pressed)
     {

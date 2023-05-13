@@ -58,7 +58,7 @@ MonoBehaviour:
       Data: 0|AttackStep[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 4
     - Name: 
       Entry: 7
       Data: 1|WaitForTimeStep, Assembly-CSharp
@@ -92,6 +92,24 @@ MonoBehaviour:
     - Name: maxHoldTime
       Entry: 4
       Data: Infinity
+    - Name: maxWaitTime
+      Entry: 4
+      Data: 0.2
+    - Name: pressInput
+      Entry: 5
+      Data: true
+    - Name: holdInput
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 4|JumpOnTargetStep, Assembly-CSharp
+    - Name: jumpDistance
+      Entry: 4
+      Data: 0.1
     - Name: 
       Entry: 8
       Data: 
@@ -119,3 +137,6 @@ MonoBehaviour:
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   range: 1
   canUseEmptyTarget: 1
+  AttackSequenceFinished:
+    m_PersistentCalls:
+      m_Calls: []

@@ -11,6 +11,8 @@ public abstract class AttackStep
 {
     public abstract IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback);
 
+    public abstract void InitializeStep();
+
     public virtual void Move(Vector2 direction)
     {
         // Implement character movement during attack step if needed.

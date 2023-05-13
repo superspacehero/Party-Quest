@@ -145,7 +145,7 @@ public class GameThing : SerializedMonoBehaviour
                         if (thingTopRoot == transform)
                         {
                             _thingTop = thingTopObject.transform;
-                            Debug.Log($"Found thingTop {_thingTop.name} for {name}.");
+                            // Debug.Log($"Found thingTop {_thingTop.name} for {name}.");
                             break;
                         }
                         else
