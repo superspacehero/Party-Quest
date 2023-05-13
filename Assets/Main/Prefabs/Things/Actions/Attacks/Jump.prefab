@@ -58,22 +58,28 @@ MonoBehaviour:
       Data: 0|AttackStep[], Assembly-CSharp
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 3
     - Name: 
       Entry: 7
-      Data: 1|WaitForProximityStep, Assembly-CSharp
-    - Name: distance
+      Data: 1|WaitForTimeStep, Assembly-CSharp
+    - Name: waitTime
       Entry: 4
-      Data: 0.01
-    - Name: useThingTop
-      Entry: 5
-      Data: true
+      Data: 0.2
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 7
-      Data: 2|InputStep, Assembly-CSharp
+      Data: 2|JumpOnTargetStep, Assembly-CSharp
+    - Name: jumpDistance
+      Entry: 4
+      Data: 0.1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 3|InputStep, Assembly-CSharp
     - Name: requiredInput
       Entry: 3
       Data: 0
@@ -112,3 +118,4 @@ MonoBehaviour:
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   range: 1
+  canUseEmptyTarget: 1

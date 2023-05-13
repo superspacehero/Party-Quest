@@ -13,7 +13,28 @@ public class MovementController : Controller
     bool isGrounded;
 
     public float movementSpeed = 7f;
-    public float jumpHeight = 1.1f;
+
+    public float? jumpHeight
+    {
+        get
+        {
+            if (_jumpHeight == null)
+                _jumpHeight = defaultJumpHeight;
+
+            return _jumpHeight;
+        }
+        set
+        {
+            if (value > defaultJumpHeight)
+                _jumpHeight = value;
+            else
+                _jumpHeight = defaultJumpHeight;
+        }
+    }
+    private float? _jumpHeight = null;
+
+    [SerializeField] private float defaultJumpHeight = 1f;
+    [SerializeField, Min(0f)] private float jumpOffset = 0.15f;
     public float gravity = 10f;
 
     Vector3 lastVelocity = Vector3.zero;
@@ -32,12 +53,15 @@ public class MovementController : Controller
     public Transform cameraTransform;
     Transform tr;
 
+    [FoldoutGroup("Controls"), Range(0, 2)]
+    public int canControl = 0;
     [FoldoutGroup("Controls")]
-    public bool canControl, canMove;
+    public bool canMove, canJump;
+
     [FoldoutGroup("Controls"), Apxfly.Editor.Attributes.Vector2Selector]
     public Vector2 movementInput;
     [FoldoutGroup("Controls")]
-    public bool canJump, jumpInput;
+    public bool jumpInput;
 
     private bool isJumping;
 
@@ -81,10 +105,11 @@ public class MovementController : Controller
         }
 
         //Handle jumping;
-        if (isGrounded && canControl && canJump && jumpInput && !isJumping)
+        if (isGrounded && canControl > 0 && canJump && jumpInput && !isJumping)
         {
             OnJumpStart();
-            currentVerticalSpeed = Mathf.Sqrt(2 * gravity * jumpHeight);
+            
+            currentVerticalSpeed = Mathf.Sqrt(2 * gravity * (jumpHeight.Value + jumpOffset));
             isGrounded = false;
             isJumping = true; // Set isJumping to true after jump starts
         }
@@ -106,7 +131,7 @@ public class MovementController : Controller
 
         //If the character is not allowed to control itself, freeze all rotation and horizontal position changes;
         if (rb)
-            rb.constraints = (canControl && canMove) ? RigidbodyConstraints.FreezeRotation : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+            rb.constraints = (canControl > 0 && canMove) ? RigidbodyConstraints.FreezeRotation : RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
 
         //Rotate the character;
         RotateTowardsGotoRotation();
@@ -115,7 +140,7 @@ public class MovementController : Controller
     private Vector3 CalculateMovementDirection()
     {
         //If no character input script is attached to this object, return no input;
-        if (!canControl || !canMove)
+        if (canControl == 0 || !canMove)
             return Vector3.zero;
 
         Vector3 _direction = Vector3.zero;

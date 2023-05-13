@@ -54,6 +54,12 @@ public class LevelTile : RuleTile
             instantiatedGameObject.transform.localPosition = gameObjectTranslation + tmpMap.CellToLocalInterpolated(position + tmpMap.tileAnchor);
             instantiatedGameObject.transform.localRotation = gameObjectRotation;
             instantiatedGameObject.transform.localScale = gameObjectScale;
+
+            instantiatedGameObject.isStatic = true;
+            foreach (Transform child in instantiatedGameObject.transform)
+            {
+                child.gameObject.isStatic = true;
+            }
         }
 
         return true;

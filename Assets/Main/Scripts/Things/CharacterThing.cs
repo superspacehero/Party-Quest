@@ -222,7 +222,7 @@ public class CharacterThing : GameThing
         if (actionList != null)
             actionList.Move(direction);
 
-        if (movementController != null)
+        if (movementController != null && movementController.canControl > 1)
             movementController.movementInput = direction;
 
         base.Move(direction);
@@ -234,7 +234,7 @@ public class CharacterThing : GameThing
         if (actionList != null)
             actionList.PrimaryAction(pressed);
 
-        if (movementController != null)
+        if (movementController != null && movementController.canControl > 1)
             movementController.jumpInput = pressed;
 
         base.PrimaryAction(pressed);

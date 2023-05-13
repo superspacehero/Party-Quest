@@ -13,8 +13,6 @@ public abstract class WaitForStep : AttackStep
             yield return null;
         }
 
-        Debug.Log("WaitForStep wait condition met.");
-
         callback?.Invoke(StepResult.Success);
     }
 

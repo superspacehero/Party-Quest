@@ -66,12 +66,12 @@ public class MoveAction : ActionThing
 
         if (controller != null)
         {
-            controller.canControl = true;
+            controller.canControl = 2;
 
             controller.canMove = true;
             controller.canJump = true;
 
-            jumpHeight = controller.jumpHeight;
+            jumpHeight = controller.jumpHeight.Value;
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
@@ -150,7 +150,7 @@ public class MoveAction : ActionThing
 
         // Disable movement control
         if (controller != null)
-            controller.canControl = false;
+            controller.canControl = 0;
 
         user.transform.position = (Vector3)currentNode.position;
 
@@ -181,8 +181,8 @@ public class MoveAction : ActionThing
         {
             if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
             {
-                controller.canControl = !controller.canControl;
-                (user as CharacterThing).DisplayInventory(!controller.canControl);
+                controller.canControl = (controller.canControl == 0) ? 2 : 0;
+                (user as CharacterThing).DisplayInventory(controller.canControl <= 1);
             }
         }
     }

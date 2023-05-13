@@ -52,6 +52,9 @@ public class GameplayCamera : MonoBehaviour
 
         public static void SetCameraObject(GameThing thingToFollow, bool immediateCameraShift = false)
         {
+            if (instance.centeringCamera && thingToFollow == cameraObject)
+                return;
+
             if (thingToFollow == null)
             {
                 Debug.LogError("Tried to set camera object to null!");
@@ -79,8 +82,11 @@ public class GameplayCamera : MonoBehaviour
             Debug.Log("Set follow object to " + thingToFollow.name);
         }
 
+        private bool centeringCamera;
+
         public IEnumerator CenterCamera()
         {
+            centeringCamera = true;
             float cameraProgress = 0;
             Vector3 originalPosition = transform.localPosition;
             Vector3 originalRotation = transform.localEulerAngles;
@@ -96,6 +102,7 @@ public class GameplayCamera : MonoBehaviour
 
             transform.localPosition = cameraOffset;
             transform.localEulerAngles = cameraRotation;
+            centeringCamera = false;
         }
 
     #endregion

@@ -7,22 +7,23 @@ public class AttackSequenceThing : GameThing
     public override string thingType => "AttackSequence";
 
     [Min(0f)] public float range = 1f;
+    public bool canUseEmptyTarget = false;
     public AttackStep[] attackSteps;
 
     private int currentStepIndex = 0;
 
     public void StartAttack(GameThing attacker, GameThing target)
     {
-        StartCoroutine(AttackCoroutine(attacker, target));
+        StartCoroutine(AttackCoroutine(attacker, target, target.transform.position));
     }
 
     public void StartAttack(GameThing attacker, Vector2 targetPosition)
     {
         if (GameManager.instance)
-            StartCoroutine(AttackCoroutine(attacker, GameManager.GetCharacterAtPosition(targetPosition)));
+            StartCoroutine(AttackCoroutine(attacker, null, targetPosition));
     }
 
-    private IEnumerator AttackCoroutine(GameThing attacker, GameThing target)
+    private IEnumerator AttackCoroutine(GameThing attacker, GameThing target, Vector3 targetPosition)
     {
         bool allStepsSuccessful = true;
 
@@ -50,6 +51,8 @@ public class AttackSequenceThing : GameThing
         {
             // Handle failure, e.g., display a message or play a sound.
         }
+
+
     }
 
     private bool currentStepExists => (attackSteps.Length > 0 && currentStepIndex < attackSteps.Length && attackSteps[currentStepIndex] != null);

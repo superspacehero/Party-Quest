@@ -124,11 +124,18 @@ public class AttackAction : ActionThing
                     }
                     break;
                 case AttackState.Attacking:
-                    if (Nodes.instance != null)
-                        Nodes.instance.HideNodes();
-
                     if (attack != null)
-                        attack.StartAttack(user, targetPosition);
+                    {
+                        if (GameManager.GetCharacterAtPosition(targetPosition))
+                            attack.StartAttack(user, GameManager.GetCharacterAtPosition(targetPosition));
+                        else if (attack.canUseEmptyTarget)
+                            attack.StartAttack(user, targetPosition);
+                        else
+                            _attackState = AttackState.PickingTarget;
+
+                        if (_attackState == AttackState.Attacking && Nodes.instance != null)
+                            Nodes.instance.HideNodes();
+                    }
                     break;
             }
 
@@ -152,6 +159,16 @@ public class AttackAction : ActionThing
         }
 
         attackState = AttackState.PickingAttack;
+    }
+
+    protected override IEnumerator RunAction()
+    {
+        while (actionRunning)
+        {
+            yield return null;
+        }
+
+        EndAction();
     }
 
     public override void Move(Vector2 direction)
