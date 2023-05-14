@@ -5,17 +5,19 @@ public abstract class MovementControllerStep : AttackStep
 {
     protected bool moveConditionMet = false;
 
-    protected GameThing targetThing = null;
+    protected Vector3 targetPosition = Vector3.zero;
+    protected GameThing targetedThing = null;
 
     protected MovementController moveController = null;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         attacker.TryGetComponent(out moveController);
 
         moveController.canControl = 1;
 
-        targetThing = (target != null) ? target : attacker;
+        targetPosition = target;
+        targetedThing = (target != null) ? targetThing : attacker;
 
         while (!moveConditionMet)
         {
@@ -40,7 +42,8 @@ public abstract class MovementControllerStep : AttackStep
     public override void ResetStep()
     {
         moveConditionMet = false;
-        targetThing = null;
+        targetPosition = Vector3.zero;
+        targetedThing = null;
 
         if (moveController != null)
         {
@@ -67,7 +70,7 @@ public class MoveToTargetStep : MovementControllerStep
         moveController.canMove = true;
 
         // Condition for moving to target
-        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetThing.transform.position);
+        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetedThing.transform.position);
         if (distanceToTarget <= stoppingDistance)
         {
             moveConditionMet = true;
@@ -75,7 +78,7 @@ public class MoveToTargetStep : MovementControllerStep
         else
         {
             // Move towards target
-            Vector3 directionToTarget = (targetThing.transform.position - moveController.transform.position).normalized;
+            Vector3 directionToTarget = (targetedThing.transform.position - moveController.transform.position).normalized;
             moveController.movementInput = new Vector2(directionToTarget.x, directionToTarget.z);
         }
     }
@@ -109,17 +112,17 @@ public class JumpOnTargetStep : MovementControllerStep
         moveController.canJump = true;
         if (jumpHeight != null)
         {
-            moveController.jumpHeight = targetThing.thingTop.position.y - moveController.transform.position.y;
+            moveController.jumpHeight = targetedThing.thingTop.position.y - moveController.transform.position.y;
             jumpHeight = moveController.jumpHeight;
         }
         moveController.jumpInput = true;
 
         // Move towards target
-        Vector3 directionToTarget = (targetThing.thingTop.position - moveController.transform.position).normalized;
+        Vector3 directionToTarget = (targetedThing.thingTop.position - moveController.transform.position).normalized;
         moveController.movementInput = new Vector2(directionToTarget.x, directionToTarget.z);
 
         // Condition for stopping movement
-        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetThing.thingTop.position);
+        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetedThing.thingTop.position);
         if (distanceToTarget <= jumpDistance || (checkGroundedCondition && moveController.IsGrounded() && jumped))
         {
             moveController.movementInput = Vector2.zero;

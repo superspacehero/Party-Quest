@@ -50,7 +50,7 @@ public class AttackSequenceThing : GameThing
             step.ResetStep();
 
             StepResult result = StepResult.Failure;
-            yield return StartCoroutine(step.ExecuteStep(attacker, target, stepResult => result = stepResult));
+            yield return StartCoroutine(step.ExecuteStep(attacker, targetPosition, stepResult => result = stepResult, target));
 
             if (result == StepResult.Failure)
             {

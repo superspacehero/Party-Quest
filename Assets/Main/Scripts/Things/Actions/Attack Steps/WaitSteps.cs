@@ -5,7 +5,7 @@ public abstract class WaitForStep : AttackStep
 {
     protected bool waitConditionMet = false;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         while (!waitConditionMet)
         {
@@ -37,7 +37,7 @@ public class WaitForTimeStep : WaitForStep
         elapsedTime = 0;
     }
 
-    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         elapsedTime = 0;
 
@@ -64,12 +64,12 @@ public class WaitForDistanceStep : WaitForStep
 
     private float currentDistance = 0f;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         currentDistance = 0f;
 
         attackerThing = attacker;
-        targetThing = target;
+        targetThing = targetObject;
 
         return base.ExecuteStep(attacker, target, callback);
     }
@@ -93,25 +93,25 @@ public class WaitForProximityStep : WaitForStep
     public float distance = 1f;
     public bool useThingTop = false;
 
-    private GameThing attackerThing = null, targetThing = null;
+    private GameThing attackerThing = null, targetedThing = null;
 
     private float currentDistance = 0f;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         currentDistance = 0f;
 
         attackerThing = attacker;
-        targetThing = target;
+        targetedThing = targetThing;
 
         return base.ExecuteStep(attacker, target, callback);
     }
 
     protected override void CheckWaitCondition()
     {
-        if (attackerThing != null && targetThing != null)
+        if (attackerThing != null && targetedThing != null)
         {
-            currentDistance = Vector2.Distance(attackerThing.transform.position, (useThingTop) ? targetThing.thingTop.position : targetThing.transform.position);
+            currentDistance = Vector2.Distance(attackerThing.transform.position, (useThingTop) ? targetedThing.thingTop.position : targetedThing.transform.position);
 
             if (currentDistance <= distance)
             {

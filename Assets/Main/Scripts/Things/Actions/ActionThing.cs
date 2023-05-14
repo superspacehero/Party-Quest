@@ -61,6 +61,8 @@ public class ActionThing : GameThing
         actionRunning = false;
         onActionEnd.Invoke();
 
+        user.actionList.currentAction = null;
+
         if (user is CharacterThing && displayInventory)
             (user as CharacterThing).DisplayInventory(true);
 
@@ -73,6 +75,7 @@ public class ActionThing : GameThing
         StopAllCoroutines();
 
         actionRunning = false;
+        user.actionList.currentAction = null;
 
         (user as CharacterThing).DisplayInventory(true);
     }

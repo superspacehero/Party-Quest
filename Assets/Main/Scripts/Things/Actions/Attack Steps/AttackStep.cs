@@ -9,7 +9,7 @@ public enum StepResult
 
 public abstract class AttackStep
 {
-    public abstract IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback);
+    public abstract IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null);
 
     public abstract void ResetStep();
 
