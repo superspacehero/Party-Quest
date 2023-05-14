@@ -11,7 +11,7 @@ public abstract class AttackStep
 {
     public abstract IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback);
 
-    public abstract void InitializeStep();
+    public abstract void ResetStep();
 
     public virtual void Move(Vector2 direction)
     {

@@ -16,7 +16,7 @@ public abstract class WaitForStep : AttackStep
         callback?.Invoke(StepResult.Success);
     }
 
-    public override void InitializeStep()
+    public override void ResetStep()
     {
         waitConditionMet = false;
     }
@@ -29,6 +29,13 @@ public class WaitForTimeStep : WaitForStep
     public float waitTime = 1f;
 
     private float elapsedTime = 0;
+
+    public override void ResetStep()
+    {
+        base.ResetStep();
+
+        elapsedTime = 0;
+    }
 
     public override IEnumerator ExecuteStep(GameThing attacker, GameThing target, System.Action<StepResult> callback)
     {

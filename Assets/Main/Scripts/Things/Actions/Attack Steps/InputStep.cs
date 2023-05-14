@@ -53,7 +53,7 @@ public class InputStep : AttackStep
         callback?.Invoke(inputSuccess.Value ? StepResult.Success : StepResult.Failure);
     }
 
-    public override void InitializeStep()
+    public override void ResetStep()
     {
         inputSuccess = null;
         elapsedTime = 0;

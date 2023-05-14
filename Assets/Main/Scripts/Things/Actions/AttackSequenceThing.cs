@@ -46,8 +46,9 @@ public class AttackSequenceThing : GameThing
         {
             if (step == null)
                 continue;
-            else
-                step.InitializeStep();
+
+            step.ResetStep();
+
             StepResult result = StepResult.Failure;
             yield return StartCoroutine(step.ExecuteStep(attacker, target, stepResult => result = stepResult));
 
@@ -60,7 +61,7 @@ public class AttackSequenceThing : GameThing
             currentStepIndex++;
             // Debug.Log("Step " + currentStepIndex + " finished with result: " + result);
         }
-        
+
         AttackSequenceFinished?.Invoke(allStepsSuccessful);
     }
 

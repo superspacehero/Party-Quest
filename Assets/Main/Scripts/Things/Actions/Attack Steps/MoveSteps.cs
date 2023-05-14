@@ -19,13 +19,16 @@ public abstract class MovementControllerStep : AttackStep
 
         while (!moveConditionMet)
         {
-            CheckWaitCondition();
+            CheckMoveCondition();
             yield return null;
         }
 
         if (moveController != null)
         {
             moveController.canControl = 0;
+            moveController.movementInput = Vector2.zero;
+            moveController.jumpInput = false;
+
             moveController.canMove = false;
             moveController.canJump = false;
             moveController.jumpHeight = null;
@@ -34,21 +37,29 @@ public abstract class MovementControllerStep : AttackStep
         callback?.Invoke(StepResult.Success);
     }
 
-    public override void InitializeStep()
+    public override void ResetStep()
     {
         moveConditionMet = false;
         targetThing = null;
-        moveController = null;
+
+        if (moveController != null)
+        {
+            moveController.canControl = 0;
+            moveController.movementInput = Vector2.zero;
+            moveController.jumpInput = false;
+
+            moveController = null;
+        }
     }
 
-    protected abstract void CheckWaitCondition();
+    protected abstract void CheckMoveCondition();
 }
 
 public class MoveToTargetStep : MovementControllerStep
 {
     public float stoppingDistance = 1f;
 
-    protected override void CheckWaitCondition()
+    protected override void CheckMoveCondition()
     {
         if (moveController == null)
             return;
@@ -78,16 +89,16 @@ public class JumpOnTargetStep : MovementControllerStep
 
     private bool checkGroundedCondition = false;
 
-    public override void InitializeStep()
+    public override void ResetStep()
     {
-        base.InitializeStep();
+        base.ResetStep();
 
         checkGroundedCondition = false;
         jumpHeight = null;
         jumped = false;
     }
 
-    protected override void CheckWaitCondition()
+    protected override void CheckMoveCondition()
     {
         if (moveController == null)
             return;
@@ -112,6 +123,7 @@ public class JumpOnTargetStep : MovementControllerStep
         if (distanceToTarget <= jumpDistance || (checkGroundedCondition && moveController.IsGrounded() && jumped))
         {
             moveController.movementInput = Vector2.zero;
+            moveController.jumpInput = false;
             jumpHeight = null;
             jumped = false; // Reset the flag as the jump has been completed and the character has landed
             moveConditionMet = true;
