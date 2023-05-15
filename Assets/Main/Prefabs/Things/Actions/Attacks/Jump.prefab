@@ -71,6 +71,9 @@ MonoBehaviour:
     - Name: 
       Entry: 7
       Data: 2|JumpOnTargetStep, Assembly-CSharp
+    - Name: moveTarget
+      Entry: 3
+      Data: 1
     - Name: jumpDistance
       Entry: 4
       Data: 0.1
@@ -79,7 +82,67 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 3|InputStep, Assembly-CSharp
+      Data: 3|VariableBranchStep, Assembly-CSharp
+    - Name: variable
+      Entry: 7
+      Data: GameThing+GameThingVariables+Variable, Assembly-CSharp
+    - Name: name
+      Entry: 1
+      Data: spikeTop
+    - Name: value
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: useTarget
+      Entry: 5
+      Data: true
+    - Name: branchType
+      Entry: 3
+      Data: 0
+    - Name: trueSteps
+      Entry: 7
+      Data: 4|AttackStep[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 5|DamageStep, Assembly-CSharp
+    - Name: overrideDamage
+      Entry: 5
+      Data: true
+    - Name: damage
+      Entry: 3
+      Data: 1
+    - Name: useTarget
+      Entry: 5
+      Data: false
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 6|FailStep, Assembly-CSharp
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: falseSteps
+      Entry: 7
+      Data: 7|AttackStep[], Assembly-CSharp
+    - Name: 
+      Entry: 12
+      Data: 2
+    - Name: 
+      Entry: 7
+      Data: 8|InputStep, Assembly-CSharp
     - Name: requiredInput
       Entry: 3
       Data: 0
@@ -106,7 +169,31 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 7
-      Data: 4|JumpOnTargetStep, Assembly-CSharp
+      Data: 9|JumpOnTargetStep, Assembly-CSharp
+    - Name: moveTarget
+      Entry: 3
+      Data: 1
+    - Name: jumpDistance
+      Entry: 4
+      Data: 0.1
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 10|JumpOnTargetStep, Assembly-CSharp
+    - Name: moveTarget
+      Entry: 3
+      Data: 0
     - Name: jumpDistance
       Entry: 4
       Data: 0.1
@@ -136,7 +223,7 @@ MonoBehaviour:
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   range: 1
-  canUseEmptyTarget: 0
+  canUseEmptyTarget: 1
   AttackSequenceFinished:
     m_PersistentCalls:
       m_Calls: []

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public abstract class MovementControllerStep : AttackStep
 {
+    public AttackTarget moveTarget = AttackTarget.Target;
     protected bool moveConditionMet = false;
 
     protected Vector3 targetPosition = Vector3.zero;
@@ -16,8 +17,20 @@ public abstract class MovementControllerStep : AttackStep
 
         moveController.canControl = 1;
 
-        targetPosition = target;
-        targetedThing = (target != null) ? targetThing : attacker;
+        switch (moveTarget)
+        {
+            case AttackTarget.Attacker:
+                targetPosition = attacker.transform.position;
+                break;
+            case AttackTarget.Target:
+                targetPosition = target;
+                break;
+            case AttackTarget.TargetThing:
+                targetPosition = targetThing != null ? targetThing.transform.position : Vector3.zero;
+                break;
+        }
+
+        targetedThing = (targetThing != null) ? targetThing : attacker;
 
         while (!moveConditionMet)
         {

@@ -105,14 +105,12 @@ public class AttackAction : ActionThing
 
             switch (_attackState)
             {
-                default:
-                    Nodes.instance.HideNodes();
-                    break;
                 case AttackState.None:
                     CancelAction();
                     break;
                 case AttackState.PickingAttack:
                     targetPosition = user.transform.position;
+                    Nodes.instance.HideNodes();
                     break;
                 case AttackState.PickingTarget:
                     if (Nodes.instance != null)

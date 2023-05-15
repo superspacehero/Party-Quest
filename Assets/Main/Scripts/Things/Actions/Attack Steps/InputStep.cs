@@ -17,7 +17,7 @@ public class InputStep : AttackStep
     public bool wrongInputFailsStep = true;
     [Min(0)] public float minHoldTime = 0;
     [Min(0)] public float maxHoldTime = Mathf.Infinity;
-    [Min(0)] public float maxWaitTime = 0.1f;
+    [Min(0)] public float maxWaitTime = 0.2f;
     public bool pressInput = true;   // If true, the input is successful when the button is pressed
     public bool holdInput = false;   // If true, the input is successful when the button is held down
 

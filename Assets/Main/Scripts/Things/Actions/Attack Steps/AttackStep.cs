@@ -1,6 +1,13 @@
 using UnityEngine;
 using System.Collections;
 
+public enum AttackTarget
+{
+    Attacker,
+    Target,
+    TargetThing
+}
+
 public enum StepResult
 {
     Success,
@@ -26,5 +33,18 @@ public abstract class AttackStep
     public virtual void SecondaryAction(bool pressed)
     {
         // Implement secondary action during attack step if needed.
+    }
+}
+
+public class FailStep : AttackStep
+{
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    {
+        callback?.Invoke(StepResult.Failure);
+        yield break;
+    }
+
+    public override void ResetStep()
+    {
     }
 }

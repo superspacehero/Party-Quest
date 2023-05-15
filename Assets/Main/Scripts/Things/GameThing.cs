@@ -209,6 +209,23 @@ public class GameThing : SerializedMonoBehaviour
             return variable.value;
         }
 
+        // Set the value of a variable.
+        public void SetVariable(string name, int value)
+        {
+            // If the variable list is null, create a new one.
+            if (variables == null)
+                variables = new List<Variable>();
+
+            // Find the variable with the given name.
+            Variable variable = variables.Find(v => v.name == name);
+            // If the variable is not found, add it to the list.
+            if (variable.name == null)
+                variables.Add(new Variable(name, value));
+            // If the variable is found, set its value to the given value.
+            else
+                variable.value = value;
+        }
+
         // Operator to add two instances of GameThingVariables together.
         public static GameThingVariables operator +(GameThingVariables a, GameThingVariables b)
         {
