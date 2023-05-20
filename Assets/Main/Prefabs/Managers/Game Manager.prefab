@@ -5194,6 +5194,7 @@ Transform:
   - {fileID: 3300820574174873874}
   - {fileID: 8092299575638546654}
   - {fileID: 8973403866325814839}
+  - {fileID: 245468981062611444}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5603,6 +5604,52 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8863550041948789836, guid: 5285ae16a2c073a069331052432c98ac, type: 3}
   m_PrefabInstance: {fileID: 273132804262607542}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &564024016860469229
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 8561587462237652840}
+    m_Modifications:
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_RootOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5451043365812176269, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+      propertyPath: m_Name
+      value: Resolution Monitor
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+--- !u!4 &245468981062611444 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 341082140141479449, guid: 3ba748784c07b877daafa2653f36cc78, type: 3}
+  m_PrefabInstance: {fileID: 564024016860469229}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &888864202092953029
 PrefabInstance:

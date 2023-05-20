@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class GameplayCamera : MonoBehaviour
 {
@@ -77,33 +78,35 @@ public class GameplayCamera : MonoBehaviour
                 instance.transform.localEulerAngles = instance.cameraRotation;
             }
             else
-                instance.StartCoroutine(instance.CenterCamera());
+                instance.CenterCamera();
 
             Debug.Log("Set follow object to " + thingToFollow.name);
         }
 
-        private bool centeringCamera;
+        public void RotateCamera(float rotation)
+        {
+            cameraRotation.x = rotation;
+        }
 
-        public IEnumerator CenterCamera()
+        public void RotateCamera(Vector3 rotation)
+        {
+            cameraRotation = rotation;
+        }
+
+        public void RotateCamera(Vector4 rotationTime)
+        {
+            cameraRotation = new Vector3(rotationTime.x, rotationTime.y, rotationTime.z);
+            CenterCamera(rotationTime.w);
+        }
+
+        public void CenterCamera(float centerTime = -1f)
         {
             centeringCamera = true;
-            float cameraProgress = 0;
-            Vector3 originalPosition = transform.localPosition;
-            Vector3 originalRotation = transform.localEulerAngles;
-
-            while (cameraProgress <= 1)
-            {
-                cameraProgress += Time.deltaTime / cameraAdjustTime;
-                transform.localPosition = Vector3.Slerp(originalPosition, cameraOffset, cameraProgress);
-                transform.localEulerAngles = Vector3.Slerp(originalRotation, cameraRotation, cameraProgress);
-
-                yield return null;
-            }
-
-            transform.localPosition = cameraOffset;
-            transform.localEulerAngles = cameraRotation;
-            centeringCamera = false;
+            transform.DOLocalMove(cameraOffset, centerTime < 0 ? cameraAdjustTime : centerTime);
+            transform.DOLocalRotate(cameraRotation, centerTime < 0 ? cameraAdjustTime : centerTime).onComplete = () => { centeringCamera = false; };
         }
+
+        private bool centeringCamera;
 
     #endregion
 }

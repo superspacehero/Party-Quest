@@ -20,8 +20,9 @@ public class TilemapManager : MonoBehaviour
     }
     private AstarPath _pathfinder;
 
-    [SerializeField]
-    private TileTypeList tileTypeList;
+    [SerializeField] private string levelOverrideString;
+
+    [SerializeField] private TileTypeList tileTypeList;
 
     [SerializeField]
     private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
@@ -117,6 +118,31 @@ public class TilemapManager : MonoBehaviour
         LoadMap(Level.GetLevels()[mapSlot]);
     }
 
+    public void LoadMap()
+    {
+        // If there is a level override string, load that
+        if (!string.IsNullOrEmpty(levelOverrideString))
+        {
+            LoadMap(levelOverrideString);
+            return;
+        }
+
+        // Load the map from a file
+        if (!string.IsNullOrEmpty(GameManager.levelString))
+        {
+            LoadMap(GameManager.levelString);
+        }
+        else
+        {
+            List<string> levels = Level.GetLevels();
+            if (levels.Count > 0)
+            {
+                int desiredLevelSlot = 0; // Change this value to the desired level slot
+                LoadMap(levels[desiredLevelSlot]);
+            }
+        }
+    }
+
     public void ClearMap(bool clearPathfinder = true)
     {
         // Clear the map
@@ -131,23 +157,6 @@ public class TilemapManager : MonoBehaviour
 
         if (clearPathfinder)
             pathfinder.Scan();
-    }
-
-    public void LoadMap()
-    {
-        if (!string.IsNullOrEmpty(GameManager.levelString))
-        {
-            LoadMap(GameManager.levelString);
-        }
-        else
-        {
-            List<string> levels = Level.GetLevels();
-            if (levels.Count > 0)
-            {
-                int desiredLevelSlot = 0; // Change this value to the desired level slot
-                LoadMap(levels[desiredLevelSlot]);
-            }
-        }
     }
 
 
