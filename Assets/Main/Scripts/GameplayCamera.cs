@@ -102,8 +102,10 @@ public class GameplayCamera : MonoBehaviour
         public void CenterCamera(float centerTime = -1f)
         {
             centeringCamera = true;
-            transform.DOLocalMove(cameraOffset, centerTime < 0 ? cameraAdjustTime : centerTime);
-            transform.DOLocalRotate(cameraRotation, centerTime < 0 ? cameraAdjustTime : centerTime).onComplete = () => { centeringCamera = false; };
+            if (centerTime < 0f)
+                centerTime = cameraAdjustTime;
+            DOTween.Sequence().Append(transform.DOLocalMove(cameraOffset, centerTime)).Join(transform.DOLocalRotate(cameraRotation, centerTime)).AppendCallback(() => centeringCamera = false);
+            DOTween.Sequence().Play();
         }
 
         private bool centeringCamera;

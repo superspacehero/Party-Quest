@@ -123,6 +123,41 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!21 &8203356
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Extensions/UIMultiply
+  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1 &14865717 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5764311661273333450, guid: 3020728ed0d0c9509a35461936133620, type: 3}
@@ -141,7 +176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationSteps:
-  - rid: 6916703744285736960
+  - rid: 6916703761925406720
   updateType: 0
   timeScaleIndependent: 0
   autoplayMode: 0
@@ -157,16 +192,16 @@ MonoBehaviour:
   onFinishedEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2015540566}
-        m_TargetAssemblyTypeName: TheraBytes.BetterUi.LocationAnimations, Assembly-CSharp
-        m_MethodName: StartAnimation
-        m_Mode: 5
+      - m_Target: {fileID: 2015540568}
+        m_TargetAssemblyTypeName: Febucci.UI.Core.TAnimPlayerBase, Febucci.TextAnimator.Runtime
+        m_MethodName: StartShowingText
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Pop In
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
   onProgressEvent:
@@ -176,38 +211,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 6916703744285736960
-      type: {class: InvokeCallbackAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
+    - rid: 6916703761925406720
+      type: {class: WaitForIntervalStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
       data:
-        delay: 1
+        delay: 0
         flowType: 0
-        callback:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 517131879}
-              m_TargetAssemblyTypeName: GameplayCamera, Assembly-CSharp
-              m_MethodName: RotateCamera
-              m_Mode: 4
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: -35
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
-            - m_Target: {fileID: 517131879}
-              m_TargetAssemblyTypeName: GameplayCamera, Assembly-CSharp
-              m_MethodName: CenterCamera
-              m_Mode: 4
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 1
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
+        interval: 1
 --- !u!1 &30550191
 GameObject:
   m_ObjectHideFlags: 0
@@ -1580,7 +1589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481ab606793a67349be805c13febeba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTarget: {fileID: 0}
+  mTarget: {fileID: 1082831853}
   mAlignment_RTL: 514
   mAlignment_LTR: 514
   mAlignmentWasRTL: 0
@@ -1712,17 +1721,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 462305363}
   m_CullTransparentMesh: 1
---- !u!114 &517131879 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7991528076323305061, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-  m_PrefabInstance: {fileID: 335949194}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cc6782fce7a0165b8503a55f1ac112d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &584517364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1849,7 +1847,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 961775891}
-  m_RootOrder: 1
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2751,7 +2749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transformFallback:
-    LocalPosition: {x: -399.31268, y: 492.44073, z: 0}
+    LocalPosition: {x: -577.2663, y: 329.9164, z: 0}
     AnchoredPosition: {x: 0, y: 0}
     SizeDelta: {x: 0, y: 0}
     AnchorMin: {x: 0, y: 0.5}
@@ -2852,7 +2850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 481ab606793a67349be805c13febeba0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mTarget: {fileID: 2015540563}
+  mTarget: {fileID: 1576252872}
   mAlignment_RTL: 514
   mAlignment_LTR: 514
   mAlignmentWasRTL: 0
@@ -2901,7 +2899,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1570954271442715489, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1634289537234900026, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_SizeDelta.x
@@ -2913,7 +2911,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1712003281260700127, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5764311661273333450, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_Name
@@ -3009,7 +3007,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3020728ed0d0c9509a35461936133620, type: 3}
@@ -3158,41 +3156,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 986727275}
   m_CullTransparentMesh: 1
---- !u!21 &991425926
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI Extensions/UIMultiply
-  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
 --- !u!114 &1046511321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3427,6 +3390,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AspectMode: 3
   m_AspectRatio: 1.7777778
+--- !u!114 &1082831853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3130589435307595772, guid: 841870265bcbd3d1aa13171c44524c9c, type: 3}
+  m_PrefabInstance: {fileID: 8350679930472411118}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!21 &1122767981
 Material:
   serializedVersion: 8
@@ -4860,6 +4834,306 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!1 &1576252867
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1576252868}
+  - component: {fileID: 1576252873}
+  - component: {fileID: 1576252872}
+  - component: {fileID: 1576252871}
+  - component: {fileID: 1576252870}
+  - component: {fileID: 1576252869}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 2800000, guid: 161429058f8e4ac46add260a4ad5e7da, type: 3}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1576252868
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2115739377}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1576252869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a6945b90dcd0c4b81619c0d8b5c283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useTypeWriter: 1
+  startTypewriterMode: -1
+  canSkipTypewriter: 0
+  hideAppearancesOnSkip: 0
+  triggerEventsOnSkip: 0
+  resetTypingSpeedAtStartup: 1
+  disappearanceOrientation: 0
+  onTextShowed:
+    m_PersistentCalls:
+      m_Calls: []
+  onTypewriterStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onTextDisappeared:
+    m_PersistentCalls:
+      m_Calls: []
+  onCharacterVisible:
+    m_PersistentCalls:
+      m_Calls: []
+  waitForNormalChars: 0.06666667
+  waitLong: 0.6
+  waitMiddle: 0.2
+  avoidMultiplePunctuactionWait: 0
+  waitForNewLines: 1
+  waitForLastCharacter: 1
+  useTypewriterWaitForDisappearances: 1
+  disappearanceWaitTime: 0.015
+  disappearanceSpeedMultiplier: 1
+--- !u!114 &1576252870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ace8ced0e81c847968cdca0aeda757, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  triggerAnimPlayerOnChange: 1
+  effectIntensityMultiplier: 50
+  appearancesContainer:
+    tagsFallback_Appearances:
+    - offset
+    - vertexp
+    tagsFallback_Disappearances:
+    - rdir
+    - size
+    values:
+      defaults:
+        sizeDuration: 0.3
+        sizeAmplitude: 0
+        fadeDuration: 0.3
+        verticalExpandDuration: 0.1
+        verticalFromBottom: 1
+        horizontalExpandDuration: 0.3
+        horizontalExpandStart: 0
+        diagonalExpandDuration: 0.3
+        diagonalFromBttmLeft: 0
+        offsetDir: {x: 0, y: 1}
+        offsetDuration: 0.1
+        offsetAmplitude: 1
+        rotationDuration: 0.3
+        rotationStartAngle: 180
+        randomDirDuration: 0.3
+        randomDirAmplitude: 1
+      presets: []
+  tags_fallbackBehaviors:
+  - bounce
+  behaviorValues:
+    defaults:
+      wiggleAmplitude: 0.15
+      wiggleFrequency: 7.67
+      waveFrequency: 4.78
+      waveAmplitude: 0.2
+      waveWaveSize: 0.18
+      angleSpeed: 180
+      angleDiffBetweenChars: 10
+      swingAmplitude: 9
+      swingFrequency: 7.5
+      swingWaveSize: 0.1
+      shakeStrength: 0.085
+      shakeDelay: 0.04
+      sizeAmplitude: 1.4
+      sizeFrequency: 4.84
+      sizeWaveSize: 0.18
+      slideAmplitude: 0.12
+      slideFrequency: 5
+      slideWaveSize: 0
+      bounceAmplitude: 0.1
+      bounceFrequency: 1
+      bounceWaveSize: 0.1
+      hueShiftSpeed: 0.8
+      hueShiftWaveSize: 0.08
+      fadeDelay: 1.2
+      dangleAmplitude: 0.13
+      dangleFrequency: 2.41
+      dangleWaveSize: 0.18
+      dangleAnchorBottom: 0
+      pendAmplitude: 25
+      pendFrequency: 3
+      pendWaveSize: 0.2
+      pendInverted: 0
+    presets: []
+  scriptable_globalBehaviorsValues: {fileID: 0}
+  scriptable_globalAppearancesValues: {fileID: 0}
+  useDynamicScaling: 0
+  referenceFontSize: -1
+  isResettingEffectsOnNewText: 1
+  timeScale: 0
+--- !u!114 &1576252871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 344445a89b4f74a0e9a0a766903df87e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mTerm: Messages/Message_PressToStart
+  mTermSecondary: 
+  PrimaryTermModifier: 0
+  SecondaryTermModifier: 0
+  TermPrefix: 
+  TermSuffix: 
+  LocalizeOnAwake: 1
+  IgnoreRTL: 0
+  MaxCharactersInRTL: 0
+  IgnoreNumbersInRTL: 1
+  CorrectAlignmentForRTL: 1
+  AddSpacesToJoinedLanguages: 0
+  AllowLocalizedParameters: 1
+  AllowParameters: 1
+  TranslatedObjects: []
+  LocalizeEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  AlwaysForceLocalize: 0
+  LocalizeCallBack:
+    Target: {fileID: 0}
+    MethodName: 
+  mGUI_ShowReferences: 0
+  mGUI_ShowTems: 1
+  mGUI_ShowCallback: 0
+  mLocalizeTarget: {fileID: 907176391}
+  mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
+--- !u!114 &1576252872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 1910343942}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: Press to start
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: d57195cd434a1155bb54eb0c8254c932, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 3f50c42afa09922b6b1a41ebe9998f33, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4283944959
+  m_fontColor: {r: 1, g: 0.8133334, b: 0.3411765, a: 1}
+  m_enableVertexGradient: 1
+  m_colorMode: 2
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 0.75, b: 0.75, a: 1}
+    bottomRight: {r: 1, g: 0.75, b: 0.75, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: -1183493901
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 36
+  m_fontSizeBase: 36
+  m_fontWeight: 400
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 18
+  m_fontSizeMax: 36
+  m_fontStyle: 0
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 1024
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_wordSpacing: 0
+  m_lineSpacing: -28
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_enableWordWrapping: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 1
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 1
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1576252873
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576252867}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1583606899
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5546,7 +5820,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2015540562}
   - component: {fileID: 2015540564}
-  - component: {fileID: 2015540566}
   - component: {fileID: 2015540563}
   - component: {fileID: 2015540565}
   - component: {fileID: 2015540569}
@@ -5627,7 +5900,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 82.1
+  m_fontSize: 82.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -5716,135 +5989,6 @@ MonoBehaviour:
   mGUI_ShowCallback: 0
   mLocalizeTarget: {fileID: 907176391}
   mLocalizeTargetName: I2.Loc.LocalizeTarget_TextMeshPro_UGUI
---- !u!114 &2015540566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2015540561}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbf511209ead75448bda470f26a3ea37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useRelativeLocations: 0
-  locations:
-  - name: Popped Out
-    transformFallback:
-      LocalPosition: {x: 214.94011, y: -227.80762, z: 0}
-      AnchoredPosition: {x: 0, y: 0}
-      SizeDelta: {x: 0, y: 0}
-      AnchorMin: {x: 0, y: -1}
-      AnchorMax: {x: 1, y: 0}
-      Pivot: {x: 0.5, y: 0}
-      Scale: {x: 0, y: 0, z: 0}
-      rotation: {x: 0, y: 0, z: 1, w: -0.00000004371139}
-      EulerAngles: {x: 0, y: 0, z: 180}
-      saveRotationAsEuler: 1
-      screenConfigName: 
-    transformConfigs:
-      items:
-      - LocalPosition: {x: 214.94011, y: -227.80762, z: 0}
-        AnchoredPosition: {x: 0, y: 0}
-        SizeDelta: {x: 0, y: -100}
-        AnchorMin: {x: 1, y: 0}
-        AnchorMax: {x: 2, y: 1}
-        Pivot: {x: 0.5, y: 0.5}
-        Scale: {x: 0, y: 0, z: 0}
-        rotation: {x: 0, y: 0, z: 0.9961947, w: 0.087155804}
-        EulerAngles: {x: 0, y: 0, z: 170}
-        saveRotationAsEuler: 1
-        screenConfigName: Landscape
-  - name: Popped In
-    transformFallback:
-      LocalPosition: {x: 0, y: 0, z: 0}
-      AnchoredPosition: {x: 0, y: 0}
-      SizeDelta: {x: 0, y: 0}
-      AnchorMin: {x: 0, y: 0}
-      AnchorMax: {x: 1, y: 1}
-      Pivot: {x: 0.5, y: 0.5}
-      Scale: {x: 1, y: 1, z: 1}
-      rotation: {x: 0, y: 0, z: 0, w: 1}
-      EulerAngles: {x: -0, y: 0, z: 0}
-      saveRotationAsEuler: 1
-      screenConfigName: 
-    transformConfigs:
-      items: []
-  animations:
-  - name: Pop In
-    from: Popped Out
-    to: Popped In
-    curve:
-      serializedVersion: 2
-      m_Curve:
-      - serializedVersion: 3
-        time: 0
-        value: 0
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.5
-        value: 1.2
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 0.75
-        value: 0.9
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      - serializedVersion: 3
-        time: 1
-        value: 1
-        inSlope: 0
-        outSlope: 0
-        tangentMode: 0
-        weightedMode: 0
-        inWeight: 0
-        outWeight: 0
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    actionBeforeStart:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 2015540568}
-          m_TargetAssemblyTypeName: Febucci.UI.Core.TAnimPlayerBase, Febucci.TextAnimator.Runtime
-          m_MethodName: StartShowingText
-          m_Mode: 6
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    actionAfterFinish:
-      m_PersistentCalls:
-        m_Calls: []
-    actionOnUpdating:
-      m_PersistentCalls:
-        m_Calls: []
-    animateWithEulerRotation: 1
-    timeScale: 1
-  startLocation: Popped Out
-  startUpAnimation: Pop In
-  actionOnInit:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &2015540568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5914,6 +6058,7 @@ MonoBehaviour:
   appearancesContainer:
     tagsFallback_Appearances:
     - rdir
+    - vertexp
     tagsFallback_Disappearances:
     - rdir
     - size
@@ -5923,7 +6068,7 @@ MonoBehaviour:
         sizeAmplitude: 0
         fadeDuration: 0.3
         verticalExpandDuration: 0.3
-        verticalFromBottom: 0
+        verticalFromBottom: 1
         horizontalExpandDuration: 0.3
         horizontalExpandStart: 0
         diagonalExpandDuration: 0.3
@@ -5936,7 +6081,8 @@ MonoBehaviour:
         randomDirDuration: 0.3
         randomDirAmplitude: 1
       presets: []
-  tags_fallbackBehaviors: []
+  tags_fallbackBehaviors:
+  - swing
   behaviorValues:
     defaults:
       wiggleAmplitude: 0.15
@@ -5946,8 +6092,8 @@ MonoBehaviour:
       waveWaveSize: 0.18
       angleSpeed: 180
       angleDiffBetweenChars: 10
-      swingAmplitude: 27.5
-      swingFrequency: 5
+      swingAmplitude: 9
+      swingFrequency: 7.5
       swingWaveSize: 0
       shakeStrength: 0.085
       shakeDelay: 0.04
@@ -5957,9 +6103,9 @@ MonoBehaviour:
       slideAmplitude: 0.12
       slideFrequency: 5
       slideWaveSize: 0
-      bounceAmplitude: 0.08
+      bounceAmplitude: 0.4
       bounceFrequency: 1
-      bounceWaveSize: 0.08
+      bounceWaveSize: 0.1
       hueShiftSpeed: 0.8
       hueShiftWaveSize: 0.08
       fadeDelay: 1.2
@@ -6099,6 +6245,11 @@ PrefabInstance:
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}
   m_PrefabInstance: {fileID: 2056775559}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2115739377 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+  m_PrefabInstance: {fileID: 961775889}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2201796458248040112
 PrefabInstance:

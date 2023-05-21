@@ -19,32 +19,15 @@ public struct Level
     [ReadOnly] public List<GameThing> things;
     public List<Room> rooms;
 
+    // Convert the Level struct to a JSON string
     public string Serialize()
     {
         return JsonUtility.ToJson(this);
-        // var builder = new StringBuilder(levelName + "\n");
-
-        // builder.Append("ground[");
-        // foreach (var groundTile in groundTiles)
-        //     builder.Append($"{(int)groundTile.tileType.tileType}({groundTile.position.x},{groundTile.position.y},{groundTile.position.z})");
-        // builder.Append("]\n");
-
-        // builder.Append("prop[");
-        // foreach (var propTile in propTiles)
-        //     builder.Append($"{(int)propTile.tileType.tileType}({propTile.position.x},{propTile.position.y})");
-        // builder.Append("]\n");
-
-        // builder.Append("object[");
-        // foreach (var objectTile in objectTiles)
-        //     builder.Append($"{(int)objectTile.tileType.tileType}({objectTile.position.x},{objectTile.position.y})");
-        // builder.Append("]\n");
-
-        // return builder.ToString();
     }
 
+    // Create a Level struct from a JSON string
     public static Level Deserialize(string levelString, bool isPreview = false)
     {
-        Debug.Log(levelString);
         Level level = JsonUtility.FromJson<Level>(levelString);
 
         if (isPreview)
@@ -57,7 +40,6 @@ public struct Level
 
             return level;
         }
-        
 
         foreach (Room room in level.rooms)
             room.SetDiscovered(false);
@@ -65,41 +47,45 @@ public struct Level
         return level;
     }
 
-    private static void CheckLevelDirectory()
-    {
-        if (!System.IO.Directory.Exists(Application.persistentDataPath + "/Levels/"))
-            System.IO.Directory.CreateDirectory(Application.persistentDataPath + "/Levels/");
-    }
-
-    public static List<string> GetLevels()
-    {
-        CheckLevelDirectory();
-
-        if (levels.Count == System.IO.Directory.GetFiles(Application.persistentDataPath + "/Levels/").Length)
-            return levels;
-
-        levels.Clear();
-
-        // Get the level files
-        foreach (string level in System.IO.Directory.GetFiles(Application.persistentDataPath + "/Levels/"))
-            levels.Add(System.IO.File.ReadAllText(level));
-
-        return levels;
-    }
-    private static List<string> levels = new List<string>();
-
+    // Save a Level to a file
     public static void SaveLevel(Level level, int levelSlot)
     {
-        CheckLevelDirectory();
-
-        System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json", level.Serialize());
+        string levelString = level.Serialize();
+        System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json", levelString);
     }
 
+    // Load a Level from a file
+    public static Level LoadLevel(int levelSlot)
+    {
+        string levelString = System.IO.File.ReadAllText(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json");
+        Level level = Level.Deserialize(levelString);
+        return level;
+    }
+
+    // Delete a Level file
     public static void DeleteLevel(int levelSlot)
     {
-        CheckLevelDirectory();
-
         System.IO.File.Delete(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json");
+    }
+
+    // Get a list of available Level files
+    public static List<string> GetLevels()
+    {
+        string levelDirectory = Application.persistentDataPath + "/Levels/";
+
+        if (!System.IO.Directory.Exists(levelDirectory))
+            System.IO.Directory.CreateDirectory(levelDirectory);
+
+        string[] levelFiles = System.IO.Directory.GetFiles(levelDirectory);
+        List<string> levels = new List<string>();
+
+        foreach (string levelFile in levelFiles)
+        {
+            string levelString = System.IO.File.ReadAllText(levelFile);
+            levels.Add(levelString);
+        }
+
+        return levels;
     }
 
     [System.Serializable]

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 using Sirenix.OdinInspector;
 
 [AddComponentMenu("Game Things/Game Thing")]
@@ -26,6 +27,29 @@ public class GameThing : SerializedMonoBehaviour
     //   (used for player characters, NPCs, and objects that can be directly controlled);
     // - Mechanism Trigger and Mechanism GameThings, the former of which can be used to toggle, activate, or deactivate the latter
     //   (used for doors, switches, and other objects that can be interacted with in a variety of ways);
+
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    void Awake()
+    {
+        // If the GameManager's level is not null, and it doesn't have this GameThing in its list of things, add this GameThing to the list.
+        if (GameManager.instance != null && !GameManager.instance.level.things.Contains(this))
+        {
+            GameManager.instance.level.things.Add(this);
+            // Debug.Log($"Added {name} to GameManager's level.");
+        }
+    }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    void OnDestroy()
+    {
+        // If the GameManager's level is not null, and it has this GameThing in its list of things, remove this GameThing from the list.
+        if (GameManager.instance != null && GameManager.instance.level.things.Contains(this))
+            GameManager.instance.level.things.Remove(this);
+    }
     
     public virtual string thingName
     {
@@ -64,6 +88,20 @@ public class GameThing : SerializedMonoBehaviour
     public virtual string thingSubType
     {
         get => "";
+    }
+
+    // Method to convert the GameThing to a JSON string
+    public string ToJson()
+    {
+        string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+        return jsonString;
+    }
+    
+    // Method to convert a JSON string to a GameThing
+    public static GameThing FromJson(string jsonString)
+    {
+        GameThing gameThing = JsonConvert.DeserializeObject<GameThing>(jsonString);
+        return gameThing;
     }
 
     public virtual void Use(GameThing user)
