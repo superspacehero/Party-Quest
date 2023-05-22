@@ -5240,6 +5240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02d46a02b2cbad87ca50e14a7dcab79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelOverrideString: 
   tileTypeList: {fileID: 11400000, guid: cc70f9813e666e9429f4f9793edd8f11, type: 2}
   _groundTilemap: {fileID: 1299743640007157026}
   _propTilemap: {fileID: 1091313510384445028}
@@ -7298,16 +7299,20 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1634289537234900026, guid: 3020728ed0d0c9509a35461936133620, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3767747429345540969, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_AspectMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3767747429345540969, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_AspectRatio
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3839405842094031172, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: m_FitTarget
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3839405842094031172, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: m_FitOnLateUpdate
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5764311661273333449, guid: 3020728ed0d0c9509a35461936133620, type: 3}
@@ -7425,6 +7430,14 @@ PrefabInstance:
     - target: {fileID: 6803003793509307548, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_AnchorMin.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314789181113005416, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: irisWaitTime
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7314789181113005416, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: startingState
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7829660371214868770, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_AspectMode

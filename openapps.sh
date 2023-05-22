@@ -26,7 +26,7 @@ case "$first_letter" in
         $unity -openfile $scenepath/$defaultScene & clip-snap-paint & $github &
         ;;
     "m")
-        $unity -openfile $scenepath/Menus.unity & $github & code . &
+        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & code . &
         ;;
     *)
         $unity -openfile $scenepath/$defaultScene & $github &
