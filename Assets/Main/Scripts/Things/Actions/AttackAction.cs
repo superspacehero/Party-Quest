@@ -96,7 +96,7 @@ public class AttackAction : ActionThing
         {
             _attackState = value;
 
-            attackMenu.SetActive(_attackState == AttackState.PickingAttack, weapon);
+            attackMenu.SetActive(_attackState == AttackState.PickingAttack, this);
 
             if (_attackState == AttackState.PickingTarget)
                 Nodes.UnoccupyNode(Nodes.gridGraph.GetNearest(user.transform.position).node);

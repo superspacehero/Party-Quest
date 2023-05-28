@@ -56,6 +56,29 @@ CapsuleCollider:
   m_Height: 0.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.3, z: 0}
+--- !u!205 &5462391176781059292
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 932194284778317373}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.0038667321, y: 0.30317435, z: 0.014236927}
+  m_Size: 0.99880695
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.25
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 974343419960403025}
+  - screenRelativeHeight: 0.01
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 4455106569141397653}
+  m_Enabled: 1
 --- !u!114 &1768684956874793353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,7 +92,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
+    SerializedFormat: 0
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -90,12 +113,17 @@ MonoBehaviour:
   variables:
     variables: []
   _renderers:
-  - {fileID: 1724647430797117416}
+  - {fileID: 0}
   _redColor: {r: 0.3529412, g: 0.77254903, b: 0.30980393, a: 1}
   _greenColor: {r: 0.8784314, g: 0.45490196, b: 0.21960784, a: 1}
   _blueColor: {r: 0.76862746, g: 0.14117648, b: 0.1882353, a: 1}
---- !u!23 &1724647430797117416 stripped
+--- !u!23 &974343419960403025 stripped
 MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 472281f0838fda98a881bd67eb53fb95, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8238446841588613315, guid: 472281f0838fda98a881bd67eb53fb95, type: 3}
+  m_PrefabInstance: {fileID: 13150239360899948}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &4455106569141397653 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4466743725883651065, guid: 472281f0838fda98a881bd67eb53fb95, type: 3}
   m_PrefabInstance: {fileID: 13150239360899948}
   m_PrefabAsset: {fileID: 0}

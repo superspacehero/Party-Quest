@@ -271,14 +271,16 @@ public class Menu : MonoBehaviour
     }
 
     [Button, ContextMenu("Select")]
-    public void Select()
+    public virtual void Select()
     {
         if (selected)
             return;
 
-        if (!gameObject.activeInHierarchy)
+        if (!gameObject.activeInHierarchy || !enabled)
         {
             gameObject.SetActive(true);
+            enabled = true;
+
             Debug.Log("Enabling " + gameObject.name + " for selection");
 
             return;

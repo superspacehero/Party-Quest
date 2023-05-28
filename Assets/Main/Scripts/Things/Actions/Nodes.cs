@@ -89,37 +89,44 @@ public class Nodes : MonoBehaviour
     {
         List<GraphNode> nodes = new List<GraphNode>();
 
-        GraphNode currentNode = gridGraph.GetNearest(position).node;
-        nodes.Add(currentNode);
-
-        Queue<GraphNode> queue = new Queue<GraphNode>();
-        queue.Enqueue(currentNode);
-
-        // Iterate through all the nodes in the movement range
-        for (int i = 0; i < radius; i++)
+        // If radius is set to infinity, add all walkable nodes in the gridGraph to the nodes list.
+        if (float.IsInfinity(radius))
         {
-            int queueCount = queue.Count;
-            for (int j = 0; j < queueCount; j++)
+            foreach (var node in gridGraph.nodes)
             {
-                GraphNode searchNode = queue.Dequeue();
-                // Iterate through all the directions
-                foreach (Vector3 direction in directions)
+                if (node.Walkable)
                 {
-                    // Get the node in the direction
-                    GraphNode node = gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
-                    // float deltaY = Mathf.Abs(node.position.y - searchNode.position.y);
+                    nodes.Add(node);
+                }
+            }
+        }
+        else
+        {
+            GraphNode currentNode = gridGraph.GetNearest(position).node;
+            nodes.Add(currentNode);
 
-                    // bool withinUpwardLimit = maxHeightLimits.x == -1 || deltaY <= maxHeightLimits.x;
-                    // bool withinDownwardLimit = maxHeightLimits.y == -1 || deltaY <= maxHeightLimits.y;
+            Queue<GraphNode> queue = new Queue<GraphNode>();
+            queue.Enqueue(currentNode);
 
-                    // if (deltaY != 0)
-                    //     Debug.Log($"Node: {node.position}, SearchNode: {searchNode.position}, DeltaY: {deltaY}, UpwardLimit: {withinUpwardLimit}, DownwardLimit: {withinDownwardLimit}");
-
-                    // If the node is not in the valid spaces list, is walkable, and the height difference is within the specified limits, add it to the list
-                    if (!nodes.Contains(node) && node.Walkable)// && withinUpwardLimit && withinDownwardLimit)
+            // Iterate through all the nodes in the movement range
+            for (int i = 0; i < radius; i++)
+            {
+                int queueCount = queue.Count;
+                for (int j = 0; j < queueCount; j++)
+                {
+                    GraphNode searchNode = queue.Dequeue();
+                    // Iterate through all the directions
+                    foreach (Vector3 direction in directions)
                     {
-                        nodes.Add(node);
-                        queue.Enqueue(node);
+                        // Get the node in the direction
+                        GraphNode node = gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
+
+                        // If the node is not in the valid spaces list and is walkable, add it to the list
+                        if (!nodes.Contains(node) && node.Walkable)
+                        {
+                            nodes.Add(node);
+                            queue.Enqueue(node);
+                        }
                     }
                 }
             }

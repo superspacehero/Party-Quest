@@ -3,20 +3,12 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class MoveAction : ActionThing
+public class MenuMoveAction : StartingActionThing
 {
     public override string thingSubType
     {
-        get => "Move";
+        get => "MenuMove";
     }
-
-    [SerializeField] private GameObject dicePrefab;
-
-    // The number of spaces the character can move
-    private int movementRange = 3;
-
-    // The height the character can jump
-    private float jumpHeight = 1;
 
     // The direction the character is moving in
     private Vector3 movement;
@@ -29,30 +21,6 @@ public class MoveAction : ActionThing
 
     protected override IEnumerator RunAction()
     {
-        int numberOfDiceRolls = (int)user.variables.GetVariable("movement"); // Get the number of dice rolls from user variables
-        int sumOfDiceRolls = 0;
-
-        yield return null;
-
-        for (int i = 0; i < numberOfDiceRolls; i++)
-        {
-            // Roll the dice to determine the movement range
-            Dice diceInstance = GameManager.instance.dicePool.GetDieFromPool(user.thingTop.position, OnDiceRollStarted, OnDiceRollFinished);
-            user.AttachThing(diceInstance);
-
-            // Wait until the dice roll is finished
-            while (!diceRollFinished)
-            {
-                yield return null;
-            }
-
-            sumOfDiceRolls += currentDiceValue; // Add the current dice value to the sum of dice rolls
-            user.DetachThing();
-            GameManager.instance.dicePool.ReturnDieToPool(diceInstance);
-        }
-
-        movementRange = sumOfDiceRolls; // Set the movement range based on the sum of dice rolls
-
         // Enable movement control
         user.TryGetComponent(out MovementController controller);
 
@@ -62,26 +30,12 @@ public class MoveAction : ActionThing
 
             controller.canMove = true;
             controller.canJump = true;
-
-            jumpHeight = controller.jumpHeight.Value;
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
         Nodes.UnoccupyNode(currentNode);
-        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, new Vector2(jumpHeight, -1));
-
-        // Display the valid grid spaces
-        if (Nodes.instance != null)
-        {
-            Nodes.instance.DisplayNodes(validSpaces);
-
-            Nodes.instance.ColorNodeObjects(validSpaces);
-
-            Nodes.instance.ColorNodeObject(currentNode, Nodes.instance.currentColor);
-        }
-        else
-            Debug.LogWarning("NodeDisplay is null");
+        validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, new Vector2(controller.jumpHeight.Value, -1));
 
         // The previous position of the user
         Vector3 previousPosition = user.transform.position;
@@ -118,16 +72,6 @@ public class MoveAction : ActionThing
                     currentNode = previousNode;
                 }
 
-                if (previousNode != currentNode)
-                {
-                    // Highlight the current node
-                    if (Nodes.instance != null)
-                    {
-                        Nodes.instance.ColorNodeObject(previousNode, Nodes.instance.walkableColor);
-                        Nodes.instance.ColorNodeObject(currentNode, Nodes.instance.currentColor);
-                    }
-                }
-
                 // Update the previous position
                 previousNode = currentNode;
                 previousPosition = user.transform.position;
@@ -136,9 +80,6 @@ public class MoveAction : ActionThing
             // Wait until the next frame
             yield return General.waitForFixedUpdate;
         }
-
-        // Hide the valid grid spaces
-        Nodes.instance.HideNodes();
 
         // Disable movement control
         if (controller != null)
@@ -153,29 +94,11 @@ public class MoveAction : ActionThing
         EndAction();
     }
 
-    private bool diceRollFinished = false;
-    private int currentDiceValue = 0;
-
-    private void OnDiceRollStarted()
-    {
-        diceRollFinished = false;
-    }
-
-    private void OnDiceRollFinished(int diceValue)
-    {
-        currentDiceValue = diceValue;
-        diceRollFinished = true;
-    }
-
     public override void SecondaryAction(bool pressed)
     {
         if (pressed)
         {
-            if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
-            {
-                controller.canControl = (controller.canControl == 0) ? 2 : 0;
-                (user as CharacterThing).DisplayInventory(controller.canControl <= 1);
-            }
+            actionRunning = false;
         }
     }
 }

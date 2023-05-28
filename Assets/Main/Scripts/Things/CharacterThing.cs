@@ -169,8 +169,16 @@ public class CharacterThing : GameThing
 
     #region Controlling Characters
 
+    // The action to run at the start of the character's turn
+    public StartingActionThing overrideStartingAction;
+
     public void MyTurn()
     {
+        if (overrideStartingAction != null)
+        {
+            overrideStartingAction.Use(this);
+            return;
+        }
 
         if (actionList != null)
         {

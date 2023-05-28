@@ -6,29 +6,35 @@ public class AttackMenu : MonoBehaviour
 {
     [SerializeField] private ThingDisplay upAttack, downAttack, leftAttack, rightAttack;
 
-    public WeaponThing weapon
+    public AttackAction attack
     {
-        get => _weapon;
+        get => _attack;
         set
         {
-            _weapon = value;
-            upAttack.thing = value.upAttack;
-            downAttack.thing = value.downAttack;
-            leftAttack.thing = value.sideAttack;
-            rightAttack.thing = value.sideAttack;
+            _attack = value;
 
-            upAttack.gameObject.SetActive(value.upAttack != null);
-            downAttack.gameObject.SetActive(value.downAttack != null);
-            leftAttack.gameObject.SetActive(value.sideAttack != null);
-            rightAttack.gameObject.SetActive(value.sideAttack != null);
+            upAttack.thing = value.weapon.upAttack;
+            downAttack.thing = value.weapon.downAttack;
+            leftAttack.thing = value.weapon.sideAttack;
+            rightAttack.thing = value.weapon.sideAttack;
+
+            upAttack.iconButton.onClick.AddListener(() => PickAttack(upAttack.thing, out value.weapon.upAttack));
+            downAttack.iconButton.onClick.AddListener(() => PickAttack(downAttack.thing, out value.weapon.downAttack));
+            leftAttack.iconButton.onClick.AddListener(() => PickAttack(leftAttack.thing, out value.weapon.sideAttack));
+            rightAttack.iconButton.onClick.AddListener(() => PickAttack(rightAttack.thing, out value.weapon.sideAttack));
+
+            upAttack.gameObject.SetActive(upAttack.thing != null);
+            downAttack.gameObject.SetActive(downAttack.thing != null);
+            leftAttack.gameObject.SetActive(leftAttack.thing != null);
+            rightAttack.gameObject.SetActive(rightAttack.thing != null);
         }
     }
-    private WeaponThing _weapon;
+    private AttackAction _attack;
 
-    public void SetActive(bool active, WeaponThing weapon = null)
+    public void SetActive(bool active, AttackAction attack = null)
     {
-        if (weapon != null)
-            this.weapon = weapon;
+        if (attack != null)
+            this.attack = attack;
 
         gameObject.SetActive(active);
 
@@ -62,6 +68,30 @@ public class AttackMenu : MonoBehaviour
             attack = attackDisplay.thing as AttackSequenceThing;
             attackDisplay.Select();
         }
+
+        // Debug.Log("Attack: " + attack);
+    }
+
+    public void PickAttack(GameThing thing, out AttackSequenceThing attack)
+    {
+        attack = null;
+
+        ThingDisplay attackDisplay = null;
+
+        if (thing == upAttack.thing)
+            attackDisplay = upAttack;
+        else if (thing == downAttack.thing)
+            attackDisplay = downAttack;
+        else if (thing == leftAttack.thing)
+            attackDisplay = leftAttack;
+        else if (thing == rightAttack.thing)
+            attackDisplay = rightAttack;
+
+        if (attackDisplay != null)
+        {
+            attack = attackDisplay.thing as AttackSequenceThing;
+            attackDisplay.Select();
+        }        
 
         // Debug.Log("Attack: " + attack);
     }

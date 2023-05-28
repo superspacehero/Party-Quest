@@ -45,6 +45,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject characterPrefab;
 
+    [SerializeField] private List<StartingActionThing> playerStartingActions = new List<StartingActionThing>();
+
     public struct PlayerAndCharacter
     {
         // The device that the player is using
@@ -74,12 +76,6 @@ public class GameManager : MonoBehaviour
     public static void RemovePlayer(ThingInput player)
     {
         inputs.Remove(player);
-    }
-
-    public static void SetAllPlayersCanControl(bool canControl)
-    {
-        foreach (ThingInput player in inputs)
-            player.canControl = canControl;
     }
 
     public float changeCharacterDelay = 1f;
@@ -168,6 +164,13 @@ public class GameManager : MonoBehaviour
         SetAllPlayersCanControl(false);
         General.DelayedFunctionSeconds(instance, SetNextCharacter, delaySeconds: instance.changeCharacterDelay);
     }
+
+    public static void SetAllPlayersCanControl(bool canControl)
+    {
+        foreach (ThingInput player in inputs)
+            player.canControl = canControl;
+    }
+
     private static void SetNextCharacter()
     {
         if (characters.Count == 0)
@@ -184,10 +187,33 @@ public class GameManager : MonoBehaviour
 
     public static void ControlNextCharacter()
     {
-        currentCharacter.MyTurn();
+        List<ThingInput> thingInputs = new List<ThingInput>(GameManager.inputs);
 
         foreach (ThingInput player in inputs)
+        {
+            if (player.GetAttachedThing() != null && player.GetAttachedThing() == currentCharacter)
+                thingInputs.Insert(0, player);
+            else
+                thingInputs.Add(player);
+
             player.canControl = player.GetAttachedThing() == currentCharacter;
+        }
+
+        if (instance.playerStartingActions.Count > 0)
+        {
+            foreach (ThingInput player in thingInputs)
+            {
+                if (player.GetAttachedThing() is CharacterThing)
+                {
+                    if (instance.playerStartingActions.Count > inputs.IndexOf(player))
+                        (player.GetAttachedThing() as CharacterThing).overrideStartingAction = instance.playerStartingActions[inputs.IndexOf(player)];
+                    else
+                        (player.GetAttachedThing() as CharacterThing).overrideStartingAction = instance.playerStartingActions[instance.playerStartingActions.Count - 1];
+                }
+            }
+        }
+
+        currentCharacter.MyTurn();
     }
 
     #endregion
@@ -200,10 +226,13 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Start()
     {
+        PlayerInputManager playerInputManager = GetComponentInChildren<PlayerInputManager>();
+
+        // Create the players
         foreach (PlayerAndCharacter player in players)
         {
             // Create the player
-            if (GetComponentInChildren<PlayerInputManager>().TryGetComponent(out PlayerInputManager playerInputManager))
+            if (playerInputManager != null)
             {
                 if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
                 {
