@@ -1075,7 +1075,7 @@ MonoBehaviour:
   levelAuthorImage: {fileID: 0}
   _levelSelectable: {fileID: 0}
   levelIndex: 0
-  levelScene: 
+  levelScene: Menus_TitleCharacter
 --- !u!1 &636968500
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,7 +1421,7 @@ MonoBehaviour:
   levelAuthorImage: {fileID: 0}
   _levelSelectable: {fileID: 0}
   levelIndex: 0
-  levelScene: 
+  levelScene: Menus_TitleCharacter
 --- !u!114 &5595276887958448253
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5224,6 +5224,7 @@ MonoBehaviour:
     things: []
     rooms: []
   characterPrefab: {fileID: 5061016846897795855, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
+  playerStartingActions: []
   changeCharacterDelay: 0
   dicePool:
     dicePrefab: {fileID: 2515930728152100468, guid: 4e3a9da03fe0e07198f41271c12f7390, type: 3}

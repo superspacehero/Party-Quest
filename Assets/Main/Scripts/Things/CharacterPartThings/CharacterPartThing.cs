@@ -12,6 +12,11 @@ public class CharacterPartThing : GameThing
         get => "CharacterPart";
     }
 
+    protected override bool useColor
+    {
+        get => true;
+    }
+
     [System.Serializable]
     public struct CharacterPartInfo
     {

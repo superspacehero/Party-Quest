@@ -352,6 +352,8 @@ public class GameThing : SerializedMonoBehaviour
 
     #region Colors
 
+        protected virtual bool useColor { get; set; }
+
         // A material property block, used to change the colors of the Red, Green, and Blue channels of the character part's sprite(s).
         private MaterialPropertyBlock materialPropertyBlock
         {
@@ -459,6 +461,9 @@ public class GameThing : SerializedMonoBehaviour
 
         public void SetColors()
         {
+            if (!useColor)
+                return;
+
             redColor = redColor;
             greenColor = greenColor;
             blueColor = blueColor;

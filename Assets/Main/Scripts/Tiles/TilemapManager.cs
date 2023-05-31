@@ -178,8 +178,8 @@ public class TilemapManager : MonoBehaviour
 
             AstarPath.active.data.gridGraph.SetDimensions
             (
-                Mathf.CeilToInt(_groundTilemap.localBounds.size.x),
-                Mathf.CeilToInt(_groundTilemap.localBounds.size.z),
+                Mathf.CeilToInt(_groundTilemap.localBounds.size.x + 2),
+                Mathf.CeilToInt(_groundTilemap.localBounds.size.z + 2),
                 1
             );
             pathfinder.Scan();

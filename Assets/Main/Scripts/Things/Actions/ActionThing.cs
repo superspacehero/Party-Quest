@@ -56,10 +56,10 @@ public class ActionThing : GameThing
         actionRunning = false;
     }
 
-    protected void EndAction(bool displayInventory = true)
+    protected virtual void EndAction(bool displayInventory = true)
     {
         actionRunning = false;
-        onActionEnd.Invoke();
+        onActionEnd?.Invoke();
 
         user.actionList.currentAction = null;
 

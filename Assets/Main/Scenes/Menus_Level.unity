@@ -532,14 +532,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 190191130, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 689612088, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: levelScene
-      value: Menus_TitleCharacter
-      objectReference: {fileID: 0}
     - target: {fileID: 145175832048383473, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_Material
       value: 
@@ -787,58 +779,6 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 1603805355}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: animationSteps.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: animationSteps.Array.data[0]
-      value: 7912671802418790407
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].delay
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1386966746}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Target
-      value: 
-      objectReference: {fileID: 1386966747}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: NextCharacter
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: SetActive
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.GameObject, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 5595276887958448253, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: managedReferences[7912671802418790407].callback.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 6026647333762066718, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_Material
       value: 
@@ -2444,22 +2384,6 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
---- !u!114 &1386966746 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8553406460984446069, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-  m_PrefabInstance: {fileID: 335949194}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335949195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a821ead7887249ef8ae288dd76a97c89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1 &1386966747 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 689612083, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-  m_PrefabInstance: {fileID: 335949194}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1422070046
 GameObject:
   m_ObjectHideFlags: 0

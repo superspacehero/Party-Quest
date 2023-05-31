@@ -94,6 +94,16 @@ public class MenuMoveAction : StartingActionThing
         EndAction();
     }
 
+    protected override void EndAction(bool displayInventory = true)
+    {
+        actionRunning = false;
+        onActionEnd?.Invoke();
+
+        user.actionList.currentAction = null;
+
+        GameManager.NextCharacter();
+    }
+
     public override void SecondaryAction(bool pressed)
     {
         if (pressed)

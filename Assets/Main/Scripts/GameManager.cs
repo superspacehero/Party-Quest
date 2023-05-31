@@ -205,10 +205,20 @@ public class GameManager : MonoBehaviour
             {
                 if (player.GetAttachedThing() is CharacterThing)
                 {
+                    CharacterThing character = player.GetAttachedThing() as CharacterThing;
+
+                    if (character.overrideStartingAction != null)
+                    {
+                        // Remove the override starting action
+                        Destroy(character.overrideStartingAction);
+                        character.overrideStartingAction = null;
+                    }
+
+                    // Add the override starting action
                     if (instance.playerStartingActions.Count > inputs.IndexOf(player))
-                        (player.GetAttachedThing() as CharacterThing).overrideStartingAction = instance.playerStartingActions[inputs.IndexOf(player)];
+                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[inputs.IndexOf(player)].GetType()) as StartingActionThing;
                     else
-                        (player.GetAttachedThing() as CharacterThing).overrideStartingAction = instance.playerStartingActions[instance.playerStartingActions.Count - 1];
+                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.playerStartingActions.Count - 1].GetType()) as StartingActionThing;
                 }
             }
         }

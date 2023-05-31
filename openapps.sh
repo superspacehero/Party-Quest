@@ -8,7 +8,7 @@ github="flatpak run io.github.shiftey.Desktop"
 
 case "$first_letter" in
     "p")
-        $unity -openfile $scenepath/$defaultScene & code . & $github &
+        $unity -openfile $scenepath/$defaultScene & code-insiders . & $github &
         ;;
     "b")
         $unity -openfile $scenepath/$defaultScene & flatpak run org.blender.Blender & $github &
@@ -26,7 +26,7 @@ case "$first_letter" in
         $unity -openfile $scenepath/$defaultScene & clip-snap-paint & $github &
         ;;
     "m")
-        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & code . &
+        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & code-insiders . &
         ;;
     *)
         $unity -openfile $scenepath/$defaultScene & $github &
