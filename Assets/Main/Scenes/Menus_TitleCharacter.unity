@@ -1176,6 +1176,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 62575034}
+    - target: {fileID: 3003713911586481566, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
+      propertyPath: data.dataString
+      value: UEsDBBQAAAgIAACYn+uaKtnxowIAAM0FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFtVFtP2zAU/iuVn8eUlgJlb1sLZZOAim7iYeXBtU8aq44d+UJbUP/7jh03CWFSpETf+c7lO5e8E6FsBcxpMzeC32sO5NuAhG/yZdAa72BPN1otxRucOM+CuyKQaOQ8USc04sPgZnUJzgj2XW1kIGcIeiVybcobvoGpts4inFNpAU1Gu+CtEHofkH1yOKT3W3gPjvjFQDkwLWvUY52dR5pXTNKyAh7K7bDHiT4cR5pCIYkRimZaSmFTFcQdqqhySivrUQMSuKCoKuYP/ALEpnCpisb5Mc8tuFSToYeZMNicOir5oeuOldRu67peqfTQ6KtD3n+yTqI1N7q8OyUdZiGBKwTbPtEDo9Z1+tmFZx+r9mpH5ZauJTwXoB703GivOBqd8cHVWxjNOqEaYdMC2Lbl1aX2QF99nuCwneAxSt8vHVSNjuzrRYv+sWCXUsfOp5DBkpBxYILBqf1EPXFhbEqEaKgR/X/TTXezkuFWGOvQlOpRIftaexOo5BY/wlSYd1NtFEQ0pa9AUekOC4zi+tPt2TpZe5ZbGk4o5U6202X0XCLc8rOsZ1roXTNKg3tp47Kevv6+HOsR/vJltdBCuSVQw4pOHlvo3T3Y4tE7KVSn0cHwgL2daqXqjbX/cVt6k1PWcXOwd97AjDoaS8Facbd41xXbGz2UlzKscVQXy0V14XkJzS8o5pURJg9axYv78I7aNl7wj7dBRheTyfpyMs6zqzwfXbGz6/NJtmZZfkmvc87hmsTrEQpnQeWibmYaIS6WarUovJTT328wN7SKx8oN3c3FW6k7ayFUrpfMAKjHOkIjFgwmwZ8Kv+ECZS7BOaHiSpL3FZGabYGvmkCr2NibvTN01UZZkUq8aheQFZnGf96KBLg5xoWBVwG7kPwU7EiO/wBQSwMEFAAACAgAAJif67RqmARsAAAAeAAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw0TPWMzPUUVBKL0osyCgGioA5pZkpIHa0kpGphUWSmYVJmoF5WpqRebKupbGFQVKyQZpZomVaSkqqpVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAAmJ/rmirZ8aMCAADNBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAAmJ/rtGqYBGwAAAB4AAAACQAkAAAAAAAAAAAAAADwAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAKcDAAAAAA==
+      objectReference: {fileID: 0}
     - target: {fileID: 3345883983672386476, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_Material
       value: 
@@ -3449,6 +3453,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!21 &1105445372
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Extensions/UIMultiply
+  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &1122767981
 Material:
   serializedVersion: 8
@@ -3672,41 +3711,6 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
 --- !u!21 &1180007827
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI Extensions/UIMultiply
-  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1238230597
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
