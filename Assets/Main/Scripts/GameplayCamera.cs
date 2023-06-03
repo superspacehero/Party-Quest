@@ -80,7 +80,7 @@ public class GameplayCamera : MonoBehaviour
             else
                 instance.CenterCamera();
 
-            Debug.Log("Set follow object to " + thingToFollow.name);
+            // Debug.Log("Set follow object to " + thingToFollow.name);
         }
 
         public void RotateCamera(float rotation)
@@ -104,10 +104,30 @@ public class GameplayCamera : MonoBehaviour
             centeringCamera = true;
             if (centerTime < 0f)
                 centerTime = cameraAdjustTime;
-            DOTween.Sequence().Append(transform.DOLocalMove(cameraOffset, centerTime)).Join(transform.DOLocalRotate(cameraRotation, centerTime)).AppendCallback(() => centeringCamera = false);
-            DOTween.Sequence().Play();
+
+            StartCoroutine(CenterCameraCoroutine(centerTime));
         }
 
+        private IEnumerator CenterCameraCoroutine(float centerTime)
+        {
+            Vector3 startPosition = transform.localPosition;
+            Quaternion startRotation = transform.localRotation;
+
+            float elapsedTime = 0f;
+            while (elapsedTime < centerTime)
+            {
+                transform.localPosition = Vector3.Lerp(startPosition, cameraOffset, elapsedTime / centerTime);
+                transform.localRotation = Quaternion.Lerp(startRotation, Quaternion.Euler(cameraRotation), elapsedTime / centerTime);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            transform.localPosition = cameraOffset;
+            transform.localRotation = Quaternion.Euler(cameraRotation);
+
+            centeringCamera = false;
+        }
         private bool centeringCamera;
 
     #endregion

@@ -35,7 +35,7 @@ public class MenuMoveAction : StartingActionThing
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
         Nodes.UnoccupyNode(currentNode);
-        validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, new Vector2(controller.jumpHeight.Value, -1));
+        validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, -Vector2.one);
 
         // The previous position of the user
         Vector3 previousPosition = user.transform.position;

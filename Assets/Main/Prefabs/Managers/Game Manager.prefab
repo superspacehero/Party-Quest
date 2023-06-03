@@ -3557,7 +3557,6 @@ MonoBehaviour:
   - rid: 1
   - rid: 2
   - rid: 7958156753455808512
-  - rid: 7912671802418790405
   updateType: 0
   timeScaleIndependent: 0
   autoplayMode: 1
@@ -3572,7 +3571,19 @@ MonoBehaviour:
       m_Calls: []
   onFinishedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2996440779831680672}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onProgressEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -3673,13 +3684,6 @@ MonoBehaviour:
             m_RotationOrder: 4
         isRelative: 0
         alpha: 0
-    - rid: 7912671802418790405
-      type: {class: SetGameObjectActiveStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
-      data:
-        delay: 0
-        flowType: 0
-        targetGameObject: {fileID: 2996440779831680672}
-        active: 0
     - rid: 7958156753455808512
       type: {class: InvokeCallbackAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
       data:

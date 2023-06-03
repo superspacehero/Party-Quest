@@ -54,6 +54,13 @@ public struct Level
         System.IO.File.WriteAllText(Application.persistentDataPath + $"/Levels/Level_{levelSlot}.json", levelString);
     }
 
+    // Copy a Level to the clipboard
+    public static void CopyLevel(Level level)
+    {
+        string levelString = level.Serialize();
+        GUIUtility.systemCopyBuffer = levelString;
+    }
+
     // Load a Level from a file
     public static Level LoadLevel(int levelSlot)
     {

@@ -113,13 +113,15 @@ public class LevelUI : MonoBehaviour
     public void PlayLevel()
     {
         GameManager.levelString = levelString;
+        GameManager.gameMode = GameMode.Play;
         General.LoadScene(levelScene);
     }
 
     public void EditLevel()
     {
         GameManager.levelString = levelString;
-        // GameManager.instance.LoadLevelEditor();
+        GameManager.gameMode = GameMode.Make;
+        General.LoadScene(levelScene);
     }
 
     public void DownloadLevel()

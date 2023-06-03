@@ -39,7 +39,7 @@ public class MovementController : Controller
 
     Vector3 lastVelocity = Vector3.zero;
 
-    Rigidbody rb
+    public Rigidbody rb
     {
         get
         {

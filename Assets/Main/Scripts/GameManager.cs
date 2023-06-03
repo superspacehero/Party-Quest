@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Sirenix.OdinInspector;
 
+public enum GameMode
+{
+    Other,
+    Play,
+    Make
+}
+
 public class GameManager : MonoBehaviour
 {
     #region Singleton
@@ -19,6 +26,12 @@ public class GameManager : MonoBehaviour
         }
     }
     private static GameManager _instance;
+
+    #endregion
+
+    #region Game variables
+
+    public static GameMode gameMode = GameMode.Other;
 
     #endregion
 
@@ -43,7 +56,7 @@ public class GameManager : MonoBehaviour
 
     #region Players
 
-    [SerializeField] private GameObject characterPrefab;
+    public GameObject characterPrefab;
 
     [SerializeField] private List<StartingActionThing> playerStartingActions = new List<StartingActionThing>();
 
@@ -235,28 +248,84 @@ public class GameManager : MonoBehaviour
     /// any of the Update methods is called the first time.
     /// </summary>
     void Start()
+    {        
+        // Spawn the players
+        SpawnPlayers();
+    }
+
+    private PlayerInputManager playerInputManager
     {
-        PlayerInputManager playerInputManager = GetComponentInChildren<PlayerInputManager>();
+        get
+        {
+            if (_playerInputManager == null)
+                _playerInputManager = GetComponentInChildren<PlayerInputManager>();
+            return _playerInputManager;
+        }
+    }
+    private PlayerInputManager _playerInputManager;
+
+    public void SpawnPlayer(PlayerAndCharacter player, PlayerSpawner playerSpawner = null)
+    {
+        if (playerInputManager == null)
+            return;
+
+        if (playerSpawner == null)
+        {
+            // Get all player spawners
+            PlayerSpawner[] playerSpawners = FindObjectsOfType<PlayerSpawner>();
+            if (playerSpawners.Length <= 0)
+                return;
+
+            // Choose a random player spawner
+            playerSpawner = playerSpawners[Random.Range(0, playerSpawners.Length)];
+        }
+
+        if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
+        {
+            // Create the character
+            if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
+            {
+                // Move the character
+
+                // First, get the character's rigidbody constraints
+                RigidbodyConstraints constraints = character.movementController.rb.constraints;
+                // Then, freeze the rotation
+                character.movementController.rb.constraints = RigidbodyConstraints.FreezeRotation;
+                // Move the character
+                General.DelayedFunctionFrames(character, () => character.transform.position = playerSpawner.transform.position, 1);
+                // Reset the character's rigidbody constraints
+                character.movementController.rb.constraints = constraints;
+
+                character.characterInfo = player.character;
+                character.team = player.team;
+
+                // Add the character to the player's input
+                input.AttachThing(character);
+            }
+        }
+    }
+
+    public void SpawnPlayers()
+    {
+        PlayerSpawner[] playerSpawners = FindObjectsOfType<PlayerSpawner>();
+        List<PlayerSpawner> playerSpawnersList = new List<PlayerSpawner>(playerSpawners);
+
+        if (playerSpawners.Length <= 0)
+            return;
 
         // Create the players
         foreach (PlayerAndCharacter player in players)
         {
-            // Create the player
-            if (playerInputManager != null)
-            {
-                if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
-                {
-                    // Create the character
-                    if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
-                    {
-                        character.characterInfo = player.character;
-                        character.team = player.team;
+            // Get a random player spawner
+            if (playerSpawnersList.Count <= 0)
+                playerSpawnersList = new List<PlayerSpawner>(playerSpawners);
+            PlayerSpawner playerSpawner = playerSpawnersList[Random.Range(0, playerSpawnersList.Count)];
 
-                        // Add the character to the player's input
-                        input.AttachThing(character);
-                    }
-                }
-            }
+            // Spawn the player
+            SpawnPlayer(player, playerSpawner);
+
+            // Remove the player spawner from the list
+            playerSpawnersList.Remove(playerSpawner);
         }
     }
 }

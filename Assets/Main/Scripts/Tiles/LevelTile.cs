@@ -55,11 +55,13 @@ public class LevelTile : RuleTile
             instantiatedGameObject.transform.localRotation = gameObjectRotation;
             instantiatedGameObject.transform.localScale = gameObjectScale;
 
-            instantiatedGameObject.isStatic = true;
-            foreach (Transform child in instantiatedGameObject.transform)
-            {
-                child.gameObject.isStatic = true;
-            }
+            #if !UNITY_EDITOR
+                instantiatedGameObject.isStatic = true;
+                foreach (Transform child in instantiatedGameObject.transform)
+                {
+                    child.gameObject.isStatic = true;
+                }
+            #endif
         }
 
         return true;

@@ -30,11 +30,11 @@ public class TilemapManager : MonoBehaviour
     private Transform lightTransform;
 
     /// <summary>
-    /// Start is called on the frame when a script is enabled just before
-    /// any of the Update methods is called the first time.
+    /// Awake is called when the script instance is being loaded.
     /// </summary>
-    void Start()
+    void Awake()
     {
+        // Make sure there is only one TilemapManager
         if (instance == null)
         {
             instance = this;
@@ -70,6 +70,38 @@ public class TilemapManager : MonoBehaviour
                 {
                     LevelTile tile = map.GetTile<LevelTile>(pos);
                     
+                    yield return new SavedTile
+                    {
+                        position = pos,
+                        tileName = tile.name
+                    };
+                }
+            }
+        }
+    }
+
+    [Button]
+
+    public void CopyMap()
+    {
+        // Copy the map to the clipboard
+
+        GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
+
+        GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
+        GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
+        GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
+
+        Level.CopyLevel(GameManager.instance.level);
+
+        IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
+        {
+            foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
+            {
+                if (map.HasTile(pos))
+                {
+                    LevelTile tile = map.GetTile<LevelTile>(pos);
+
                     yield return new SavedTile
                     {
                         position = pos,
