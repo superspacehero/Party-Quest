@@ -2798,7 +2798,6 @@ GameObject:
   - component: {fileID: 5966512249946250744}
   - component: {fileID: 1299743640007157026}
   - component: {fileID: 8195685065418985526}
-  - component: {fileID: 7432381990685416456}
   m_Layer: 0
   m_Name: Ground Tiles
   m_TagString: Untagged
@@ -2916,22 +2915,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!19719996 &7432381990685416456
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 622488317513907148}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!1 &1391114563082548760
 GameObject:
   m_ObjectHideFlags: 0
@@ -4544,7 +4527,6 @@ GameObject:
   - component: {fileID: 6578119440205983348}
   - component: {fileID: 1091313510384445028}
   - component: {fileID: 516400027364389769}
-  - component: {fileID: 1045234986361060973}
   m_Layer: 0
   m_Name: Prop Tiles
   m_TagString: Untagged
@@ -4656,22 +4638,6 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!19719996 &1045234986361060973
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5147720017608033112}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!1 &5514029129757429673
 GameObject:
   m_ObjectHideFlags: 0

@@ -113,8 +113,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _animationProgress
-    path: Axis/Body/Body/Head/Eye_Front
+    attribute: animationProgress
+    path: Base/Body/Body/Head/Eye_Back/Eye
     classID: 114
     script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
   - curve:
@@ -213,8 +213,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _animationProgress
-    path: Axis/Body/Body/Head/Eye_Back
+    attribute: animationProgress
+    path: Base/Body/Body/Head/Eye_Front/Eye
     classID: 114
     script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
   m_PPtrCurves: []
@@ -226,15 +226,15 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 1151762851
-      attribute: 839472797
+      path: 2218741891
+      attribute: 4272742525
       script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
       typeID: 114
       customType: 0
       isPPtrCurve: 0
     - serializedVersion: 2
-      path: 3759903171
-      attribute: 839472797
+      path: 1929683847
+      attribute: 4272742525
       script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
       typeID: 114
       customType: 0
@@ -357,8 +357,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _animationProgress
-    path: Axis/Body/Body/Head/Eye_Front
+    attribute: animationProgress
+    path: Base/Body/Body/Head/Eye_Back/Eye
     classID: 114
     script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
   - curve:
@@ -457,8 +457,8 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: _animationProgress
-    path: Axis/Body/Body/Head/Eye_Back
+    attribute: animationProgress
+    path: Base/Body/Body/Head/Eye_Front/Eye
     classID: 114
     script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
   m_EulerEditorCurves: []

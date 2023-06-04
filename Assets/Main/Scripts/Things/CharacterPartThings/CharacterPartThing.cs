@@ -55,7 +55,7 @@ public class CharacterPartThing : GameThing
             GameObject prefab = partList.characterParts.Find(prefab => prefab.name == prefabName);
             if (prefab != null && Instantiate(prefab, parent).TryGetComponent(out CharacterPartThing characterPartThing))
             {
-                characterPartThing.name = prefabName;
+                characterPartThing.name = characterPartThing.thingType;
 
                 characterPartThing.originalPrefab = prefab;
 

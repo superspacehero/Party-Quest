@@ -5,10 +5,11 @@ unity="/home/superspacehero/Applications/Unity/2021.3.16f1/Editor/Unity"
 scenepath="$(pwd)/Assets/Main/Scenes"
 defaultScene="Level.unity"
 github="flatpak run io.github.shiftey.Desktop"
+code="code-insiders"
 
 case "$first_letter" in
     "p")
-        $unity -openfile $scenepath/$defaultScene & code . & $github &
+        $unity -openfile $scenepath/$defaultScene & $code . & $github &
         ;;
     "b")
         $unity -openfile $scenepath/$defaultScene & flatpak run org.blender.Blender & $github &
@@ -26,7 +27,7 @@ case "$first_letter" in
         $unity -openfile $scenepath/$defaultScene & clip-snap-paint & $github &
         ;;
     "m")
-        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & code . &
+        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & $code . &
         ;;
     *)
         $unity -openfile $scenepath/$defaultScene & $github &

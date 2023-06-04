@@ -6,22 +6,9 @@ using Sirenix.OdinInspector;
 // [ExecuteInEditMode]
 public class SpriteAnimationSlider : MonoBehaviour
 {
-    public float animationProgress
-    {
-        get
-        {
-            return _animationProgress;
-        }
-        set
-        {
-            _animationProgress = value;
-
-            // if (Application.isPlaying)
-                UpdateSprite();
-        }
-    }
-    [SerializeField, Range(0f,1f)]
-    private float _animationProgress = 0f;
+    [Range(0f,1f)]
+    public float animationProgress;
+    private float _animationProgress;
 
     [System.Serializable]
     public struct SpriteTime
@@ -50,6 +37,18 @@ public class SpriteAnimationSlider : MonoBehaviour
     private SpriteMask spriteMask;
 
     private Sprite spriteToShow;
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if (_animationProgress != animationProgress)
+        {
+            _animationProgress = animationProgress;
+            UpdateSprite();
+        }
+    }
 
     public void UpdateSprite()
     {

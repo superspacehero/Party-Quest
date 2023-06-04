@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 7424307879907735442}
   - component: {fileID: 1765921153659237467}
   - component: {fileID: 7583354344069261500}
+  - component: {fileID: 5714999774189118971}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c92cebd4c012e27db9000cf120c7248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentVerticalSpeed: 0
   movementSpeed: 4
   defaultJumpHeight: 1
   jumpOffset: 0.15
@@ -63,6 +65,8 @@ MonoBehaviour:
   canJump: 0
   movementInput: {x: 0, y: 0}
   jumpInput: 0
+  isJumping: 0
+  verticalSpeedThreshold: 0.1
   rotationBehavior: 2
   _meshBase: {fileID: 7577356493875096765}
   rotationTime: 0.1
@@ -82,7 +86,7 @@ MonoBehaviour:
   colliderHeight: 2
   colliderThickness: 1
   colliderOffset: {x: 0, y: 0.5, z: 0}
-  sensorType: 2
+  sensorType: 0
   isInDebugMode: 0
   sensorArrayRows: 1
   sensorArrayRayCount: 5
@@ -108,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
+    SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
@@ -250,6 +254,26 @@ MonoBehaviour:
   inventoryTransform: {fileID: 0}
   canQuickAddItems: 1
   _inventoryDisplay: {fileID: 0}
+--- !u!95 &5714999774189118971
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5061016846897795855}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0ec485b6a618d7a47ac4670d3610fe64, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &8176798029447454435
 GameObject:
   m_ObjectHideFlags: 0

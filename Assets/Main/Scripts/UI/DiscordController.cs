@@ -26,6 +26,7 @@ public class DiscordController : MonoBehaviour
         if (!instanceExists)
         {
             instanceExists = true;
+            transform.SetParent(null);
             DontDestroyOnLoad(gameObject);
         }
         else if (FindObjectsOfType(GetType()).Length > 1)
@@ -34,8 +35,20 @@ public class DiscordController : MonoBehaviour
             return;
         }
 
-        discord = new Discord.Discord(applicationID, (System.UInt64)CreateFlags.NoRequireDiscord);
-        startTime = System.DateTimeOffset.Now.ToUnixTimeSeconds();
+        if (!instanceExists)
+            return;
+
+        try
+        {
+            discord = new Discord.Discord(applicationID, (System.UInt64)CreateFlags.NoRequireDiscord);
+            startTime = System.DateTimeOffset.Now.ToUnixTimeSeconds();
+        }
+        catch
+        {
+            Debug.LogWarning("Failed to initialize Discord.");
+            Destroy(gameObject);
+            return;
+        }
 
         UpdatePresence();
     }

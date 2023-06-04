@@ -4,12 +4,15 @@ using UnityEngine;
 using CMF;
 using Sirenix.OdinInspector;
 
-//A very simplified controller script;
-//This script is an example of a very simple walker controller that covers only the basics of character movement;
+// This script is handles the movement and animation of characters.
+// It includes functions for calculating movement direction, jumping, and checking if the character is grounded.
+// It also includes animation functions for transitioning between different animation states based on the character's movement and actions.
+// Additionally, it includes rotation functions for rotating the character towards the movement direction.
+
 public class MovementController : Controller
 {
     private Mover mover;
-    float currentVerticalSpeed = 0f;
+    [HideInInspector] public float currentVerticalSpeed = 0f;
     bool isGrounded;
 
     public float movementSpeed = 7f;
@@ -63,7 +66,7 @@ public class MovementController : Controller
     [FoldoutGroup("Controls")]
     public bool jumpInput;
 
-    private bool isJumping;
+    public bool isJumping;
 
     // Use this for initialization
     void Start()
@@ -205,9 +208,72 @@ public class MovementController : Controller
         return isGrounded;
     }
 
+    #region Animation
+
+    protected Animator anim
+    {
+        get
+        {
+            if (_anim == null)
+                TryGetComponent(out _anim);
+            return _anim;
+        }
+    }
+    private Animator _anim;
+
+    protected int currentAnimationState;
+
+    private float animationCrossfadeTime = 0.1f;
+
+
+    /// <summary>
+    /// Update is called every frame, if the MonoBehaviour is enabled.
+    /// </summary>
+    void Update()
+    {
+        if (anim == null) return;
+        var state = GetState();
+
+        if (state == currentAnimationState) return;
+        anim.CrossFade(state, animationCrossfadeTime, 0);
+        currentAnimationState = state;
+    }
+
+    [SerializeField] private float verticalSpeedThreshold = 0.1f;
+
+    private float animationLockedUntil;
+    protected bool crouching, jumpTriggered, attacked, landed;
+
+
+    private int GetState()
+    {
+        if (Time.time < animationLockedUntil) return currentAnimationState;
+
+        // Priorities
+        if (attacked) return LockState(General.Attack);
+        if (crouching) return General.Crouch;
+        if (landed) return LockState(General.Land);
+        if (jumpTriggered) return General.Jump;
+
+        float verticalVelocity = Mathf.Abs(currentVerticalSpeed);
+
+        // Movement
+        if (IsGrounded() || verticalVelocity < gravity * verticalSpeedThreshold && !isJumping)
+            return movementInput.magnitude > 0 ? General.Walk : General.Idle;
+        return currentVerticalSpeed > 0 ? General.Jump : General.Fall;
+
+        int LockState(int s)
+        {
+            animationLockedUntil = Time.time + anim.GetCurrentAnimatorStateInfo(0).length;
+            return s;
+        }
+    }
+
+    #endregion
+
     #region Rotation
 
-        public enum MovementRotationBehavior
+    public enum MovementRotationBehavior
         {
             None,
             FullRotation,

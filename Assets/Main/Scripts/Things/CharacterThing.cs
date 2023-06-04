@@ -373,6 +373,14 @@ public class CharacterThing : GameThing
         }
 
         AttachPartToSlot(characterBase);
+
+        // Reset the animator
+        if (TryGetComponent(out Animator animator))
+        {
+            RuntimeAnimatorController animatorController = animator.runtimeAnimatorController;
+            animator.runtimeAnimatorController = null;
+            animator.runtimeAnimatorController = animatorController;
+        }
     }
 
     // Method to convert the character to a JSON string
