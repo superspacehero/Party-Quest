@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 [AddComponentMenu("Game Things/Character Part Thing")]
 public class CharacterPartThing : GameThing
 {
-    // CharacterPartThings are the parts that make up a character.
+    #region Public Variables
+
+    public List<ClipPair> frontAnimationOverrides, backAnimationOverrides;
 
     public override string thingType
     {
         get => "CharacterPart";
-    }
-
-    protected override bool useColor
-    {
-        get => true;
     }
 
     [System.Serializable]
@@ -40,6 +38,10 @@ public class CharacterPartThing : GameThing
             blueColor = blueColor
         };
     }
+
+    #endregion
+
+    #region Static Methods
 
     public static bool Instantiate(out CharacterPartThing part, CharacterPartList partList, string prefabName, Transform parent, Color redColor = default, Color greenColor = default, Color blueColor = default)
     {
@@ -92,6 +94,10 @@ public class CharacterPartThing : GameThing
         characterPartInfo.greenColor,
         characterPartInfo.blueColor);
     }
+
+    #endregion
+
+    #region Public Methods
 
     [HideInInspector] public GameObject originalPrefab;
 
@@ -147,4 +153,61 @@ public class CharacterPartThing : GameThing
             isBackPart = parentPart.isBackPart;
         }
     }
+
+    #endregion
+
+    #region Public Methods
+
+    [System.Serializable]
+    public struct ClipPair
+    {
+        public AnimationClip stateClip;
+        public AnimationClip overrideClip;
+    }
+
+
+    public void SetAnimationClips(Animator animator)
+    {
+        if (animator == null)
+        {
+            Debug.LogError("Animator is null");
+            return;
+        }
+
+        // Ensure the Animator's runtimeAnimatorController is an AnimatorOverrideController
+        var overrideController = animator.runtimeAnimatorController as AnimatorOverrideController;
+        if (overrideController == null)
+        {
+            Debug.LogError("Animator's runtimeAnimatorController is not an AnimatorOverrideController", animator);
+            return;
+        }
+
+        // Create a new List of overrides
+        var overrides = new List<KeyValuePair<AnimationClip, AnimationClip>>();
+        var animationOverrides = (isBackPart) ? backAnimationOverrides : frontAnimationOverrides;
+
+        // Add all the current overrides to the new list
+        foreach (var pair in animationOverrides)
+        {
+            if (pair.overrideClip != null)
+            {
+                overrides.Add(new KeyValuePair<AnimationClip, AnimationClip>(overrideController[pair.stateClip], pair.overrideClip));
+            }
+        }
+
+        // Apply the overrides
+        overrideController.ApplyOverrides(overrides);
+    }
+
+    #endregion
+
+    #region Protected Methods
+
+    protected override bool useColor
+    {
+        get => true;
+    }
+
+    #endregion
+
 }

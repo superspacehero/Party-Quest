@@ -198,6 +198,12 @@ MonoBehaviour:
   _redColor: {r: 0.3647059, g: 0.3647059, b: 0.3647059, a: 1}
   _greenColor: {r: 0.5411765, g: 0.28235295, b: 0.21176471, a: 1}
   _blueColor: {r: 0.92941177, g: 0.67058825, b: 0.3137255, a: 1}
+  frontAnimationOverrides:
+  - stateClip: {fileID: 7400000, guid: 90d22e49664796ed2b11af8a25571990, type: 2}
+    overrideClip: {fileID: 7400000, guid: 90d22e49664796ed2b11af8a25571990, type: 2}
+  backAnimationOverrides:
+  - stateClip: {fileID: 7400000, guid: a3283e3145c4da88fa47ee17de1a6795, type: 2}
+    overrideClip: {fileID: 7400000, guid: a3283e3145c4da88fa47ee17de1a6795, type: 2}
   originalPrefab: {fileID: 0}
   sideAttack: {fileID: 0}
   upAttack: {fileID: 0}

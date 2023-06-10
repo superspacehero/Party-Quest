@@ -210,16 +210,44 @@ public class MovementController : Controller
 
     #region Animation
 
-    protected Animator anim
+    public Animator anim
     {
         get
         {
             if (_anim == null)
-                TryGetComponent(out _anim);
+                if (TryGetComponent(out _anim))
+                {
+                    if (defaultController == null)
+                        defaultController = _anim.runtimeAnimatorController;
+
+                    // Ensure the Animator's runtimeAnimatorController is an AnimatorOverrideController
+                    var overrideController = defaultController as AnimatorOverrideController;
+
+                    if (overrideController == null)
+                    {
+                        // If it's not, wrap it in one so we can override the animations
+                        overrideController = new AnimatorOverrideController(_anim.runtimeAnimatorController);
+                    }
+                    else
+                    {
+                        // If it is, make a copy so we don't override the existing animations
+                        overrideController = new AnimatorOverrideController(overrideController);
+                    }
+
+                    // Assign the new or old controller to the animator
+                    _anim.runtimeAnimatorController = overrideController;
+                }
             return _anim;
         }
     }
     private Animator _anim;
+    private RuntimeAnimatorController defaultController;
+
+    public void ResetAnimator()
+    {
+        _anim = null;
+        anim.runtimeAnimatorController = defaultController;
+    }
 
     protected int currentAnimationState;
 

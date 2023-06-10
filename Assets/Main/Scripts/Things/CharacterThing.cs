@@ -320,6 +320,8 @@ public class CharacterThing : GameThing
                 part.gameObject.SetActive(true);
                 part.isBackPart = slot.transform.name.Contains("Back");
                 part.CheckIsBackPart();
+                if (movementController != null)
+                    part.SetAnimationClips(movementController.anim);
 
                 AttachPartsToPart(part);
 
@@ -349,6 +351,8 @@ public class CharacterThing : GameThing
         if (variables.variables != null)
             variables.variables.Clear();
         variables += baseVariables;
+
+        movementController.ResetAnimator();
 
         foreach (CharacterPartThing.CharacterPartInfo characterPart in characterParts)
         {
