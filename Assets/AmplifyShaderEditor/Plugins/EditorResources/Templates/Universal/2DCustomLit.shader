@@ -4,9 +4,9 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
     Properties
     {
 		/*ase_props*/
-        [HideInInspector][NoScaleOffset]unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
-        [HideInInspector][NoScaleOffset]unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
-        [HideInInspector][NoScaleOffset]unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset] unity_Lightmaps("unity_Lightmaps", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset] unity_LightmapsInd("unity_LightmapsInd", 2DArray) = "" {}
+        [HideInInspector][NoScaleOffset] unity_ShadowMasks("unity_ShadowMasks", 2DArray) = "" {}
     }
 
     SubShader
@@ -41,9 +41,10 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 
 		HLSLINCLUDE
 		#pragma target 2.0
-		#pragma exclude_renderers d3d11_9x
+		#pragma prefer_hlslcc gles
+		#pragma exclude_renderers d3d9 // ensure rendering platforms toggle list is visible
 		ENDHLSL
-		
+
 		/*ase_pass*/
         Pass
         {
@@ -53,9 +54,9 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             {
                 "LightMode" = "Universal2D"
             }
-            
+
             HLSLPROGRAM
-            
+
 			#pragma vertex vert
 			#pragma fragment frag
 
@@ -68,9 +69,9 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             #define VARYINGS_NEED_TEXCOORD0
             #define VARYINGS_NEED_COLOR
             #define VARYINGS_NEED_SCREENPOSITION
-        
+
             #define SHADERPASS SHADERPASS_SPRITELIT
-        
+
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -78,7 +79,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-     
+
 			/*ase_pragma*/
 
 			struct VertexInput
@@ -103,7 +104,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
-        
+
             struct SurfaceDescription
 			{
 				float3 BaseColor;
@@ -150,7 +151,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				o.texCoord0.xyzw =  v.uv0;
 				o.color.xyzw =  v.color;
 				o.screenPosition.xyzw =  vertexInput.positionNDC;
-				
+
 				return o;
 			}
 
@@ -165,7 +166,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				surfaceDescription.Alpha = /*ase_frag_out:Alpha;Float;1;-1;_Alpha*/1/*end*/;
 
 				half4 color = half4(surfaceDescription.BaseColor, surfaceDescription.Alpha);
-				
+
 				#if defined(DEBUG_DISPLAY)
 				SurfaceData2D surfaceData;
 				InitializeSurfaceData(color.rgb, color.a, surfaceData);
@@ -199,18 +200,18 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             }
 
             HLSLPROGRAM
-            
+
 			#pragma vertex vert
 			#pragma fragment frag
-        
+
             #define _SURFACE_TYPE_TRANSPARENT 1
             #define ATTRIBUTES_NEED_NORMAL
             #define ATTRIBUTES_NEED_TANGENT
             #define VARYINGS_NEED_NORMAL_WS
             #define VARYINGS_NEED_TANGENT_WS
-        
+
             #define SHADERPASS SHADERPASS_SPRITENORMAL
-        
+
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -223,7 +224,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			/*ase_pragma*/
 
 			/*ase_globals*/
-        
+
 			struct VertexInput
 			{
 				float3 vertex : POSITION;
@@ -248,7 +249,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				float3 NormalTS;
 				float Alpha;
 			};
-        
+
 			/*ase_funcs*/
 
 			VertexOutput vert( VertexInput v /*ase_vert_input*/ )
@@ -275,7 +276,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				v.normal = /*ase_vert_out:Vertex Normal;Float3;3;-1;_VNormal*/v.normal/*end*/;
 				v.tangent.xyz = /*ase_vert_out:Vertex Tangent;Float3;4;-1;_VTangent*/v.tangent.xyz/*end*/;
 
-	
+
 				float3 positionWS = TransformObjectToWorld(v.vertex);
 				float4 tangentWS = float4(TransformObjectToWorldDir(v.tangent.xyz), v.tangent.w);
 
@@ -294,14 +295,14 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				surfaceDescription.NormalTS = /*ase_frag_out:Normal;Float3;0;-1;_Normal*/float3(0.0f, 0.0f, 1.0f)/*end*/;
 				surfaceDescription.Alpha = /*ase_frag_out:Alpha;Float;1;-1;_Alpha*/1/*end*/;
-				
+
 				half crossSign = (IN.tangentWS.w > 0.0 ? 1.0 : -1.0) * GetOddNegativeScale();
 				half3 bitangent = crossSign * cross(IN.normalWS.xyz, IN.tangentWS.xyz);
 				half4 color = half4(1.0,1.0,1.0, surfaceDescription.Alpha);
-			
+
 				return NormalsRenderingShared(color, surfaceDescription.NormalTS, IN.tangentWS.xyz, bitangent, IN.normalWS);
 			}
-        
+
             ENDHLSL
         }
 
@@ -314,25 +315,25 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             {
                 "LightMode" = "SceneSelectionPass"
             }
-            
+
             Cull Off
 			Blend Off
 			ZTest LEqual
 			ZWrite On
-        
+
             HLSLPROGRAM
-            
+
 			#pragma vertex vert
 			#pragma fragment frag
 
             #define _SURFACE_TYPE_TRANSPARENT 1
             #define ATTRIBUTES_NEED_NORMAL
             #define ATTRIBUTES_NEED_TANGENT
-    
+
             #define SHADERPASS SHADERPASS_DEPTHONLY
 	        #define SCENESELECTIONPASS 1
-        
-        
+
+
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -340,7 +341,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-            
+
 			/*ase_pragma*/
 
 			/*ase_globals*/
@@ -395,7 +396,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				#endif
 
 
-				float3 positionWS = TransformObjectToWorld(v.vertex);				
+				float3 positionWS = TransformObjectToWorld(v.vertex);
 				o.positionCS = TransformWorldToHClip(positionWS);
 				return o;
 			}
@@ -404,7 +405,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			{
 				UNITY_SETUP_INSTANCE_ID(IN);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
-				
+
 				/*ase_frag_code:IN=VertexOutput*/
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				surfaceDescription.Alpha = /*ase_frag_out:Alpha;Float;0;-1;_Alpha*/1/*end*/;
@@ -433,25 +434,25 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             {
                 "LightMode" = "Picking"
             }
-            
-            Cull Back
+
+			Cull Off
 			Blend Off
 			ZTest LEqual
 			ZWrite On
 
-        
+
             HLSLPROGRAM
-        
+
 			#pragma vertex vert
 			#pragma fragment frag
-        
+
             #define _SURFACE_TYPE_TRANSPARENT 1
             #define ATTRIBUTES_NEED_NORMAL
             #define ATTRIBUTES_NEED_TANGENT
-            
+
             #define SHADERPASS SHADERPASS_DEPTHONLY
 			#define SCENEPICKINGPASS 1
-        
+
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -459,11 +460,11 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-        
+
         	/*ase_pragma*/
 
 			/*ase_globals*/
-			
+
             struct VertexInput
 			{
 				float3 vertex : POSITION;
@@ -482,12 +483,12 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			};
 
             float4 _SelectionID;
-            
+
             struct SurfaceDescription
 			{
 				float Alpha;
 			};
-   
+
    			/*ase_funcs*/
 
 			VertexOutput vert( VertexInput v /*ase_vert_input*/ )
@@ -498,7 +499,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
-				
+
 				/*ase_vert_code:v=VertexInput;o=VertexOutput*/
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -522,7 +523,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			{
 				UNITY_SETUP_INSTANCE_ID(IN);
 				UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(IN);
-			
+
 				/*ase_frag_code:IN=VertexOutput*/
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 				surfaceDescription.Alpha = /*ase_frag_out:Alpha;Float;0;-1;_Alpha*/1/*end*/;
@@ -539,7 +540,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				return outColor;
 			}
 
-        
+
             ENDHLSL
         }
 
@@ -552,12 +553,12 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             {
                 "LightMode" = "UniversalForward"
             }
-                
+
             HLSLPROGRAM
-        
+
 			#pragma vertex vert
 			#pragma fragment frag
-        
+
             #define _SURFACE_TYPE_TRANSPARENT 1
             #define ATTRIBUTES_NEED_NORMAL
             #define ATTRIBUTES_NEED_TANGENT
@@ -566,9 +567,9 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
             #define VARYINGS_NEED_POSITION_WS
             #define VARYINGS_NEED_TEXCOORD0
             #define VARYINGS_NEED_COLOR
-           
+
             #define SHADERPASS SHADERPASS_SPRITEFORWARD
-        
+
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Texture.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
@@ -576,7 +577,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 			#include "Packages/com.unity.render-pipelines.core/ShaderLibrary/TextureStack.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/ShaderGraphFunctions.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/Editor/ShaderGraph/Includes/ShaderPass.hlsl"
-		
+
 			/*ase_pragma*/
 
 			/*ase_globals*/
@@ -603,7 +604,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
-            
+
             struct SurfaceDescription
 			{
 				float3 BaseColor;
@@ -621,7 +622,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				VertexOutput o;
 				ZERO_INITIALIZE(VertexOutput, o);
 
-	
+
 				UNITY_SETUP_INSTANCE_ID(v);
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
@@ -640,10 +641,10 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				#endif
 				v.normal = /*ase_vert_out:Vertex Normal;Float3;4;-1;_VNormal*/v.normal/*end*/;
 				v.tangent.xyz = /*ase_vert_out:Vertex Tangent;Float3;5;-1;_VTangent*/v.tangent.xyz/*end*/;
-	
+
 
 				float3 positionWS = TransformObjectToWorld(v.vertex);
-					
+
 				o.positionCS = TransformWorldToHClip(positionWS);
 				o.positionWS.xyz =  positionWS;
 				o.texCoord0.xyzw =  v.uv0;
@@ -665,7 +666,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 
 
 				half4 color = half4(surfaceDescription.BaseColor, surfaceDescription.Alpha);
-			
+
 				#if defined(DEBUG_DISPLAY)
 				SurfaceData2D surfaceData;
 				InitializeSurfaceData(color.rgb, color.a, surfaceData);
@@ -685,7 +686,7 @@ Shader /*ase_name*/ "Hidden/Universal/2D Custom Lit" /*end*/
 				return color;
 			}
 
-        
+
             ENDHLSL
         }
     }
