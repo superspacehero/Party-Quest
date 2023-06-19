@@ -1,7 +1,7 @@
 #!/bin/bash
 
 first_letter="$(echo $1 | head -c1)"
-unity="/home/superspacehero/Applications/Unity/2022.3.2f1/Editor/Unity"
+unity="/home/superspacehero/Applications/Unity/2021.3.16f1/Editor/Unity"
 scenepath="$(pwd)/Assets/Main/Scenes"
 defaultScene="Level.unity"
 github="flatpak run io.github.shiftey.Desktop"
