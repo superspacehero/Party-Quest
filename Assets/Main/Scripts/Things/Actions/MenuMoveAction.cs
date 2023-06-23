@@ -106,7 +106,7 @@ public class MenuMoveAction : StartingActionThing
 
     public override void SecondaryAction(bool pressed)
     {
-        if (pressed)
+        if (pressed && GameManager.players.Count > 1)
         {
             actionRunning = false;
         }
