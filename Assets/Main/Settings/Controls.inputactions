@@ -208,6 +208,17 @@
                 },
                 {
                     "name": "",
+                    "id": "f6e9ab57-805f-43e7-a3fd-9cf309c841d6",
+                    "path": "*/{Tilt}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad;Touch",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -224,17 +235,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Button1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "886e731e-7071-4ae4-95c0-e61739dad6fd",
-                    "path": "<Touchscreen>/primaryTouch/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Touch",
                     "action": "Button1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -302,17 +302,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Update",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "bb92d46a-a7b3-4f51-b759-dc96d3c703b1",
-                    "path": "<Touchscreen>/touch0/tap",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Button2",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

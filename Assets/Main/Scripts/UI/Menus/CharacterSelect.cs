@@ -247,6 +247,18 @@ public class CharacterSelect : GameThing
         }
     }
 
+    public void MoveHorizontal(int direction)
+    {
+        Move(new Vector2(direction, 0f));
+        Move(Vector2.zero);
+    }
+
+    public void MoveVertical(int direction)
+    {
+        Move(new Vector2(0f, direction));
+        Move(Vector2.zero);
+    }
+
     public override void PrimaryAction(bool value)
     {
         if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)
@@ -295,6 +307,12 @@ public class CharacterSelect : GameThing
                 }
             }
         }
+    }
+
+    public void PrimaryAction()
+    {
+        PrimaryAction(true);
+        PrimaryAction(false);
     }
 
     public override void SecondaryAction(bool value)

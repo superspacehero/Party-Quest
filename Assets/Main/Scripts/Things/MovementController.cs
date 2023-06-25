@@ -227,6 +227,7 @@ public class MovementController : Controller
                     {
                         // If it's not, wrap it in one so we can override the animations
                         overrideController = new AnimatorOverrideController(_anim.runtimeAnimatorController);
+                        defaultController = overrideController;
                     }
                     else
                     {
