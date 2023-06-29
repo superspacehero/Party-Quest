@@ -111,7 +111,7 @@ public class MovementController : Controller
         if (isGrounded && canControl > 0 && canJump && jumpInput && !isJumping)
         {
             OnJumpStart();
-            
+
             currentVerticalSpeed = Mathf.Sqrt(2 * gravity * (jumpHeight.Value + jumpOffset));
             isGrounded = false;
             isJumping = true; // Set isJumping to true after jump starts
@@ -298,79 +298,84 @@ public class MovementController : Controller
         }
     }
 
+    public void Footstep()
+    {
+        GameManager.instance.FootstepEffect(transform.position);
+    }
+
     #endregion
 
     #region Rotation
 
     public enum MovementRotationBehavior
+    {
+        None,
+        FullRotation,
+        LeftRightRotation
+    }
+    [SerializeField, FoldoutGroup("Rotation")]
+    private MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
+
+    protected Transform meshBase
+    {
+        get
         {
-            None,
-            FullRotation,
-            LeftRightRotation
+            if (_meshBase == null)
+                _meshBase = transform;
+
+            return _meshBase;
         }
-        [SerializeField, FoldoutGroup("Rotation")]
-        private MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
+    }
+    [SerializeField, InfoBox("If left empty, the base object will be used."), FoldoutGroup("Rotation")]
+    private Transform _meshBase;
 
-        protected Transform meshBase
+    private float gotoRotation;
+
+    [FoldoutGroup("Rotation")]
+    public float rotationTime = 0.25f;
+
+    protected Vector3 rotationDirection = Vector3.right;
+
+    public void Rotate(Vector3 direction)
+    {
+        switch (rotationBehavior)
         {
-            get
-            {
-                if (_meshBase == null)
-                    _meshBase = transform;
+            case MovementRotationBehavior.None:
+                return;
+            case MovementRotationBehavior.FullRotation:
+                break;
+            case MovementRotationBehavior.LeftRightRotation:
+                // Round direction.x to -1 or 1 if it's not 0
+                if (direction.x != 0)
+                    direction.x = Mathf.Sign(direction.x);
 
-                return _meshBase;
-            }
-        }
-        [SerializeField, InfoBox("If left empty, the base object will be used."), FoldoutGroup("Rotation")]
-        private Transform _meshBase;
+                direction = Vector3Int.RoundToInt(direction);
 
-        private float gotoRotation;
+                if (direction.x == 0)
+                    direction.x = rotationDirection.x;
 
-        [FoldoutGroup("Rotation")]
-        public float rotationTime = 0.25f;
-
-        protected Vector3 rotationDirection = Vector3.right;
-
-        public void Rotate(Vector3 direction)
-        {
-            switch (rotationBehavior)
-            {
-                case MovementRotationBehavior.None:
-                    return;
-                case MovementRotationBehavior.FullRotation:
-                    break;
-                case MovementRotationBehavior.LeftRightRotation:
-                    // Round direction.x to -1 or 1 if it's not 0
-                    if (direction.x != 0)
-                        direction.x = Mathf.Sign(direction.x);
-
-                    direction = Vector3Int.RoundToInt(direction);
-
-                    if (direction.x == 0)
-                        direction.x = rotationDirection.x;
-
-                    direction.z *= 0.5f;
-                    break;
-            }
-
-            rotationDirection = direction;
-            gotoRotation = ((Mathf.Atan2(rotationDirection.x, rotationDirection.z)) * Mathf.Rad2Deg) + (rotationBehavior == MovementRotationBehavior.LeftRightRotation ? -90 : 0);
+                direction.z *= 0.5f;
+                break;
         }
 
-        [Button, FoldoutGroup("Rotation"), HideInEditorMode]
-        public void RandomRotation()
-        {
-            gotoRotation = Random.Range(0f, 360f);
-        }
+        rotationDirection = direction;
+        gotoRotation = ((Mathf.Atan2(rotationDirection.x, rotationDirection.z)) * Mathf.Rad2Deg) + (rotationBehavior == MovementRotationBehavior.LeftRightRotation ? -90 : 0);
+    }
 
-        private void RotateTowardsGotoRotation()
-        {
-            _meshBase.localEulerAngles = new Vector3(
-                _meshBase.localEulerAngles.x,
-                Mathf.LerpAngle(_meshBase.localEulerAngles.y, gotoRotation, Time.fixedDeltaTime / rotationTime),
-                _meshBase.localEulerAngles.z
-            );
-        }
+    [Button, FoldoutGroup("Rotation"), HideInEditorMode]
+    public void RandomRotation()
+    {
+        gotoRotation = Random.Range(0f, 360f);
+    }
+
+    private void RotateTowardsGotoRotation()
+    {
+        _meshBase.localEulerAngles = new Vector3(
+            _meshBase.localEulerAngles.x,
+            Mathf.LerpAngle(_meshBase.localEulerAngles.y, gotoRotation, Time.fixedDeltaTime / rotationTime),
+            _meshBase.localEulerAngles.z
+        );
+    }
 
     #endregion
 }

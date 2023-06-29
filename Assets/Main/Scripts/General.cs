@@ -201,4 +201,60 @@ public class General
         }
 
     #endregion
+
+    #region Object Pools
+
+    [System.Serializable]
+    public class ObjectPool<T> where T : Behaviour
+    {
+        [SerializeField] private GameObject objectPrefab;
+        private List<T> objectPool = new List<T>();
+
+        private Transform parent
+        {
+            get
+            {
+                if (_parent == null)
+                    _parent = new GameObject(objectPrefab.name + " Pool").transform;
+
+                return _parent;
+            }
+        }
+        private Transform _parent;
+
+        public T GetObjectFromPool(Vector3 objectPosition)
+        {
+            T component = null;
+
+            foreach (T pooledObject in objectPool)
+            {
+                if (!pooledObject.gameObject.activeInHierarchy)
+                {
+                    component = pooledObject;
+                    break;
+                }
+            }
+
+            if (component == null)
+            {
+                GameObject obj = GameObject.Instantiate(objectPrefab, objectPosition, Quaternion.identity, parent);
+                obj.TryGetComponent(out component);
+
+                if (component != null)
+                    objectPool.Add(component);
+            }
+
+            component.transform.position = objectPosition;
+            component.gameObject.SetActive(true);
+
+            return component;
+        }
+
+        public void ReturnObjectToPool(T obj)
+        {
+            obj.gameObject.SetActive(false);
+        }
+    }
+
+    #endregion
 }

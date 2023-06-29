@@ -99,6 +99,28 @@ public class GameManager : MonoBehaviour
 
     public DicePool dicePool;
 
+    [SerializeField] private General.ObjectPool<UnityEngine.VFX.VisualEffect> damagePool, footstepPool;
+    public void DamageEffect(int damageAmount, Vector3 position)
+    {
+        UnityEngine.VFX.VisualEffect damageEffect = damagePool.GetObjectFromPool(position);
+        damageEffect.SetInt("Damage", damageAmount);
+        damageEffect.Play();
+    }
+
+    public void FootstepEffect(Vector3 position)
+    {
+        UnityEngine.VFX.VisualEffect footstepEffect = footstepPool.GetObjectFromPool(position);
+        footstepEffect.SetInt("Smoke Count", 1);
+        footstepEffect.Play();
+    }
+
+    public void LandingEffect(Vector3 position)
+    {
+        UnityEngine.VFX.VisualEffect landingEffect = footstepPool.GetObjectFromPool(position);
+        landingEffect.ResetOverride("Smoke Count");
+        landingEffect.Play();
+    }
+
     #region Characters
 
     [SerializeField] private ThingDisplay nextCharacterUI;

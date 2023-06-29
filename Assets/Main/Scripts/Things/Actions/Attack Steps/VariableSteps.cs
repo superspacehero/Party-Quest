@@ -119,7 +119,10 @@ public class DamageStep : AttackStep
     {
         GameThing targetedThing = (target != null && useTarget) ? targetThing : attacker;
 
-        targetedThing.variables.SetVariable("health", (overrideDamage) ? targetThing.variables.GetVariable("health") - damage : targetThing.variables.GetVariable("health") - Mathf.Max(0, attacker.variables.GetVariable("attack") - targetThing.variables.GetVariable("defense")));
+        int calculatedDamage = (overrideDamage) ? targetThing.variables.GetVariable("health") - damage : Mathf.Max(0, attacker.variables.GetVariable("attack") - targetThing.variables.GetVariable("defense"));
+        targetedThing.variables.SetVariable("health", targetThing.variables.GetVariable("health") - calculatedDamage);
+
+        GameManager.instance.DamageEffect(calculatedDamage, targetThing.transform.position);
 
         callback?.Invoke(StepResult.Success);
 
