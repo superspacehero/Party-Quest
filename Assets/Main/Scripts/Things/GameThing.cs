@@ -163,6 +163,18 @@ public class GameThing : SerializedMonoBehaviour
     }
     private ActionList _actionList;
 
+    // Interaction list for the thing
+    public Interactions interactionList
+    {
+        get
+        {
+            if (_interactionList == null)
+                _interactionList = GetComponentInChildren<Interactions>();
+            return _interactionList;
+        }
+    }
+    private Interactions _interactionList;
+
     public Transform thingTop
     {
         get
