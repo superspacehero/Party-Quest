@@ -11,12 +11,14 @@ public class Interactions : MonoBehaviour
         {
             if (_gameThing == null)
             {
-                _gameThing = GetComponentInParent<GameThing>();
+                GetComponentInParent<Collider>()?.TryGetComponent(out GameThing gameThing);
             }
             return _gameThing;
         }
     }
     private GameThing _gameThing;
+
+    public GameThing otherThing;
 
     /// <summary>
     /// OnTriggerEnter is called when the Collider other enters the trigger.
@@ -24,7 +26,7 @@ public class Interactions : MonoBehaviour
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out GameThing otherThing) && collisionInteraction?.canInteract == true)
+        if (other.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
             collisionInteraction?.Interact(otherThing, thisThing);
         }
@@ -36,7 +38,7 @@ public class Interactions : MonoBehaviour
     /// <param name="other">The other Collider involved in this collision.</param>
     void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out GameThing otherThing) && collisionInteraction?.canInteract == true)
+        if (other.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
             collisionInteraction?.StopInteract(otherThing, thisThing);
         }
@@ -49,9 +51,23 @@ public class Interactions : MonoBehaviour
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter(Collision other)
     {
-        if (other.collider.TryGetComponent(out GameThing otherThing) && collisionInteraction?.canInteract == true)
+        Debug.Log("Collision Enter");
+        if (other.collider.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
             collisionInteraction?.Interact(otherThing, thisThing);
+        }
+    }
+
+    /// <summary>
+    /// OnCollisionExit is called when this collider/rigidbody has
+    /// stopped touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionExit(Collision other)
+    {
+        if (other.collider.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
+        {
+            collisionInteraction?.StopInteract(otherThing, thisThing);
         }
     }
 
@@ -61,8 +77,12 @@ public class Interactions : MonoBehaviour
 
 public abstract class Interaction
 {
+    public GameThing thisThing { get; set; }
     public virtual bool canInteract { get => true; }
-    public abstract void Interact(GameThing interactor, GameThing interactee);
+    public virtual void Interact(GameThing interactor, GameThing interactee)
+    {
+        thisThing = interactee;
+    }
     public abstract void StopInteract(GameThing interactor, GameThing interactee);
 }
 
@@ -70,6 +90,8 @@ public class PickUpInteraction : Interaction
 {
     public override void Interact(GameThing interactor, GameThing interactee)
     {
+        base.Interact(interactor, interactee);
+
         if (interactor.inventory)
         {
             interactor.inventory.AddThing(interactee);
@@ -84,18 +106,21 @@ public class PickUpInteraction : Interaction
 public class InteractionListInteraction : Interaction
 {
     public GameObject interactionIndicator;
-    public GameObject[] actionObjects;
+    public GameObject[] actionPrefabs;
     public ActionThing[] actions
     {
         get
         {
             if (_actions == null)
             {
-                _actions = new ActionThing[actionObjects.Length];
+                _actions = new ActionThing[actionPrefabs.Length];
 
-                for (int i = 0; i < actionObjects.Length; i++)
+                for (int i = 0; i < actionPrefabs.Length; i++)
                 {
-                    _actions[i] = actionObjects[i].GetComponent<ActionThing>();
+                    if (GameObject.Instantiate(actionPrefabs[i], thisThing.transform).TryGetComponent(out ActionThing action))
+                    {
+                        _actions[i] = action;
+                    }
                 }
             }
 
@@ -106,6 +131,8 @@ public class InteractionListInteraction : Interaction
 
     public override void Interact(GameThing interactor, GameThing interactee)
     {
+        base.Interact(interactor, interactee);
+
         interactionIndicator?.SetActive(true);
         interactor.actionList?.PopulateActionList(actions);
     }

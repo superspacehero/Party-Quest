@@ -722,6 +722,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4119730194044983754}
     m_Modifications:
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: collisionInteraction
+      value: 1688019772273852416
+      objectReference: {fileID: 0}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416]
+      value: Assembly-CSharp InteractionListInteraction
+      objectReference: {fileID: 0}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416].interactionIndicator
+      value: 
+      objectReference: {fileID: 5148234205495510003}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416].actionObjects.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416].actionPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416].actionObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 523377007134666032, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+      propertyPath: managedReferences[1688019772273852416].actionPrefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 6011250689840681246, guid: 80a44c41ded98f0fa9b1896688496e61, type: 3}
     - target: {fileID: 5786159990771962265, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
       propertyPath: m_Name
       value: Interaction
@@ -772,6 +800,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+--- !u!1 &5148234205495510003 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5374813116472450537, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}
+  m_PrefabInstance: {fileID: 1001241362233826842}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6142161474543410567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6401947028781253533, guid: db2abf56caaa54e85829e5db97d4d001, type: 3}

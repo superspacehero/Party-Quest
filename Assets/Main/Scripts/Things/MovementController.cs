@@ -81,6 +81,10 @@ public class MovementController : Controller
 
     void FixedUpdate()
     {
+        //If the character is not allowed to control itself, return;
+        if (canControl == 0)
+            movementInput = Vector2.zero;
+
         //Run initial mover ground check;
         mover.CheckForGround();
 
