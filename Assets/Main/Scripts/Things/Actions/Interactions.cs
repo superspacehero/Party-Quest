@@ -51,7 +51,7 @@ public class Interactions : MonoBehaviour
     /// <param name="other">The Collision data associated with this collision.</param>
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collision Enter");
+        Debug.Log("Collision");
         if (other.collider.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
             collisionInteraction?.Interact(otherThing, thisThing);
@@ -141,5 +141,21 @@ public class InteractionListInteraction : Interaction
     {
         interactionIndicator?.SetActive(false);
         interactor.actionList?.ResetActions();
+    }
+}
+
+public class OpenMenuInteraction : Interaction
+{
+    public Menu menu;
+
+    public override void Interact(GameThing interactor, GameThing interactee)
+    {
+        base.Interact(interactor, interactee);
+
+        menu?.Select();
+    }
+
+    public override void StopInteract(GameThing interactor, GameThing interactee)
+    {
     }
 }
