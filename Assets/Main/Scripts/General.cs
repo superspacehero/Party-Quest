@@ -5,16 +5,9 @@ using UnityEngine;
 
 public class General
 {
-    public enum Priority
-    {
-        highPriority,
-        mediumPriority,
-        lowPriority,
-        topPriority
-    }
-
     #region Cached Animations
 
+        public static readonly int Speed = Animator.StringToHash("Speed");
         public static readonly int Idle = Animator.StringToHash("Idle");
         public static readonly int Walk = Animator.StringToHash("Walk");
         public static readonly int Jump = Animator.StringToHash("Jump");

@@ -292,7 +292,18 @@ public class MovementController : Controller
 
         // Movement
         if (IsGrounded() || verticalVelocity < gravity * verticalSpeedThreshold && !isJumping)
-            return movementInput.magnitude > 0 ? General.Walk : General.Idle;
+        {
+            if (movementInput.magnitude > 0)
+            {
+                anim.SetFloat(General.Speed, movementInput.magnitude);
+                return General.Walk;
+            }
+            else
+            {
+                anim.SetFloat(General.Speed, 1);
+                return General.Idle;
+            }
+        }
         return currentVerticalSpeed > 0 ? General.Jump : General.Fall;
 
         int LockState(int s)

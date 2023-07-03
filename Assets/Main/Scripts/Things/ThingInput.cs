@@ -59,6 +59,19 @@ public class ThingInput : GameThing
     }
     private bool _secondaryAction;
 
+    public bool pause
+    {
+        get => _pause;
+        set
+        {
+            _pause = value;
+            
+            if (attachedThing.thing && attachedThing.thing is CharacterThing)
+                (attachedThing.thing as CharacterThing).Pause();
+        }
+    }
+    private bool _pause;
+
     public void OnMove(InputValue value)
     {
         movement = value.Get<Vector2>();
@@ -72,5 +85,10 @@ public class ThingInput : GameThing
     public void OnButton2(InputValue value)
     {
         secondaryAction = value.isPressed;
+    }
+
+    public void OnPause(InputValue value)
+    {
+        pause = value.isPressed;
     }
 }

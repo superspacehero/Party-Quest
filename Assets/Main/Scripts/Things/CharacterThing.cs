@@ -257,6 +257,12 @@ public class CharacterThing : GameThing
         base.SecondaryAction(pressed);
     }
 
+    // Method to pause the game
+    public void Pause()
+    {
+        
+    }
+
     #endregion
 
     #region Character Assembly

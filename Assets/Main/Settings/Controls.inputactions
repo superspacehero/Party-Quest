@@ -33,18 +33,9 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Update",
+                    "name": "Pause",
                     "type": "Button",
                     "id": "2ccdb1b8-82b1-4da1-bb09-a1647db86640",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Restart",
-                    "type": "Button",
-                    "id": "718ffc7c-e04a-46e9-a0de-e138bf76ab29",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -186,33 +177,11 @@
                 },
                 {
                     "name": "",
-                    "id": "04fd6bab-247f-4cf3-9de6-37047a828033",
-                    "path": "<Touchscreen>/position",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Touch",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "3ea4d645-4504-4529-b061-ab81934c3752",
                     "path": "<Joystick>/stick",
                     "interactions": "",
                     "processors": "",
                     "groups": "Joystick",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f6e9ab57-805f-43e7-a3fd-9cf309c841d6",
-                    "path": "*/{Tilt}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad;Touch",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -274,34 +243,34 @@
                 },
                 {
                     "name": "",
-                    "id": "6438810e-9fa2-483b-860c-bba58a2c74ed",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Restart",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "386b7d2c-3d1b-47e5-bc87-5c217c591eec",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Update",
+                    "groups": "Gamepad",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
                     "id": "84650dd6-c62a-4f1b-b59b-2db9146d725d",
-                    "path": "<Keyboard>/backquote",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Pause",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "baa20b06-c8af-49fc-9cd0-91a24d54c145",
+                    "path": "<XRController>/start",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Update",
+                    "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
