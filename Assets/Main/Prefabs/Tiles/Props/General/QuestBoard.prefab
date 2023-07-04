@@ -407,8 +407,8 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 140.56296, y: 140.56296}
-  m_Spacing: {x: 8.785185, y: 8.785185}
+  m_CellSize: {x: 143.17036, y: 143.17036}
+  m_Spacing: {x: 8.948148, y: 8.948148}
   m_Constraint: 0
   m_ConstraintCount: 2
   paddingSizerFallback:
@@ -1278,6 +1278,46 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.149252, y: 2.5361986, z: 0.50780225}
   m_Center: {x: 0, y: 1.070627, z: -0.0500109}
+--- !u!114 &7119576445719899917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6308703217860409710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acac4cbf91f4ebd19a18aa165858b6c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  _thingName: Quest Board
+  properNoun: 0
+  thingDescription: 
+  _thingIcon: {fileID: 0}
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
+  variables:
+    variables: []
+  _renderers: []
+  _redColor: {r: 1, g: 1, b: 1, a: 1}
+  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &6685264387380257748 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e7a16fe33b6bc4ac99465e430fd0bb28, type: 3}
@@ -1733,6 +1773,19 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &3561701617894398135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3714254317094689746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!114 &7250157340051446765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1760,19 +1813,6 @@ MonoBehaviour:
   levelListContent: {fileID: 7124137913291201517}
   levelPreview: {fileID: 8781871177886871029}
   newLevelButton: {fileID: 0}
---- !u!114 &3561701617894398135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3714254317094689746}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!224 &3714254317186074427 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}

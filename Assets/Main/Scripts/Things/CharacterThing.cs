@@ -239,11 +239,14 @@ public class CharacterThing : GameThing
     // Method to perform primary action on character
     public override void PrimaryAction(bool pressed)
     {
-        if (actionList != null)
-            actionList.PrimaryAction(pressed);
+        if (!(movementController.canControl > 0 && interaction != null && interaction.PrimaryAction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.PrimaryAction(pressed);
 
-        if (movementController != null && movementController.canControl > 1)
-            movementController.jumpInput = pressed;
+            if (movementController != null && movementController.canControl > 1)
+                movementController.jumpInput = pressed;
+        }
 
         base.PrimaryAction(pressed);
     }

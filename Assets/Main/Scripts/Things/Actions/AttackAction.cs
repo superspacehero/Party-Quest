@@ -99,9 +99,9 @@ public class AttackAction : ActionThing
             attackMenu.SetActive(_attackState == AttackState.PickingAttack, this);
 
             if (_attackState == AttackState.PickingTarget)
-                Nodes.UnoccupyNode(Nodes.gridGraph.GetNearest(user.transform.position).node);
+                Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
             else
-                Nodes.OccupyNode(Nodes.gridGraph.GetNearest(user.transform.position).node);
+                Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
 
             switch (_attackState)
             {
@@ -222,13 +222,13 @@ public class AttackAction : ActionThing
                         : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range);
 
                 // Check if the potential target position is within the attack range
-                Pathfinding.GraphNode potentialTargetNode = Nodes.gridGraph.GetNearest(potentialTargetPosition).node;
+                Pathfinding.GraphNode potentialTargetNode = Nodes.instance.gridGraph.GetNearest(potentialTargetPosition).node;
                 if (_reachableNodes.Contains(potentialTargetNode))
                 {
                     // Color the previous target node
                     if (Nodes.instance != null && targetPosition != Vector3.zero)
                     {
-                        Nodes.instance.ColorNodeObject(Nodes.gridGraph.GetNearest(targetPosition).node, Nodes.instance.walkableColor);
+                        Nodes.instance.ColorNodeObject(Nodes.instance.gridGraph.GetNearest(targetPosition).node, Nodes.instance.walkableColor);
                     }
 
                     targetPosition = potentialTargetPosition;

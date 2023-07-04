@@ -11,7 +11,17 @@ public class Interactions : MonoBehaviour
         {
             if (_gameThing == null)
             {
-                GetComponentInParent<Collider>()?.TryGetComponent(out GameThing gameThing);
+                Transform parent = transform.parent;
+
+                // Loop up the hierarchy, looking for GameThings that aren't CharacterPartThings
+                while (parent.parent != null && _gameThing == null)
+                {
+                    parent.TryGetComponent(out _gameThing);
+                    if (_gameThing is CharacterPartThing)
+                        _gameThing = null;
+
+                    parent = parent.parent;
+                }
             }
             return _gameThing;
         }
@@ -24,7 +34,7 @@ public class Interactions : MonoBehaviour
     /// OnTriggerEnter is called when the Collider other enters the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
-    void OnTriggerEnter(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
@@ -36,7 +46,7 @@ public class Interactions : MonoBehaviour
     /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
     /// </summary>
     /// <param name="other">The other Collider involved in this collision.</param>
-    void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
@@ -49,9 +59,8 @@ public class Interactions : MonoBehaviour
     /// touching another rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionEnter(Collision other)
+    public void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collision");
         if (other.collider.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
             collisionInteraction?.Interact(otherThing, thisThing);
@@ -63,7 +72,7 @@ public class Interactions : MonoBehaviour
     /// stopped touching another rigidbody/collider.
     /// </summary>
     /// <param name="other">The Collision data associated with this collision.</param>
-    void OnCollisionExit(Collision other)
+    public void OnCollisionExit(Collision other)
     {
         if (other.collider.TryGetComponent(out otherThing) && collisionInteraction?.canInteract == true)
         {
@@ -81,9 +90,13 @@ public abstract class Interaction
     public virtual bool canInteract { get => true; }
     public virtual void Interact(GameThing interactor, GameThing interactee)
     {
+        if (interactor != null)
+            interactor.interaction = this;
         thisThing = interactee;
     }
     public abstract void StopInteract(GameThing interactor, GameThing interactee);
+
+    public virtual UnityEngine.Events.UnityAction PrimaryAction => null;
 }
 
 public class PickUpInteraction : Interaction
@@ -148,14 +161,18 @@ public class OpenMenuInteraction : Interaction
 {
     public Menu menu;
 
-    public override void Interact(GameThing interactor, GameThing interactee)
-    {
-        base.Interact(interactor, interactee);
-
-        menu?.Select();
-    }
-
     public override void StopInteract(GameThing interactor, GameThing interactee)
     {
+    }
+
+    public override UnityEngine.Events.UnityAction PrimaryAction
+    {
+        get
+        {
+            return () =>
+            {
+                menu?.Select();
+            };
+        }
     }
 }

@@ -235,14 +235,14 @@ MonoBehaviour:
             m_RotationOrder: 4
         isRelative: 0
         local: 0
-        rotationMode: 0
+        rotationMode: 1
         eulerAngles: {x: 0, y: 0, z: 0}
     - rid: 269855378569428996
       type: {class: DOTweenAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
       data:
         delay: 0
         flowType: 0
-        target: {fileID: 5786159990771962265}
+        target: {fileID: 5374813116472450537}
         duration: 1
         loopCount: 0
         loopType: 0
@@ -309,6 +309,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b5686090932dc742aab62ec0717adf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  otherThing: {fileID: 0}
   collisionInteraction:
     rid: -2
   references:

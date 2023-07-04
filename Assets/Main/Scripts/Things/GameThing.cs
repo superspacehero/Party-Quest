@@ -163,17 +163,61 @@ public class GameThing : SerializedMonoBehaviour
     }
     private ActionList _actionList;
 
+    #region Interactions
+
     // Interaction list for the thing
     public Interactions interactionList
     {
         get
         {
             if (_interactionList == null)
+            {
                 _interactionList = GetComponentInChildren<Interactions>();
+            }
             return _interactionList;
         }
     }
     private Interactions _interactionList;
+
+    /// <summary>
+    /// OnCollisionEnter is called when this collider/rigidbody has begun
+    /// touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionEnter(Collision other)
+    {
+        interactionList?.OnCollisionEnter(other);
+    }
+
+    /// <summary>
+    /// OnCollisionExit is called when this collider/rigidbody has
+    /// stopped touching another rigidbody/collider.
+    /// </summary>
+    /// <param name="other">The Collision data associated with this collision.</param>
+    void OnCollisionExit(Collision other)
+    {
+        interactionList?.OnCollisionExit(other);
+    }
+
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other)
+    {
+        interactionList?.OnTriggerEnter(other);
+    }
+
+    /// <summary>
+    /// OnTriggerExit is called when the Collider other has stopped touching the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerExit(Collider other)
+    {
+        interactionList?.OnTriggerExit(other);
+    }
+
+    #endregion
 
     public Transform thingTop
     {
@@ -528,7 +572,12 @@ public class GameThing : SerializedMonoBehaviour
         // Primary input
         public virtual void PrimaryAction(bool pressed)
         {
-            if (GetAttachedThing() != null)
+            if (interaction != null && interaction.PrimaryAction != null && interaction.canInteract)
+            {
+                if (pressed)
+                    interaction.PrimaryAction.Invoke();
+            }
+            else if (GetAttachedThing() != null)
                 GetAttachedThing().PrimaryAction(pressed);
         }
 
@@ -538,6 +587,8 @@ public class GameThing : SerializedMonoBehaviour
             if (GetAttachedThing() != null)
                 GetAttachedThing().SecondaryAction(pressed);
         }
+
+        public Interaction interaction;
 
     #endregion
 }

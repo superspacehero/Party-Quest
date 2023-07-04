@@ -8,7 +8,7 @@ public class Nodes : MonoBehaviour
     public static Nodes instance;
 
     // The grid graph to use for pathfinding
-    public static GridGraph gridGraph
+    public GridGraph gridGraph
     {
         get
         {
@@ -18,7 +18,7 @@ public class Nodes : MonoBehaviour
             return _gridGraph;
         }
     }
-    private static GridGraph _gridGraph;
+    private GridGraph _gridGraph;
 
     // The prefab to use for the node display
     public GameObject nodePrefab;
@@ -61,7 +61,10 @@ public class Nodes : MonoBehaviour
             }
 
             // Add the node display object to the dictionary
-            nodeObjects.Add(node, nodeObject);
+            if (node != null && nodeObject != null)
+                nodeObjects.Add(node, nodeObject);
+            else
+                continue;
 
             // Set the position of the node display object to the position of the GraphNode
             nodeObject.transform.position = (Vector3)node.position;
@@ -89,12 +92,17 @@ public class Nodes : MonoBehaviour
     {
         List<GraphNode> nodes = new List<GraphNode>();
 
+        if (maxHeightLimits.x < 0)
+            maxHeightLimits.x = float.PositiveInfinity;
+        if (maxHeightLimits.y < 0)
+            maxHeightLimits.y = float.PositiveInfinity;
+
         // If radius is set to infinity, add all walkable nodes in the gridGraph to the nodes list.
         if (float.IsInfinity(radius))
         {
-            foreach (var node in gridGraph.nodes)
+            foreach (var node in instance.gridGraph.nodes)
             {
-                if (node.Walkable)
+                if (node.Walkable && node.position.y <= maxHeightLimits.y && node.position.y >= position.y - maxHeightLimits.x)
                 {
                     nodes.Add(node);
                 }
@@ -102,7 +110,7 @@ public class Nodes : MonoBehaviour
         }
         else
         {
-            GraphNode currentNode = gridGraph.GetNearest(position).node;
+            GraphNode currentNode = instance.gridGraph.GetNearest(position).node;
             nodes.Add(currentNode);
 
             Queue<GraphNode> queue = new Queue<GraphNode>();
@@ -119,10 +127,12 @@ public class Nodes : MonoBehaviour
                     foreach (Vector3 direction in directions)
                     {
                         // Get the node in the direction
-                        GraphNode node = gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
+                        GraphNode node = null; 
+                        if (searchNode != null)
+                            node = instance.gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
 
-                        // If the node is not in the valid spaces list and is walkable, add it to the list
-                        if (!nodes.Contains(node) && node.Walkable)
+                        // If the node is not in the valid spaces list and is walkable and within the maxHeightLimits, add it to the list
+                        if (node != null && !nodes.Contains(node) && node.Walkable && node.position.y <= maxHeightLimits.y && node.position.y >= position.y - maxHeightLimits.x)
                         {
                             nodes.Add(node);
                             queue.Enqueue(node);
@@ -189,7 +199,7 @@ public class Nodes : MonoBehaviour
     {
 
         if (AstarPath.active != null)
-            OccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
+            OccupyNode(instance.gridGraph.GetNearest(position).node);
     }
 
     public static void UnoccupyNode(GraphNode node)
@@ -201,7 +211,7 @@ public class Nodes : MonoBehaviour
     public static void UnoccupyNode(Vector3 position)
     {
         if (AstarPath.active != null)
-            UnoccupyNode(AstarPath.active.data.gridGraph.GetNearest(position).node);
+            UnoccupyNode(instance.gridGraph.GetNearest(position).node);
     }
 
     public static bool CheckNodeOccupied(GraphNode node)
@@ -215,7 +225,7 @@ public class Nodes : MonoBehaviour
 
         if (AstarPath.active != null)
         {
-            GraphNode node = AstarPath.active.data.gridGraph.GetNearest(position).node;
+            GraphNode node = instance.gridGraph.GetNearest(position).node;
 
             if (node.Tag == 1)
             {

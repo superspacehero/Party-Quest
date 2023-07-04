@@ -33,7 +33,7 @@ public class MenuMoveAction : StartingActionThing
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
-        currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
+        currentNode = Nodes.instance.gridGraph.GetNearest(user.transform.position).node;
         Nodes.UnoccupyNode(currentNode);
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, -Vector2.one);
 
@@ -49,7 +49,7 @@ public class MenuMoveAction : StartingActionThing
             if (user.transform.position != previousPosition)
             {
                 // Update currentPosition to the grid-based position of the user
-                currentNode = Nodes.gridGraph.GetNearest(user.transform.position).node;
+                currentNode = Nodes.instance.gridGraph.GetNearest(user.transform.position).node;
 
                 // If the current position is not a valid space
                 if (!validSpaces.Contains(currentNode))
@@ -57,10 +57,10 @@ public class MenuMoveAction : StartingActionThing
                     movement = user.transform.position - previousPosition;
 
                     // check the node in the direction of the x axis
-                    GraphNode xNode = Nodes.gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
+                    GraphNode xNode = Nodes.instance.gridGraph.GetNearest(previousPosition + Vector3.right * movement.x).node;
 
                     // check the node in the direction of the z axis
-                    GraphNode zNode = Nodes.gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
+                    GraphNode zNode = Nodes.instance.gridGraph.GetNearest(previousPosition + Vector3.forward * movement.z).node;
 
                     // revert the appropriate axes to the previous position
                     user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(zNode) ? previousPosition.z : user.transform.position.z);
