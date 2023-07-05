@@ -242,4 +242,22 @@ public class Nodes : MonoBehaviour
 
         return false;
     }
+
+    public static List<GraphNode> GetPathToNode(Vector3 startPosition, Vector3 endPosition)
+    {
+        // Get the path from the start node to the end node
+        ABPath path = ABPath.Construct(startPosition, endPosition);
+
+        // Calculate the path
+        AstarPath.StartPath(path);
+
+        // Wait for the path to be calculated
+        while (!path.IsDone())
+        {
+            // Do nothing
+        }
+
+        // Return the path
+        return path.path;
+    }
 }
