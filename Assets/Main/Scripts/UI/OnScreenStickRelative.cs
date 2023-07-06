@@ -1,8 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
-using UnityEngine.InputSystem.Layouts;
-using UnityEngine.InputSystem.OnScreen;
 
 ////TODO: custom icon for OnScreenStick component
 
@@ -11,7 +9,7 @@ using UnityEngine.InputSystem.OnScreen;
 /// input.
 /// </summary>
 [AddComponentMenu("Input/On-Screen Stick - Relative")]
-public class OnScreenStickRelative : OnScreenControl, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class OnScreenStickRelative : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
 
     public void OnPointerDown(PointerEventData eventData)
@@ -59,16 +57,6 @@ public class OnScreenStickRelative : OnScreenControl, IPointerDownHandler, IPoin
     [SerializeField]
     private float m_MovementRange = 50;
 
-    [InputControl(layout = "Vector2")]
-    [SerializeField]
-    private string m_ControlPath;
-
     private Vector3 m_StartPos;
     private Vector2 m_PointerDownPos;
-
-    protected override string controlPathInternal
-    {
-        get => m_ControlPath;
-        set => m_ControlPath = value;
-    }
 }

@@ -174,7 +174,7 @@ public class MoveAction : ActionThing
             if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
             {
                 controller.canControl = (controller.canControl == 0) ? 2 : 0;
-                (user as CharacterThing).DisplayInventory(controller.canControl <= 1);
+                (user as CharacterThing).DisplayActions(controller.canControl <= 1);
             }
         }
     }

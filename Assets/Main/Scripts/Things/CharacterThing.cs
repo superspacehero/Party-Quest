@@ -40,6 +40,9 @@ public class CharacterThing : GameThing
         get => "Character";
     }
 
+    // The character's input
+    public ThingInput input;
+
     // The character's portrait
     public Sprite thingPortrait;
 
@@ -216,10 +219,10 @@ public class CharacterThing : GameThing
         else
             Debug.LogWarning("No action list found for character " + thingName);
 
-        DisplayInventory(true);
+        DisplayActions(true);
     }
 
-    public void DisplayInventory(bool display, ActionList actionListToUse = null)
+    public void DisplayActions(bool display, ActionList actionListToUse = null)
     {
         if (actionListToUse == null)
             actionListToUse = actionList;
@@ -291,7 +294,7 @@ public class CharacterThing : GameThing
     // Method to pause the game
     public void Pause()
     {
-        
+
     }
 
     #endregion

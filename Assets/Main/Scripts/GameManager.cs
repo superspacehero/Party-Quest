@@ -222,21 +222,16 @@ public class GameManager : MonoBehaviour
 
     public static void ControlNextCharacter()
     {
-        List<ThingInput> thingInputs = new List<ThingInput>(GameManager.inputs);
+        currentCharacter.input.AttachThing(currentCharacter);
 
-        foreach (ThingInput player in inputs)
+        foreach (ThingInput player in GameManager.inputs)
         {
-            if (player.GetAttachedThing() != null && player.GetAttachedThing() == currentCharacter)
-                thingInputs.Insert(0, player);
-            else
-                thingInputs.Add(player);
-
-            player.canControl = player.GetAttachedThing() == currentCharacter;
+            player.canControl = currentCharacter.input == player;
         }
 
         if (instance.playerStartingActions.Count > 0)
         {
-            foreach (ThingInput player in thingInputs)
+            foreach (ThingInput player in inputs)
             {
                 if (player.GetAttachedThing() is CharacterThing)
                 {
@@ -250,8 +245,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     // Add the override starting action
-                    if (instance.playerStartingActions.Count > inputs.IndexOf(player))
-                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[inputs.IndexOf(player)].GetType()) as StartingActionThing;
+                    if (instance.playerStartingActions.Count > GameManager.inputs.IndexOf(player))
+                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[GameManager.inputs.IndexOf(player)].GetType()) as StartingActionThing;
                     else
                         character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.playerStartingActions.Count - 1].GetType()) as StartingActionThing;
                 }
@@ -323,8 +318,16 @@ public class GameManager : MonoBehaviour
 
                 // Add the character to the player's input
                 input.AttachThing(character);
+                character.input = input;
             }
         }
+    }
+
+    [SerializeField] private GameObject cpuPlayerPrefab;
+
+    public void SpawnCPUPlayer()
+    {
+        
     }
 
     public void SpawnPlayers()

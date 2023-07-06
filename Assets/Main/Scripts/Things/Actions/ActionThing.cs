@@ -64,7 +64,7 @@ public class ActionThing : GameThing
         user.actionList.currentAction = null;
 
         if (user is CharacterThing && displayInventory)
-            (user as CharacterThing).DisplayInventory(true);
+            (user as CharacterThing).DisplayActions(true);
 
         gameObject.SetActive(false);
     }
@@ -77,6 +77,6 @@ public class ActionThing : GameThing
         actionRunning = false;
         user.actionList.currentAction = null;
 
-        (user as CharacterThing).DisplayInventory(true);
+        (user as CharacterThing).DisplayActions(true);
     }
 }
