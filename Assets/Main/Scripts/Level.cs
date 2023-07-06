@@ -17,6 +17,7 @@ public struct Level
     [ReadOnly]
     public List<SavedTile> groundTiles, propTiles, objectTiles;
     [ReadOnly] public List<GameThing> things;
+    [ReadOnly] public List<CharacterThing> characters;
     public List<Room> rooms;
 
     // Convert the Level struct to a JSON string

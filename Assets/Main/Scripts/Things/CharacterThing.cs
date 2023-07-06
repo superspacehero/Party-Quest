@@ -7,6 +7,34 @@ using Sirenix.OdinInspector;
 public class CharacterThing : GameThing
 {
     // CharacterThings are a subclass of GameThings that represent characters in the game.
+    /// <summary>
+    /// Awake is called when the script instance is being loaded.
+    /// </summary>
+    protected override void Awake()
+    {
+        base.Awake();
+
+        // If the GameManager's level is not null, and it doesn't have this CharacterThing in its list of characters, add this CharacterThing to the list.
+        if (GameManager.instance != null && !GameManager.instance.level.characters.Contains(this))
+        {
+            GameManager.instance.level.characters.Add(this);
+        }
+    }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        // If the GameManager's level is not null, and it has this CharacterThing in its list of characters, remove this CharacterThing from the list.
+        if (GameManager.instance != null && GameManager.instance.level.characters.Contains(this))
+        {
+            GameManager.instance.level.characters.Remove(this);
+        }
+    }
+
     public override string thingType
     {
         get => "Character";

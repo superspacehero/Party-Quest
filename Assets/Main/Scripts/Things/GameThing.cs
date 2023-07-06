@@ -31,24 +31,28 @@ public class GameThing : SerializedMonoBehaviour
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
-    void Awake()
+    protected virtual void Awake()
     {
         // If the GameManager's level is not null, and it doesn't have this GameThing in its list of things, add this GameThing to the list.
         if (GameManager.instance != null && !GameManager.instance.level.things.Contains(this))
         {
             GameManager.instance.level.things.Add(this);
-            // Debug.Log($"Added {name} to GameManager's level.");
         }
+
+        if (variables.GetVariable("health") > 0 && variables.GetVariable("maxHealth") <= 0)
+            variables.SetVariable("maxHealth", variables.GetVariable("health"));
     }
 
     /// <summary>
     /// This function is called when the MonoBehaviour will be destroyed.
     /// </summary>
-    void OnDestroy()
+    protected virtual void OnDestroy()
     {
         // If the GameManager's level is not null, and it has this GameThing in its list of things, remove this GameThing from the list.
         if (GameManager.instance != null && GameManager.instance.level.things.Contains(this))
+        {
             GameManager.instance.level.things.Remove(this);
+        }
     }
     
     public virtual string thingName
@@ -317,7 +321,19 @@ public class GameThing : SerializedMonoBehaviour
                 variables.Add(new Variable(name, value));
             // If the variable is found, set its value to the given value.
             else
+            {
+                if (name == "health")
+                {
+                    // Check if the new health value is greater than the max health value
+                    int maxHealth = GetVariable("maxHealth");
+                    if (value > maxHealth)
+                    {
+                        value = maxHealth;
+                    }
+                }
+
                 variable.value = value;
+            }
         }
 
         // Operator to add two instances of GameThingVariables together.
@@ -532,20 +548,25 @@ public class GameThing : SerializedMonoBehaviour
             SetColor("_BlueColor", blueColor, renderer);
         }
 
+        private Material _cachedMaterial;
+
         public virtual void SetColors(UnityEngine.UI.Graphic graphic)
         {
-            // Check if the graphic has a material and hasn't been instantiated yet.
-            Material materialForRendering = (graphic.materialForRendering == graphic.defaultMaterial) ?
-                graphic.materialForRendering : Instantiate(graphic.materialForRendering);
+            // Check if we have a cached material
+            if (_cachedMaterial == null)
+            {
+                // We don't have a cached material, create one
+                _cachedMaterial = new Material(graphic.materialForRendering.shader);
+            }
 
+            // Set the color properties on the cached material
+            _cachedMaterial.SetColor("_RedColor", redColor);
+            _cachedMaterial.SetColor("_GreenColor", greenColor);
+            _cachedMaterial.SetColor("_BlueColor", blueColor);
 
-            materialForRendering.SetColor("_RedColor", redColor);
-            materialForRendering.SetColor("_GreenColor", greenColor);
-            materialForRendering.SetColor("_BlueColor", blueColor);
-
-            graphic.material = materialForRendering;
+            // Set the graphic's material to the cached material
+            graphic.material = _cachedMaterial;
         }
-
 
         [Sirenix.OdinInspector.Button, HideInPlayMode]
         void GetRenderers()

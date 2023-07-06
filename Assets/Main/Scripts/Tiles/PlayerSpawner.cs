@@ -9,7 +9,7 @@ public class PlayerSpawner : GameThing
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
-    void Awake()
+    protected override void Awake()
     {
         if (GameManager.instance && GameManager.gameMode != GameMode.Make)
             spawnerVisuals?.SetActive(false);

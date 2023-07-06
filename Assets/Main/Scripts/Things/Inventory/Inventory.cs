@@ -167,6 +167,19 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
+    public List<GameThing> ContainsVariable(string variableName)
+    {
+        List<GameThing> things = new List<GameThing>();
+
+        foreach (ThingSlot slot in thingSlots)
+        {
+            if (slot.thing != null && slot.thing.variables.GetVariable(variableName) > 0)
+                things.Add(slot.thing);
+        }
+        
+        return things;
+    }
+
     public List<ThingSlot> GetSlotsByThingType(string thingType)
     {
         List<ThingSlot> slots = new List<ThingSlot>();

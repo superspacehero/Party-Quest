@@ -42,63 +42,175 @@ public class ThingInput : GameThing
     }
     private bool _canControl = false;
 
+    enum AIState
+    {
+        ChoosingAction,
+        Idling,
+        Moving,
+        Attacking,
+        Healing,
+        Fleeing,
+        EndingTurn
+    }
+
+    [SerializeField] private float _actionDelay = 1f;
+
     private IEnumerator ActionCoroutine(CharacterThing thing)
     {
+        AIState currentState = AIState.Idling;
+        AIState nextState = AIState.ChoosingAction;
+
+        float timer = 0f;
+
+        bool attemptedHealing = false;
+
         _currentTargetIndex = 0;
-        List<GraphNode> path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
+        List<GraphNode> path = new List<GraphNode>();
 
         while (_canControl)
         {
-            if (_currentTargetIndex < _targets.Count)
+            switch (currentState)
             {
-                // Get the path to the current target
-                Vector3 start = thing.transform.position;
-                Vector3 end = _targets[_currentTargetIndex].transform.position;
+                case AIState.Idling:
+                    movement = Vector2.zero;
+                    primaryAction = false;
+                    secondaryAction = false;
 
-                // Move to the next node in the path
-                if (path.Count > 1)
-                {
-                    Vector3 nextNode = (Vector3)path[1].position;
-                    float distance = Vector3.Distance(thing.transform.position, nextNode);
-
-                    if (distance < 0.1f)
+                    timer = 0f;
+                    while (timer < _actionDelay)
                     {
-                        // We've reached the node, move to the next one
-                        path.RemoveAt(0);
-                        if (path.Count > 1)
-                            nextNode = (Vector3)path[1].position;
-                        else
-                            nextNode = end;
-                        distance = Vector3.Distance(thing.transform.position, nextNode);
+                        timer += Time.deltaTime;
+                        yield return null;
                     }
 
-                    movement = new Vector2(nextNode.x - thing.transform.position.x, nextNode.z - thing.transform.position.z).normalized;
-
-                    if (nextNode.y - thing.transform.position.y > 0.5f)
+                    currentState = nextState;
+                    break;
+                
+                case AIState.ChoosingAction:
+                    // Choose the next action based on the state of the thing
+                    if (!attemptedHealing && (float)thing.variables.GetVariable("health") / (float)thing.variables.GetVariable("maxHealth") < 0.5f)
                     {
-                        primaryAction = true;
+                        // We're low on health, try to heal
+                        currentState = AIState.Healing;
                     }
-                }
-                else
-                {
-                    // We've reached the target
-                    _currentTargetIndex++;
-
-                    if (_currentTargetIndex < _targets.Count)
+                    else if (_targets.Count > 0)
+                    {
+                        // We have targets, move to them
+                        currentState = AIState.Moving;
                         path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
-                }
-            }
-            else
-            {
-                // We've reached the end target
-                movement = Vector2.zero;
-                primaryAction = false;
-                secondaryAction = false;
-                _canControl = false;
+                    }
+                    else
+                    {
+                        // We have no targets, end our turn
+                        currentState = AIState.EndingTurn;
+                    }
+                    break;
+
+                case AIState.Healing:
+                    // Check if we have any healing items
+                    List<GameThing> healingItems = thing.inventory.ContainsVariable("health");
+
+                    // Sort the healing items by how close their healing value is to the amount of health we need to get to max health
+                    int healthNeeded = thing.variables.GetVariable("maxHealth") - thing.variables.GetVariable("health");
+                    healingItems.Sort((a, b) => Mathf.Abs(a.variables.GetVariable("health") - healthNeeded).CompareTo(Mathf.Abs(b.variables.GetVariable("health") - healthNeeded)));
+
+                    if (healingItems.Count > 0)
+                    {
+                        // We have healing items, use one
+                        healingItems[0].Use(thing);
+                    }
+                    attemptedHealing = true;
+
+                    currentState = AIState.Idling;
+                    nextState = AIState.ChoosingAction;
+                    break;
+
+                case AIState.Moving:
+                    if (_currentTargetIndex < _targets.Count)
+                    {
+                        // Get the path to the current target
+                        Vector3 start = thing.transform.position;
+                        Vector3 end = _targets[_currentTargetIndex].transform.position;
+
+                        // Move to the next node in the path
+                        if (path.Count > 1)
+                        {
+                            Vector3 nextNode = (Vector3)path[1].position;
+                            float distance = Vector3.Distance(thing.transform.position, nextNode);
+
+                            if (distance < 0.1f)
+                            {
+                                // We've reached the node, move to the next one
+                                path.RemoveAt(0);
+                                if (path.Count > 1)
+                                    nextNode = (Vector3)path[1].position;
+                                else
+                                    nextNode = end;
+                                distance = Vector3.Distance(thing.transform.position, nextNode);
+                            }
+
+                            movement = new Vector2(nextNode.x - thing.transform.position.x, nextNode.z - thing.transform.position.z).normalized;
+
+                            if (nextNode.y - thing.transform.position.y > 0.5f)
+                            {
+                                primaryAction = true;
+                            }
+                        }
+                        else
+                        {
+                            // We've reached the target
+                            _currentTargetIndex++;
+
+                            if (_currentTargetIndex < _targets.Count)
+                                path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
+                        }
+                    }
+                    else
+                    {
+                        // We've reached the end target
+                        currentState = AIState.Idling;
+                        nextState = AIState.ChoosingAction;
+
+                        _targets.Clear();
+                    }
+                    break;
+
+                case AIState.EndingTurn:
+                    // We've finished our turn, reset the state
+                    movement = Vector2.zero;
+                    primaryAction = false;
+                    secondaryAction = false;
+
+                    _canControl = false;
+                    break;
             }
 
             yield return null;
         }
+
+        // Go to the next character
+        GameManager.NextCharacter();
+    }
+
+    private CharacterThing ChooseTarget(CharacterThing thing)
+    {
+        // Get all the enemies in the game
+        List<CharacterThing> enemies = GameManager.instance.level.characters.FindAll(t => t.team != thing.team);
+
+        // Sort the enemies by distance to the character
+        enemies.Sort((a, b) => Vector3.Distance(thing.transform.position, a.transform.position).CompareTo(Vector3.Distance(thing.transform.position, b.transform.position)));
+
+        // Choose the closest enemy that is within range
+        foreach (CharacterThing enemy in enemies)
+        {
+            if (Vector3.Distance(thing.transform.position, enemy.transform.position) <= thing.variables.GetVariable("attackRange"))
+            {
+                return enemy;
+            }
+        }
+
+        // No enemies are within range
+        return null;
     }
 
     public void SetTargets(List<GameThing> targets, CharacterThing endTarget)

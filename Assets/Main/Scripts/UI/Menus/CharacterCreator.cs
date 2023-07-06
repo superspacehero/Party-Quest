@@ -114,8 +114,10 @@ public class CharacterCreator : GameThing
         SetText();
     }
 
-    private void OnDestroy()
+    protected override void OnDestroy()
     {
+        base.OnDestroy();
+
         if (characterThing != null)
             Destroy(characterThing.gameObject);
     }
