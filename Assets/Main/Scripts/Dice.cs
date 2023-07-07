@@ -93,6 +93,9 @@ public class Dice : GameThing
             rollTime = 0f;
 
             enabledEvent.Invoke();
+            
+            if (rb.TryGetComponent(out Collider collider))
+                collider.isTrigger = true;
 
             rb.constraints = RigidbodyConstraints.FreezePosition;
             rb.angularVelocity = Vector3.zero;
@@ -155,6 +158,9 @@ public class Dice : GameThing
             side = dirs[Random.Range(0, dirs.Count)];
 
             direction.Normalize();
+
+            if (rb.TryGetComponent(out Collider collider))
+                collider.isTrigger = false;
 
             rb.useGravity = true;
 

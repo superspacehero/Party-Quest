@@ -98,9 +98,14 @@ public abstract class Interaction
             interactor.interaction = this;
         thisThing = interactee;
     }
-    public abstract void StopInteract(GameThing interactor, GameThing interactee);
+    public virtual void StopInteract(GameThing interactor, GameThing interactee)
+    {
+        if (interactor != null)
+            interactor.interaction = null;
+    }
 
     public virtual UnityEngine.Events.UnityAction PrimaryAction => null;
+    public virtual UnityEngine.Events.UnityAction SecondaryAction => null;
 }
 
 public class PickUpInteraction : Interaction
@@ -113,10 +118,6 @@ public class PickUpInteraction : Interaction
         {
             interactor.inventory.AddThing(interactee);
         }
-    }
-
-    public override void StopInteract(GameThing interactor, GameThing interactee)
-    {
     }
 }
 
@@ -163,6 +164,8 @@ public class InteractionListInteraction : Interaction
 
     public override void StopInteract(GameThing interactor, GameThing interactee)
     {
+        base.StopInteract(interactor, interactee);
+
         interactionIndicator?.SetActive(false);
         interactor.actionList?.ResetActions();
     }
@@ -172,10 +175,6 @@ public class OpenMenuInteraction : Interaction
 {
     public Menu menu;
 
-    public override void StopInteract(GameThing interactor, GameThing interactee)
-    {
-    }
-
     public override UnityEngine.Events.UnityAction PrimaryAction
     {
         get
@@ -183,6 +182,17 @@ public class OpenMenuInteraction : Interaction
             return () =>
             {
                 menu?.Select();
+            };
+        }
+    }
+
+    public override UnityEngine.Events.UnityAction SecondaryAction
+    {
+        get
+        {
+            return () =>
+            {
+                menu?.Deselect();
             };
         }
     }

@@ -593,10 +593,10 @@ public class GameThing : SerializedMonoBehaviour
         // Primary input
         public virtual void PrimaryAction(bool pressed)
         {
-            if (interaction != null && interaction.PrimaryAction != null && interaction.canInteract)
+            if (interaction != null && interaction.canInteract)
             {
                 if (pressed)
-                    interaction.PrimaryAction.Invoke();
+                    interaction.PrimaryAction?.Invoke();
             }
             else if (GetAttachedThing() != null)
                 GetAttachedThing().PrimaryAction(pressed);
@@ -605,7 +605,12 @@ public class GameThing : SerializedMonoBehaviour
         // Secondary input
         public virtual void SecondaryAction(bool pressed)
         {
-            if (GetAttachedThing() != null)
+            if (interaction != null && interaction.canInteract)
+            {
+                if (pressed)
+                    interaction.SecondaryAction?.Invoke();
+            }
+            else if (GetAttachedThing() != null)
                 GetAttachedThing().SecondaryAction(pressed);
         }
 

@@ -15,7 +15,7 @@ public class CharacterSelect : GameThing
 
     [SerializeField] private GameObject extraCharacterSelectPrefab;
 
-    [SerializeField] private GameObject selectedOverlay, selectedCheckmark;
+    [SerializeField] private GameObject selectedOverlay, selectedCheckmark, addPlayerButton;
 
     [SerializeField] private GameObject toNewCharacterArrow, characterSelectArrows, toCharacterSelectArrow;
 
@@ -166,6 +166,7 @@ public class CharacterSelect : GameThing
             CharacterSelectMenu.instance.characterSelects.Add(this);
 
         selectedCharacter = null;
+        addPlayerButton.SetActive(canAddExtraPlayers);
     }
     /// <summary>
     /// This function is called when the behaviour becomes disabled or inactive.

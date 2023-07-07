@@ -285,8 +285,11 @@ public class CharacterThing : GameThing
     // Method to perform secondary action on character
     public override void SecondaryAction(bool pressed)
     {
-        if (actionList != null)
-            actionList.SecondaryAction(pressed);
+        if (!(movementController.canControl > 0 && interaction != null && interaction.SecondaryAction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.SecondaryAction(pressed);
+        }
 
         base.SecondaryAction(pressed);
     }
