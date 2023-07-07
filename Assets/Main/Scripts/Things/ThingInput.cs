@@ -9,6 +9,18 @@ public class ThingInput : GameThing
 {
     public bool isPlayer = true;
 
+    public PlayerInput playerInput
+    {
+        get
+        {
+            if (_playerInput == null)
+                TryGetComponent(out _playerInput);
+
+            return _playerInput;
+        }
+    }
+    private PlayerInput _playerInput;
+
     #region AI Variables
 
     private Coroutine _actionCoroutine;
@@ -27,8 +39,12 @@ public class ThingInput : GameThing
 
             if (value)
             {
-                if (attachedThing.thing && attachedThing.thing is CharacterThing)
-                    _actionCoroutine = StartCoroutine(ActionCoroutine(attachedThing.thing as CharacterThing));
+                foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                {
+                    if (slot.thing && slot.thing is CharacterThing)
+                        _actionCoroutine = StartCoroutine(ActionCoroutine(slot.thing as CharacterThing));
+                }
+
             }
             else
             {
@@ -261,8 +277,9 @@ public class ThingInput : GameThing
             
             _moving = value.magnitude > 0;
 
-            if (attachedThing.thing)
-                attachedThing.thing.Move(_movement);
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.Move(_movement);
         }
     }
     private Vector2 _movement;
@@ -274,9 +291,10 @@ public class ThingInput : GameThing
         set
         {
             _primaryAction = value;
-            
-            if (attachedThing.thing)
-                attachedThing.thing.PrimaryAction(_primaryAction);
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.PrimaryAction(_primaryAction);
         }
     }
     private bool _primaryAction;
@@ -287,12 +305,27 @@ public class ThingInput : GameThing
         set
         {
             _secondaryAction = value;
-            
-            if (attachedThing.thing)
-                attachedThing.thing.SecondaryAction(_secondaryAction);
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.SecondaryAction(_secondaryAction);
         }
     }
     private bool _secondaryAction;
+
+    public bool tertiaryAction
+    {
+        get => _tertiaryAction;
+        set
+        {
+            _tertiaryAction = value;
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.TertiaryAction(_tertiaryAction);
+        }
+    }
+    private bool _tertiaryAction;
 
     public bool pause
     {
@@ -300,9 +333,10 @@ public class ThingInput : GameThing
         set
         {
             _pause = value;
-            
-            if (attachedThing.thing && attachedThing.thing is CharacterThing)
-                (attachedThing.thing as CharacterThing).Pause();
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing && slot.thing is CharacterThing)
+                    (slot.thing as CharacterThing).Pause();
         }
     }
     private bool _pause;
@@ -320,6 +354,11 @@ public class ThingInput : GameThing
     public void OnButton2(InputValue value)
     {
         secondaryAction = value.isPressed;
+    }
+
+    public void OnButton3(InputValue value)
+    {
+        tertiaryAction = value.isPressed;
     }
 
     public void OnPause(InputValue value)

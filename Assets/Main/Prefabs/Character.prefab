@@ -119,7 +119,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
   _thingName: Character
   properNoun: 0
   thingDescription: 
@@ -138,6 +141,7 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  input: {fileID: 0}
   thingPortrait: {fileID: 0}
   characterPartList: {fileID: 11400000, guid: b777c992050d4479c9d968363883674a, type: 2}
   team: 0

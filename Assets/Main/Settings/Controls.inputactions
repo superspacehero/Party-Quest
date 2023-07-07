@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Button3",
+                    "type": "Button",
+                    "id": "a5462e1e-44dc-48bb-a5b3-475d4da9043c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "2ccdb1b8-82b1-4da1-bb09-a1647db86640",
@@ -177,17 +186,6 @@
                 },
                 {
                     "name": "",
-                    "id": "3ea4d645-4504-4529-b061-ab81934c3752",
-                    "path": "<Joystick>/stick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Joystick",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -211,7 +209,7 @@
                 {
                     "name": "",
                     "id": "d734a559-9a77-4d76-b5a0-528424a2a012",
-                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "path": "<XRController>/primaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
@@ -269,7 +267,7 @@
                     "path": "<XRController>/start",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "XR",
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -277,11 +275,44 @@
                 {
                     "name": "",
                     "id": "603639e9-3ea4-417c-9d34-df0601256ec6",
-                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "path": "<XRController>/secondaryButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "XR",
                     "action": "Button2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53a6d444-4cea-4417-b104-d92f6532c6ba",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Button3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f4e14646-7912-47c3-ba0f-ebcf707e5df2",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Button3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da3b9cab-e901-4029-adef-b1df0cf9cfa9",
+                    "path": "<XRController>/thumbstickClicked",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "XR",
+                    "action": "Button3",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

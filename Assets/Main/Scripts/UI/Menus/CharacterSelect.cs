@@ -8,16 +8,52 @@ using I2.Loc;
 public class CharacterSelect : GameThing
 {
     #region Fields
-    [SerializeField] private bool initialized, canAddNewCharacter;
+    
+    [SerializeField] private bool initialized, canAddNewCharacter, canAddExtraPlayers = true;
     [SerializeField] private LocalizedString newCharacterName;
     [SerializeField] private Sprite newCharacterSprite;
+
+    [SerializeField] private GameObject extraCharacterSelectPrefab;
 
     [SerializeField] private GameObject selectedOverlay, selectedCheckmark;
 
     [SerializeField] private GameObject toNewCharacterArrow, characterSelectArrows, toCharacterSelectArrow;
+
+    [SerializeField] private GameObject character;
     #endregion
 
     #region Properties
+
+    private ThingInput thingInput
+    {
+        get
+        {
+            if (_thingInput == null)
+            {
+                _thingInput = GetComponentInChildren<ThingInput>();
+            }
+            return _thingInput;
+        }
+    }
+    private ThingInput _thingInput;
+
+    public UnityEngine.InputSystem.PlayerInput playerInput
+    {
+        get
+        {
+            if (_playerInput == null)
+            {
+                _playerInput = GetComponentInChildren<UnityEngine.InputSystem.PlayerInput>();
+            }
+            return _playerInput;
+        }
+
+        set
+        {
+            _playerInput = value;
+        }
+    }
+    private UnityEngine.InputSystem.PlayerInput _playerInput;
     private static CharacterThing.CharacterInfo newCharacter;
     private static List<CharacterThing.CharacterInfo> characters, selectedCharacters = new List<CharacterThing.CharacterInfo>();
     private bool charactersLoaded = false;
@@ -346,10 +382,44 @@ public class CharacterSelect : GameThing
                         CharacterSelectMenu.instance.characterSelects.Remove(this);
 
                     // Destroy this character select
+                    Destroy(character);
                     Destroy(gameObject);
                 }
             }
         }
+    }
+
+    public void SecondaryAction()
+    {
+        SecondaryAction(true);
+        SecondaryAction(false);
+    }
+
+    public override void TertiaryAction(bool value)
+    {
+        if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)
+        {
+            base.TertiaryAction(value);
+        }
+        else
+        {
+            // Add a new player with the same input device as this one
+            if (value && selectedCharacter != null && canAddExtraPlayers)
+            {
+                if (CharacterSelectMenu.instance != null)
+                    if (Instantiate(extraCharacterSelectPrefab, CharacterSelectMenu.instance.characterSelectParent).TryGetComponent(out CharacterSelect characterSelect))
+                    {
+                        characterSelect.playerInput = playerInput;
+                        thingInput.inventory.AddThing(characterSelect, true, null, false);
+                    }
+            }
+        }
+    }
+
+    public void TertiaryAction()
+    {
+        TertiaryAction(true);
+        TertiaryAction(false);
     }
     #endregion
     #endregion

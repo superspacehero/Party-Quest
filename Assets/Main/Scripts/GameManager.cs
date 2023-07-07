@@ -73,22 +73,23 @@ public class GameManager : MonoBehaviour
 
         public PlayerAndCharacter(PlayerInput playerInput, CharacterThing.CharacterInfo character, int team = 0)
         {
-            player = playerInput.devices[0];
+            // If the player input is null, then the player is a CPU
+            player = (playerInput != null) ? playerInput.devices[0] : null;
             this.character = character;
             this.team = team;
         }
     }
     public static List<PlayerAndCharacter> players = new List<PlayerAndCharacter>();
 
-    public static List<ThingInput> inputs = new List<ThingInput>();
+    public List<ThingInput> inputs = new List<ThingInput>();
     public static void AddPlayer(ThingInput player)
     {
-        inputs.Add(player);
+        instance?.inputs.Add(player);
     }
 
     public static void RemovePlayer(ThingInput player)
     {
-        inputs.Remove(player);
+        instance?.inputs.Remove(player);
     }
 
     public float changeCharacterDelay = 1f;
@@ -124,33 +125,33 @@ public class GameManager : MonoBehaviour
     #region Characters
 
     [SerializeField] private ThingDisplay nextCharacterUI;
-    public static List<CharacterThing> characters = new List<CharacterThing>();
-    public static int currentCharacterIndex = 0;
+    public List<CharacterThing> characters = new List<CharacterThing>();
+    public int currentCharacterIndex = 0;
 
     public static CharacterThing currentCharacter
     {
         get
         {
-            if (characters.Count <= 0)
+            if (instance.characters.Count <= 0)
                 return null;
 
-            return charactersInCurrentTeam[currentCharacterIndex];
+            return instance?.charactersInCurrentTeam[instance.currentCharacterIndex];
         }
     }
 
     public static void AddCharacter(CharacterThing character)
     {
-        characters.Add(character);
+        instance.characters.Add(character);
     }
 
     public static void RemoveCharacter(CharacterThing character)
     {
-        characters.Remove(character);
+        instance?.characters.Remove(character);
     }
 
     public static CharacterThing GetCharacterAtPosition(Vector3 position)
     {
-        foreach (CharacterThing character in characters)
+        foreach (CharacterThing character in instance.characters)
         {
             if (character.transform.position == position)
                 return character;
@@ -161,30 +162,30 @@ public class GameManager : MonoBehaviour
 
     #region Teams
 
-    public static List<int> teams = new List<int>();
-    public static List<CharacterThing> charactersInCurrentTeam = new List<CharacterThing>();
+    public List<int> teams = new List<int>();
+    public List<CharacterThing> charactersInCurrentTeam = new List<CharacterThing>();
 
-    public static int currentTeamIndex
+    public int currentTeamIndex
     {
-        get => _currentTeam;
+        get => instance._currentTeam;
         set
         {
             if (value >= teams.Count)
                 value = 0;
 
-            _currentTeam = value;
+            instance._currentTeam = value;
 
             charactersInCurrentTeam.Clear();
-            foreach (var character in characters)
+            foreach (var character in instance.characters)
             {
-                if (character.team == _currentTeam)
+                if (character.team == instance._currentTeam)
                     charactersInCurrentTeam.Add(character);
             }
 
-            currentCharacterIndex = 0;
+            instance.currentCharacterIndex = 0;
         }
     }
-    private static int _currentTeam;
+    private int _currentTeam;
 
     #endregion
 
@@ -202,18 +203,18 @@ public class GameManager : MonoBehaviour
 
     public static void SetAllPlayersCanControl(bool canControl)
     {
-        foreach (ThingInput player in inputs)
+        foreach (ThingInput player in instance.inputs)
             player.canControl = canControl;
     }
 
     private static void SetNextCharacter()
     {
-        if (characters.Count == 0)
+        if (instance.characters.Count == 0)
             return;
 
-        currentCharacterIndex++;
-        if (currentCharacterIndex >= charactersInCurrentTeam.Count)
-            currentTeamIndex++;
+        instance.currentCharacterIndex++;
+        if (instance.currentCharacterIndex >= instance.charactersInCurrentTeam.Count)
+            instance.currentTeamIndex++;
 
         GameplayCamera.SetCameraObject(currentCharacter);
         instance.nextCharacterUI.thing = currentCharacter;
@@ -222,16 +223,14 @@ public class GameManager : MonoBehaviour
 
     public static void ControlNextCharacter()
     {
-        currentCharacter.input.AttachThing(currentCharacter);
-
-        foreach (ThingInput player in GameManager.inputs)
+        foreach (ThingInput player in instance.inputs)
         {
             player.canControl = currentCharacter.input == player;
         }
 
         if (instance.playerStartingActions.Count > 0)
         {
-            foreach (ThingInput player in inputs)
+            foreach (ThingInput player in instance.inputs)
             {
                 if (player.GetAttachedThing() is CharacterThing)
                 {
@@ -245,8 +244,8 @@ public class GameManager : MonoBehaviour
                     }
 
                     // Add the override starting action
-                    if (instance.playerStartingActions.Count > GameManager.inputs.IndexOf(player))
-                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[GameManager.inputs.IndexOf(player)].GetType()) as StartingActionThing;
+                    if (instance.playerStartingActions.Count > instance.inputs.IndexOf(player))
+                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.inputs.IndexOf(player)].GetType()) as StartingActionThing;
                     else
                         character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.playerStartingActions.Count - 1].GetType()) as StartingActionThing;
                 }
@@ -281,6 +280,8 @@ public class GameManager : MonoBehaviour
     }
     private PlayerInputManager _playerInputManager;
 
+    [SerializeField] private GameObject playerPrefab;
+
     public void SpawnPlayer(PlayerAndCharacter player, PlayerSpawner playerSpawner = null)
     {
         if (playerInputManager == null)
@@ -297,8 +298,20 @@ public class GameManager : MonoBehaviour
             playerSpawner = playerSpawners[Random.Range(0, playerSpawners.Length)];
         }
 
-        if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
+        if (Instantiate(playerPrefab).TryGetComponent(out ThingInput input))
+        // if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
         {
+            // Set the player's input
+            ThingInput inputToUse = inputs.Find(x => x.playerInput != null && x.playerInput.devices.Count > 0 && x.playerInput.devices[0] == player.player);
+            
+            if (inputToUse == null)
+            {
+                inputToUse = input;
+                inputToUse.playerInput.SwitchCurrentControlScheme(player.player);
+            }
+            else if (inputToUse != input)
+                Destroy(input.gameObject);
+
             // Create the character
             if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
             {
@@ -309,6 +322,7 @@ public class GameManager : MonoBehaviour
                 // Then, freeze the rotation
                 character.movementController.rb.constraints = RigidbodyConstraints.FreezeRotation;
                 // Move the character
+                Nodes.UnoccupyNode(character.transform.position);
                 General.DelayedFunctionFrames(character, () => character.transform.position = playerSpawner.transform.position, 1);
                 // Reset the character's rigidbody constraints
                 character.movementController.rb.constraints = constraints;
@@ -317,15 +331,15 @@ public class GameManager : MonoBehaviour
                 character.team = player.team;
 
                 // Add the character to the player's input
-                input.AttachThing(character);
-                character.input = input;
+                input.inventory.AddThing(character, true, null, false);
+                character.input = inputToUse;
             }
         }
     }
 
     [SerializeField] private GameObject cpuPlayerPrefab;
 
-    public void SpawnCPUPlayer()
+    public void SpawnCPUPlayer(int team)
     {
         
     }
@@ -352,5 +366,13 @@ public class GameManager : MonoBehaviour
             // Remove the player spawner from the list
             playerSpawnersList.Remove(playerSpawner);
         }
+    }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    void OnDestroy()
+    {
+        // 
     }
 }

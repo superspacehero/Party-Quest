@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class CharacterSelectMenu : Menu
 {
@@ -29,6 +30,17 @@ public class CharacterSelectMenu : Menu
         }
     }
     [SerializeField] private Transform _characterSelectParent;
+
+    public PlayerInputManager playerInputManager
+    {
+        get
+        {
+            if (_playerInputManager == null)
+                TryGetComponent(out _playerInputManager);
+            return _playerInputManager;
+        }
+    }
+    private PlayerInputManager _playerInputManager;
 
     public List<CharacterSelect> characterSelects = new List<CharacterSelect>();
 
@@ -72,18 +84,18 @@ public class CharacterSelectMenu : Menu
 
         foreach (CharacterSelect characterSelect in characterSelects)
         {
-            UnityEngine.InputSystem.PlayerInput playerInput = characterSelect.GetComponentInChildren<UnityEngine.InputSystem.PlayerInput>();
-            if (playerInput != null)
-            {
-                // Save player and character
-                GameManager.players.Add(new GameManager.PlayerAndCharacter(playerInput, characterSelect.selectedCharacter.Value));
-            }
-            else
-            {
-                Debug.LogError("CharacterSelect does not have a PlayerInput component");
-            }
+            // Save player and character
+            GameManager.players.Add(new GameManager.PlayerAndCharacter(characterSelect.playerInput, characterSelect.selectedCharacter.Value));
         }
 
         base.NextMenu();
+    }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    void OnDestroy()
+    {
+        _instance = null;
     }
 }

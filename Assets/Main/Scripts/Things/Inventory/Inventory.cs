@@ -75,7 +75,7 @@ public class Inventory : MonoBehaviour
         slot.AddThing(item);
     }
 
-    public void AddThing(GameThing item, bool addSlot = false, Transform slotTransform = null)
+    public void AddThing(GameThing item, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true)
     {
         if (addSlot)
         {
@@ -93,7 +93,7 @@ public class Inventory : MonoBehaviour
                     slotTransform = inventoryTransform;
                 newThingSlots[thingSlots.Length].transform = slotTransform;
 
-                newThingSlots[thingSlots.Length].disableWhenInInventory = true;
+                newThingSlots[thingSlots.Length].disableWhenInInventory = disableWhenInInventory;
                 newThingSlots[thingSlots.Length].thingType = (item.thingSubType != "" ? item.thingSubType : item.thingType);
                 newThingSlots[thingSlots.Length].AddThing(item);
 

@@ -4653,7 +4653,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MovementRange: 50
-  m_ControlPath: <Gamepad>/leftStick
 --- !u!114 &2361245432303629341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5624,9 +5623,11 @@ MonoBehaviour:
     propTiles: []
     objectTiles: []
     things: []
+    characters: []
     rooms: []
   characterPrefab: {fileID: 5061016846897795855, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
   playerStartingActions: []
+  inputs: []
   changeCharacterDelay: 0
   dicePool:
     dicePrefab: {fileID: 2515930728152100468, guid: 4e3a9da03fe0e07198f41271c12f7390, type: 3}
@@ -5635,6 +5636,8 @@ MonoBehaviour:
   footstepPool:
     objectPrefab: {fileID: 3244333360566992698, guid: d87a8d37981236a9ab70d90664938589, type: 3}
   nextCharacterUI: {fileID: 3254549891512399179}
+  playerPrefab: {fileID: 3350662638078035669, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
+  cpuPlayerPrefab: {fileID: 0}
 --- !u!114 &1343790323610241993
 MonoBehaviour:
   m_ObjectHideFlags: 0

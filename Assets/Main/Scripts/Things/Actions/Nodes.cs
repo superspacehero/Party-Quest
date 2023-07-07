@@ -229,7 +229,7 @@ public class Nodes : MonoBehaviour
 
             if (node.Tag == 1)
             {
-                foreach (CharacterThing character in GameManager.characters)
+                foreach (CharacterThing character in GameManager.instance.characters)
                 {
                     if (character.transform.position == (Vector3)node.position)
                     {

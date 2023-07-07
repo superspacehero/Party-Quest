@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3350662638078035672}
   - component: {fileID: 3350662638078035671}
+  - component: {fileID: 4052881332304699694}
   - component: {fileID: 3350662638078035670}
   - component: {fileID: 3350662638078035673}
   m_Layer: 0
@@ -54,7 +55,10 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
   _thingName: 
   properNoun: 0
   thingDescription: 
@@ -71,7 +75,25 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
-  canControl: 0
+  isPlayer: 1
+  _targets: []
+  _actionDelay: 1
+--- !u!114 &4052881332304699694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350662638078035669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d21d820ebfa5a3acdae95829d8a231da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thingSlots: []
+  inventoryTransform: {fileID: 0}
+  canQuickAddItems: 1
+  _inventoryDisplay: {fileID: 0}
 --- !u!114 &3350662638078035670
 MonoBehaviour:
   m_ObjectHideFlags: 0

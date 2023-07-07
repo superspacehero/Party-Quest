@@ -609,6 +609,13 @@ public class GameThing : SerializedMonoBehaviour
                 GetAttachedThing().SecondaryAction(pressed);
         }
 
+        // Tertiary input
+        public virtual void TertiaryAction(bool pressed)
+        {
+            if (GetAttachedThing() != null)
+                GetAttachedThing().TertiaryAction(pressed);
+        }
+
         public Interaction interaction;
 
     #endregion

@@ -9,24 +9,28 @@ public class Interactions : MonoBehaviour
     {
         get
         {
-            if (_gameThing == null)
+            if (_thisThing == null)
             {
                 Transform parent = transform.parent;
 
                 // Loop up the hierarchy, looking for GameThings that aren't CharacterPartThings
-                while (parent.parent != null && _gameThing == null)
+                while (parent.parent != null && _thisThing == null)
                 {
-                    parent.TryGetComponent(out _gameThing);
-                    if (_gameThing is CharacterPartThing)
-                        _gameThing = null;
+                    parent.TryGetComponent(out _thisThing);
+                    if (_thisThing is CharacterPartThing)
+                        _thisThing = null;
 
                     parent = parent.parent;
                 }
             }
-            return _gameThing;
+
+            if (collisionInteraction != null)
+                collisionInteraction.thisThing = _thisThing;
+
+            return _thisThing;
         }
     }
-    private GameThing _gameThing;
+    private GameThing _thisThing;
 
     public GameThing otherThing;
 
@@ -128,11 +132,18 @@ public class InteractionListInteraction : Interaction
             {
                 _actions = new ActionThing[actionPrefabs.Length];
 
+                if (actionPrefabs.Length == 0)
+                    return _actions;
+
                 for (int i = 0; i < actionPrefabs.Length; i++)
                 {
-                    if (GameObject.Instantiate(actionPrefabs[i], thisThing.transform).TryGetComponent(out ActionThing action))
+                    if (actionPrefabs[i] != null)
                     {
-                        _actions[i] = action;
+                        GameObject actionObject = GameObject.Instantiate(actionPrefabs[i], thisThing?.transform);
+                        if (actionObject.TryGetComponent(out ActionThing action))
+                        {
+                            _actions[i] = action;
+                        }
                     }
                 }
             }
