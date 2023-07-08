@@ -11,26 +11,26 @@ public abstract class MovementControllerStep : AttackStep
 
     protected MovementController moveController = null;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         attacker.TryGetComponent(out moveController);
 
         moveController.canControl = 1;
 
+        targetedThing = (targetThing != null) ? targetThing : attacker;
+
         switch (moveTarget)
         {
             case AttackTarget.Attacker:
-                targetPosition = attacker.transform.position;
+                targetPosition = originalPosition;
                 break;
             case AttackTarget.Target:
                 targetPosition = target;
                 break;
             case AttackTarget.TargetThing:
-                targetPosition = targetThing != null ? targetThing.transform.position : Vector3.zero;
+                targetPosition = targetedThing != null ? targetedThing.thingTop.position : originalPosition;
                 break;
         }
-
-        targetedThing = (targetThing != null) ? targetThing : attacker;
 
         while (!moveConditionMet)
         {
@@ -125,17 +125,17 @@ public class JumpOnTargetStep : MovementControllerStep
         moveController.canJump = true;
         if (jumpHeight != null)
         {
-            moveController.jumpHeight = targetedThing.thingTop.position.y - moveController.transform.position.y;
+            moveController.jumpHeight = targetPosition.y - moveController.transform.position.y;
             jumpHeight = moveController.jumpHeight;
         }
         moveController.jumpInput = true;
 
         // Move towards target
-        Vector3 directionToTarget = (targetedThing.thingTop.position - moveController.transform.position).normalized;
+        Vector3 directionToTarget = (targetPosition - moveController.transform.position).normalized;
         moveController.movementInput = new Vector2(directionToTarget.x, directionToTarget.z);
 
         // Condition for stopping movement
-        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetedThing.thingTop.position);
+        float distanceToTarget = Vector3.Distance(moveController.transform.position, targetPosition);
         if (distanceToTarget <= jumpDistance || (checkGroundedCondition && moveController.IsGrounded() && jumped))
         {
             moveController.movementInput = Vector2.zero;

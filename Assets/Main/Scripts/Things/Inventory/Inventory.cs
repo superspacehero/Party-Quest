@@ -240,7 +240,12 @@ public class Inventory : MonoBehaviour
         {
             _displayInventory = value;
             if (inventoryDisplay != null)
-                inventoryDisplay.gameObject.SetActive(_displayInventory);
+            {
+                if (_displayInventory)
+                    inventoryDisplay.Select();
+                else
+                    inventoryDisplay.Deselect();
+            }
             else
                 Debug.LogWarning("No InventoryDisplay found on " + gameObject.name, this);
         }

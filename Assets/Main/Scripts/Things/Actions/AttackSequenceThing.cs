@@ -42,6 +42,9 @@ public class AttackSequenceThing : GameThing
 
         currentStepIndex = 0;
 
+        // Save the original position of the attacker
+        Vector3 originalPosition = attacker.transform.position;
+
         foreach (AttackStep step in attackSteps)
         {
             if (step == null)
@@ -50,7 +53,7 @@ public class AttackSequenceThing : GameThing
             step.ResetStep();
 
             StepResult result = StepResult.Failure;
-            yield return StartCoroutine(step.ExecuteStep(attacker, targetPosition, stepResult => result = stepResult, target));
+            yield return StartCoroutine(step.ExecuteStep(attacker, targetPosition, originalPosition, stepResult => result = stepResult, target));
 
             if (result == StepResult.Failure)
             {

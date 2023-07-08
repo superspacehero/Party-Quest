@@ -22,8 +22,11 @@ public class MenuMoveAction : StartingActionThing
     protected override IEnumerator RunAction()
     {
         // Enable movement control
-        user.TryGetComponent(out MovementController controller);
 
+        if (user is CharacterThing)
+            (user as CharacterThing).input.canControl = true;
+
+        user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {
             controller.canControl = 2;

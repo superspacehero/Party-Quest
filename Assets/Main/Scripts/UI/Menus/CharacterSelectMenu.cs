@@ -91,6 +91,32 @@ public class CharacterSelectMenu : Menu
         base.NextMenu();
     }
 
+    public override void Select()
+    {
+        base.Select();
+
+        // playerInputManager.enabled = true;
+        playerInputManager.EnableJoining();
+    }
+
+    public override void Deselect()
+    {
+        base.Deselect();
+
+        // playerInputManager.enabled = false;
+        GameManager.ResetInputModule();
+
+        // Reset all character selects
+        while (characterSelects.Count > 0)
+        {
+            CharacterSelect characterSelect = characterSelects[0];
+            Destroy(characterSelect.character.gameObject);
+            Destroy(characterSelect.gameObject);
+        }
+
+        characterSelects.Clear();
+    }
+
     /// <summary>
     /// This function is called when the MonoBehaviour will be destroyed.
     /// </summary>

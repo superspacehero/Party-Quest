@@ -3523,6 +3523,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3350662638078035671, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
+      propertyPath: _canControl
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3350662638078035671, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
       propertyPath: attachedThing.thing
       value: 
       objectReference: {fileID: 1287735388402813008}
@@ -3576,7 +3580,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3350662638078035673, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 951099334
+      value: 3087641919
       objectReference: {fileID: 0}
     - target: {fileID: 4052881332304699694, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
       propertyPath: thingSlots.Array.size
@@ -3586,7 +3590,8 @@ PrefabInstance:
       propertyPath: thingSlots.Array.data[0].thing
       value: 
       objectReference: {fileID: 1287735388402813008}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3350662638078035673, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
 --- !u!4 &4419857072054425592 stripped
 Transform:

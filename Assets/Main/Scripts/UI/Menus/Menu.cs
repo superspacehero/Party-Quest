@@ -298,7 +298,7 @@ public class Menu : MonoBehaviour
         currentMenuOption = this;
     }
 
-    public void Deselect()
+    public virtual void Deselect()
     {
         if (!selected)
             return;

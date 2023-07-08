@@ -16,7 +16,7 @@ public enum StepResult
 
 public abstract class AttackStep
 {
-    public abstract IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null);
+    public abstract IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null);
 
     public abstract void ResetStep();
 
@@ -38,7 +38,7 @@ public abstract class AttackStep
 
 public class FailStep : AttackStep
 {
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         callback?.Invoke(StepResult.Failure);
         yield break;

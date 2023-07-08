@@ -115,19 +115,19 @@ public class AttackAction : ActionThing
                 case AttackState.PickingTarget:
                     if (Nodes.instance != null)
                     {
-                        _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attack.range, Vector2.one * attack.range);
+                        _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attackSequence.range, Vector2.one * attackSequence.range);
 
                         Nodes.instance.DisplayNodes(_reachableNodes);
                         Nodes.instance.ColorNodeObjects(_reachableNodes);
                     }
                     break;
                 case AttackState.Attacking:
-                    if (attack != null)
+                    if (attackSequence != null)
                     {
                         if (GameManager.GetCharacterAtPosition(targetPosition))
-                            attack.StartAttack(user, GameManager.GetCharacterAtPosition(targetPosition));
-                        else if (attack.canUseEmptyTarget)
-                            attack.StartAttack(user, targetPosition);
+                            attackSequence.StartAttack(user, GameManager.GetCharacterAtPosition(targetPosition));
+                        else if (attackSequence.canUseEmptyTarget)
+                            attackSequence.StartAttack(user, targetPosition);
                         else
                         {
                             _attackState = AttackState.PickingTarget;
@@ -137,7 +137,7 @@ public class AttackAction : ActionThing
                         if (_attackState == AttackState.Attacking && Nodes.instance != null)
                             Nodes.instance.HideNodes();
 
-                        attack.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
+                        attackSequence.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
                     }
                     break;
             }
@@ -164,10 +164,10 @@ public class AttackAction : ActionThing
         _reachableNodes = null;
         targetPosition = Vector3.zero;
         targetDirection = Vector2Int.zero;
-        if (attack != null)
+        if (attackSequence != null)
         {
-            attack.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
-            attack = null;
+            attackSequence.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attackSequence = null;
         }
     }
 
@@ -188,20 +188,25 @@ public class AttackAction : ActionThing
                 PickTarget(direction);
                 break;
             case AttackState.Attacking:
-                if (attack != null)
-                    attack.Move(direction);
+                if (attackSequence != null)
+                    attackSequence.Move(direction);
                 break;
         }
     }
 
-    private AttackSequenceThing attack;
+    public AttackSequenceThing attackSequence;
 
     private void PickAttack(Vector2 direction)
     {
         if (direction.magnitude > selectionMagnitude)
         {
-            attackMenu.PickAttack(direction, out attack);
+            attackMenu.PickAttack(direction, out attackSequence);
         }
+    }
+
+    public void PickAttack(AttackSequenceThing attack)
+    {
+        attackSequence = attack;
     }
 
     private Vector3 targetPosition;
@@ -217,9 +222,9 @@ public class AttackAction : ActionThing
             {
                 targetDirection = newTargetDirection;
                 Vector3 potentialTargetPosition =
-                    (attack.range <= 1)
-                        ? user.transform.position + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range)
-                        : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attack.range);
+                    (attackSequence.range <= 1)
+                        ? user.transform.position + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequence.range)
+                        : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequence.range);
 
                 // Check if the potential target position is within the attack range
                 Pathfinding.GraphNode potentialTargetNode = Nodes.instance.gridGraph.GetNearest(potentialTargetPosition).node;
@@ -246,10 +251,10 @@ public class AttackAction : ActionThing
     private void OnAttackSequenceFinished(bool allStepsSuccessful)
     {
         // Unsubscribe from the AttackSequenceFinished event to avoid memory leaks
-        if (attack != null)
+        if (attackSequence != null)
         {
-            attack.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
-            attack = null;
+            attackSequence.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attackSequence = null;
         }
 
         Debug.Log("AttackSequenceFinished: " + allStepsSuccessful);
@@ -267,7 +272,7 @@ public class AttackAction : ActionThing
                     attackState++;
                 break;
             case AttackState.PickingAttack:
-                if (pressed && attack != null)
+                if (pressed && attackSequence != null)
                     attackState++;
                 break;
             case AttackState.PickingTarget:
@@ -275,8 +280,8 @@ public class AttackAction : ActionThing
                     attackState++;
                 break;
             case AttackState.Attacking:
-                if (attack != null)
-                    attack.PrimaryAction(pressed);
+                if (attackSequence != null)
+                    attackSequence.PrimaryAction(pressed);
                 break;
         }
     }
@@ -290,8 +295,8 @@ public class AttackAction : ActionThing
                     attackState--;
                 break;
             case AttackState.Attacking:
-                if (attack != null)
-                    attack.SecondaryAction(pressed);
+                if (attackSequence != null)
+                    attackSequence.SecondaryAction(pressed);
                 break;
         }
     }

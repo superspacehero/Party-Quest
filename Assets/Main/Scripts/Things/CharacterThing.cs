@@ -228,7 +228,7 @@ public class CharacterThing : GameThing
             actionListToUse = actionList;
 
         if (actionListToUse != null)
-            actionListToUse.displayInventory = display;
+            actionListToUse.displayInventory = display && (input?.isPlayer).GetValueOrDefault();
     }
 
     // Movement controller for moving the character

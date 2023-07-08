@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 using Sirenix.OdinInspector;
 
 public enum GameMode
@@ -32,6 +33,16 @@ public class GameManager : MonoBehaviour
     #region Game variables
 
     public static GameMode gameMode = GameMode.Other;
+
+    public Menu touchControls;
+
+    public static void EnableTouchControls()
+    {
+        if (instance == null)
+            return;
+
+        instance.touchControls.Select();
+    }
 
     #endregion
 
@@ -267,7 +278,34 @@ public class GameManager : MonoBehaviour
     {        
         // Spawn the players
         SpawnPlayers();
+
+        // Set up the menus
+        foreach (Menu menu in FindObjectsOfType<Menu>(true))
+        {
+            if (menu.previousOption == null)
+                menu.previousOption = touchControls;
+        }
     }
+
+    public static void ResetInputModule()
+    {
+        if (instance == null)
+            return;
+
+        instance.inputModule.enabled = false;
+        instance.inputModule.enabled = true;
+    }
+
+    private InputSystemUIInputModule inputModule
+    {
+        get
+        {
+            if (_inputModule == null)
+                _inputModule = GetComponentInChildren<InputSystemUIInputModule>();
+            return _inputModule;
+        }
+    }
+    private InputSystemUIInputModule _inputModule;
 
     private PlayerInputManager playerInputManager
     {

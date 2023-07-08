@@ -3814,7 +3814,6 @@ MonoBehaviour:
   - rid: 0
   - rid: 1
   - rid: 2
-  - rid: 7958156753455808512
   updateType: 0
   timeScaleIndependent: 0
   autoplayMode: 1
@@ -3830,6 +3829,18 @@ MonoBehaviour:
   onFinishedEvent:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 8553406460984446069}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ControlNextCharacter
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 2996440779831680672}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -3942,26 +3953,6 @@ MonoBehaviour:
             m_RotationOrder: 4
         isRelative: 0
         alpha: 0
-    - rid: 7958156753455808512
-      type: {class: InvokeCallbackAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
-      data:
-        delay: 0
-        flowType: 0
-        callback:
-          m_PersistentCalls:
-            m_Calls:
-            - m_Target: {fileID: 8553406460984446069}
-              m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-              m_MethodName: ControlNextCharacter
-              m_Mode: 1
-              m_Arguments:
-                m_ObjectArgument: {fileID: 0}
-                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-                m_IntArgument: 0
-                m_FloatArgument: 0
-                m_StringArgument: 
-                m_BoolArgument: 0
-              m_CallState: 2
 --- !u!222 &2059322521165305795
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5611,6 +5602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a821ead7887249ef8ae288dd76a97c89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  touchControls: {fileID: 6203841842649826174}
   level:
     levelName: 
     levelDescription: 
@@ -5628,7 +5620,7 @@ MonoBehaviour:
   characterPrefab: {fileID: 5061016846897795855, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
   playerStartingActions: []
   inputs: []
-  changeCharacterDelay: 0
+  changeCharacterDelay: 1
   dicePool:
     dicePrefab: {fileID: 2515930728152100468, guid: 4e3a9da03fe0e07198f41271c12f7390, type: 3}
   damagePool:
@@ -5636,6 +5628,10 @@ MonoBehaviour:
   footstepPool:
     objectPrefab: {fileID: 3244333360566992698, guid: d87a8d37981236a9ab70d90664938589, type: 3}
   nextCharacterUI: {fileID: 3254549891512399179}
+  characters: []
+  currentCharacterIndex: 0
+  teams: 
+  charactersInCurrentTeam: []
   playerPrefab: {fileID: 3350662638078035669, guid: c3be75fa97c7e75759ea1feb8c81ae60, type: 3}
   cpuPlayerPrefab: {fileID: 0}
 --- !u!114 &1343790323610241993
@@ -8000,6 +7996,18 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1586779889050664446, guid: 3020728ed0d0c9509a35461936133620, type: 3}
   m_PrefabInstance: {fileID: 4120279661727974323}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &5347742250579724421
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3398937214079024717}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!114 &3250566749967853919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8101,6 +8109,41 @@ MonoBehaviour:
       Orientation: 1
       screenConfigName: Portrait
   orientation: 0
+--- !u!114 &6203841842649826174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3398937214079024717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deecda360feadaba8ab20e31096f8d72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _objectToSelect: {fileID: 0}
+  menuGroup: 0
+  previousOption: {fileID: 0}
+  nextOption: {fileID: 0}
+  onSelect:
+    m_PersistentCalls:
+      m_Calls: []
+  onDeselect:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3398937214079024717}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  previousMenuOnCancel: 1
 --- !u!224 &8561587464097178000 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}

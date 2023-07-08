@@ -19,7 +19,7 @@ public class CharacterSelect : GameThing
 
     [SerializeField] private GameObject toNewCharacterArrow, characterSelectArrows, toCharacterSelectArrow;
 
-    [SerializeField] private GameObject character;
+    public GameObject character;
     #endregion
 
     #region Properties
@@ -210,7 +210,10 @@ public class CharacterSelect : GameThing
 
         yield return null;
 
+        // Set the character select as initialized
         initialized = true;
+        if (thingInput != null)
+            thingInput.canControl = false;
 
         // Make the character select a child of the character select menu
         if (CharacterSelectMenu.instance != null)
@@ -253,7 +256,13 @@ public class CharacterSelect : GameThing
         if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)
         {
             if (newInputDirection != inputDirection)
+            {
                 base.Move(newInputDirection);
+            }
+        }
+        else if (extraSelect != null)
+        {
+            extraSelect.Move(newInputDirection);
         }
         else
         {
@@ -299,7 +308,13 @@ public class CharacterSelect : GameThing
     public override void PrimaryAction(bool value)
     {
         if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)
+        {
             base.PrimaryAction(value);
+        }
+        else if (extraSelect != null)
+        {
+            extraSelect.PrimaryAction(value);
+        }
         else
         {
             if (!charactersLoaded || !initialized)
@@ -355,7 +370,13 @@ public class CharacterSelect : GameThing
     public override void SecondaryAction(bool value)
     {
         if (GetAttachedThing() != null && GetAttachedThing().gameObject.activeSelf)
+        {
             base.SecondaryAction(value);
+        }
+        else if (extraSelect != null)
+        {
+            extraSelect.SecondaryAction(value);
+        }
         else
         {
             if (!charactersLoaded || !initialized)
@@ -378,13 +399,18 @@ public class CharacterSelect : GameThing
                 }
                 else
                 {
+                    // Loop through all the connected character selects
+                    CharacterSelect loopedCharacterSelect = this;
+                    while (loopedCharacterSelect.extraSelect != null)
+                        loopedCharacterSelect = loopedCharacterSelect.extraSelect;
+
                     // Remove this character select
                     if (CharacterSelectMenu.instance != null)
-                        CharacterSelectMenu.instance.characterSelects.Remove(this);
+                        CharacterSelectMenu.instance.characterSelects.Remove(loopedCharacterSelect);
 
                     // Destroy this character select
-                    Destroy(character);
-                    Destroy(gameObject);
+                    Destroy(loopedCharacterSelect.character);
+                    Destroy(loopedCharacterSelect.gameObject);
                 }
             }
         }
@@ -395,6 +421,8 @@ public class CharacterSelect : GameThing
         SecondaryAction(true);
         SecondaryAction(false);
     }
+
+    public CharacterSelect extraSelect;
 
     public override void TertiaryAction(bool value)
     {
@@ -408,11 +436,18 @@ public class CharacterSelect : GameThing
             if (value && selectedCharacter != null && canAddExtraPlayers)
             {
                 if (CharacterSelectMenu.instance != null)
+                {
+                    // Loop through all the connected character selects
+                    CharacterSelect loopedCharacterSelect = this;
+                    while (loopedCharacterSelect.extraSelect != null)
+                        loopedCharacterSelect = loopedCharacterSelect.extraSelect;
+
                     if (Instantiate(extraCharacterSelectPrefab, CharacterSelectMenu.instance.characterSelectParent).TryGetComponent(out CharacterSelect characterSelect))
                     {
                         characterSelect.playerInput = playerInput;
-                        thingInput.inventory.AddThing(characterSelect, true, null, false);
+                        loopedCharacterSelect.extraSelect = characterSelect;
                     }
+                }
             }
         }
     }

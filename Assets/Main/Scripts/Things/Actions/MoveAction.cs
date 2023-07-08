@@ -34,6 +34,8 @@ public class MoveAction : ActionThing
 
         yield return null;
 
+        GameManager.EnableTouchControls();
+
         for (int i = 0; i < numberOfDiceRolls; i++)
         {
             // Roll the dice to determine the movement range
@@ -54,8 +56,11 @@ public class MoveAction : ActionThing
         movementRange = sumOfDiceRolls; // Set the movement range based on the sum of dice rolls
 
         // Enable movement control
-        user.TryGetComponent(out MovementController controller);
 
+        if (user is CharacterThing)
+            (user as CharacterThing).input.canControl = true;
+
+        user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {
             controller.canControl = 2;
@@ -174,7 +179,11 @@ public class MoveAction : ActionThing
             if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
             {
                 controller.canControl = (controller.canControl == 0) ? 2 : 0;
-                (user as CharacterThing).DisplayActions(controller.canControl <= 1);
+
+                if (controller.canControl < 2)
+                    (user as CharacterThing).DisplayActions(true);
+                else
+                    GameManager.EnableTouchControls();
             }
         }
     }

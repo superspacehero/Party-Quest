@@ -10,7 +10,7 @@ public class SetVariableStep : AttackStep
 
     public bool useTarget = false;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         if (targetThing != null && useTarget)
             targetThing.variables += variables;
@@ -44,7 +44,7 @@ public class VariableBranchStep : AttackStep
 
     public AttackStep[] trueSteps, falseSteps;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, Action<StepResult> callback, GameThing targetThing = null)
     {
         int var = (targetThing != null && useTarget) ? targetThing.variables.GetVariable(variable.name) : attacker.variables.GetVariable(variable.name);
         
@@ -54,14 +54,14 @@ public class VariableBranchStep : AttackStep
             {
                 foreach (AttackStep step in trueSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
             else
             {
                 foreach (AttackStep step in falseSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
         }
@@ -71,14 +71,14 @@ public class VariableBranchStep : AttackStep
             {
                 foreach (AttackStep step in trueSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
             else
             {
                 foreach (AttackStep step in falseSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
         }
@@ -88,14 +88,14 @@ public class VariableBranchStep : AttackStep
             {
                 foreach (AttackStep step in trueSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
             else
             {
                 foreach (AttackStep step in falseSteps)
                 {
-                    yield return step.ExecuteStep(attacker, target, callback, targetThing);
+                    yield return step.ExecuteStep(attacker, target, originalPosition, callback, targetThing);
                 }
             }
         }
@@ -115,12 +115,20 @@ public class DamageStep : AttackStep
 
     public bool useTarget = false;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null)
     {
-        GameThing targetedThing = (target != null && useTarget) ? targetThing : attacker;
+        GameThing targetedThing = (target != null && useTarget) ? targetThing : (!useTarget) ? attacker : null;
+
+        if (targetedThing == null)
+        {
+            callback?.Invoke(StepResult.Success);
+            yield break;
+        }
 
         int calculatedDamage = (overrideDamage) ? targetThing.variables.GetVariable("health") - damage : Mathf.Max(0, attacker.variables.GetVariable("attack") - targetThing.variables.GetVariable("defense"));
         targetedThing.variables.SetVariable("health", targetThing.variables.GetVariable("health") - calculatedDamage);
+
+        Debug.Log($"{attacker.name} dealt {calculatedDamage} damage to {targetedThing?.name}.");
 
         GameManager.instance.DamageEffect(calculatedDamage, targetThing.transform.position);
 

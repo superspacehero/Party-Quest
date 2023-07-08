@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryDisplay : MonoBehaviour
+public class InventoryDisplay : Menu
 {
     public GameThing inventoryOwner
     {
@@ -43,14 +43,20 @@ public class InventoryDisplay : MonoBehaviour
 
     protected List<ThingDisplay> thingDisplays = new List<ThingDisplay>();
 
-    /// <summary>
-    /// This function is called when the object becomes enabled and active.
-    /// </summary>
-    private void OnEnable()
+    public override void Select()
     {
+        base.Select();
+
         transform.rotation = Quaternion.identity;
 
         PopulateThings();
+    }
+
+    public override void Deselect()
+    {
+        base.Deselect();
+        
+        gameObject.SetActive(false);
     }
 
     protected virtual void PopulateThings(List<GameThing> excludedThings = null)

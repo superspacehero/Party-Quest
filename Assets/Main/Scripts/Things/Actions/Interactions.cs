@@ -154,11 +154,18 @@ public class InteractionListInteraction : Interaction
     }
     private ActionThing[] _actions = null;
 
+    private ActionThing[] originalActions = null;
+
     public override void Interact(GameThing interactor, GameThing interactee)
     {
         base.Interact(interactor, interactee);
 
         interactionIndicator?.SetActive(true);
+        
+        originalActions = new ActionThing[(interactor.actionList?.thingSlots.Length).GetValueOrDefault(0)];
+        for (int i = 0; i < originalActions.Length; i++)
+            originalActions[i] = interactor.actionList?.thingSlots[i].thing as ActionThing;
+
         interactor.actionList?.PopulateActionList(actions);
     }
 
@@ -167,7 +174,7 @@ public class InteractionListInteraction : Interaction
         base.StopInteract(interactor, interactee);
 
         interactionIndicator?.SetActive(false);
-        interactor.actionList?.ResetActions();
+        interactor.actionList?.PopulateActionList(originalActions);
     }
 }
 

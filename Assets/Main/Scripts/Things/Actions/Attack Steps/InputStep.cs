@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum RequiredInput
 {
+    Any,
     MoveUp,
     MoveDown,
     MoveLeft,
@@ -24,7 +25,7 @@ public class InputStep : AttackStep
     private bool? inputSuccess = null;
     private float elapsedTime = 0;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         float waitTime = 0;
 
@@ -63,7 +64,8 @@ public class InputStep : AttackStep
     {
         Vector2Int currentDirectionInt = new Vector2Int(Mathf.RoundToInt(direction.x), Mathf.RoundToInt(direction.y));
 
-        if (requiredInput == RequiredInput.MoveUp && currentDirectionInt == Vector2Int.up ||
+        if (requiredInput == RequiredInput.Any && direction != Vector2.zero ||
+            requiredInput == RequiredInput.MoveUp && currentDirectionInt == Vector2Int.up ||
             requiredInput == RequiredInput.MoveDown && currentDirectionInt == Vector2Int.down ||
             requiredInput == RequiredInput.MoveLeft && currentDirectionInt == Vector2Int.left ||
             requiredInput == RequiredInput.MoveRight && currentDirectionInt == Vector2Int.right)
@@ -84,7 +86,8 @@ public class InputStep : AttackStep
 
     public override void PrimaryAction(bool pressed)
     {
-        if (requiredInput == RequiredInput.Primary && pressed)
+        if (requiredInput == RequiredInput.Any && pressed ||
+            requiredInput == RequiredInput.Primary && pressed)
         {
             if (pressInput)
                 inputSuccess = true;
@@ -102,7 +105,8 @@ public class InputStep : AttackStep
 
     public override void SecondaryAction(bool pressed)
     {
-        if (requiredInput == RequiredInput.Secondary && pressed)
+        if (requiredInput == RequiredInput.Any && pressed ||
+            requiredInput == RequiredInput.Secondary && pressed)
         {
             if (pressInput)
                 inputSuccess = true;

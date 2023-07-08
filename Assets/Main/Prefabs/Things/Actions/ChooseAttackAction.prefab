@@ -54,8 +54,12 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
   _thingName: Attack
+  properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: -1634446236, guid: e422f91ba2ee34f4ba26804f96f2d588, type: 3}
   thingValue: 0
@@ -187,6 +191,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5663008962572408141, guid: ffa6bac2c2af457fb931ed23a70b78b8, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5663008962572408176, guid: ffa6bac2c2af457fb931ed23a70b78b8, type: 3}
       propertyPath: m_Name
       value: Action Menu
@@ -199,7 +207,8 @@ PrefabInstance:
       propertyPath: actionList
       value: 
       objectReference: {fileID: 2515926896848282769}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6609798376822820139, guid: ffa6bac2c2af457fb931ed23a70b78b8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ffa6bac2c2af457fb931ed23a70b78b8, type: 3}
 --- !u!224 &2371112562860575262 stripped
 RectTransform:

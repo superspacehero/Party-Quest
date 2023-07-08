@@ -5,7 +5,7 @@ public abstract class WaitForStep : AttackStep
 {
     protected bool waitConditionMet = false;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         while (!waitConditionMet)
         {
@@ -37,11 +37,11 @@ public class WaitForTimeStep : WaitForStep
         elapsedTime = 0;
     }
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         elapsedTime = 0;
 
-        return base.ExecuteStep(attacker, target, callback);
+        return base.ExecuteStep(attacker, target, originalPosition, callback);
     }
 
     protected override void CheckWaitCondition()
@@ -64,14 +64,14 @@ public class WaitForDistanceStep : WaitForStep
 
     private float currentDistance = 0f;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetObject = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetObject = null)
     {
         currentDistance = 0f;
 
         attackerThing = attacker;
         targetThing = targetObject;
 
-        return base.ExecuteStep(attacker, target, callback);
+        return base.ExecuteStep(attacker, target, originalPosition, callback);
     }
 
     protected override void CheckWaitCondition()
@@ -97,14 +97,14 @@ public class WaitForProximityStep : WaitForStep
 
     private float currentDistance = 0f;
 
-    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, System.Action<StepResult> callback, GameThing targetThing = null)
+    public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, System.Action<StepResult> callback, GameThing targetThing = null)
     {
         currentDistance = 0f;
 
         attackerThing = attacker;
         targetedThing = targetThing;
 
-        return base.ExecuteStep(attacker, target, callback);
+        return base.ExecuteStep(attacker, target, originalPosition, callback);
     }
 
     protected override void CheckWaitCondition()

@@ -35,7 +35,13 @@ public class ThingInput : GameThing
             _canControl = value;
 
             if (isPlayer)
+            {
+                // if (value)
+                //     GameManager.instance?.touchControls?.Select();
+
+                // Debug.Log($"Player can {(value ? "" : "not ")}control");
                 return;
+            }
 
             if (value)
             {
@@ -56,7 +62,7 @@ public class ThingInput : GameThing
             }
         }
     }
-    private bool _canControl = false;
+    [SerializeField] private bool _canControl = false;
 
     enum AIState
     {
@@ -309,6 +315,9 @@ public class ThingInput : GameThing
             foreach (Inventory.ThingSlot slot in inventory.thingSlots)
                 if (slot.thing)
                     slot.thing.SecondaryAction(_secondaryAction);
+
+            if (canControl && _secondaryAction)
+                Menu.currentMenuOption?.PreviousMenu();
         }
     }
     private bool _secondaryAction;

@@ -2,26 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AttackMenu : MonoBehaviour
+public class AttackMenu : Menu
 {
-    [SerializeField] private ThingDisplay upAttack, downAttack, leftAttack, rightAttack;
+    public ThingDisplay upAttack, downAttack, leftAttack, rightAttack;
 
-    public AttackAction attack
+    public AttackSequenceThing attackSequence;
+
+    public AttackAction attackAction
     {
-        get => _attack;
+        get => _attackAction;
         set
         {
-            _attack = value;
+            _attackAction = value;
 
             upAttack.thing = value.weapon.upAttack;
             downAttack.thing = value.weapon.downAttack;
             leftAttack.thing = value.weapon.sideAttack;
             rightAttack.thing = value.weapon.sideAttack;
 
-            upAttack.iconButton.onClick.AddListener(() => PickAttack(upAttack.thing, out value.weapon.upAttack));
-            downAttack.iconButton.onClick.AddListener(() => PickAttack(downAttack.thing, out value.weapon.downAttack));
-            leftAttack.iconButton.onClick.AddListener(() => PickAttack(leftAttack.thing, out value.weapon.sideAttack));
-            rightAttack.iconButton.onClick.AddListener(() => PickAttack(rightAttack.thing, out value.weapon.sideAttack));
+            upAttack.iconButton.onClick.AddListener(() => PickAttack(upAttack.thing));
+            downAttack.iconButton.onClick.AddListener(() => PickAttack(downAttack.thing));
+            leftAttack.iconButton.onClick.AddListener(() => PickAttack(leftAttack.thing));
+            rightAttack.iconButton.onClick.AddListener(() => PickAttack(rightAttack.thing));
 
             upAttack.gameObject.SetActive(upAttack.thing != null);
             downAttack.gameObject.SetActive(downAttack.thing != null);
@@ -29,22 +31,25 @@ public class AttackMenu : MonoBehaviour
             rightAttack.gameObject.SetActive(rightAttack.thing != null);
         }
     }
-    private AttackAction _attack;
+    private AttackAction _attackAction;
 
     public void SetActive(bool active, AttackAction attack = null)
     {
         if (attack != null)
-            this.attack = attack;
-
-        gameObject.SetActive(active);
+            this.attackAction = attack;
 
         if (active)
+        {
+            Select();
             transform.rotation = Quaternion.identity;
+        }
+        else
+            Deselect();
     }
 
-    public void PickAttack(Vector2 direction, out AttackSequenceThing attack)
+    public void PickAttack(Vector2 direction, out AttackSequenceThing attackSequence)
     {
-        attack = null;
+        attackSequence = null;
 
         ThingDisplay attackDisplay = null;
 
@@ -65,34 +70,26 @@ public class AttackMenu : MonoBehaviour
 
         if (attackDisplay != null)
         {
-            attack = attackDisplay.thing as AttackSequenceThing;
+            attackSequence = attackDisplay.thing as AttackSequenceThing;
             attackDisplay.Select();
         }
 
         // Debug.Log("Attack: " + attack);
     }
 
-    public void PickAttack(GameThing thing, out AttackSequenceThing attack)
+    public void PickAttack(GameThing thing)
     {
-        attack = null;
-
-        ThingDisplay attackDisplay = null;
+        Vector2 direction = Vector2.zero;
 
         if (thing == upAttack.thing)
-            attackDisplay = upAttack;
+            direction = Vector2.up;
         else if (thing == downAttack.thing)
-            attackDisplay = downAttack;
+            direction = Vector2.down;
         else if (thing == leftAttack.thing)
-            attackDisplay = leftAttack;
+            direction = Vector2.left;
         else if (thing == rightAttack.thing)
-            attackDisplay = rightAttack;
+            direction = Vector2.right;
 
-        if (attackDisplay != null)
-        {
-            attack = attackDisplay.thing as AttackSequenceThing;
-            attackDisplay.Select();
-        }        
-
-        // Debug.Log("Attack: " + attack);
+        PickAttack(direction, out attackAction.attackSequence);
     }
 }
