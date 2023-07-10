@@ -76,7 +76,7 @@ MonoBehaviour:
       Data: 2|JumpOnTargetStep, Assembly-CSharp
     - Name: moveTarget
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: jumpDistance
       Entry: 4
       Data: 0.1
@@ -184,7 +184,7 @@ MonoBehaviour:
       Data: 9|JumpOnTargetStep, Assembly-CSharp
     - Name: moveTarget
       Entry: 3
-      Data: 1
+      Data: 2
     - Name: jumpDistance
       Entry: 4
       Data: 0.1
@@ -250,7 +250,7 @@ MonoBehaviour:
   _greenColor: {r: 1, g: 1, b: 1, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
   range: 1
-  canUseEmptyTarget: 1
+  canUseEmptyTarget: 0
   AttackSequenceFinished:
     m_PersistentCalls:
       m_Calls: []

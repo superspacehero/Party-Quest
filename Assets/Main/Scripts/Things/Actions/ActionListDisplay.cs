@@ -31,25 +31,26 @@ public class ActionListDisplay : InventoryDisplay
         if (inventory is not ActionList)
             return;
 
-        excludedThings = new List<GameThing>();
+        if (excludedThings == null)
+            excludedThings = new List<GameThing>();
         
         foreach (Inventory.ThingSlot slot in inventory.thingSlots)
         {
-            if (slot.thing != null && slot.thing is ActionThing && (slot.thing as ActionThing).actionRunning)
+            if ((slot.thing != null && slot.thing is ActionThing) && ((slot.thing as ActionThing).actionRunning || (inventory as ActionList).usedActionCategories.Contains(slot.thing.thingSubType)))
                 excludedThings.Add(slot.thing);
         }
 
         base.PopulateThings(excludedThings);
 
 
-        foreach (ThingDisplay thingDisplay in thingDisplays)
-        {
-            if (thingDisplay.iconButton != null)
-            {
-                thingDisplay.iconButton.onClick.AddListener(() => inventory.displayInventory = false);
+        // foreach (ThingDisplay thingDisplay in thingDisplays)
+        // {
+        //     if (thingDisplay.iconButton != null)
+        //     {
+        //         thingDisplay.iconButton.onClick.AddListener(() => inventory.displayInventory = false);
 
-                thingDisplay.iconButton.interactable = (inventory as ActionList).availableActionCategories.Contains(thingDisplay.thing.thingSubType);
-            }
-        }
+        //         thingDisplay.iconButton.interactable = !(inventory as ActionList).usedActionCategories.Contains(thingDisplay.thing.thingSubType);
+        //     }
+        // }
     }
 }

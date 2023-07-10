@@ -213,7 +213,8 @@ public class CharacterThing : GameThing
 
         if (actionList != null)
         {
-            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>());
+            List<string> blacklistedActionCategories = new List<string>() { "Attack" };
+            actionList.PopulateActionList(GetComponentsInChildren<ActionThing>(), null, blacklistedActionCategories);
             actionList.ResetActions();
         }
         else

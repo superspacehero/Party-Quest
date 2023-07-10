@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Pathfinding;
-using UnityEngine;
 
 public class ChooseAttackAction : ActionThing
 {
@@ -10,8 +7,8 @@ public class ChooseAttackAction : ActionThing
         this.user = user;
         user.actionList.SetAction(this);
 
-        actionList.PopulateActionList(user.GetComponentsInChildren<ActionThing>(true));
-        actionList.ResetActions();
+        List<string> whitelistedActionCategories = new List<string>() { "Attack" };
+        actionList.PopulateActionList(user.GetComponentsInChildren<ActionThing>(true), whitelistedActionCategories);
         actionList.displayInventory = true;
         
         gameObject.SetActive(true);

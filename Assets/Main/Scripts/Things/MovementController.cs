@@ -328,8 +328,8 @@ public class MovementController : Controller
         FullRotation,
         LeftRightRotation
     }
-    [SerializeField, FoldoutGroup("Rotation")]
-    private MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
+    [FoldoutGroup("Rotation")]
+    public MovementRotationBehavior rotationBehavior = MovementRotationBehavior.None;
 
     protected Transform meshBase
     {

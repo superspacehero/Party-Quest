@@ -16,21 +16,7 @@ public class ActionList : Inventory
     }
     private ActionThing _currentAction;
 
-    public List<string> availableActionCategories = new List<string>();
-    [SerializeField]
-    private List<string> defaultActionCategories = new List<string>()
-    {
-        "Move",
-        "Action",
-        "End"
-    };
-
-    [SerializeField, Space]
-    private List<string> actionBlacklist = new List<string>()
-    {
-        "Attack"
-    },
-    actionWhitelist = new List<string>();
+    public List<string> usedActionCategories = new List<string>();
 
     public void SetAction(ActionThing action)
     {
@@ -47,16 +33,16 @@ public class ActionList : Inventory
 
     public void UseAction(GameThing user)
     {
-        if (availableActionCategories.Contains(currentAction.thingSubType))
+        if (!usedActionCategories.Contains(currentAction.thingSubType))
         {
-            currentAction.onActionEnd.AddListener(() => availableActionCategories.Remove(currentAction.thingSubType));
+            currentAction.onActionEnd.AddListener(() => usedActionCategories.Add(currentAction.thingSubType));
             currentAction.Use(user);
         }
     }
 
     public void ResetActions()
     {
-        availableActionCategories = new List<string>(defaultActionCategories);
+        usedActionCategories = new List<string>();
     }
 
 
@@ -79,7 +65,7 @@ public class ActionList : Inventory
             currentAction.SecondaryAction(pressed);
     }
 
-    public void PopulateActionList(ActionThing[] actions)
+    public void PopulateActionList(ActionThing[] actions, List<string> actionWhitelist = null, List<string> actionBlacklist = null)
     {
         if (actions == null)
             return;
@@ -93,28 +79,20 @@ public class ActionList : Inventory
 
             canAddAction = true;
 
-            foreach (string includedAction in actionWhitelist)
+            foreach (string usedAction in usedActionCategories)
             {
-                if (action.thingType.Contains(includedAction))
-                {
-                    canAddAction = true;
-                    break;
-                }
-
-                canAddAction = false;
-            }
-
-            if (!canAddAction)
-                continue;
-
-            foreach (string excludedAction in actionBlacklist)
-            {
-                if (action.thingType.Contains(excludedAction))
+                if (action.thingType.Contains(usedAction))
                 {
                     canAddAction = false;
                     break;
                 }
             }
+
+            if (actionWhitelist != null && !actionWhitelist.Contains(action.thingSubType))
+                continue;
+
+            if (actionBlacklist != null && actionBlacklist.Contains(action.thingSubType))
+                continue;
 
             if (Contains(action.thingName))
                 canAddAction = false;

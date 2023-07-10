@@ -62,6 +62,7 @@ public class ActionThing : GameThing
         onActionEnd?.Invoke();
 
         user.actionList.currentAction = null;
+        user.actionList.usedActionCategories.Add(thingSubType);
 
         if (user is CharacterThing && displayInventory)
             (user as CharacterThing).DisplayActions(true);
