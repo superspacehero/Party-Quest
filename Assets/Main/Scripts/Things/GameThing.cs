@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
+using Pathfinding;
 
 [AddComponentMenu("Game Things/Game Thing")]
 public class GameThing : SerializedMonoBehaviour
@@ -54,7 +55,7 @@ public class GameThing : SerializedMonoBehaviour
             GameManager.instance.level.things.Remove(this);
         }
     }
-    
+
     public virtual string thingName
     {
         get => _thingName;
@@ -81,6 +82,54 @@ public class GameThing : SerializedMonoBehaviour
     }
     [SerializeField] protected Sprite _thingIcon;
 
+    public virtual GraphNode currentNode
+    {
+        get
+        {
+            if (_currentNode == null)
+            {
+                _currentNode = AstarPath.active.GetNearest(transform.position).node;
+
+                Debug.LogWarning($"GameThing {name} has no currentNode. Setting to nearest node {_currentNode}.");
+
+                if (canOccupyCurrentNode)
+                    Nodes.OccupyNode(_currentNode);
+            }
+
+            return _currentNode;
+        }
+
+        set
+        {
+            if (canOccupyCurrentNode)
+                Nodes.UnoccupyNode(_currentNode);
+
+            _currentNode = value;
+
+            if (canOccupyCurrentNode)
+                Nodes.OccupyNode(_currentNode);
+        }
+    }
+    protected GraphNode _currentNode;
+
+    public bool canOccupyCurrentNode = true;
+
+    public void OccupyCurrentNode()
+    {
+        canOccupyCurrentNode = true;
+        Nodes.OccupyNode(currentNode);
+    }
+
+    public virtual Vector3 position
+    {
+        get => currentNode != null ? (Vector3)currentNode.position : transform.position;
+        set
+        {
+            currentNode = AstarPath.active.GetNearest(value).node;
+            transform.position = value;
+        }
+    }
+
     public int thingValue;
     [SerializeField, FoldoutGroup("Attached Things")] protected Inventory.ThingSlot attachedThing;
 
@@ -100,7 +149,7 @@ public class GameThing : SerializedMonoBehaviour
         string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
         return jsonString;
     }
-    
+
     // Method to convert a JSON string to a GameThing
     public static GameThing FromJson(string jsonString)
     {
@@ -265,7 +314,7 @@ public class GameThing : SerializedMonoBehaviour
     private Transform _thingTop;
 
     public GameThingVariables variables;
-    
+
     // We need a way to be able to add variables to the GameThing class without having to modify the class itself - we can do that with a struct.
     [System.Serializable]
     public struct GameThingVariables
@@ -424,204 +473,204 @@ public class GameThing : SerializedMonoBehaviour
 
     #region Colors
 
-        protected virtual bool useColor { get; set; }
+    protected virtual bool useColor { get; set; }
 
-        // A material property block, used to change the colors of the Red, Green, and Blue channels of the character part's sprite(s).
-        private MaterialPropertyBlock materialPropertyBlock
+    // A material property block, used to change the colors of the Red, Green, and Blue channels of the character part's sprite(s).
+    private MaterialPropertyBlock materialPropertyBlock
+    {
+        get
         {
-            get
+            if (_materialPropertyBlock == null)
             {
-                if (_materialPropertyBlock == null)
-                {
-                    _materialPropertyBlock = new MaterialPropertyBlock();
-                }
-                return _materialPropertyBlock;
+                _materialPropertyBlock = new MaterialPropertyBlock();
             }
+            return _materialPropertyBlock;
         }
-        private MaterialPropertyBlock _materialPropertyBlock;
+    }
+    private MaterialPropertyBlock _materialPropertyBlock;
 
-        private List<Renderer> renderers
+    private List<Renderer> renderers
+    {
+        get
         {
-            get
-            {
-                if (_renderers.Count <= 0)
-                    _renderers.AddRange(GetComponentsInChildren<Renderer>());
+            if (_renderers.Count <= 0)
+                _renderers.AddRange(GetComponentsInChildren<Renderer>());
 
-                return _renderers;
-            }
+            return _renderers;
         }
-        [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
+    }
+    [SerializeField] private List<Renderer> _renderers = new List<Renderer>();
 
-        public Color redColor
+    public Color redColor
+    {
+        get { return _redColor; }
+        set
         {
-            get { return _redColor; }
-            set
-            {
-                _redColor = value;
-                
-                SetColor("_RedColor", _redColor, out _redColor);
-            }
+            _redColor = value;
+
+            SetColor("_RedColor", _redColor, out _redColor);
         }
+    }
 
-        public Color greenColor
+    public Color greenColor
+    {
+        get { return _greenColor; }
+        set
         {
-            get { return _greenColor; }
-            set
-            {
-                _greenColor = value;
-                
-                SetColor("_GreenColor", _greenColor, out _greenColor);
-            }
+            _greenColor = value;
+
+            SetColor("_GreenColor", _greenColor, out _greenColor);
         }
+    }
 
-        public Color blueColor
+    public Color blueColor
+    {
+        get { return _blueColor; }
+        set
         {
-            get { return _blueColor; }
-            set
-            {
-                _blueColor = value;
-                
-                SetColor("_BlueColor", _blueColor, out _blueColor);
-            }
+            _blueColor = value;
+
+            SetColor("_BlueColor", _blueColor, out _blueColor);
         }
+    }
 
-        [SerializeField]
-        private Color _redColor = Color.white, _greenColor = Color.white, _blueColor = Color.white;
+    [SerializeField]
+    private Color _redColor = Color.white, _greenColor = Color.white, _blueColor = Color.white;
 
-        /// <summary>
-        /// Called when the script is loaded or a value is changed in the
-        /// inspector (Called in the editor only).
-        /// </summary>
-        void OnValidate()
+    /// <summary>
+    /// Called when the script is loaded or a value is changed in the
+    /// inspector (Called in the editor only).
+    /// </summary>
+    void OnValidate()
+    {
+        SetColors();
+    }
+
+    protected void SetColor(string colorName, Color color, out Color referenceColor)
+    {
+        referenceColor = color;
+
+        if (renderers.Count <= 0)
+            return;
+
+        if (renderers[0] != null)
+            renderers[0].GetPropertyBlock(materialPropertyBlock);
+
+        foreach (Renderer partRenderer in renderers)
         {
-            SetColors();
-        }
-        
-        protected void SetColor(string colorName, Color color, out Color referenceColor)
-        {
-            referenceColor = color;
-
-            if (renderers.Count <= 0)
-                return;
-
-            if (renderers[0] != null)
-                renderers[0].GetPropertyBlock(materialPropertyBlock);
-
-            foreach (Renderer partRenderer in renderers)
-            {
-                if (partRenderer == null)
-                    continue;
-
-                materialPropertyBlock.SetColor(colorName, color);
-                partRenderer.SetPropertyBlock(materialPropertyBlock);
-            }
-        }
-
-        protected void SetColor(string colorName, Color color, Renderer renderer)
-        {
-            if (renderer != null)
-                renderer.GetPropertyBlock(materialPropertyBlock);
-            else
-            {
-                Debug.LogWarning("Renderer is null!");
-                return;
-            }
+            if (partRenderer == null)
+                continue;
 
             materialPropertyBlock.SetColor(colorName, color);
-            renderer.SetPropertyBlock(materialPropertyBlock);
+            partRenderer.SetPropertyBlock(materialPropertyBlock);
         }
+    }
 
-        public void SetColors()
+    protected void SetColor(string colorName, Color color, Renderer renderer)
+    {
+        if (renderer != null)
+            renderer.GetPropertyBlock(materialPropertyBlock);
+        else
         {
-            if (!useColor)
-                return;
-
-            redColor = redColor;
-            greenColor = greenColor;
-            blueColor = blueColor;
+            Debug.LogWarning("Renderer is null!");
+            return;
         }
 
-        public void SetColors(Renderer renderer)
+        materialPropertyBlock.SetColor(colorName, color);
+        renderer.SetPropertyBlock(materialPropertyBlock);
+    }
+
+    public void SetColors()
+    {
+        if (!useColor)
+            return;
+
+        redColor = redColor;
+        greenColor = greenColor;
+        blueColor = blueColor;
+    }
+
+    public void SetColors(Renderer renderer)
+    {
+        SetColor("_RedColor", redColor, renderer);
+        SetColor("_GreenColor", greenColor, renderer);
+        SetColor("_BlueColor", blueColor, renderer);
+    }
+
+    private Material _cachedMaterial;
+
+    public virtual void SetColors(UnityEngine.UI.Graphic graphic)
+    {
+        // Check if we have a cached material
+        if (_cachedMaterial == null)
         {
-            SetColor("_RedColor", redColor, renderer);
-            SetColor("_GreenColor", greenColor, renderer);
-            SetColor("_BlueColor", blueColor, renderer);
+            // We don't have a cached material, create one
+            _cachedMaterial = new Material(graphic.materialForRendering.shader);
         }
 
-        private Material _cachedMaterial;
+        // Set the color properties on the cached material
+        _cachedMaterial.SetColor("_RedColor", redColor);
+        _cachedMaterial.SetColor("_GreenColor", greenColor);
+        _cachedMaterial.SetColor("_BlueColor", blueColor);
 
-        public virtual void SetColors(UnityEngine.UI.Graphic graphic)
+        // Set the graphic's material to the cached material
+        graphic.material = _cachedMaterial;
+    }
+
+    [Sirenix.OdinInspector.Button, HideInPlayMode]
+    void GetRenderers()
+    {
+        _renderers.Clear();
+
+        foreach (Renderer partRenderer in GetComponentsInChildren<Renderer>(includeInactive: true))
         {
-            // Check if we have a cached material
-            if (_cachedMaterial == null)
-            {
-                // We don't have a cached material, create one
-                _cachedMaterial = new Material(graphic.materialForRendering.shader);
-            }
-
-            // Set the color properties on the cached material
-            _cachedMaterial.SetColor("_RedColor", redColor);
-            _cachedMaterial.SetColor("_GreenColor", greenColor);
-            _cachedMaterial.SetColor("_BlueColor", blueColor);
-
-            // Set the graphic's material to the cached material
-            graphic.material = _cachedMaterial;
+            _renderers.Add(partRenderer);
         }
-
-        [Sirenix.OdinInspector.Button, HideInPlayMode]
-        void GetRenderers()
-        {
-            _renderers.Clear();
-
-            foreach (Renderer partRenderer in GetComponentsInChildren<Renderer>(includeInactive: true))
-            {
-                _renderers.Add(partRenderer);
-            }
-        }
+    }
 
     #endregion
 
     #region Input
 
-        // Movement input
-        public virtual void Move(Vector2 direction)
-        {
-            if (GetAttachedThing() != null)
-                GetAttachedThing().Move(direction);
-        }
+    // Movement input
+    public virtual void Move(Vector2 direction)
+    {
+        if (GetAttachedThing() != null)
+            GetAttachedThing().Move(direction);
+    }
 
-        // Primary input
-        public virtual void PrimaryAction(bool pressed)
+    // Primary input
+    public virtual void PrimaryAction(bool pressed)
+    {
+        if (interaction != null && interaction.canInteract)
         {
-            if (interaction != null && interaction.canInteract)
-            {
-                if (pressed)
-                    interaction.PrimaryAction?.Invoke();
-            }
-            else if (GetAttachedThing() != null)
-                GetAttachedThing().PrimaryAction(pressed);
+            if (pressed)
+                interaction.PrimaryAction?.Invoke();
         }
+        else if (GetAttachedThing() != null)
+            GetAttachedThing().PrimaryAction(pressed);
+    }
 
-        // Secondary input
-        public virtual void SecondaryAction(bool pressed)
+    // Secondary input
+    public virtual void SecondaryAction(bool pressed)
+    {
+        if (interaction != null && interaction.canInteract)
         {
-            if (interaction != null && interaction.canInteract)
-            {
-                if (pressed)
-                    interaction.SecondaryAction?.Invoke();
-            }
-            else if (GetAttachedThing() != null)
-                GetAttachedThing().SecondaryAction(pressed);
+            if (pressed)
+                interaction.SecondaryAction?.Invoke();
         }
+        else if (GetAttachedThing() != null)
+            GetAttachedThing().SecondaryAction(pressed);
+    }
 
-        // Tertiary input
-        public virtual void TertiaryAction(bool pressed)
-        {
-            if (GetAttachedThing() != null)
-                GetAttachedThing().TertiaryAction(pressed);
-        }
+    // Tertiary input
+    public virtual void TertiaryAction(bool pressed)
+    {
+        if (GetAttachedThing() != null)
+            GetAttachedThing().TertiaryAction(pressed);
+    }
 
-        public Interaction interaction;
+    public Interaction interaction;
 
     #endregion
 }

@@ -159,11 +159,11 @@ public class GameManager : MonoBehaviour
         instance?.level.characters.Remove(character);
     }
 
-    public static CharacterThing GetCharacterAtPosition(Vector3 position)
+    public static CharacterThing GetCharacterAtNode(Pathfinding.GraphNode node)
     {
         foreach (CharacterThing character in instance.level.characters)
         {
-            if (character.transform.position == position)
+            if (character.currentNode == node)
                 return character;
         }
 
@@ -359,8 +359,7 @@ public class GameManager : MonoBehaviour
                 // Then, freeze the rotation
                 character.movementController.rb.constraints = RigidbodyConstraints.FreezeRotation;
                 // Move the character
-                Nodes.UnoccupyNode(character.transform.position);
-                General.DelayedFunctionFrames(character, () => character.transform.position = playerSpawner.transform.position, 1);
+                General.DelayedFunctionFrames(character, () => character.position = playerSpawner.position, 1);
                 // Reset the character's rigidbody constraints
                 character.movementController.rb.constraints = constraints;
 

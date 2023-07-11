@@ -124,8 +124,9 @@ public class AttackAction : ActionThing
                 case AttackState.Attacking:
                     if (attackSequence != null)
                     {
-                        if (GameManager.GetCharacterAtPosition(targetPosition))
-                            attackSequence.StartAttack(user, GameManager.GetCharacterAtPosition(targetPosition));
+                        CharacterThing character = GameManager.GetCharacterAtNode(Nodes.instance.gridGraph.GetNearest(targetPosition).node);
+                        if (character != null)
+                            attackSequence.StartAttack(user, character);
                         else if (attackSequence.canUseEmptyTarget)
                             attackSequence.StartAttack(user, targetPosition);
                         else
@@ -134,8 +135,8 @@ public class AttackAction : ActionThing
                             return;
                         }
 
-                        if (_attackState == AttackState.Attacking && Nodes.instance != null)
-                            Nodes.instance.HideNodes();
+                        if (_attackState == AttackState.Attacking)
+                            Nodes.instance?.HideNodes();
 
                         attackSequence.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
                     }

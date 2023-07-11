@@ -20,6 +20,7 @@ public class CharacterSpawner : GameThing
 
                 // Add the character to the player's input
                 AttachThing(character);
+                character.OccupyCurrentNode();
             }
         }
     }

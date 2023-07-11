@@ -21,9 +21,6 @@ public class MoveAction : ActionThing
     // The direction the character is moving in
     private Vector3 movement;
 
-    // The position on the grid the character is currently located at
-    public GraphNode currentNode;
-
     // The set of valid grid spaces within the movement range
     List<GraphNode> validSpaces;
 
@@ -72,8 +69,9 @@ public class MoveAction : ActionThing
         }
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
-        currentNode = Nodes.instance.gridGraph.GetNearest(user.transform.position).node;
+        position = user.transform.position;
         Nodes.UnoccupyNode(currentNode);
+        user.canOccupyCurrentNode = false;
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, -Vector2.one);
 
         // Display the valid grid spaces
@@ -99,8 +97,8 @@ public class MoveAction : ActionThing
             // If the user has moved
             if (user.transform.position != previousPosition)
             {
-                // Update currentPosition to the grid-based position of the user
-                currentNode = Nodes.instance.gridGraph.GetNearest(user.transform.position).node;
+                // Update position to the grid-based position of the user
+                position = user.transform.position;
 
                 // If the current position is not a valid space
                 if (!validSpaces.Contains(currentNode))
@@ -149,10 +147,11 @@ public class MoveAction : ActionThing
         if (controller != null)
             controller.canControl = 0;
 
-        user.transform.position = (Vector3)currentNode.position;
+        user.transform.position = position;
 
         // Occupy the node
         Nodes.OccupyNode(currentNode);
+        user.canOccupyCurrentNode = true;
 
         // The action is no longer running
         EndAction();

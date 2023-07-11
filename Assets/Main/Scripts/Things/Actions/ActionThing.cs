@@ -23,6 +23,12 @@ public class ActionThing : GameThing
 
     protected GameThing user;
 
+    // The current node the character is on
+    public override Pathfinding.GraphNode currentNode { get => user.currentNode; set => user.currentNode = value; }
+
+    // The position of the character
+    public override Vector3 position { get => user.position; set => user.position = value; }
+
     public bool actionRunning = false;
 
     public UnityEngine.Events.UnityEvent onActionEnd;
