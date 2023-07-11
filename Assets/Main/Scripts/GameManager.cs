@@ -136,14 +136,13 @@ public class GameManager : MonoBehaviour
     #region Characters
 
     [SerializeField] private ThingDisplay nextCharacterUI;
-    public List<CharacterThing> characters = new List<CharacterThing>();
     public int currentCharacterIndex = 0;
 
     public static CharacterThing currentCharacter
     {
         get
         {
-            if (instance.characters.Count <= 0)
+            if (instance.level.characters.Count <= 0)
                 return null;
 
             return instance?.charactersInCurrentTeam[instance.currentCharacterIndex];
@@ -152,17 +151,17 @@ public class GameManager : MonoBehaviour
 
     public static void AddCharacter(CharacterThing character)
     {
-        instance.characters.Add(character);
+        instance.level.characters.Add(character);
     }
 
     public static void RemoveCharacter(CharacterThing character)
     {
-        instance?.characters.Remove(character);
+        instance?.level.characters.Remove(character);
     }
 
     public static CharacterThing GetCharacterAtPosition(Vector3 position)
     {
-        foreach (CharacterThing character in instance.characters)
+        foreach (CharacterThing character in instance.level.characters)
         {
             if (character.transform.position == position)
                 return character;
@@ -187,7 +186,7 @@ public class GameManager : MonoBehaviour
             instance._currentTeam = value;
 
             charactersInCurrentTeam.Clear();
-            foreach (var character in instance.characters)
+            foreach (var character in instance.level.characters)
             {
                 if (character.team == instance._currentTeam)
                     charactersInCurrentTeam.Add(character);
@@ -220,7 +219,7 @@ public class GameManager : MonoBehaviour
 
     private static void SetNextCharacter()
     {
-        if (instance.characters.Count == 0)
+        if (instance.level.characters.Count == 0)
             return;
 
         instance.currentCharacterIndex++;
@@ -275,7 +274,7 @@ public class GameManager : MonoBehaviour
     /// any of the Update methods is called the first time.
     /// </summary>
     void Start()
-    {        
+    {
         // Spawn the players
         SpawnPlayers();
 
@@ -341,7 +340,7 @@ public class GameManager : MonoBehaviour
         {
             // Set the player's input
             ThingInput inputToUse = inputs.Find(x => x.playerInput != null && x.playerInput.devices.Count > 0 && x.playerInput.devices[0] == player.player);
-            
+
             if (inputToUse == null)
             {
                 inputToUse = input;
@@ -379,7 +378,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnCPUPlayer(int team)
     {
-        
+
     }
 
     public void SpawnPlayers()

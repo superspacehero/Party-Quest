@@ -127,7 +127,7 @@ public class Nodes : MonoBehaviour
                     foreach (Vector3 direction in directions)
                     {
                         // Get the node in the direction
-                        GraphNode node = null; 
+                        GraphNode node = null;
                         if (searchNode != null)
                             node = instance.gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
 
@@ -229,7 +229,7 @@ public class Nodes : MonoBehaviour
 
             if (node.Tag == 1)
             {
-                foreach (CharacterThing character in GameManager.instance.characters)
+                foreach (CharacterThing character in GameManager.instance.level.characters)
                 {
                     if (character.transform.position == (Vector3)node.position)
                     {
