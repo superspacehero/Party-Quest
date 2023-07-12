@@ -11,7 +11,11 @@ public class Counter : MonoBehaviour
         get
         {
             if (_instance == null)
-                _instance = FindObjectOfType<Counter>();
+            {
+                _instance = FindObjectOfType<Counter>(true);
+                if (_instance != null)
+                    _instance.gameObject.SetActive(true);
+            }
 
             return _instance;
         }
@@ -35,91 +39,90 @@ public class Counter : MonoBehaviour
     }
     private int _count = 0;
 
-    [SerializeField]
-    private bool showZeroOrBelow = false;
+    public bool showZeroOrBelow = false;
 
     #region Animation
 
-        /// <summary>
-        /// This function is called when the object becomes enabled and active.
-        /// </summary>
-        void OnEnable()
+    /// <summary>
+    /// This function is called when the object becomes enabled and active.
+    /// </summary>
+    void OnEnable()
+    {
+        SetText();
+    }
+
+    TextMeshProUGUI text
+    {
+        get
         {
-            FlipNumber();
+            if (_text == null)
+                TryGetComponent(out _text);
+
+            return _text;
+        }
+    }
+    TextMeshProUGUI _text;
+
+    public float rotateTime = 0.25f;
+    private float rotateTimeHalf
+    {
+        get { return rotateTime * 0.5f; }
+    }
+    public Vector3 firstRotation = new Vector3(0, -90, 0);
+    public Vector3 lastRotation = new Vector3(0, 90, 0);
+    public Vector3 rotationVariation = new Vector3(10, 0, 10);
+
+    void FlipNumber()
+    {
+        StopCoroutine(Flipping());
+        StartCoroutine(Flipping());
+    }
+
+    IEnumerator Flipping()
+    {
+        float t = 0;
+
+        Quaternion _firstRotation = Quaternion.Euler(firstRotation + rotationVariation * Random.Range(-1f, 1f));
+        Quaternion _lastRotation = Quaternion.Euler(lastRotation + rotationVariation * Random.Range(-1f, 1f));
+
+        while (t < 1)
+        {
+            t += Time.deltaTime / rotateTimeHalf;
+            transform.localRotation = Quaternion.Lerp(Quaternion.identity, _firstRotation, t);
+            yield return null;
         }
 
-        TextMeshProUGUI text
+        t = 0;
+        SetText();
+
+        while (t < 1)
         {
-            get
-            {
-                if (_text == null)
-                    TryGetComponent(out _text);
-
-                return _text;
-            }
+            t += Time.deltaTime / rotateTimeHalf;
+            transform.localRotation = Quaternion.Lerp(_lastRotation, Quaternion.identity, t);
+            yield return null;
         }
-        TextMeshProUGUI _text;
+    }
 
-        public float rotateTime = 0.25f;
-        private float rotateTimeHalf
-        {
-            get { return rotateTime * 0.5f; }
-        }
-        public Vector3 firstRotation = new Vector3(0, -90, 0);
-        public Vector3 lastRotation = new Vector3(0, 90, 0);
-        public Vector3 rotationVariation = new Vector3(10, 0, 10);
-
-        void FlipNumber()
-        {
-            StopCoroutine(Flipping());
-            StartCoroutine(Flipping());
-        }
-
-        IEnumerator Flipping()
-        {
-            float t = 0;
-
-            Quaternion _firstRotation = Quaternion.Euler(firstRotation + rotationVariation * Random.Range(-1f, 1f));
-            Quaternion _lastRotation = Quaternion.Euler(lastRotation + rotationVariation * Random.Range(-1f, 1f));
-
-            while (t < 1)
-            {
-                t += Time.deltaTime / rotateTimeHalf;
-                transform.localRotation = Quaternion.Lerp(Quaternion.identity, _firstRotation, t);
-                yield return null;
-            }
-            
-            t = 0;
-            SetText();
-
-            while (t < 1)
-            {
-                t += Time.deltaTime / rotateTimeHalf;
-                transform.localRotation = Quaternion.Lerp(_lastRotation, Quaternion.identity, t);
-                yield return null;
-            }
-        }
-
-        void SetText()
-        {
-            text.text = (showZeroOrBelow || (!showZeroOrBelow && count > 0)) ? count.ToString() : "";
-        }
+    void SetText()
+    {
+        text.text = (showZeroOrBelow || (!showZeroOrBelow && count > 0)) ? count.ToString() : "";
+    }
 
     #endregion
 
     #region Debug
 
-        [Button]
-        void IncreaseDigit()
-        {
-            count++;
-        }
+    [Button]
+    void IncreaseDigit()
+    {
+        count++;
+    }
 
-        [Button]
-        void DecreaseDigit()
-        {
-            count--;
-        }
+    [Button]
+    void DecreaseDigit()
+    {
+        count--;
+    }
 
     #endregion
 }

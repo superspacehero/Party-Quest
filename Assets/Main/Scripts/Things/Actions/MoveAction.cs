@@ -46,6 +46,11 @@ public class MoveAction : ActionThing
             }
 
             sumOfDiceRolls += currentDiceValue; // Add the current dice value to the sum of dice rolls
+
+            // Update the counter
+            if (Counter.instance)
+                Counter.instance.count = sumOfDiceRolls;
+
             user.DetachThing();
             GameManager.instance.dicePool.ReturnDieToPool(diceInstance);
         }
@@ -152,6 +157,10 @@ public class MoveAction : ActionThing
         // Occupy the node
         Nodes.OccupyNode(currentNode);
         user.canOccupyCurrentNode = true;
+
+        // Hide the counter
+        if (Counter.instance)
+            Counter.instance.count = 0;
 
         // The action is no longer running
         EndAction();
