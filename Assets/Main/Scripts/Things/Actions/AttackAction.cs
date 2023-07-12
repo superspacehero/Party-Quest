@@ -125,7 +125,7 @@ public class AttackAction : ActionThing
                     if (attackSequence != null)
                     {
                         CharacterThing character = GameManager.GetCharacterAtNode(Nodes.instance.gridGraph.GetNearest(targetPosition).node);
-                        if (character != null)
+                        if (character != null && character != user)
                             attackSequence.StartAttack(user, character);
                         else if (attackSequence.canUseEmptyTarget)
                             attackSequence.StartAttack(user, targetPosition);
