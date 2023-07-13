@@ -79,20 +79,21 @@ public class Iris : MonoBehaviour
     private IEnumerator AnimateIrisCoroutine(float targetValue, float duration, UnityAction onComplete)
     {
         float startValue = mat.GetFloat("_Circle_Size");
-        float elapsed = 0f;
+        float elapsedTime = 0f;
 
         irisImage.enabled = true;
 
-        while (elapsed < duration)
+        while (elapsedTime < 1)
         {
-            elapsed += Time.deltaTime;
-            float normalizedTime = Mathf.Clamp01(elapsed / duration);
-            float currentValue = Mathf.Lerp(startValue, targetValue, normalizedTime);
+            elapsedTime += Time.deltaTime / duration;
+            float currentValue = Mathf.Lerp(startValue, targetValue, elapsedTime);
             mat.SetFloat("_Circle_Size", currentValue);
             yield return null;
         }
 
-        if (targetValue != 0f)
+        mat.SetFloat("_Circle_Size", targetValue);
+
+        if (targetValue >= 1f)
             irisImage.enabled = false;
 
         onComplete?.Invoke();

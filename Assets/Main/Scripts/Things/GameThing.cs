@@ -90,7 +90,7 @@ public class GameThing : SerializedMonoBehaviour
             {
                 _currentNode = AstarPath.active.GetNearest(transform.position).node;
 
-                Debug.LogWarning($"GameThing {name} has no currentNode. Setting to nearest node {_currentNode}.");
+                // Debug.LogWarning($"GameThing {name} has no currentNode. Setting to nearest node {_currentNode}.");
 
                 if (canOccupyCurrentNode)
                     Nodes.OccupyNode(_currentNode);

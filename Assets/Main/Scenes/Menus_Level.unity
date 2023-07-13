@@ -340,6 +340,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 689612084, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 689612084, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 110545035349451195, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -536,10 +544,6 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 1122767981}
-    - target: {fileID: 6678124134310639323, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-      propertyPath: irisWaitTime
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 6917998691642137248, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_Material
       value: 
@@ -666,13 +670,11 @@ MonoBehaviour:
     - Name: interaction
       Entry: 6
       Data: 
-    - Name: currentNode
-      Entry: 6
-      Data: 
   _thingName: 
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

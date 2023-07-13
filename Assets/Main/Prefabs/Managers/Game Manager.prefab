@@ -5628,7 +5628,6 @@ MonoBehaviour:
   footstepPool:
     objectPrefab: {fileID: 3244333360566992698, guid: d87a8d37981236a9ab70d90664938589, type: 3}
   nextCharacterUI: {fileID: 3254549891512399179}
-  characters: []
   currentCharacterIndex: 0
   teams: 
   charactersInCurrentTeam: []
@@ -7974,7 +7973,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7314789181113005416, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: irisWaitTime
-      value: 0
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 7314789181113005416, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: startingState
