@@ -151,7 +151,7 @@ public class GameManager : MonoBehaviour
 
     public static void AddCharacter(CharacterThing character)
     {
-        instance.level.characters.Add(character);
+        instance?.level.characters.Add(character);
     }
 
     public static void RemoveCharacter(CharacterThing character)
@@ -275,6 +275,27 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Start()
     {
+        // Run the character spawners
+        foreach (CharacterSpawner characterSpawner in level.characterSpawners)
+        {
+            if (level.characterInfos == null)
+                level.characterInfos = new List<Level.CharacterAndPosition>();
+
+            // Find the character info with the matching position
+            foreach (Level.CharacterAndPosition characterAndPosition in level.characterInfos)
+            {
+                if (characterAndPosition.position == characterSpawner.position)
+                {
+                    // Spawn the character
+                    characterSpawner.characterInfo = characterAndPosition.characterInfo;
+                    break;
+                }
+            }
+
+            if (characterSpawner.spawnAtStart)
+                characterSpawner.SpawnCharacter();
+        }
+
         // Spawn the players
         SpawnPlayers();
 
@@ -353,15 +374,7 @@ public class GameManager : MonoBehaviour
             if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
             {
                 // Move the character
-
-                // First, get the character's rigidbody constraints
-                RigidbodyConstraints constraints = character.movementController.rb.constraints;
-                // Then, freeze the rotation
-                character.movementController.rb.constraints = RigidbodyConstraints.FreezeRotation;
-                // Move the character
                 General.DelayedFunctionFrames(character, () => character.position = playerSpawner.position, 1);
-                // Reset the character's rigidbody constraints
-                character.movementController.rb.constraints = constraints;
 
                 character.characterInfo = player.character;
                 character.team = player.team;

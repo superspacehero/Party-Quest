@@ -35,9 +35,9 @@ public class GameThing : SerializedMonoBehaviour
     protected virtual void Awake()
     {
         // If the GameManager's level is not null, and it doesn't have this GameThing in its list of things, add this GameThing to the list.
-        if (GameManager.instance != null && !GameManager.instance.level.things.Contains(this))
+        if (GameManager.instance != null)
         {
-            GameManager.instance.level.things.Add(this);
+            GameManager.instance.level.AddThing(this);
         }
 
         if (variables.GetVariable("health") > 0 && variables.GetVariable("maxHealth") <= 0)
@@ -50,9 +50,9 @@ public class GameThing : SerializedMonoBehaviour
     protected virtual void OnDestroy()
     {
         // If the GameManager's level is not null, and it has this GameThing in its list of things, remove this GameThing from the list.
-        if (GameManager.instance != null && GameManager.instance.level.things.Contains(this))
+        if (GameManager.instance != null)
         {
-            GameManager.instance.level.things.Remove(this);
+            GameManager.instance.level.RemoveThing(this);
         }
     }
 

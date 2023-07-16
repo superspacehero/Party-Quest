@@ -16,8 +16,71 @@ public struct Level
 
     [ReadOnly]
     public List<SavedTile> groundTiles, propTiles, objectTiles;
-    [ReadOnly] public List<GameThing> things;
+
+    public List<GameThing> things
+    {
+        get
+        {
+            List<GameThing> things = new List<GameThing>();
+
+            foreach (Room room in rooms)
+                things.AddRange(room.things);
+
+            return things;
+        }
+    }
+    public void AddThing(GameThing thing)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing.transform.position))
+            {
+                room.things.Add(thing);
+                return;
+            }
+        }
+    }
+    public void RemoveThing(GameThing thing)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing))
+            {
+                room.things.Remove(thing);
+                return;
+            }
+        }
+    }
+
     [ReadOnly] public List<CharacterThing> characters;
+    [ReadOnly] public List<CharacterSpawner> characterSpawners;
+    [ReadOnly] public List<CharacterAndPosition> characterInfos;
+
+    #region Character Spawners
+
+        public struct CharacterAndPosition
+        {
+            public Vector3 position;
+            public string characterInfo;
+            public int team;
+
+            public CharacterAndPosition(Vector3 position, string characterInfo, int team = 0)
+            {
+                this.position = position;
+                this.characterInfo = characterInfo;
+                this.team = team;
+            }
+
+            public CharacterAndPosition(Vector3 position, CharacterThing.CharacterInfo character, int team = 0)
+            {
+                this.position = position;
+                this.characterInfo = character.ToString();
+                this.team = team;
+            }
+        }
+
+    #endregion
+
     public List<Room> rooms;
 
     // Convert the Level struct to a JSON string
@@ -33,11 +96,11 @@ public struct Level
 
         if (isPreview)
         {
-            level.things.Clear();
+            level.rooms.Clear();
+            level.characters.Clear();
             level.groundTiles.Clear();
             level.propTiles.Clear();
             level.objectTiles.Clear();
-            level.rooms.Clear();
 
             return level;
         }

@@ -99,7 +99,7 @@ namespace AmplifyShaderEditor
 		[MenuItem( "Assets/Create/Amplify Shader/Universal/Lit 1", false, 85 )]
 		public static void ApplyTemplateUniversalLit1()
 		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "f00bd9b1c4ee0b3ffa39b656a6e7b98a" );
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "bcc5b7c3f98e6c7898e274f89b658c72" );
 		}
 		[MenuItem( "Assets/Create/Amplify Shader/Universal/Unlit", false, 85 )]
 		public static void ApplyTemplateUniversalUnlit()
