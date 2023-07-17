@@ -89,7 +89,7 @@ public class MenuMoveAction : StartingActionThing
         user.transform.position = position;
 
         // Occupy the node
-        Nodes.OccupyNode(currentNode);
+        Nodes.OccupyNode(currentNode, user);
         user.canOccupyCurrentNode = true;
 
         // The action is no longer running

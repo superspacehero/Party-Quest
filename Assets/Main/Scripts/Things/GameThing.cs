@@ -56,6 +56,8 @@ public class GameThing : SerializedMonoBehaviour
         }
     }
 
+    public GameObject thingPrefab;
+
     public virtual string thingName
     {
         get => _thingName;
@@ -93,7 +95,7 @@ public class GameThing : SerializedMonoBehaviour
                 // Debug.LogWarning($"GameThing {name} has no currentNode. Setting to nearest node {_currentNode}.");
 
                 if (canOccupyCurrentNode)
-                    Nodes.OccupyNode(_currentNode);
+                    Nodes.OccupyNode(_currentNode, this);
             }
 
             return _currentNode;
@@ -107,7 +109,7 @@ public class GameThing : SerializedMonoBehaviour
             _currentNode = value;
 
             if (canOccupyCurrentNode)
-                Nodes.OccupyNode(_currentNode);
+                Nodes.OccupyNode(_currentNode, this);
         }
     }
     protected GraphNode _currentNode;
@@ -117,7 +119,7 @@ public class GameThing : SerializedMonoBehaviour
     public void OccupyCurrentNode()
     {
         canOccupyCurrentNode = true;
-        Nodes.OccupyNode(currentNode);
+        Nodes.OccupyNode(currentNode, this);
     }
 
     public virtual Vector3 position

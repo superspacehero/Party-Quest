@@ -15,20 +15,8 @@ public struct Level
     public Vector3 lightDirection;
 
     [ReadOnly]
-    public List<SavedTile> groundTiles, propTiles, objectTiles;
+    public List<SavedTile> groundTiles;
 
-    public List<GameThing> things
-    {
-        get
-        {
-            List<GameThing> things = new List<GameThing>();
-
-            foreach (Room room in rooms)
-                things.AddRange(room.things);
-
-            return things;
-        }
-    }
     public void AddThing(GameThing thing)
     {
         foreach (Room room in rooms)
@@ -99,8 +87,6 @@ public struct Level
             level.rooms.Clear();
             level.characters.Clear();
             level.groundTiles.Clear();
-            level.propTiles.Clear();
-            level.objectTiles.Clear();
 
             return level;
         }

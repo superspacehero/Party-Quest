@@ -189,23 +189,37 @@ public class Nodes : MonoBehaviour
         }
     }
 
-    public static void OccupyNode(GraphNode node)
+    public static void OccupyNode(GraphNode node, GameThing thing)
     {
         if (node != null)
+        {
             node.Tag = 1;
+
+            LevelTile tile = TilemapManager.instance?._groundTilemap.GetTile<LevelTile>(TilemapManager.instance._groundTilemap.WorldToCell((Vector3)node.position));
+
+            if (tile != null)
+                tile.thing = thing;
+        }
     }
 
-    public static void OccupyNode(Vector3 position)
+    public static void OccupyNode(Vector3 position, GameThing thing)
     {
 
         if (AstarPath.active != null)
-            OccupyNode(instance.gridGraph.GetNearest(position).node);
+            OccupyNode(instance.gridGraph.GetNearest(position).node, thing);
     }
 
     public static void UnoccupyNode(GraphNode node)
     {
         if (node != null)
+        {
             node.Tag = 0;
+
+            LevelTile tile = TilemapManager.instance?._groundTilemap.GetTile<LevelTile>(TilemapManager.instance._groundTilemap.WorldToCell((Vector3)node.position));
+
+            if (tile != null)
+                tile.thing = null;
+        }
     }
 
     public static void UnoccupyNode(Vector3 position)
@@ -231,7 +245,7 @@ public class Nodes : MonoBehaviour
             {
                 foreach (CharacterThing character in GameManager.instance.level.characters)
                 {
-                    if (character.transform.position == (Vector3)node.position)
+                    if (character.position == (Vector3)node.position)
                     {
                         outCharacter = character;
                         return true;

@@ -155,7 +155,7 @@ public class MoveAction : ActionThing
         user.transform.position = position;
 
         // Occupy the node
-        Nodes.OccupyNode(currentNode);
+        Nodes.OccupyNode(currentNode, user);
         user.canOccupyCurrentNode = true;
 
         // Hide the counter

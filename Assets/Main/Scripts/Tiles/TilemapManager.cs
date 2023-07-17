@@ -8,7 +8,7 @@ using Sirenix.OdinInspector;
 
 public class TilemapManager : MonoBehaviour
 {
-    public static TilemapManager instance; 
+    public static TilemapManager instance;
     private AstarPath pathfinder
     {
         get
@@ -24,8 +24,7 @@ public class TilemapManager : MonoBehaviour
 
     [SerializeField] private TileTypeList tileTypeList;
 
-    [SerializeField]
-    private Tilemap _groundTilemap, _propTilemap, _objectTilemap;
+    public Tilemap _groundTilemap;
     [SerializeField]
     private Transform lightTransform;
 
@@ -57,8 +56,6 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
 
         GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
-        GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
-        GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
         Level.SaveLevel(GameManager.instance.level, mapSlot);
 
@@ -69,11 +66,12 @@ public class TilemapManager : MonoBehaviour
                 if (map.HasTile(pos))
                 {
                     LevelTile tile = map.GetTile<LevelTile>(pos);
-                    
+
                     yield return new SavedTile
                     {
                         position = pos,
-                        tileName = tile.name
+                        tileName = tile.name,
+                        tileThing = tile.thing.thingPrefab
                     };
                 }
             }
@@ -89,8 +87,6 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
 
         GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
-        GameManager.instance.level.propTiles = GetTilesFromMap(_propTilemap).ToList();
-        GameManager.instance.level.objectTiles = GetTilesFromMap(_objectTilemap).ToList();
 
         Level.CopyLevel(GameManager.instance.level);
 
@@ -105,7 +101,8 @@ public class TilemapManager : MonoBehaviour
                     yield return new SavedTile
                     {
                         position = pos,
-                        tileName = tile.name
+                        tileName = tile.name,
+                        tileThing = tile.thing.thingPrefab
                     };
                 }
             }
@@ -126,18 +123,9 @@ public class TilemapManager : MonoBehaviour
         {
             LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
             _groundTilemap.SetTile(tile.position, tileType);
-        }
 
-        foreach (SavedTile tile in GameManager.instance.level.propTiles)
-        {
-            LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
-            _propTilemap.SetTile(tile.position, tileType);
-        }
-
-        foreach (SavedTile tile in GameManager.instance.level.objectTiles)
-        {
-            LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
-            _objectTilemap.SetTile(tile.position, tileType);
+            if (tile.tileThing != null)
+                _groundTilemap.GetTile<LevelTile>(tile.position).InstantiateThing(tile.tileThing);
         }
 
 
@@ -204,17 +192,17 @@ public class TilemapManager : MonoBehaviour
         _groundTilemap.CompressBounds();
 
         // #if !UNITY_EDITOR
-            // Resize the pathfinder's graph to fit the map, then update it
-            AstarPath.active.data.gridGraph.center.x = _groundTilemap.localBounds.center.x;
-            AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.z;
+        // Resize the pathfinder's graph to fit the map, then update it
+        AstarPath.active.data.gridGraph.center.x = _groundTilemap.localBounds.center.x;
+        AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.z;
 
-            AstarPath.active.data.gridGraph.SetDimensions
-            (
-                Mathf.CeilToInt(_groundTilemap.localBounds.size.x + 2),
-                Mathf.CeilToInt(_groundTilemap.localBounds.size.z + 2),
-                1
-            );
-            pathfinder.Scan();
+        AstarPath.active.data.gridGraph.SetDimensions
+        (
+            Mathf.CeilToInt(_groundTilemap.localBounds.size.x + 2),
+            Mathf.CeilToInt(_groundTilemap.localBounds.size.z + 2),
+            1
+        );
+        pathfinder.Scan();
         // #endif
     }
 }
@@ -224,4 +212,5 @@ public class SavedTile
 {
     public Vector3Int position;
     public string tileName;
+    public GameObject tileThing;
 }

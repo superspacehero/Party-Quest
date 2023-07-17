@@ -6,12 +6,16 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
-    public virtual string tileData
+    public GameThing thing;
+    public void InstantiateThing(GameObject thingToInstantiate)
     {
-        get => _tileData;
-        set => _tileData = value;
+        // Get the Tilemap the tile is on
+        Tilemap tilemap = thingToInstantiate.GetComponentInParent<Tilemap>();
+        if (Instantiate(thingToInstantiate, tilemap.CellToWorld(tilemap.WorldToCell(thingToInstantiate.transform.position)), Quaternion.identity).TryGetComponent(out GameThing gameThing))
+        {
+            thing = gameThing;
+        }
     }
-    [SerializeField] protected string _tileData;
 
     /// <summary>
     /// StartUp is called on the first frame of the running Scene.
@@ -60,13 +64,13 @@ public class LevelTile : RuleTile
             instantiatedGameObject.transform.localRotation = gameObjectRotation;
             instantiatedGameObject.transform.localScale = gameObjectScale;
 
-            #if !UNITY_EDITOR
+#if !UNITY_EDITOR
                 instantiatedGameObject.isStatic = true;
                 foreach (Transform child in instantiatedGameObject.transform)
                 {
                     child.gameObject.isStatic = true;
                 }
-            #endif
+#endif
         }
 
         return true;

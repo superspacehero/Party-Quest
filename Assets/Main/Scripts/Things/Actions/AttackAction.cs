@@ -101,7 +101,7 @@ public class AttackAction : ActionThing
             if (_attackState == AttackState.PickingTarget)
                 Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
             else
-                Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
+                Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
 
             switch (_attackState)
             {
