@@ -557,11 +557,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 7035756595655136297}
   _thingName: Head
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

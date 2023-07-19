@@ -105,11 +105,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 7035756595655136297}
   _thingName: Ear
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -123,4 +128,6 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 0}
   _greenColor: {r: 1, g: 1, b: 1, a: 0}
   _blueColor: {r: 1, g: 1, b: 1, a: 0}
+  frontAnimationOverrides: []
+  backAnimationOverrides: []
   originalPrefab: {fileID: 0}

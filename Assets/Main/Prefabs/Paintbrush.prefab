@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.45, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6356798014661442219}
   m_RootOrder: 0
@@ -56,6 +57,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6356798014661442219}
   m_Father: {fileID: 1784661431098155160}
@@ -87,6 +89,7 @@ Transform:
   m_LocalRotation: {x: 0.19509031, y: 0, z: 0, w: 0.98078537}
   m_LocalPosition: {x: 0, y: 2, z: -4}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1784661431098155160}
   m_RootOrder: 1
@@ -119,6 +122,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1834295732022478955}
   - {fileID: 1794144944711091361}
@@ -137,55 +141,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44fc16702ba6ed8d7891a20493eb6a3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lookAtPriority: 2
-  _lookAtPoint: {fileID: 0}
-  nameString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  descriptionString:
-    mTerm: 
-    mRTL_IgnoreArabicFix: 0
-    mRTL_MaxLineLength: 0
-    mRTL_ConvertNumbers: 0
-    m_DontLocalizeParameters: 0
-  icon: {fileID: 0}
-  value: 0
-  health:
-    health: 0
-    maxHealth: -1
-    initializeEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    hurtEvent:
-      m_PersistentCalls:
-        m_Calls: []
-    dieEvent:
-      m_PersistentCalls:
-        m_Calls: []
-  _controlledThing: {fileID: 0}
-  mainSFX:
-    sfx: {fileID: 0}
-  _cameraPoint: {fileID: 1794144944711091361}
-  moveCameraToMeWhenControlling: 1
-  useUI: 0
-  tileMoveTime: 0.2
-  tileJumpTime: 0.3
-  maxStepHeight: 1
-  jumpHeight: 0.5
-  movement: {x: 0, y: 0, z: 0}
-  rotationBehavior: 2
-  _meshBase: {fileID: 1834295732022478955}
-  rotationTime: 0.25
-  primaryAction: 0
-  secondaryAction: 0
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 8725531424017828996}
+  _thingName: 
+  properNoun: 0
+  thingDescription: 
+  _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
+  thingValue: 0
+  attachedThing:
+    thing: {fileID: 0}
+    transform: {fileID: 0}
+    disableWhenInInventory: 0
+    thingType: 
+  variables:
+    variables: []
+  _renderers: []
+  _redColor: {r: 1, g: 1, b: 1, a: 1}
+  _greenColor: {r: 1, g: 1, b: 1, a: 1}
+  _blueColor: {r: 1, g: 1, b: 1, a: 1}
   currentTilemap: {fileID: 0}
   _currentTile: {fileID: 11400000, guid: fc327c54c2f15967197f8b5eda63c062, type: 2}
 --- !u!95 &8053456417827886453
 Animator:
-  serializedVersion: 3
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -198,10 +188,11 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1001 &6898770672788495680
 PrefabInstance:
   m_ObjectHideFlags: 0

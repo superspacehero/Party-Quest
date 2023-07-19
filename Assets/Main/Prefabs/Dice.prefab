@@ -257,11 +257,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 2515930728152100468}
   _thingName: 
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -300,6 +305,7 @@ MonoBehaviour:
   launchForce: 2.5
   rollSpeed: 500
   maxRollTime: 4
+  spawnPosition: {x: 0, y: 0, z: 0}
 --- !u!4 &2999873467346498766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e12d7139c12f7b243bddd595110607af, type: 3}

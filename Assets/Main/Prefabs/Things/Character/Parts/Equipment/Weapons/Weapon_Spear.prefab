@@ -52,11 +52,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 0}
   _thingName: Attack
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -74,6 +79,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   selectionMagnitude: 0.99
+  attackSequence: {fileID: 0}
 --- !u!1 &2572198047482347496
 GameObject:
   m_ObjectHideFlags: 0
@@ -180,11 +186,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 2572198047482347496}
   _thingName: Spear
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

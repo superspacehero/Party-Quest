@@ -106,11 +106,16 @@ MonoBehaviour:
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
+  thingPrefab: {fileID: 4316743782520209367}
   _thingName: 
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}
@@ -124,6 +129,8 @@ MonoBehaviour:
   _redColor: {r: 1, g: 1, b: 1, a: 1}
   _greenColor: {r: 0.5568628, g: 0.14509805, b: 0.11372549, a: 1}
   _blueColor: {r: 1, g: 1, b: 1, a: 1}
+  frontAnimationOverrides: []
+  backAnimationOverrides: []
   originalPrefab: {fileID: 0}
 --- !u!114 &4316743782520209363
 MonoBehaviour:
@@ -137,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af763ff429bb7044d9bcdabcef3a95d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animationProgress: 0
+  animationProgress: 0
   sprites:
   - sprite: {fileID: -1525302191403297663, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
     backSprite: {fileID: 0}

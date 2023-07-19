@@ -5137,9 +5137,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8c0d5ec7c2f146f886f7281f1c00cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jsonSong: "{\n  \"name\": \"Test Song\",\n  \"tempo\": 512,\n  \"loop\": 0,\n 
-    \"tracks\": [\n    {\n      \"instrument\": { \"name\": \"Piano\" },\n      \"noteString\":
-    \"52 52 - 53 . 52 - 33 . 52 - 13 . 52 - b2 . 52 - c2 13 \"\n    }\n  ]\n}"
+  jsonSong: '{"name": "Converted MIDI", "tempo": 400, "loop": 0, "tracks": [{"instrument":
+    {"name": "Piano"}, "noteString": "24 . b4 . 74 . 74 - . . 74 . 94 . 24 . 24 -"}]}'
   instruments: {fileID: 11400000, guid: e21154fbb2ea0e41aa4b7e8a854b9aac, type: 2}
   audioMixerGroup: {fileID: -3104771224508644411, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
 --- !u!1 &6156509201703773904
@@ -5612,10 +5611,8 @@ MonoBehaviour:
     sideQuests: []
     lightDirection: {x: 90, y: 300, z: 0}
     groundTiles: []
-    propTiles: []
-    objectTiles: []
-    things: []
     characters: []
+    characterSpawners: []
     rooms: []
   characterPrefab: {fileID: 5061016846897795855, guid: 5870f3fa37ba45adbb7677985f239204, type: 3}
   playerStartingActions: []
@@ -5648,8 +5645,6 @@ MonoBehaviour:
   levelOverrideString: 
   tileTypeList: {fileID: 11400000, guid: cc70f9813e666e9429f4f9793edd8f11, type: 2}
   _groundTilemap: {fileID: 1299743640007157026}
-  _propTilemap: {fileID: 1091313510384445028}
-  _objectTilemap: {fileID: 6711855769834235977}
   lightTransform: {fileID: 8092299575638546654}
 --- !u!114 &3003713911586481566
 MonoBehaviour:

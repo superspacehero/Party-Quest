@@ -57,6 +57,15 @@ public class GameThing : SerializedMonoBehaviour
     }
 
     public GameObject thingPrefab;
+    #if UNITY_EDITOR
+        [Button, HideIf("hasPrefab")]
+        protected void GetPrefab()
+        {
+            thingPrefab = gameObject;
+        }
+
+        protected bool hasPrefab { get => thingPrefab != null; }
+    #endif
 
     public virtual string thingName
     {
@@ -148,14 +157,20 @@ public class GameThing : SerializedMonoBehaviour
     // Method to convert the GameThing to a JSON string
     public string ToJson()
     {
-        string jsonString = JsonConvert.SerializeObject(this, Formatting.Indented);
+        string jsonString = JsonUtility.ToJson(this);
         return jsonString;
+    }
+
+    [Button]
+    public void PrintJson()
+    {
+        Debug.Log(ToJson());
     }
 
     // Method to convert a JSON string to a GameThing
     public static GameThing FromJson(string jsonString)
     {
-        GameThing gameThing = JsonConvert.DeserializeObject<GameThing>(jsonString);
+        GameThing gameThing = JsonUtility.FromJson<GameThing>(jsonString);
         return gameThing;
     }
 
