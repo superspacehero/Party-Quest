@@ -6,15 +6,19 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
+    private Vector3Int tilePosition;
     public GameThing thing;
-    public void InstantiateThing(GameObject thingToInstantiate)
+    public void InstantiateThing(Vector3Int position, GameObject thingToInstantiate, Tilemap tilemap)
     {
+        // Set position when the tile is instantiated
+        tilePosition = position;
+
+        GameObject instantiatedObject = Instantiate(thingToInstantiate, tilemap.CellToLocalInterpolated(tilePosition + tilemap.tileAnchor) + Vector3.up * position.z, Quaternion.identity, tilemap.transform);
+        instantiatedObject.name = thingToInstantiate.name;
+
         // Get the Tilemap the tile is on
-        Tilemap tilemap = thingToInstantiate.GetComponentInParent<Tilemap>();
-        if (Instantiate(thingToInstantiate, tilemap.CellToWorld(tilemap.WorldToCell(thingToInstantiate.transform.position)), Quaternion.identity).TryGetComponent(out GameThing gameThing))
-        {
+        if (instantiatedObject.TryGetComponent(out GameThing gameThing))
             thing = gameThing;
-        }
     }
 
     /// <summary>
@@ -64,16 +68,24 @@ public class LevelTile : RuleTile
             instantiatedGameObject.transform.localRotation = gameObjectRotation;
             instantiatedGameObject.transform.localScale = gameObjectScale;
 
-#if !UNITY_EDITOR
+            #if !UNITY_EDITOR
                 instantiatedGameObject.isStatic = true;
                 foreach (Transform child in instantiatedGameObject.transform)
                 {
                     child.gameObject.isStatic = true;
                 }
-#endif
+            #endif
         }
 
         return true;
     }
-
+    
+    /// <summary>
+    /// OnDestroy is called when the Tile is destroyed. This occurs when the Tile is removed from a Tilemap, or when the Tilemap is destroyed.
+    /// </summary>
+    void OnDestroy()
+    {
+        if (thing != null)
+            Destroy(thing.gameObject);
+    }
 }

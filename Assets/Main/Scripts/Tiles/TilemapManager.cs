@@ -22,9 +22,10 @@ public class TilemapManager : MonoBehaviour
 
     [SerializeField] private string levelOverrideString;
 
+    public GameObjectList gameObjectList;
     [SerializeField] private TileTypeList tileTypeList;
 
-    public Tilemap _groundTilemap;
+    public Tilemap tilemap;
     [SerializeField]
     private Transform lightTransform;
 
@@ -55,56 +56,37 @@ public class TilemapManager : MonoBehaviour
 
         GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
 
-        GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
+        GameManager.instance.level.groundTiles = GetTilesFromMap(tilemap).ToList();
 
         Level.SaveLevel(GameManager.instance.level, mapSlot);
-
-        IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
-        {
-            foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
-            {
-                if (map.HasTile(pos))
-                {
-                    LevelTile tile = map.GetTile<LevelTile>(pos);
-
-                    yield return new SavedTile
-                    {
-                        position = pos,
-                        tileName = tile.name,
-                        tileThing = tile.thing.thingPrefab
-                    };
-                }
-            }
-        }
     }
 
     [Button]
-
     public void CopyMap()
     {
         // Copy the map to the clipboard
 
         GameManager.instance.level.lightDirection = lightTransform.eulerAngles;
 
-        GameManager.instance.level.groundTiles = GetTilesFromMap(_groundTilemap).ToList();
+        GameManager.instance.level.groundTiles = GetTilesFromMap(tilemap).ToList();
 
         Level.CopyLevel(GameManager.instance.level);
+    }
 
-        IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
+    IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
+    {
+        foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
         {
-            foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
+            if (map.HasTile(pos))
             {
-                if (map.HasTile(pos))
-                {
-                    LevelTile tile = map.GetTile<LevelTile>(pos);
+                LevelTile tile = map.GetTile<LevelTile>(pos);
 
-                    yield return new SavedTile
-                    {
-                        position = pos,
-                        tileName = tile.name,
-                        tileThing = tile.thing.thingPrefab
-                    };
-                }
+                yield return new SavedTile
+                {
+                    position = pos,
+                    tileName = tile.name,
+                    tileThingName = (tile.thing != null && tile.thing.thingPrefab != null) ? tile.thing.thingPrefab.name : (tile.thing != null) ? tile.thing.name : null
+                };
             }
         }
     }
@@ -122,10 +104,10 @@ public class TilemapManager : MonoBehaviour
         foreach (SavedTile tile in GameManager.instance.level.groundTiles)
         {
             LevelTile tileType = tileTypeList.tileTypes.Find(t => t.name == tile.tileName);
-            _groundTilemap.SetTile(tile.position, tileType);
+            tilemap.SetTile(tile.position, tileType);
 
-            if (tile.tileThing != null)
-                _groundTilemap.GetTile<LevelTile>(tile.position).InstantiateThing(tile.tileThing);
+            if (!string.IsNullOrEmpty(tile.tileThingName) && gameObjectList.Find(tile.tileThingName, out GameObject thing))
+                tilemap.GetTile<LevelTile>(tile.position).InstantiateThing(tile.position, thing, tilemap);
         }
 
 
@@ -170,15 +152,20 @@ public class TilemapManager : MonoBehaviour
         GameManager.instance.level.levelName = "";
         GameManager.instance.level.levelDescription = "";
 
-        var maps = FindObjectsOfType<Tilemap>();
+        tilemap.ClearAllTiles();
 
-        foreach (var map in maps)
-            map.ClearAllTiles();
+        for (int i = tilemap.transform.childCount - 1; i >= 0; i--)
+        {
+#if UNITY_EDITOR
+            DestroyImmediate(tilemap.transform.GetChild(i).gameObject);
+#else
+                Destroy(tilemap.transform.GetChild(i).gameObject);
+#endif
+        }
 
         if (clearPathfinder)
             pathfinder.Scan();
     }
-
 
     [Button]
     private void ClearMap()
@@ -187,19 +174,30 @@ public class TilemapManager : MonoBehaviour
     }
 
     [Button]
+    private void AddObjectToMap(GameObject thing, Vector3Int position)
+    {
+        // Add an object to the map
+
+        tilemap.GetTile<LevelTile>(position).InstantiateThing(position, thing, tilemap);
+
+        tilemap.RefreshTile(position);
+        UpdateNavMesh();
+    }
+
+    [Button]
     void UpdateNavMesh()
     {
-        _groundTilemap.CompressBounds();
+        tilemap.CompressBounds();
 
         // #if !UNITY_EDITOR
         // Resize the pathfinder's graph to fit the map, then update it
-        AstarPath.active.data.gridGraph.center.x = _groundTilemap.localBounds.center.x;
-        AstarPath.active.data.gridGraph.center.z = _groundTilemap.localBounds.center.z;
+        AstarPath.active.data.gridGraph.center.x = tilemap.localBounds.center.x;
+        AstarPath.active.data.gridGraph.center.z = tilemap.localBounds.center.z;
 
         AstarPath.active.data.gridGraph.SetDimensions
         (
-            Mathf.CeilToInt(_groundTilemap.localBounds.size.x + 2),
-            Mathf.CeilToInt(_groundTilemap.localBounds.size.z + 2),
+            Mathf.CeilToInt(tilemap.localBounds.size.x + 2),
+            Mathf.CeilToInt(tilemap.localBounds.size.z + 2),
             1
         );
         pathfinder.Scan();
@@ -212,5 +210,5 @@ public class SavedTile
 {
     public Vector3Int position;
     public string tileName;
-    public GameObject tileThing;
+    public string tileThingName;
 }
