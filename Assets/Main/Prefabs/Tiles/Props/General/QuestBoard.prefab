@@ -407,8 +407,8 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 143.17036, y: 143.17036}
-  m_Spacing: {x: 8.948148, y: 8.948148}
+  m_CellSize: {x: 141.51111, y: 141.51111}
+  m_Spacing: {x: 8.844444, y: 8.844444}
   m_Constraint: 0
   m_ConstraintCount: 2
   paddingSizerFallback:
@@ -1302,10 +1302,12 @@ MonoBehaviour:
     - Name: interaction
       Entry: 6
       Data: 
+  thingPrefab: {fileID: 6308703217860409710}
   _thingName: Quest Board
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

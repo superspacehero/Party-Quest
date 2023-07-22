@@ -17,31 +17,31 @@ public struct Level
     [ReadOnly]
     public List<SavedTile> groundTiles;
 
-    public bool GetThing(GameThing thing, out GameThing foundThing)
+    public bool GetTile(GameThing thing, out SavedTile foundTile)
     {
-        foundThing = null;
-
-        foreach (Room room in rooms)
+        foundTile = null;
+        
+        foreach (SavedTile tile in groundTiles)
         {
-            if (room.Contains(thing, out GameThing foundThingInRoom))
+            if (tile.tileThing == thing)
             {
-                foundThing = foundThingInRoom;
+                foundTile = tile;
                 return true;
             }
         }
 
         return false;
     }
-    
-    public bool GetThing(Vector3 position, out GameThing thing)
-    {
-        thing = null;
 
-        foreach (Room room in rooms)
+    public bool GetTile(Vector3 position, bool useWorldPosition, out SavedTile foundTile)
+    {
+        foundTile = null;
+        
+        foreach (SavedTile tile in groundTiles)
         {
-            if (room.Contains(position, out GameThing foundThing))
+            if (tile.position == ((useWorldPosition) ? TilemapManager.instance.tilemap.WorldToCell(position) : position))
             {
-                thing = foundThing;
+                foundTile = tile;
                 return true;
             }
         }
@@ -61,7 +61,10 @@ public struct Level
         }
 
         if (rooms.Count > 0)
+        {
             rooms[0].things.Add(thing);
+            rooms[0].FitRoomToThings();
+        }
         else
         {
             Room newRoom = new Room();
@@ -71,9 +74,20 @@ public struct Level
             newRoom.things.Add(thing);
             rooms.Add(newRoom);
         }
+
+        // Debug.Log($"Added {thing.thingName}.", thing);
     }
     public void RemoveThing(GameThing thing)
     {
+        if (groundTiles == null)
+            return;
+
+        if (GetTile(thing, out SavedTile foundTile))
+        {
+            foundTile.tileThing = null;
+            return;
+        }
+
         foreach (Room room in rooms)
         {
             if (room.Contains(thing, out GameThing foundThing))
@@ -257,6 +271,9 @@ public struct Level
 
             foreach (GameThing thing in things)
             {
+                if (thing == null)
+                    continue;
+
                 if (thing.transform.position.x < min.x)
                     min.x = Mathf.FloorToInt(thing.transform.position.x);
                 if (thing.transform.position.y < min.y)

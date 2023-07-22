@@ -73,7 +73,8 @@ public class TilemapManager : MonoBehaviour
         Level.CopyLevel(GameManager.instance.level);
     }
 
-    [Button] private void ListTileThings()
+    [Button]
+    private void ListTileThings()
     {
         StringBuilder sb = new StringBuilder();
 
@@ -88,18 +89,27 @@ public class TilemapManager : MonoBehaviour
 
     IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
     {
-        foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
+        if (GameManager.instance.level.groundTiles != null && GameManager.instance.level.groundTiles.Count > 0)
         {
-            if (map.HasTile(pos))
+            foreach (SavedTile tile in GameManager.instance.level.groundTiles)
+                yield return tile;
+        }
+        else
+        {
+            // Get all the tiles from a map
+            foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
             {
-                LevelTile tile = map.GetTile<LevelTile>(pos);
-
-                yield return new SavedTile
+                if (map.HasTile(pos))
                 {
-                    position = pos,
-                    tileName = tile.name,
-                    tileThingName = (GameManager.instance.level.GetThing(tilemap.CellToWorld(pos), out GameThing thing)) ? thing.thingPrefab?.name : ""
-                };
+                    LevelTile tile = map.GetTile<LevelTile>(pos);
+
+                    yield return new SavedTile
+                    {
+                        position = pos,
+                        tileName = tile.name,
+                        tileThingName = (GameManager.instance.level.GetTile(pos, false, out SavedTile savedTile)) ? savedTile?.tileThing?.thingPrefab?.name : ""
+                    };
+                }
             }
         }
     }
@@ -120,7 +130,7 @@ public class TilemapManager : MonoBehaviour
             tilemap.SetTile(tile.position, tileType);
 
             if (!string.IsNullOrEmpty(tile.tileThingName) && gameObjectList.Find(tile.tileThingName, out GameObject thing))
-                LevelTile.InstantiateThing(tile.position, thing, tilemap);
+                LevelTile.InstantiateThing(tile, thing, tilemap);
         }
 
 
@@ -190,11 +200,12 @@ public class TilemapManager : MonoBehaviour
     private void AddObjectToMap(GameObject thing, Vector3Int position)
     {
         // Add an object to the map
-
-        LevelTile.InstantiateThing(position, thing, tilemap);
-
-        tilemap.RefreshTile(position);
-        UpdateNavMesh();
+        if (GameManager.instance.level.GetTile(position, false, out SavedTile tile))
+        {
+            LevelTile.InstantiateThing(tile, thing, tilemap);
+            tilemap.RefreshTile(position);
+            UpdateNavMesh();
+        }
     }
 
     [Button]
@@ -224,4 +235,18 @@ public class SavedTile
     public Vector3Int position;
     public string tileName;
     public string tileThingName;
+
+    public GameThing tileThing
+    {
+        get => _tileThing;
+        set
+        {
+            _tileThing = value;
+            if (value != null && value.thingPrefab != null)
+                tileThingName = value.thingPrefab.name;
+            else
+                tileThingName = "";
+        }
+    }
+    private GameThing _tileThing;
 }

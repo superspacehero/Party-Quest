@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using Pathfinding;
 using Sirenix.OdinInspector;
 
-public class ThingInput : GameThing
+public class ThingInput : UnsavedThing
 {
     public bool isPlayer = true;
 
@@ -107,7 +107,7 @@ public class ThingInput : GameThing
 
                     currentState = nextState;
                     break;
-                
+
                 case AIState.ChoosingAction:
                     // Choose the next action based on the state of the thing
                     if (!attemptedHealing && (float)thing.variables.GetVariable("health") / (float)thing.variables.GetVariable("maxHealth") < 0.5f)
@@ -280,7 +280,7 @@ public class ThingInput : GameThing
         set
         {
             _movement = value;
-            
+
             _moving = value.magnitude > 0;
 
             foreach (Inventory.ThingSlot slot in inventory.thingSlots)
@@ -354,7 +354,7 @@ public class ThingInput : GameThing
     {
         movement = value.Get<Vector2>();
     }
-    
+
     public void OnButton1(InputValue value)
     {
         primaryAction = value.isPressed;

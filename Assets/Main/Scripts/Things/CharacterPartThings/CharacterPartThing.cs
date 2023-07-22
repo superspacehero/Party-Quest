@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 
 [AddComponentMenu("Game Things/Character Part Thing")]
-public class CharacterPartThing : GameThing
+public class CharacterPartThing : UnsavedThing
 {
     #region Public Variables
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class AttackSequenceThing : GameThing
+public class AttackSequenceThing : UnsavedThing
 {
     public override string thingType => "AttackSequence";
 

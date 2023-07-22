@@ -5,10 +5,10 @@ using UnityEngine.UI;
 using I2.Loc;
 
 [RequireComponent(typeof(CharacterUI))]
-public class CharacterSelect : GameThing
+public class CharacterSelect : UnsavedThing
 {
     #region Fields
-    
+
     [SerializeField] private bool initialized, canAddNewCharacter, canAddExtraPlayers = true;
     [SerializeField] private LocalizedString newCharacterName;
     [SerializeField] private Sprite newCharacterSprite;
@@ -157,6 +157,7 @@ public class CharacterSelect : GameThing
     #endregion
 
     #region Methods
+
     /// <summary>
     /// This function is called when the object becomes enabled and active.
     /// </summary>

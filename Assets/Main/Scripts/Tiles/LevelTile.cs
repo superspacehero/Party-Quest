@@ -6,11 +6,13 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
-    public static void InstantiateThing(Vector3Int position, GameObject thingToInstantiate, Tilemap tilemap)
+    public static void InstantiateThing(SavedTile tile, GameObject thingToInstantiate, Tilemap tilemap)
     {
         // Instantiate the GameObject
-        GameObject instantiatedObject = Instantiate(thingToInstantiate, tilemap.CellToLocalInterpolated(position + tilemap.tileAnchor) + Vector3.up * position.z, Quaternion.identity, tilemap.transform);
+        GameObject instantiatedObject = Instantiate(thingToInstantiate, tilemap.CellToLocalInterpolated(tile.position + tilemap.tileAnchor) + Vector3.up * tile.position.z, Quaternion.identity, tilemap.transform);
         instantiatedObject.name = thingToInstantiate.name;
+
+        tile.tileThing = instantiatedObject.GetComponent<GameThing>();
     }
 
     /// <summary>

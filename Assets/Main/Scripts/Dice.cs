@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Sirenix.OdinInspector;
 
-public class Dice : GameThing
+public class Dice : UnsavedThing
 {
     #region Dice
 

@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [AddComponentMenu("Game Things/Action Thing")]
-public class ActionThing : GameThing
+public class ActionThing : UnsavedThing
 {
     // ActionThings are a type of GameThing that are used to perform actions.
     // They are used for everything from moving, to attacking, to interacting with other GameThings.
 
     // ActionThings have a start function and an end function.
     // When the start function is called, the ActionThing category will be removed from the GameThing's list of categories.
+
+    protected override void Awake()
+    {
+    }
 
     public override string thingType
     {
