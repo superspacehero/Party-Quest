@@ -73,6 +73,19 @@ public class TilemapManager : MonoBehaviour
         Level.CopyLevel(GameManager.instance.level);
     }
 
+    [Button] private void ListTileThings()
+    {
+        StringBuilder sb = new StringBuilder();
+
+        foreach (SavedTile tile in GetTilesFromMap(tilemap))
+        {
+            if (!string.IsNullOrEmpty(tile.tileThingName))
+                sb.AppendLine(tile.tileThingName);
+        }
+
+        Debug.Log(sb.ToString());
+    }
+
     IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
     {
         foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
@@ -85,7 +98,7 @@ public class TilemapManager : MonoBehaviour
                 {
                     position = pos,
                     tileName = tile.name,
-                    tileThingName = (tile.thing != null && tile.thing.thingPrefab != null) ? tile.thing.thingPrefab.name : (tile.thing != null) ? tile.thing.name : null
+                    tileThingName = (GameManager.instance.level.GetThing(tilemap.CellToWorld(pos), out GameThing thing)) ? thing.thingPrefab?.name : ""
                 };
             }
         }
@@ -107,7 +120,7 @@ public class TilemapManager : MonoBehaviour
             tilemap.SetTile(tile.position, tileType);
 
             if (!string.IsNullOrEmpty(tile.tileThingName) && gameObjectList.Find(tile.tileThingName, out GameObject thing))
-                tilemap.GetTile<LevelTile>(tile.position).InstantiateThing(tile.position, thing, tilemap);
+                LevelTile.InstantiateThing(tile.position, thing, tilemap);
         }
 
 
@@ -178,7 +191,7 @@ public class TilemapManager : MonoBehaviour
     {
         // Add an object to the map
 
-        tilemap.GetTile<LevelTile>(position).InstantiateThing(position, thing, tilemap);
+        LevelTile.InstantiateThing(position, thing, tilemap);
 
         tilemap.RefreshTile(position);
         UpdateNavMesh();

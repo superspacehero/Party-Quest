@@ -17,6 +17,38 @@ public struct Level
     [ReadOnly]
     public List<SavedTile> groundTiles;
 
+    public bool GetThing(GameThing thing, out GameThing foundThing)
+    {
+        foundThing = null;
+
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing, out GameThing foundThingInRoom))
+            {
+                foundThing = foundThingInRoom;
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public bool GetThing(Vector3 position, out GameThing thing)
+    {
+        thing = null;
+
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(position, out GameThing foundThing))
+            {
+                thing = foundThing;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void AddThing(GameThing thing)
     {
         foreach (Room room in rooms)
@@ -27,14 +59,26 @@ public struct Level
                 return;
             }
         }
+
+        if (rooms.Count > 0)
+            rooms[0].things.Add(thing);
+        else
+        {
+            Room newRoom = new Room();
+            newRoom.min = new Vector3Int(Mathf.FloorToInt(thing.transform.position.x), Mathf.FloorToInt(thing.transform.position.y), Mathf.FloorToInt(thing.transform.position.z));
+            newRoom.max = new Vector3Int(Mathf.CeilToInt(thing.transform.position.x), Mathf.CeilToInt(thing.transform.position.y), Mathf.CeilToInt(thing.transform.position.z));
+            newRoom.things = new List<GameThing>();
+            newRoom.things.Add(thing);
+            rooms.Add(newRoom);
+        }
     }
     public void RemoveThing(GameThing thing)
     {
         foreach (Room room in rooms)
         {
-            if (room.Contains(thing))
+            if (room.Contains(thing, out GameThing foundThing))
             {
-                room.things.Remove(thing);
+                room.things.Remove(foundThing);
                 return;
             }
         }
@@ -168,14 +212,65 @@ public struct Level
             discovered = isDiscovered;
         }
 
+        public bool Contains(Vector3 position, out GameThing foundThing)
+        {
+            foundThing = null;
+
+            foreach (GameThing thingInRoom in things)
+            {
+                if (thingInRoom.transform.position == position)
+                {
+                    foundThing = thingInRoom;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public bool Contains(Vector3 position)
         {
             return position.x >= min.x && position.x <= max.x && position.y >= min.y && position.y <= max.y && position.z >= min.z && position.z <= max.z;
         }
 
-        public bool Contains(GameThing thing)
+        public bool Contains(GameThing thing, out GameThing foundThing)
         {
-            return Contains(thing.transform.position);
+            foundThing = null;
+
+            foreach (GameThing thingInRoom in things)
+            {
+                if (thingInRoom == thing)
+                {
+                    foundThing = thingInRoom;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        [Button]
+        public void FitRoomToThings()
+        {
+            min = new Vector3Int(int.MaxValue, int.MaxValue, int.MaxValue);
+            max = new Vector3Int(int.MinValue, int.MinValue, int.MinValue);
+
+            foreach (GameThing thing in things)
+            {
+                if (thing.transform.position.x < min.x)
+                    min.x = Mathf.FloorToInt(thing.transform.position.x);
+                if (thing.transform.position.y < min.y)
+                    min.y = Mathf.FloorToInt(thing.transform.position.y);
+                if (thing.transform.position.z < min.z)
+                    min.z = Mathf.FloorToInt(thing.transform.position.z);
+
+                if (thing.transform.position.x > max.x)
+                    max.x = Mathf.CeilToInt(thing.transform.position.x);
+                if (thing.transform.position.y > max.y)
+                    max.y = Mathf.CeilToInt(thing.transform.position.y);
+                if (thing.transform.position.z > max.z)
+                    max.z = Mathf.CeilToInt(thing.transform.position.z);
+            }
         }
     }
 }

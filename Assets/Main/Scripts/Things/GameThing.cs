@@ -32,6 +32,7 @@ public class GameThing : SerializedMonoBehaviour
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
+    [ExecuteInEditMode]
     protected virtual void Awake()
     {
         // If the GameManager's level is not null, and it doesn't have this GameThing in its list of things, add this GameThing to the list.
@@ -47,6 +48,7 @@ public class GameThing : SerializedMonoBehaviour
     /// <summary>
     /// This function is called when the MonoBehaviour will be destroyed.
     /// </summary>
+    [ExecuteInEditMode]
     protected virtual void OnDestroy()
     {
         // If the GameManager's level is not null, and it has this GameThing in its list of things, remove this GameThing from the list.

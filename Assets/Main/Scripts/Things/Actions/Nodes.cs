@@ -199,9 +199,6 @@ public class Nodes : MonoBehaviour
                 return;
 
             LevelTile tile = TilemapManager.instance?.tilemap.GetTile<LevelTile>(TilemapManager.instance.tilemap.WorldToCell((Vector3)node.position));
-
-            if (tile != null)
-                tile.thing = thing;
         }
     }
 
@@ -222,9 +219,6 @@ public class Nodes : MonoBehaviour
                 return;
 
             LevelTile tile = TilemapManager.instance?.tilemap.GetTile<LevelTile>(TilemapManager.instance.tilemap.WorldToCell((Vector3)node.position));
-
-            if (tile != null)
-                tile.thing = null;
         }
     }
 
