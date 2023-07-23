@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject characterPrefab;
 
-    [SerializeField] private List<StartingActionThing> playerStartingActions = new List<StartingActionThing>();
+    [SerializeField] private List<ActionThing> playerStartingActions = new List<ActionThing>();
 
     public struct PlayerAndCharacter
     {
@@ -233,33 +233,36 @@ public class GameManager : MonoBehaviour
 
     public static void ControlNextCharacter()
     {
-        foreach (ThingInput player in instance.inputs)
-        {
-            player.canControl = currentCharacter.input == player;
-        }
-
         if (instance.playerStartingActions.Count > 0)
         {
             foreach (ThingInput player in instance.inputs)
             {
-                if (player.GetAttachedThing() is CharacterThing)
+                foreach (Inventory.ThingSlot thingSlot in player.inventory.thingSlots)
                 {
-                    CharacterThing character = player.GetAttachedThing() as CharacterThing;
-
-                    if (character.overrideStartingAction != null)
+                    if (thingSlot.thing != null && thingSlot.thing is CharacterThing)
                     {
-                        // Remove the override starting action
-                        Destroy(character.overrideStartingAction);
-                        character.overrideStartingAction = null;
-                    }
+                        CharacterThing character = thingSlot.thing as CharacterThing;
 
-                    // Add the override starting action
-                    if (instance.playerStartingActions.Count > instance.inputs.IndexOf(player))
-                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.inputs.IndexOf(player)].GetType()) as StartingActionThing;
-                    else
-                        character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.playerStartingActions.Count - 1].GetType()) as StartingActionThing;
+                        if (character.overrideStartingAction != null)
+                        {
+                            // Remove the override starting action
+                            Destroy(character.overrideStartingAction);
+                            character.overrideStartingAction = null;
+                        }
+
+                        // Add the override starting action
+                        if (instance.playerStartingActions.Count > instance.inputs.IndexOf(player))
+                            character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.inputs.IndexOf(player)].GetType()) as ActionThing;
+                        else
+                            character.overrideStartingAction = character.gameObject.AddComponent(instance.playerStartingActions[instance.playerStartingActions.Count - 1].GetType()) as ActionThing;
+                    }
                 }
             }
+        }
+
+        foreach (ThingInput player in instance.inputs)
+        {
+            player.canControl = currentCharacter.input == player;
         }
 
         currentCharacter.MyTurn();

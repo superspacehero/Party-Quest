@@ -12784,7 +12784,7 @@ PrefabInstance:
     - target: {fileID: 8553406460984446069, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: playerStartingActions.Array.data[0]
       value: 
-      objectReference: {fileID: 335949199}
+      objectReference: {fileID: 0}
     - target: {fileID: 8561587462237652840, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -12836,65 +12836,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 7202516934500607160, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
---- !u!1 &335949195 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8561587462237652841, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-  m_PrefabInstance: {fileID: 335949194}
-  m_PrefabAsset: {fileID: 0}
---- !u!483693784 &335949198 stripped
-TilemapRenderer:
-  m_CorrespondingSourceObject: {fileID: 8195685065418985526, guid: 62150fc8a0f2ae5b79b35d191ec89762, type: 3}
-  m_PrefabInstance: {fileID: 335949194}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &335949199
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 335949195}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4399310da4ba7799899d50b2259714fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes:
-    - Name: interaction
-      Entry: 6
-      Data: 
-  thingPrefab: {fileID: 0}
-  _thingName: 
-  properNoun: 0
-  thingDescription: 
-  _thingIcon: {fileID: 0}
-  canOccupyCurrentNode: 1
-  thingValue: 0
-  attachedThing:
-    thing: {fileID: 0}
-    transform: {fileID: 0}
-    disableWhenInInventory: 0
-    thingType: 
-  variables:
-    variables: []
-  _renderers:
-  - {fileID: 335949198}
-  - {fileID: 0}
-  - {fileID: 0}
-  _redColor: {r: 1, g: 1, b: 1, a: 1}
-  _greenColor: {r: 1, g: 1, b: 1, a: 1}
-  _blueColor: {r: 1, g: 1, b: 1, a: 1}
-  actionRunning: 0
-  onActionEnd:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!21 &350123334
 Material:
   serializedVersion: 8
@@ -13539,7 +13480,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 4.422222
+  m_Spacing: 2.4888887
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -14856,7 +14797,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_Spacing: 4.422222
+  m_Spacing: 2.4888887
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -15142,41 +15083,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!21 &1172117668
-Material:
-  serializedVersion: 8
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: UI Extensions/UIMultiply
-  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
-  m_LightmapFlags: 4
-  m_EnableInstancingVariants: 0
-  m_DoubleSidedGI: 0
-  m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
-  m_SavedProperties:
-    serializedVersion: 3
-    m_TexEnvs:
-    - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    m_Ints: []
-    m_Floats:
-    - _ColorMask: 15
-    - _Stencil: 0
-    - _StencilComp: 8
-    - _StencilOp: 0
-    - _StencilReadMask: 255
-    - _StencilWriteMask: 255
-    m_Colors:
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-  m_BuildTextureStacks: []
---- !u!21 &1178717754
 Material:
   serializedVersion: 8
   m_ObjectHideFlags: 0
@@ -15499,8 +15405,8 @@ MonoBehaviour:
   m_ChildAlignment: 1
   m_StartCorner: 0
   m_StartAxis: 0
-  m_CellSize: {x: 141.51111, y: 141.51111}
-  m_Spacing: {x: 8.844444, y: 8.844444}
+  m_CellSize: {x: 79.64444, y: 79.64444}
+  m_Spacing: {x: 4.9777775, y: 4.9777775}
   m_Constraint: 0
   m_ConstraintCount: 2
   paddingSizerFallback:
@@ -17194,6 +17100,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1782524925}
   m_CullTransparentMesh: 1
+--- !u!21 &1806868127
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: UI Extensions/UIMultiply
+  m_Shader: {fileID: 4800000, guid: d287872ca8fd776418c28d332df585c3, type: 3}
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _ColorMask: 15
+    - _Stencil: 0
+    - _StencilComp: 8
+    - _StencilOp: 0
+    - _StencilReadMask: 255
+    - _StencilWriteMask: 255
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!21 &1834258177
 Material:
   serializedVersion: 8
@@ -17488,7 +17429,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 132
+  m_fontSize: 104.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

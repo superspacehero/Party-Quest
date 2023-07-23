@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class MenuMoveAction : StartingActionThing
+public class MenuMoveAction : ActionThing
 {
     public override string thingSubType
     {
