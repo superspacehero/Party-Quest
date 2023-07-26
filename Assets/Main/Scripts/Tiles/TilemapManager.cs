@@ -23,7 +23,7 @@ public class TilemapManager : MonoBehaviour
     [SerializeField] private string levelOverrideString;
 
     public GameObjectList gameObjectList;
-    [SerializeField] private TileTypeList tileTypeList;
+    public TileTypeList tileTypeList;
 
     public Tilemap tilemap;
     [SerializeField]
@@ -89,27 +89,19 @@ public class TilemapManager : MonoBehaviour
 
     IEnumerable<SavedTile> GetTilesFromMap(Tilemap map)
     {
-        if (GameManager.instance.level.groundTiles != null && GameManager.instance.level.groundTiles.Count > 0)
+        // Get all the tiles from a map
+        foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
         {
-            foreach (SavedTile tile in GameManager.instance.level.groundTiles)
-                yield return tile;
-        }
-        else
-        {
-            // Get all the tiles from a map
-            foreach (Vector3Int pos in map.cellBounds.allPositionsWithin)
+            if (map.HasTile(pos))
             {
-                if (map.HasTile(pos))
-                {
-                    LevelTile tile = map.GetTile<LevelTile>(pos);
+                LevelTile tile = map.GetTile<LevelTile>(pos);
 
-                    yield return new SavedTile
-                    {
-                        position = pos,
-                        tileName = tile.name,
-                        tileThingName = (GameManager.instance.level.GetTile(pos, false, out SavedTile savedTile)) ? savedTile?.tileThing?.thingPrefab?.name : ""
-                    };
-                }
+                yield return new SavedTile
+                {
+                    position = pos,
+                    tileName = tile.name,
+                    tileThingName = (GameManager.instance.level.GetTile(pos, false, out SavedTile savedTile)) ? savedTile?.tileThing?.thingPrefab?.name : ""
+                };
             }
         }
     }
@@ -182,7 +174,7 @@ public class TilemapManager : MonoBehaviour
 #if UNITY_EDITOR
             DestroyImmediate(tilemap.transform.GetChild(i).gameObject);
 #else
-                Destroy(tilemap.transform.GetChild(i).gameObject);
+            Destroy(tilemap.transform.GetChild(i).gameObject);
 #endif
         }
 
@@ -197,14 +189,45 @@ public class TilemapManager : MonoBehaviour
     }
 
     [Button]
-    private void AddObjectToMap(GameObject thing, Vector3Int position)
+    public void AddObjectToMap(GameObject thing, Vector3 position)
     {
+        Vector3Int cellPosition = tilemap.WorldToCell(position);
+        cellPosition.z = Mathf.RoundToInt(position.y);
+
         // Add an object to the map
-        if (GameManager.instance.level.GetTile(position, false, out SavedTile tile))
+        if (GameManager.instance.level.GetTile(cellPosition, false, out SavedTile tile))
         {
-            LevelTile.InstantiateThing(tile, thing, tilemap);
-            tilemap.RefreshTile(position);
-            UpdateNavMesh();
+            if (LevelTile.InstantiateThing(tile, thing, tilemap))
+            {
+                tilemap.RefreshTile(cellPosition);
+
+                if (GameManager.gameMode != GameMode.Make)
+                    UpdateNavMesh();
+            }
+        }
+    }
+
+    public void RemoveObjectFromMap(Vector3 position)
+    {
+        Vector3Int cellPosition = tilemap.WorldToCell(position);
+        cellPosition.z = Mathf.RoundToInt(position.y);
+
+        // Remove an object from the map
+        if (GameManager.instance.level.GetTile(cellPosition, false, out SavedTile tile))
+        {
+            if (tile.tileThing != null)
+            {
+#if UNITY_EDITOR
+                DestroyImmediate(tile.tileThing.gameObject);
+#else
+                Destroy(tile.tileThing.gameObject);
+#endif
+                tile.tileThing = null;
+                tilemap.RefreshTile(cellPosition);
+
+                if (GameManager.gameMode != GameMode.Make)
+                    UpdateNavMesh();
+            }
         }
     }
 

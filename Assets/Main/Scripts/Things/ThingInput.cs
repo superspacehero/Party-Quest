@@ -336,6 +336,48 @@ public class ThingInput : UnsavedThing
     }
     private bool _tertiaryAction;
 
+    public bool quaternaryAction
+    {
+        get => _quaternaryAction;
+        set
+        {
+            _quaternaryAction = value;
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.QuaternaryAction(_quaternaryAction);
+        }
+    }
+    private bool _quaternaryAction;
+
+    public bool leftAction
+    {
+        get => _leftAction;
+        set
+        {
+            _leftAction = value;
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.LeftAction(_leftAction);
+        }
+    }
+    private bool _leftAction;
+
+    public bool rightAction
+    {
+        get => _rightAction;
+        set
+        {
+            _rightAction = value;
+
+            foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                if (slot.thing)
+                    slot.thing.RightAction(_rightAction);
+        }
+    }
+    private bool _rightAction;
+
     public bool pause
     {
         get => _pause;
@@ -368,6 +410,21 @@ public class ThingInput : UnsavedThing
     public void OnButton3(InputValue value)
     {
         tertiaryAction = value.isPressed;
+    }
+
+    public void OnButton4(InputValue value)
+    {
+        quaternaryAction = value.isPressed;
+    }
+
+    public void OnButtonLeft(InputValue value)
+    {
+        leftAction = value.isPressed;
+    }
+
+    public void OnButtonRight(InputValue value)
+    {
+        rightAction = value.isPressed;
     }
 
     public void OnPause(InputValue value)

@@ -99,31 +99,32 @@ public class GameplayCamera : MonoBehaviour
             CenterCamera(rotationTime.w);
         }
 
-        public void CenterCamera(float centerTime = -1f)
+        public void CenterCamera(float centerTime = -1f, Vector3? gotoPosition = null)
         {
             centeringCamera = true;
             if (centerTime < 0f)
                 centerTime = cameraAdjustTime;
 
-            StartCoroutine(CenterCameraCoroutine(centerTime));
+            StartCoroutine(CenterCameraCoroutine(centerTime, gotoPosition));
         }
 
-        private IEnumerator CenterCameraCoroutine(float centerTime)
+        private IEnumerator CenterCameraCoroutine(float centerTime, Vector3? gotoPosition = null)
         {
             Vector3 startPosition = transform.localPosition;
             Quaternion startRotation = transform.localRotation;
 
             float elapsedTime = 0f;
+            Vector3 targetPosition = gotoPosition ?? cameraOffset;
             while (elapsedTime < centerTime)
             {
-                transform.localPosition = Vector3.Lerp(startPosition, cameraOffset, elapsedTime / centerTime);
+                transform.localPosition = Vector3.Lerp(startPosition, targetPosition, elapsedTime / centerTime);
                 transform.localRotation = Quaternion.Lerp(startRotation, Quaternion.Euler(cameraRotation), elapsedTime / centerTime);
 
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
 
-            transform.localPosition = cameraOffset;
+            transform.localPosition = targetPosition;
             transform.localRotation = Quaternion.Euler(cameraRotation);
 
             centeringCamera = false;

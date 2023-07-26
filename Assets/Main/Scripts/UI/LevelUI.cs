@@ -107,21 +107,14 @@ public class LevelUI : MonoBehaviour
         levelQuests.CompileString();
     }
 
-    [SerializeField, NaughtyAttributes.Scene]
-    private string levelScene;
-
     public void PlayLevel()
     {
-        GameManager.levelString = levelString;
-        GameManager.gameMode = GameMode.Play;
-        General.LoadScene(levelScene);
+        General.LoadLevelScene(levelString, GameMode.Play, GameManager.instance.levelScene);
     }
 
     public void EditLevel()
     {
-        GameManager.levelString = levelString;
-        GameManager.gameMode = GameMode.Make;
-        General.LoadScene(levelScene);
+        General.LoadLevelScene(levelString, GameMode.Make, GameManager.instance.levelEditorScene);
     }
 
     public void DownloadLevel()

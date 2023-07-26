@@ -232,11 +232,17 @@ public class CharacterThing : GameThing
     // Method to move character
     public override void Move(Vector2 direction)
     {
-        if (actionList != null)
-            actionList.Move(direction);
+        if (!(movementController.canControl > 0 && interaction != null && interaction.interacting))
+        {
+            if (actionList != null)
+                actionList.Move(direction);
 
-        if (movementController != null && movementController.canControl > 1)
-            movementController.movementInput = direction;
+            if (movementController != null && movementController.canControl > 1)
+                movementController.movementInput = direction;
+        }
+        else
+            if (movementController != null && movementController.canControl > 1)
+                movementController.movementInput = Vector2.zero;
 
         base.Move(direction);
     }
@@ -266,6 +272,54 @@ public class CharacterThing : GameThing
         }
 
         base.SecondaryAction(pressed);
+    }
+
+    // Method to perform tertiary action on character
+    public override void TertiaryAction(bool pressed)
+    {
+        if (!(movementController.canControl > 0 && interaction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.TertiaryAction(pressed);
+        }
+
+        base.TertiaryAction(pressed);
+    }
+
+    // Method to perform quaternary action on character
+    public override void QuaternaryAction(bool pressed)
+    {
+        if (!(movementController.canControl > 0 && interaction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.QuaternaryAction(pressed);
+        }
+
+        base.QuaternaryAction(pressed);
+    }
+
+    // Method to perform left action on character
+    public override void LeftAction(bool pressed)
+    {
+        if (!(movementController.canControl > 0 && interaction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.LeftAction(pressed);
+        }
+
+        base.LeftAction(pressed);
+    }
+
+    // Method to perform right action on character
+    public override void RightAction(bool pressed)
+    {
+        if (!(movementController.canControl > 0 && interaction != null && interaction.canInteract))
+        {
+            if (actionList != null)
+                actionList.RightAction(pressed);
+        }
+
+        base.RightAction(pressed);
     }
 
     // Method to pause the game
@@ -459,6 +513,17 @@ public class CharacterThing : GameThing
     void OnDisable()
     {
         GameManager.RemoveCharacter(this);
+
+        if (_currentNode != null)
+            Nodes.UnoccupyNode(_currentNode);
+    }
+
+    /// <summary>
+    /// This function is called when the MonoBehaviour will be destroyed.
+    /// </summary>
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
 
         if (_currentNode != null)
             Nodes.UnoccupyNode(_currentNode);

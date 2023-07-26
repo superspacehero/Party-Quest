@@ -23,6 +23,17 @@ public class LevelList : Menu
     {
         base.OnEnable();
         General.DelayedFunctionFrames(this, LoadLevels);
+
+        if (newLevelButton != null)
+        {
+            newLevelButton.onClick.RemoveAllListeners();
+            newLevelButton.onClick.AddListener(NewLevel);
+        }
+    }
+
+    private void NewLevel()
+    {
+        General.LoadLevelScene(" ", GameMode.Make, GameManager.instance.levelEditorScene);
     }
 
     private void LoadLevels()
@@ -67,6 +78,9 @@ public class LevelList : Menu
                     (levelUI.levelSelectable as Button).onClick.AddListener(() => SetLevelPreview(_levels[_levelUIs.IndexOf(levelUI)]));
             }
         }
+
+        if (newLevelButton != null)
+            newLevelButton.transform.SetAsLastSibling();
 
         if (_levels.Count > 0)
             objectToSelect = _levelUIs[0].levelSelectable.gameObject;

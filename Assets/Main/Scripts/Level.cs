@@ -132,12 +132,28 @@ public struct Level
     // Convert the Level struct to a JSON string
     public string Serialize()
     {
-        return JsonUtility.ToJson(this);
+        // Create an (almost) replica Level struct that will be used to create a JSON string
+        Level level = new Level(levelName);
+        level.levelDescription = levelDescription;
+        level.levelPreview = levelPreview;
+        level.levelAuthorID = levelAuthorID;
+        level.mainQuests = mainQuests;
+        level.sideQuests = sideQuests;
+        level.lightDirection = lightDirection;
+        level.groundTiles = groundTiles;
+        level.characterInfos = characterInfos;
+        level.rooms = rooms;
+
+
+        return JsonUtility.ToJson(level);
     }
 
     // Create a Level struct from a JSON string
     public static Level Deserialize(string levelString, bool isPreview = false)
     {
+        if (string.IsNullOrEmpty(levelString) || string.IsNullOrWhiteSpace(levelString))
+            return new Level("");
+
         Level level = JsonUtility.FromJson<Level>(levelString);
 
         if (isPreview)
@@ -289,5 +305,21 @@ public struct Level
                     max.z = Mathf.CeilToInt(thing.transform.position.z);
             }
         }
+    }
+
+    public Level(string newLevelName = "New Level")
+    {
+        levelName = newLevelName;
+        levelDescription = "";
+        levelPreview = "";
+        levelAuthorID = "";
+        mainQuests = new List<QuestGoal>();
+        sideQuests = new List<QuestGoal>();
+        lightDirection = Vector3.zero;
+        groundTiles = new List<SavedTile>();
+        characters = new List<CharacterThing>();
+        characterSpawners = new List<CharacterSpawner>();
+        characterInfos = new List<CharacterAndPosition>();
+        rooms = new List<Room>();
     }
 }

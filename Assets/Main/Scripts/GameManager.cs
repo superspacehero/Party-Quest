@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
 
     #region Game variables
 
+    [NaughtyAttributes.Scene]
+    public string levelScene, levelEditorScene;
+
     public static GameMode gameMode = GameMode.Other;
 
     public Menu touchControls;
@@ -48,6 +51,7 @@ public class GameManager : MonoBehaviour
 
     #region Level
 
+    [SerializeField] private LevelUI levelIntroUI, levelInfoUI;
     public static string levelString;
     public Level level = new Level();
 
@@ -208,7 +212,7 @@ public class GameManager : MonoBehaviour
     public static void NextCharacter()
     {
         SetAllPlayersCanControl(false);
-        General.DelayedFunctionSeconds(instance, SetNextCharacter, delaySeconds: instance.changeCharacterDelay);
+        General.DelayedFunctionSeconds(instance, () => SetNextCharacter(true), delaySeconds: instance.changeCharacterDelay);
     }
 
     public static void SetAllPlayersCanControl(bool canControl)
@@ -217,7 +221,7 @@ public class GameManager : MonoBehaviour
             player.canControl = canControl;
     }
 
-    private static void SetNextCharacter()
+    private static void SetNextCharacter(bool showNextCharacterUI = true)
     {
         if (instance.level.characters.Count == 0)
             return;
@@ -228,7 +232,9 @@ public class GameManager : MonoBehaviour
 
         GameplayCamera.SetCameraObject(currentCharacter);
         instance.nextCharacterUI.thing = currentCharacter;
-        instance.nextCharacterUI.gameObject.SetActive(true);
+
+        if (showNextCharacterUI)
+            instance.nextCharacterUI.gameObject.SetActive(true);
     }
 
     public static void ControlNextCharacter()
@@ -265,7 +271,22 @@ public class GameManager : MonoBehaviour
             player.canControl = currentCharacter.input == player;
         }
 
-        currentCharacter.MyTurn();
+        if (currentCharacter != null)
+            currentCharacter.MyTurn();
+    }
+
+    public static void StartGame(bool showLevelIntro = true)
+    {
+        if (showLevelIntro)
+            instance.levelIntroUI.gameObject.SetActive(true);
+        else
+        {
+            General.DelayedFunctionSeconds(instance, () =>
+            {
+                SetNextCharacter(false);
+                ControlNextCharacter();
+            }, delaySeconds: instance.changeCharacterDelay);
+        }
     }
 
     #endregion
@@ -308,6 +329,13 @@ public class GameManager : MonoBehaviour
             if (menu.previousOption == null)
                 menu.previousOption = touchControls;
         }
+
+        // Set up the camera
+        if (gameMode == GameMode.Play)
+            GameplayCamera.instance.CenterCamera(-1f, Vector3.up * TilemapManager.instance.tilemap.size.z);
+
+        // Start the game
+        StartGame(gameMode == GameMode.Play);
     }
 
     public static void ResetInputModule()
@@ -343,20 +371,19 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject playerPrefab;
 
-    public void SpawnPlayer(PlayerAndCharacter player, PlayerSpawner playerSpawner = null)
+    public void SpawnPlayer(PlayerAndCharacter player, Vector3? position = null, PlayerSpawner playerSpawner = null)
     {
         if (playerInputManager == null)
             return;
 
-        if (playerSpawner == null)
+        if (playerSpawner == null && position == null)
         {
             // Get all player spawners
             PlayerSpawner[] playerSpawners = FindObjectsOfType<PlayerSpawner>();
-            if (playerSpawners.Length <= 0)
-                return;
 
             // Choose a random player spawner
-            playerSpawner = playerSpawners[Random.Range(0, playerSpawners.Length)];
+            if (playerSpawners.Length > 0)
+                playerSpawner = playerSpawners[Random.Range(0, playerSpawners.Length)];
         }
 
         if (Instantiate(playerPrefab).TryGetComponent(out ThingInput input))
@@ -377,7 +404,18 @@ public class GameManager : MonoBehaviour
             if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
             {
                 // Move the character
-                General.DelayedFunctionFrames(character, () => character.position = playerSpawner.position, 1);
+                if (position != null)
+                    General.DelayedFunctionFrames(character, () =>
+                    {
+                        character.position = (Vector3)(Nodes.instance.gridGraph.GetNearest(position.Value).node.position);
+                        Debug.Log("Spawned player at " + character.transform.position);
+                    });
+                else
+                    General.DelayedFunctionFrames(character, () =>
+                    {
+                        character.position = playerSpawner.position;
+                        Debug.Log("Spawned player at " + character.transform.position);
+                    });
 
                 character.characterInfo = player.character;
                 character.team = player.team;
@@ -401,22 +439,28 @@ public class GameManager : MonoBehaviour
         PlayerSpawner[] playerSpawners = FindObjectsOfType<PlayerSpawner>();
         List<PlayerSpawner> playerSpawnersList = new List<PlayerSpawner>(playerSpawners);
 
-        if (playerSpawners.Length <= 0)
-            return;
-
         // Create the players
         foreach (PlayerAndCharacter player in players)
         {
-            // Get a random player spawner
-            if (playerSpawnersList.Count <= 0)
-                playerSpawnersList = new List<PlayerSpawner>(playerSpawners);
-            PlayerSpawner playerSpawner = playerSpawnersList[Random.Range(0, playerSpawnersList.Count)];
+            if (playerSpawners.Length > 0)
+            {
+                if (playerSpawnersList.Count > 0)
+                {
+                    // Get a random player spawner
+                    PlayerSpawner playerSpawner = playerSpawnersList[Random.Range(0, playerSpawnersList.Count)];
 
-            // Spawn the player
-            SpawnPlayer(player, playerSpawner);
+                    // Spawn the player
+                    SpawnPlayer(player, null, playerSpawner);
 
-            // Remove the player spawner from the list
-            playerSpawnersList.Remove(playerSpawner);
+                    // Remove the player spawner from the list
+                    playerSpawnersList.Remove(playerSpawner);
+                }
+            }
+            else
+            {
+                // If there are no player spawners, spawn the player at the world position of cell (0, 0) in the tilemap
+                SpawnPlayer(player, Vector3.zero);
+            }
         }
     }
 

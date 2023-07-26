@@ -42,9 +42,45 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Button4",
+                    "type": "Button",
+                    "id": "c90d34a6-b998-4412-9934-0d29451cc0fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonLeft",
+                    "type": "Button",
+                    "id": "045c05e2-9390-465b-abbc-5aeab7859e71",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ButtonRight",
+                    "type": "Button",
+                    "id": "085f212b-eb9e-4d7e-b6f5-3b4a005d42f2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=2)",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Pause",
                     "type": "Button",
                     "id": "2ccdb1b8-82b1-4da1-bb09-a1647db86640",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "96b78d61-694c-4f23-93fe-7681637dfc00",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -175,17 +211,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1635d3fe-58b6-4ba9-a4e2-f4b964f6b5c8",
-                    "path": "<XRController>/{Primary2DAxis}",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -202,17 +227,6 @@
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "Button1",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d734a559-9a77-4d76-b5a0-528424a2a012",
-                    "path": "<XRController>/primaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
                     "action": "Button1",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -263,28 +277,6 @@
                 },
                 {
                     "name": "",
-                    "id": "baa20b06-c8af-49fc-9cd0-91a24d54c145",
-                    "path": "<XRController>/start",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Pause",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "603639e9-3ea4-417c-9d34-df0601256ec6",
-                    "path": "<XRController>/secondaryButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "XR",
-                    "action": "Button2",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "53a6d444-4cea-4417-b104-d92f6532c6ba",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -307,12 +299,89 @@
                 },
                 {
                     "name": "",
-                    "id": "da3b9cab-e901-4029-adef-b1df0cf9cfa9",
-                    "path": "<XRController>/thumbstickClicked",
+                    "id": "cc296e11-e0a3-455e-821e-9103625070c4",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "XR",
-                    "action": "Button3",
+                    "groups": "Gamepad",
+                    "action": "Button4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f54e2199-7bcf-497e-bb80-d88b85174b89",
+                    "path": "<Keyboard>/leftCtrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Button4",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e1922028-d905-40ce-adef-f9d41a8815a8",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ButtonLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bdcfbdc1-cc00-410e-92c2-b9d76f315101",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ButtonLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86308c73-0536-4271-81f9-96a85c8e3973",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "ButtonRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1333ffcd-f779-4ef5-b51e-80c725b233c2",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ButtonRight",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5b1129f3-618b-47fc-975d-ae13632bc728",
+                    "path": "<Gamepad>/select",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "090d1c5c-89fa-4d82-a92f-58e633f4b959",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

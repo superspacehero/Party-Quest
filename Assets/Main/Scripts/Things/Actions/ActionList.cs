@@ -65,6 +65,30 @@ public class ActionList : Inventory
             currentAction.SecondaryAction(pressed);
     }
 
+    public void TertiaryAction(bool pressed)
+    {
+        if (currentAction != null)
+            currentAction.TertiaryAction(pressed);
+    }
+
+    public void QuaternaryAction(bool pressed)
+    {
+        if (currentAction != null)
+            currentAction.QuaternaryAction(pressed);
+    }
+
+    public void LeftAction(bool pressed)
+    {
+        if (currentAction != null)
+            currentAction.LeftAction(pressed);
+    }
+
+    public void RightAction(bool pressed)
+    {
+        if (currentAction != null)
+            currentAction.RightAction(pressed);
+    }
+
     public void PopulateActionList(ActionThing[] actions, List<string> actionWhitelist = null, List<string> actionBlacklist = null)
     {
         if (actions == null)

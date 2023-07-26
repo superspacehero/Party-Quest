@@ -92,6 +92,7 @@ public abstract class Interaction
 {
     public GameThing thisThing { get; set; }
     public virtual bool canInteract { get => true; }
+    public virtual bool interacting { get; set; }
     public virtual void Interact(GameThing interactor, GameThing interactee)
     {
         if (interactor != null)
@@ -189,6 +190,7 @@ public class OpenMenuInteraction : Interaction
             return () =>
             {
                 menu?.Select();
+                interacting = true;
             };
         }
     }
@@ -200,6 +202,7 @@ public class OpenMenuInteraction : Interaction
             return () =>
             {
                 menu?.Deselect();
+                interacting = false;
             };
         }
     }

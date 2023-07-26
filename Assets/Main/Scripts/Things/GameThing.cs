@@ -20,15 +20,6 @@ public class GameThing : SerializedMonoBehaviour
     // At their core, their primary function is to be used,
     // which is handled by the Use() function.
 
-    // This function has a variety of uses, depending on the GameThing subclass, which include:
-    // - Item GameThings on the floor, which lets them be picked up by the user;
-    // - Consumable item GameThings, which leaves behind one, some, or no other GameThings on use, depending on the item;
-    // - Equipment item GameThings, which can be equipped and unequipped, and which change stats on the character equipping them;
-    // - Character GameThings, which, when used by another character, allow the user to take control of the target character
-    //   (used for player characters, NPCs, and objects that can be directly controlled);
-    // - Mechanism Trigger and Mechanism GameThings, the former of which can be used to toggle, activate, or deactivate the latter
-    //   (used for doors, switches, and other objects that can be interacted with in a variety of ways);
-
     /// <summary>
     /// Awake is called when the script instance is being loaded.
     /// </summary>
@@ -175,6 +166,15 @@ public class GameThing : SerializedMonoBehaviour
         GameThing gameThing = JsonUtility.FromJson<GameThing>(jsonString);
         return gameThing;
     }
+
+    // This function has a variety of uses, depending on the GameThing subclass, which include:
+    // - Item GameThings on the floor, which lets them be picked up by the user;
+    // - Consumable item GameThings, which leaves behind one, some, or no other GameThings on use, depending on the item;
+    // - Equipment item GameThings, which can be equipped and unequipped, and which change stats on the character equipping them;
+    // - Character GameThings, which, when used by another character, allow the user to take control of the target character
+    //   (used for player characters, NPCs, and objects that can be directly controlled);
+    // - Mechanism Trigger and Mechanism GameThings, the former of which can be used to toggle, activate, or deactivate the latter
+    //   (used for doors, switches, and other objects that can be interacted with in a variety of ways);
 
     public virtual void Use(GameThing user)
     {
@@ -687,6 +687,27 @@ public class GameThing : SerializedMonoBehaviour
     {
         if (GetAttachedThing() != null)
             GetAttachedThing().TertiaryAction(pressed);
+    }
+
+    // Quaternary input
+    public virtual void QuaternaryAction(bool pressed)
+    {
+        if (GetAttachedThing() != null)
+            GetAttachedThing().QuaternaryAction(pressed);
+    }
+
+    // Left input
+    public virtual void LeftAction(bool pressed)
+    {
+        if (GetAttachedThing() != null)
+            GetAttachedThing().LeftAction(pressed);
+    }
+
+    // Right input
+    public virtual void RightAction(bool pressed)
+    {
+        if (GetAttachedThing() != null)
+            GetAttachedThing().RightAction(pressed);
     }
 
     public Interaction interaction;

@@ -102,7 +102,6 @@ MonoBehaviour:
   levelAuthorImage: {fileID: 0}
   _levelSelectable: {fileID: 416214886644127847}
   levelIndex: 0
-  levelScene: Menus
 --- !u!114 &416214886644127847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,7 +126,7 @@ MonoBehaviour:
     m_NormalColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_HighlightedColor: {r: 1, g: 1, b: 1, a: 1}
     m_PressedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
-    m_SelectedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -817,11 +816,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
+  m_fontSize: 13.6
   m_fontSizeBase: 16
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 6
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 2

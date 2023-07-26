@@ -29,7 +29,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: eca8b20bcc6214163b1933c87e705118, type: 2}
     - target: {fileID: 919132149155446097, guid: 472281f0838fda98a881bd67eb53fb95, type: 3}
       propertyPath: m_Name
-      value: Bush_Leafy
+      value: Bush-Leafy
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 472281f0838fda98a881bd67eb53fb95, type: 3}
       propertyPath: m_Layer
@@ -97,18 +97,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 2d010b00000069006e0074006500720061006300740069006f006e00
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
+  thingPrefab: {fileID: 932194284778317373}
   _thingName: 
   properNoun: 0
   thingDescription: 
   _thingIcon: {fileID: 0}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

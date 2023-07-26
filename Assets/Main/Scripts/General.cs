@@ -158,6 +158,15 @@ public class General
 
     #region Scene Management
 
+        public static void LoadLevelScene(string levelString, GameMode gameMode, string sceneName)
+        {
+            // Debug.Log($"Loading level in game mode {gameMode.ToString()} in scene {sceneName}");
+
+            GameManager.levelString = levelString;
+            GameManager.gameMode = gameMode;
+            LoadScene(sceneName);
+        }
+
         public static void LoadScene(string sceneName)
         {
             if (!string.IsNullOrEmpty(sceneName))

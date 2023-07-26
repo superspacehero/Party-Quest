@@ -77,7 +77,7 @@ public class MoveAction : ActionThing
         position = user.transform.position;
         Nodes.UnoccupyNode(currentNode);
         user.canOccupyCurrentNode = false;
-        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, -Vector2.one);
+        validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, maxHeightLimits: new Vector2(jumpHeight, -1));
 
         // Display the valid grid spaces
         if (Nodes.instance != null)

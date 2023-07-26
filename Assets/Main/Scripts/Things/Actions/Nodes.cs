@@ -97,12 +97,16 @@ public class Nodes : MonoBehaviour
         if (maxHeightLimits.y < 0)
             maxHeightLimits.y = float.PositiveInfinity;
 
+        // Debug.Log($"Upward height limit: {maxHeightLimits.x}, downward height limit: {maxHeightLimits.y}");
+
         // If radius is set to infinity, add all walkable nodes in the gridGraph to the nodes list.
         if (float.IsInfinity(radius))
         {
             foreach (var node in instance.gridGraph.nodes)
             {
-                if (node.Walkable && node.position.y <= maxHeightLimits.y && node.position.y >= position.y - maxHeightLimits.x)
+                if (node.Walkable &&
+                    node.position.y <= maxHeightLimits.y &&
+                    node.position.y >= position.y - maxHeightLimits.x)
                 {
                     nodes.Add(node);
                 }
@@ -131,15 +135,22 @@ public class Nodes : MonoBehaviour
                         if (searchNode != null)
                             node = instance.gridGraph.GetNearest((Vector3)searchNode.position + direction).node;
 
-                        // If the node is not in the valid spaces list and is walkable and within the maxHeightLimits, add it to the list
-                        if (node != null && !nodes.Contains(node) && node.Walkable && node.position.y <= maxHeightLimits.y && node.position.y >= position.y - maxHeightLimits.x)
+                        if (node != null && !nodes.Contains(node) && node.Walkable)
                         {
-                            nodes.Add(node);
-                            queue.Enqueue(node);
+                            // If the node is not in the valid spaces list and is walkable and within the maxHeightLimits, add it to the list
+                            float deltaY = ((Vector3)node.position).y - ((Vector3)searchNode.position).y;
+
+                            if ((deltaY <= maxHeightLimits.x) && // Upward movement within limit
+                                (deltaY <= maxHeightLimits.y))   // Downward movement within limit
+                            {
+                                nodes.Add(node);
+                                queue.Enqueue(node);
+                            }
                         }
                     }
                 }
             }
+
         }
 
         return nodes;
