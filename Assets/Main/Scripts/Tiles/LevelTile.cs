@@ -6,40 +6,6 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "New Level Tile", menuName = "2D/Tiles/Level Tile")]
 public class LevelTile : RuleTile
 {
-    public static bool InstantiateThing(SavedTile tile, GameObject thingToInstantiate, Tilemap tilemap)
-    {
-        // Instantiate the GameObject
-        if (thingToInstantiate == null)
-        {
-            Debug.LogWarning($"Thing to instantiate is null.");
-            return false;
-        }
-
-        if (tile == null)
-        {
-            Debug.LogWarning($"Tile is null.");
-            return false;
-        }
-
-        if (tilemap == null)
-        {
-            Debug.LogWarning($"Tilemap is null.");
-            return false;
-        }
-
-        if (tile.tileThing)
-        {
-            return false;
-        }
-
-        GameObject instantiatedObject = Instantiate(thingToInstantiate, tilemap.CellToLocalInterpolated(tile.position + tilemap.tileAnchor) + Vector3.up * tile.position.z, Quaternion.identity, tilemap.transform);
-        instantiatedObject.name = thingToInstantiate.name;
-
-        tile.tileThing = instantiatedObject.GetComponent<GameThing>();
-
-        return true;
-    }
-
     /// <summary>
     /// StartUp is called on the first frame of the running Scene.
     /// </summary>

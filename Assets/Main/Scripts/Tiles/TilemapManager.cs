@@ -122,7 +122,12 @@ public class TilemapManager : MonoBehaviour
             tilemap.SetTile(tile.position, tileType);
 
             if (!string.IsNullOrEmpty(tile.tileThingName) && gameObjectList.Find(tile.tileThingName, out GameObject thing))
-                LevelTile.InstantiateThing(tile, thing, tilemap);
+            {
+                InstantiateThing(tile, thing, tilemap);
+
+                if (tile.tileThing is CharacterThing && !string.IsNullOrEmpty(tile.tileThingData))
+                    (tile.tileThing as CharacterThing).FromString(tile.tileThingData);
+            }
         }
 
 
@@ -197,7 +202,7 @@ public class TilemapManager : MonoBehaviour
         // Add an object to the map
         if (GameManager.instance.level.GetTile(cellPosition, false, out SavedTile tile))
         {
-            if (LevelTile.InstantiateThing(tile, thing, tilemap))
+            if (InstantiateThing(tile, thing, tilemap))
             {
                 tilemap.RefreshTile(cellPosition);
 
@@ -250,6 +255,40 @@ public class TilemapManager : MonoBehaviour
         pathfinder.Scan();
         // #endif
     }
+
+    public static bool InstantiateThing(SavedTile tile, GameObject thingToInstantiate, Tilemap tilemap)
+    {
+        // Instantiate the GameObject
+        if (thingToInstantiate == null)
+        {
+            Debug.LogWarning($"Thing to instantiate is null.");
+            return false;
+        }
+
+        if (tile == null)
+        {
+            Debug.LogWarning($"Tile is null.");
+            return false;
+        }
+
+        if (tilemap == null)
+        {
+            Debug.LogWarning($"Tilemap is null.");
+            return false;
+        }
+
+        if (tile.tileThing)
+        {
+            return false;
+        }
+
+        GameObject instantiatedObject = Instantiate(thingToInstantiate, tilemap.CellToLocalInterpolated(tile.position + tilemap.tileAnchor) + Vector3.up * tile.position.z, Quaternion.identity, tilemap.transform);
+        instantiatedObject.name = thingToInstantiate.name;
+
+        tile.tileThing = instantiatedObject.GetComponent<GameThing>();
+
+        return true;
+    }
 }
 
 [System.Serializable]
@@ -258,6 +297,7 @@ public class SavedTile
     public Vector3Int position;
     public string tileName;
     public string tileThingName;
+    public string tileThingData;
 
     public GameThing tileThing
     {

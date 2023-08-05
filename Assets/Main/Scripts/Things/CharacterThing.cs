@@ -30,15 +30,26 @@ public class CharacterThing : GameThing
         public GameThingVariables baseVariables;
         public List<CharacterPartThing.CharacterPartInfo> characterParts;
 
-        public override string ToString()
+        public string ToString(bool isNPC = false)
         {
-            string json = JsonUtility.ToJson(this);
-            Debug.Log(json);
-            return json;
+            CharacterInfo characterInfo = this;
+            if (isNPC)
+                characterInfo.portrait = "";
+
+            string info = JsonUtility.ToJson(characterInfo);
+
+            // Replace all double quotes with escaped double quotes
+            if (isNPC)
+                info = info.Replace("\"", "\\\"");
+
+            return info;
         }
 
         public static CharacterInfo FromString(string json)
         {
+            // Replace all escaped double quotes with double quotes
+            json = json.Replace("\\\"", "\"");
+
             return JsonUtility.FromJson<CharacterInfo>(json);
         }
 
@@ -242,7 +253,7 @@ public class CharacterThing : GameThing
         }
         else
             if (movementController != null && movementController.canControl > 1)
-                movementController.movementInput = Vector2.zero;
+            movementController.movementInput = Vector2.zero;
 
         base.Move(direction);
     }
@@ -459,9 +470,10 @@ public class CharacterThing : GameThing
     }
 
     // Method to convert the character to a JSON string
-    public override string ToString()
+    [Button]
+    public string ToString(bool isNPC = false)
     {
-        return characterInfo.ToString();
+        return characterInfo.ToString(isNPC);
     }
 
     // Method to save the character to a file
@@ -472,6 +484,7 @@ public class CharacterThing : GameThing
     }
 
     // Method to create the character from a JSON string
+    [Button]
     public void FromString(string characterSaveData)
     {
         characterInfo = JsonUtility.FromJson<CharacterInfo>(characterSaveData);

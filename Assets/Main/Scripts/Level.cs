@@ -20,7 +20,7 @@ public struct Level
     public bool GetTile(GameThing thing, out SavedTile foundTile)
     {
         foundTile = null;
-        
+
         foreach (SavedTile tile in groundTiles)
         {
             if (tile.tileThing == thing)
@@ -36,7 +36,7 @@ public struct Level
     public bool GetTile(Vector3 position, bool useWorldPosition, out SavedTile foundTile)
     {
         foundTile = null;
-        
+
         foreach (SavedTile tile in groundTiles)
         {
             if (tile.position == ((useWorldPosition) ? TilemapManager.instance.tilemap.WorldToCell(position) : position))
@@ -100,30 +100,29 @@ public struct Level
 
     [ReadOnly] public List<CharacterThing> characters;
     [ReadOnly] public List<CharacterSpawner> characterSpawners;
-    [ReadOnly] public List<CharacterAndPosition> characterInfos;
 
     #region Character Spawners
 
-        public struct CharacterAndPosition
+    public struct CharacterAndPosition
+    {
+        public Vector3 position;
+        public string characterInfo;
+        public int team;
+
+        public CharacterAndPosition(Vector3 position, string characterInfo, int team = 0)
         {
-            public Vector3 position;
-            public string characterInfo;
-            public int team;
-
-            public CharacterAndPosition(Vector3 position, string characterInfo, int team = 0)
-            {
-                this.position = position;
-                this.characterInfo = characterInfo;
-                this.team = team;
-            }
-
-            public CharacterAndPosition(Vector3 position, CharacterThing.CharacterInfo character, int team = 0)
-            {
-                this.position = position;
-                this.characterInfo = character.ToString();
-                this.team = team;
-            }
+            this.position = position;
+            this.characterInfo = characterInfo;
+            this.team = team;
         }
+
+        public CharacterAndPosition(Vector3 position, CharacterThing.CharacterInfo character, int team = 0)
+        {
+            this.position = position;
+            this.characterInfo = character.ToString();
+            this.team = team;
+        }
+    }
 
     #endregion
 
@@ -141,9 +140,14 @@ public struct Level
         level.sideQuests = sideQuests;
         level.lightDirection = lightDirection;
         level.groundTiles = groundTiles;
-        level.characterInfos = characterInfos;
         level.rooms = rooms;
 
+        // Enumerate through all the tiles in the tilemap, and if their thing is a character, add its data to the tileThingData
+        foreach (SavedTile tile in level.groundTiles)
+        {
+            if (tile.tileThing is CharacterThing)
+                tile.tileThingData = (tile.tileThing as CharacterThing).ToString(isNPC: true);
+        }
 
         return JsonUtility.ToJson(level);
     }
@@ -319,7 +323,6 @@ public struct Level
         groundTiles = new List<SavedTile>();
         characters = new List<CharacterThing>();
         characterSpawners = new List<CharacterSpawner>();
-        characterInfos = new List<CharacterAndPosition>();
         rooms = new List<Room>();
     }
 }

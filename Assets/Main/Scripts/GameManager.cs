@@ -299,27 +299,6 @@ public class GameManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        // Run the character spawners
-        foreach (CharacterSpawner characterSpawner in level.characterSpawners)
-        {
-            if (level.characterInfos == null)
-                level.characterInfos = new List<Level.CharacterAndPosition>();
-
-            // Find the character info with the matching position
-            foreach (Level.CharacterAndPosition characterAndPosition in level.characterInfos)
-            {
-                if (characterAndPosition.position == characterSpawner.position)
-                {
-                    // Spawn the character
-                    characterSpawner.characterInfo = characterAndPosition.characterInfo;
-                    break;
-                }
-            }
-
-            if (characterSpawner.spawnAtStart)
-                characterSpawner.SpawnCharacter();
-        }
-
         // Spawn the players
         SpawnPlayers();
 
