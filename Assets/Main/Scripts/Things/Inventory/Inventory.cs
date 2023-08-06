@@ -218,12 +218,9 @@ public class Inventory : MonoBehaviour
             if (_inventoryDisplay == null)
             {
                 Transform parent = transform.parent;
-                while (parent != null)
+                while (parent.parent != null)
                 {
-                    if (parent.parent == null)
-                        break;
-                    else
-                        parent = parent.parent;
+                    parent = parent.parent;
                 }
 
                 if (parent != null)

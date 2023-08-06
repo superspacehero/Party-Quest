@@ -25,6 +25,7 @@ public class CharacterThing : GameThing
     public struct CharacterInfo
     {
         public string name, portrait;
+        public int team;
         public int value;
         public Inventory inventory;
         public GameThingVariables baseVariables;
@@ -106,20 +107,22 @@ public class CharacterThing : GameThing
             System.IO.File.Delete(Application.persistentDataPath + $"/Characters/{characterCategory}_{characterName}.json");
         }
 
-        public CharacterInfo(string name, string portrait, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
+        public CharacterInfo(string name, string portrait, int team, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
         {
             this.name = name;
             this.portrait = portrait;
+            this.team = team;
             this.value = value;
             this.inventory = inventory;
             this.baseVariables = baseVariables;
             this.characterParts = characterParts;
         }
 
-        public CharacterInfo(string name, Sprite portrait, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
+        public CharacterInfo(string name, Sprite portrait, int team, int value, Inventory inventory, GameThingVariables baseVariables, List<CharacterPartThing.CharacterPartInfo> characterParts)
         {
             this.name = name;
             this.portrait = General.SpriteToString(portrait);
+            this.team = team;
             this.value = value;
             this.inventory = inventory;
             this.baseVariables = baseVariables;
@@ -145,6 +148,7 @@ public class CharacterThing : GameThing
             {
                 name = thingName,
                 portrait = General.SpriteToString(thingPortrait),
+                team = characterTeam,
                 value = thingValue,
                 inventory = inventory,
                 baseVariables = this.baseVariables,
@@ -156,6 +160,7 @@ public class CharacterThing : GameThing
         {
             thingName = value.name;
             thingPortrait = General.StringToSprite(value.portrait);
+            characterTeam = value.team;
 
             thingValue = value.value;
 
@@ -168,7 +173,7 @@ public class CharacterThing : GameThing
     }
 
     // Team that the character belongs to
-    public int team;
+    public int characterTeam;
 
     // The character's Attack Menu
     public AttackMenu attackMenu

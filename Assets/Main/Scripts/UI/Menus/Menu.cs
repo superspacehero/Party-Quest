@@ -58,6 +58,13 @@ public class Menu : MonoBehaviour
 
     #endregion
 
+    #region Fields
+
+    [FoldoutGroup("Fields")]
+    public bool disableOnDeselect = true;
+
+    #endregion
+
     #region Variables
 
     protected GameObject objectToSelect
@@ -304,6 +311,9 @@ public class Menu : MonoBehaviour
             return;
 
         onDeselect.Invoke();
+
+        if (disableOnDeselect)
+            gameObject.SetActive(false);
 
         if (canvasGroup)
             canvasGroup.interactable = false;

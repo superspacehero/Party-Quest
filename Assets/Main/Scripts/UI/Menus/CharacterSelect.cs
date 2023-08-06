@@ -202,6 +202,7 @@ public class CharacterSelect : UnsavedThing
                     newCharacterName.ToString(),
                     newCharacterSprite,
                     0,
+                    0,
                     null,
                     new GameThing.GameThingVariables(),
                     null

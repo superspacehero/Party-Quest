@@ -29,7 +29,7 @@ public class GameplayCamera : MonoBehaviour
         }
 
         public float cameraAdjustTime = 0.25f;
-        private Camera myCamera
+        public Camera myCamera
         {
             get
             {

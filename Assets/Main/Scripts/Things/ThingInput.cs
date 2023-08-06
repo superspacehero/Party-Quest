@@ -217,7 +217,7 @@ public class ThingInput : UnsavedThing
     private CharacterThing ChooseTarget(CharacterThing thing)
     {
         // Get all the enemies in the game
-        List<CharacterThing> enemies = GameManager.instance.level.characters.FindAll(t => t.team != thing.team);
+        List<CharacterThing> enemies = GameManager.instance.level.characters.FindAll(t => t.characterTeam != thing.characterTeam);
 
         // Sort the enemies by distance to the character
         enemies.Sort((a, b) => Vector3.Distance(thing.transform.position, a.transform.position).CompareTo(Vector3.Distance(thing.transform.position, b.transform.position)));

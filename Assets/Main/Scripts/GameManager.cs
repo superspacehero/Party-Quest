@@ -176,30 +176,36 @@ public class GameManager : MonoBehaviour
 
     #region Teams
 
-    public List<int> teams = new List<int>();
+    [SerializeField] private List<int> teams = new List<int>();
     public List<CharacterThing> charactersInCurrentTeam = new List<CharacterThing>();
-
     public int currentTeamIndex
     {
-        get => instance._currentTeam;
+        get => instance._currentTeamIndex;
         set
         {
             if (value >= teams.Count)
                 value = 0;
 
-            instance._currentTeam = value;
+            instance._currentTeamIndex = value;
 
             charactersInCurrentTeam.Clear();
             foreach (var character in instance.level.characters)
             {
-                if (character.team == instance._currentTeam)
+                if (!teams.Contains(character.characterTeam))
+                {
+                    teams.Add(character.characterTeam);
+                }
+
+                if (character.characterTeam == instance._currentTeamIndex)
+                {
                     charactersInCurrentTeam.Add(character);
+                }
             }
 
             instance.currentCharacterIndex = 0;
         }
     }
-    private int _currentTeam;
+    private int _currentTeamIndex;
 
     #endregion
 
@@ -397,7 +403,6 @@ public class GameManager : MonoBehaviour
                     });
 
                 character.characterInfo = player.character;
-                character.team = player.team;
 
                 // Add the character to the player's input
                 input.inventory.AddThing(character, true, null, false);

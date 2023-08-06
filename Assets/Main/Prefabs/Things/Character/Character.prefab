@@ -112,14 +112,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 2d010b00000069006e0074006500720061006300740069006f006e00
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
   thingPrefab: {fileID: 5061016846897795855}
   _thingName: Character
   properNoun: 0
@@ -143,7 +146,7 @@ MonoBehaviour:
   input: {fileID: 0}
   thingPortrait: {fileID: 0}
   characterPartList: {fileID: 11400000, guid: b777c992050d4479c9d968363883674a, type: 2}
-  team: 0
+  characterTeam: 0
   overrideStartingAction: {fileID: 0}
   characterParts: []
   parts: []
@@ -268,7 +271,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 0ec485b6a618d7a47ac4670d3610fe64, type: 2}
-  m_CullingMode: 0
+  m_CullingMode: 2
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0

@@ -184,7 +184,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 6
+  m_fontSize: 16
   m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -319,7 +319,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 12
+  m_fontSize: 32
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -653,8 +653,6 @@ MonoBehaviour:
   levelAuthorImage: {fileID: 1272610710900262391}
   _levelSelectable: {fileID: 0}
   levelIndex: 0
-  levelScene: Level
-  levelEditorScene: LevelEditor
 --- !u!225 &2843841472278103651
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -679,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deecda360feadaba8ab20e31096f8d72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  disableOnDeselect: 1
   _objectToSelect: {fileID: 3414784693683751774}
   menuGroup: 1
   previousOption: {fileID: 0}
@@ -688,19 +687,7 @@ MonoBehaviour:
       m_Calls: []
   onDeselect:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1272610710281906747}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   previousMenuOnCancel: 1
 --- !u!114 &4756271344966995845
 MonoBehaviour:
@@ -2295,7 +2282,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181212, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181215, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_RootOrder
@@ -2656,7 +2643,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181212, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181215, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_RootOrder
@@ -2840,7 +2827,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181212, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_fontSize
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4524701612898181215, guid: e1cf14c4d8279c775a93af36940a8b6b, type: 3}
       propertyPath: m_RootOrder

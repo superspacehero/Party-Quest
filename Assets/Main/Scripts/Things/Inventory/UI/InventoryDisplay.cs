@@ -52,13 +52,6 @@ public class InventoryDisplay : Menu
         PopulateThings();
     }
 
-    public override void Deselect()
-    {
-        base.Deselect();
-        
-        gameObject.SetActive(false);
-    }
-
     protected virtual void PopulateThings(List<GameThing> excludedThings = null)
     {
         inventory = inventory;
