@@ -9,7 +9,11 @@ public class ChooseAttackAction : ActionThing
 
         List<string> whitelistedActionCategories = new List<string>() { "Attack" };
         actionList.PopulateActionList(user.GetComponentsInChildren<ActionThing>(true), whitelistedActionCategories);
-        actionList.displayInventory = true;
+        
+        if (user is CharacterThing && (user as CharacterThing).input.isPlayer)
+            actionList.displayInventory = true;
+        else
+            GameManager.instance.emptyMenu.Select();
         
         gameObject.SetActive(true);
     }

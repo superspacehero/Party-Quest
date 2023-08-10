@@ -158,6 +158,10 @@ public class MoveAction : ActionThing
         Nodes.OccupyNode(currentNode, user);
         user.canOccupyCurrentNode = true;
 
+        // Set the user's room
+        GameManager.instance?.level.RemoveThing(user);
+        GameManager.instance?.level.AddThing(user);
+
         // Hide the counter
         if (Counter.instance)
             Counter.instance.count = 0;

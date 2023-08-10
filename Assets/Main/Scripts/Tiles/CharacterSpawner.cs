@@ -27,7 +27,6 @@ public class CharacterSpawner : GameThing
     {
         if (string.IsNullOrEmpty(characterInfo))
             return;
-        
 
         if (Instantiate(GameManager.instance?.characterPrefab, transform.position, Quaternion.identity).TryGetComponent(out CharacterThing character))
         {

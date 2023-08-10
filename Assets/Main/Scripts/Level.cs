@@ -49,55 +49,6 @@ public struct Level
         return false;
     }
 
-    public void AddThing(GameThing thing)
-    {
-        foreach (Room room in rooms)
-        {
-            if (room.Contains(thing.transform.position))
-            {
-                room.things.Add(thing);
-                return;
-            }
-        }
-
-        if (rooms.Count > 0)
-        {
-            rooms[0].things.Add(thing);
-            rooms[0].FitRoomToThings();
-        }
-        else
-        {
-            Room newRoom = new Room();
-            newRoom.min = new Vector3Int(Mathf.FloorToInt(thing.transform.position.x), Mathf.FloorToInt(thing.transform.position.y), Mathf.FloorToInt(thing.transform.position.z));
-            newRoom.max = new Vector3Int(Mathf.CeilToInt(thing.transform.position.x), Mathf.CeilToInt(thing.transform.position.y), Mathf.CeilToInt(thing.transform.position.z));
-            newRoom.things = new List<GameThing>();
-            newRoom.things.Add(thing);
-            rooms.Add(newRoom);
-        }
-
-        // Debug.Log($"Added {thing.thingName}.", thing);
-    }
-    public void RemoveThing(GameThing thing)
-    {
-        if (groundTiles == null)
-            return;
-
-        if (GetTile(thing, out SavedTile foundTile))
-        {
-            foundTile.tileThing = null;
-            return;
-        }
-
-        foreach (Room room in rooms)
-        {
-            if (room.Contains(thing, out GameThing foundThing))
-            {
-                room.things.Remove(foundThing);
-                return;
-            }
-        }
-    }
-
     [ReadOnly] public List<CharacterThing> characters;
     [ReadOnly] public List<CharacterSpawner> characterSpawners;
 
@@ -125,8 +76,6 @@ public struct Level
     }
 
     #endregion
-
-    public List<Room> rooms;
 
     // Convert the Level struct to a JSON string
     public string Serialize()
@@ -223,6 +172,81 @@ public struct Level
         return levels;
     }
 
+    #region Rooms
+
+    public List<Room> rooms;
+
+    public Room? GetRoom(Vector3 position)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(position))
+                return room;
+        }
+
+        return null;
+    }
+
+    public Room? GetRoom(GameThing thing)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing))
+                return room;
+        }
+
+        return null;
+    }
+
+    public void AddThing(GameThing thing)
+    {
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing.transform.position))
+            {
+                room.things.Add(thing);
+                return;
+            }
+        }
+
+        if (rooms.Count > 0)
+        {
+            rooms[0].things.Add(thing);
+            rooms[0].FitRoomToThings();
+        }
+        else
+        {
+            Room newRoom = new Room();
+            newRoom.min = new Vector3Int(Mathf.FloorToInt(thing.transform.position.x), Mathf.FloorToInt(thing.transform.position.y), Mathf.FloorToInt(thing.transform.position.z));
+            newRoom.max = new Vector3Int(Mathf.CeilToInt(thing.transform.position.x), Mathf.CeilToInt(thing.transform.position.y), Mathf.CeilToInt(thing.transform.position.z));
+            newRoom.things = new List<GameThing>();
+            newRoom.things.Add(thing);
+            rooms.Add(newRoom);
+        }
+
+        // Debug.Log($"Added {thing.thingName}.", thing);
+    }
+    public void RemoveThing(GameThing thing)
+    {
+        if (groundTiles == null)
+            return;
+
+        if (GetTile(thing, out SavedTile foundTile))
+        {
+            foundTile.tileThing = null;
+            return;
+        }
+
+        foreach (Room room in rooms)
+        {
+            if (room.Contains(thing, out GameThing foundThing))
+            {
+                room.things.Remove(foundThing);
+                return;
+            }
+        }
+    }
+
     [System.Serializable]
     public struct Room
     {
@@ -283,6 +307,17 @@ public struct Level
             return false;
         }
 
+        public bool Contains(GameThing thing)
+        {
+            foreach (GameThing thingInRoom in things)
+            {
+                if (thingInRoom == thing)
+                    return true;
+            }
+
+            return false;
+        }
+
         [Button]
         public void FitRoomToThings()
         {
@@ -310,6 +345,8 @@ public struct Level
             }
         }
     }
+
+    #endregion
 
     public Level(string newLevelName = "New Level")
     {

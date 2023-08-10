@@ -37,14 +37,17 @@ public class GameManager : MonoBehaviour
 
     public static GameMode gameMode = GameMode.Other;
 
-    public Menu touchControls;
+    public Menu touchControls, emptyMenu;
 
     public static void EnableTouchControls()
     {
         if (instance == null)
             return;
 
-        instance.touchControls.Select();
+        if (currentCharacter.input.isPlayer)
+            instance.touchControls.Select();
+        else
+            instance.emptyMenu.Select();
     }
 
     #endregion
@@ -156,6 +159,9 @@ public class GameManager : MonoBehaviour
     public static void AddCharacter(CharacterThing character)
     {
         instance?.level.characters.Add(character);
+
+        if (character.input == null)
+            instance?.AttachCPUPlayer(character);
     }
 
     public static void RemoveCharacter(CharacterThing character)
@@ -372,10 +378,17 @@ public class GameManager : MonoBehaviour
         }
 
         if (Instantiate(playerPrefab).TryGetComponent(out ThingInput input))
-        // if (playerInputManager.JoinPlayer(-1, -1, null, player.player).TryGetComponent(out ThingInput input))
         {
             // Set the player's input
-            ThingInput inputToUse = inputs.Find(x => x.playerInput != null && x.playerInput.devices.Count > 0 && x.playerInput.devices[0] == player.player);
+            ThingInput inputToUse;
+            if (player.player != null)
+            {
+                inputToUse = inputs.Find(x => x.playerInput != null && x.playerInput.devices.Count > 0 && x.playerInput.devices[0] == player.player);
+            }
+            else
+            {
+                inputToUse = cpuPlayerInput;
+            }
 
             if (inputToUse == null)
             {
@@ -383,24 +396,30 @@ public class GameManager : MonoBehaviour
                 inputToUse.playerInput.SwitchCurrentControlScheme(player.player);
             }
             else if (inputToUse != input)
+            {
                 Destroy(input.gameObject);
+            }
 
             // Create the character
             if (Instantiate(characterPrefab).TryGetComponent(out CharacterThing character))
             {
                 // Move the character
                 if (position != null)
-                    General.DelayedFunctionFrames(character, () =>
-                    {
+                {
+                    // General.DelayedFunctionFrames(character, () =>
+                    // {
                         character.position = (Vector3)(Nodes.instance.gridGraph.GetNearest(position.Value).node.position);
-                        Debug.Log("Spawned player at " + character.transform.position);
-                    });
+                    //     Debug.Log("Spawned player at " + character.transform.position);
+                    // });
+                }
                 else
-                    General.DelayedFunctionFrames(character, () =>
-                    {
+                {
+                    // General.DelayedFunctionFrames(character, () =>
+                    // {
                         character.position = playerSpawner.position;
-                        Debug.Log("Spawned player at " + character.transform.position);
-                    });
+                        // Debug.Log("Spawned player at " + character.transform.position);
+                    // });
+                }
 
                 character.characterInfo = player.character;
 
@@ -412,10 +431,24 @@ public class GameManager : MonoBehaviour
     }
 
     [SerializeField] private GameObject cpuPlayerPrefab;
-
-    public void SpawnCPUPlayer(int team)
+    private ThingInput cpuPlayerInput
     {
+        get
+        {
+            if (_cpuPlayerInput == null)
+            {
+                Instantiate(cpuPlayerPrefab).TryGetComponent(out _cpuPlayerInput);
+                // Debug.Log("Spawned CPU player");
+            }
+            return _cpuPlayerInput;
+        }
+    }
+    [SerializeField, ReadOnly] private ThingInput _cpuPlayerInput;
 
+    public void AttachCPUPlayer(CharacterThing character)
+    {
+        cpuPlayerInput.inventory.AddThing(character, true, null, false);
+        character.input = cpuPlayerInput;
     }
 
     public void SpawnPlayers()

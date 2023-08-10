@@ -39,10 +39,13 @@ public class Inventory : MonoBehaviour
 
             thing = thingToAdd;
 
-            thingToAdd.transform.parent = transform;
-            thingToAdd.transform.localPosition = Vector3.zero;
-            thingToAdd.transform.localRotation = Quaternion.identity;
-            thingToAdd.transform.localScale = Vector3.one;
+            if (transform != null)
+            {
+                thingToAdd.transform.parent = transform;
+                thingToAdd.transform.localPosition = Vector3.zero;
+                thingToAdd.transform.localRotation = Quaternion.identity;
+                thingToAdd.transform.localScale = Vector3.one;
+            }
 
             thingToAdd.gameObject.SetActive(!disableWhenInInventory);
         }

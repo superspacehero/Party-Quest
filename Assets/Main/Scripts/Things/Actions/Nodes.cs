@@ -285,4 +285,22 @@ public class Nodes : MonoBehaviour
         // Return the path
         return path.path;
     }
+
+    public static int GetNodeDistance(Vector3 startPosition, Vector3 endPosition)
+    {
+        // Get the path from the start node to the end node
+        ABPath path = ABPath.Construct(startPosition, endPosition);
+
+        // Calculate the path
+        AstarPath.StartPath(path);
+
+        // Wait for the path to be calculated
+        while (!path.IsDone())
+        {
+            // Do nothing
+        }
+
+        // Return the path
+        return (int)path.GetTotalLength();
+    }
 }

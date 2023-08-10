@@ -5,7 +5,7 @@ unity="/home/superspacehero/Applications/Unity/2021.3.16f1/Editor/Unity"
 scenepath="$(pwd)/Assets/Main/Scenes"
 defaultScene="Level.unity"
 github="flatpak run io.github.shiftey.Desktop"
-code="code-insiders"
+code="code"
 
 case "$first_letter" in
     "p")

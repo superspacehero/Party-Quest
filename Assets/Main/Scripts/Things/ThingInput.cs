@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Pathfinding;
@@ -48,7 +49,23 @@ public class ThingInput : UnsavedThing
                 foreach (Inventory.ThingSlot slot in inventory.thingSlots)
                 {
                     if (slot.thing && slot.thing is CharacterThing)
-                        _actionCoroutine = StartCoroutine(ActionCoroutine(slot.thing as CharacterThing));
+                    {
+                        CharacterThing character = slot.thing as CharacterThing;
+                        _actionCoroutine = StartCoroutine(ActionCoroutine(character));
+
+                        if (character == GameManager.currentCharacter)
+                        {
+                            character.movementController.canControl = 2;
+                            character.movementController.canMove = true;
+                            character.movementController.canJump = true;
+                        }
+                        else
+                        {
+                            character.movementController.canControl = 0;
+                            character.movementController.canMove = false;
+                            character.movementController.canJump = false;
+                        }
+                    }
                 }
 
             }
@@ -58,6 +75,17 @@ public class ThingInput : UnsavedThing
                 {
                     StopCoroutine(_actionCoroutine);
                     _actionCoroutine = null;
+
+                    foreach (Inventory.ThingSlot slot in inventory.thingSlots)
+                    {
+                        if (slot.thing && slot.thing is CharacterThing)
+                        {
+                            CharacterThing character = slot.thing as CharacterThing;
+                            character.movementController.canControl = 0;
+                            character.movementController.canMove = false;
+                            character.movementController.canJump = false;
+                        }
+                    }
                 }
             }
         }
@@ -79,6 +107,8 @@ public class ThingInput : UnsavedThing
 
     private IEnumerator ActionCoroutine(CharacterThing thing)
     {
+        GameManager.instance?.emptyMenu?.Select();
+
         AIState currentState = AIState.Idling;
         AIState nextState = AIState.ChoosingAction;
 
@@ -88,6 +118,76 @@ public class ThingInput : UnsavedThing
 
         _currentTargetIndex = 0;
         List<GraphNode> path = new List<GraphNode>();
+
+        // Get the movement range
+        int numberOfDiceRolls = thing.variables.GetVariable("movement");
+        int movementRange = 0;
+
+        for (int i = 0; i < numberOfDiceRolls; i++)
+        {
+            // Get random number between 1 and 6
+            int currentDiceValue = Random.Range(1, 7);
+
+            movementRange += currentDiceValue; // Add the current dice value to the sum of dice rolls
+        }
+
+        // Get the targets in the room and nearby
+        Level.Room? myRoom = GameManager.instance?.level.GetRoom(thing);
+        if (myRoom != null)
+        {
+            if (_targets == null)
+                _targets = new List<GameThing>();
+            else
+                _targets.Clear();
+
+            // Get all the things in the room
+            List<GameThing> thingsInRoom = new List<GameThing>();
+            foreach (GameThing thingInRoom in myRoom.Value.things)
+            {
+                if (thingInRoom != null && thingInRoom != thing)
+                    thingsInRoom.Add(thingInRoom);
+            }
+
+            // Get the distance of each thing in the room to the character
+            if (thingsInRoom.Count > 0)
+            {
+                // Sort the things by node distance to the character
+                thingsInRoom = thingsInRoom
+                    .Select(thingInRoom => (thingInRoom, distance: Nodes.GetNodeDistance(thing.transform.position, thingInRoom.transform.position)))
+                    .Where(tuple => tuple.distance <= movementRange)
+                    .OrderBy(tuple => tuple.distance)
+                    .ThenBy(tuple => tuple.thingInRoom is CharacterThing) // Move CharacterThings to the end of the list
+                    .Select(tuple => tuple.thingInRoom)
+                    .ToList();
+            }
+
+            foreach (GameThing thingInRoom in thingsInRoom)
+            {
+                // Check if the thing is an item
+                switch (thingInRoom.GetType().Name)
+                {
+                    case "ItemThing":
+                        // Check if the item is a healing item
+                        if (thingInRoom.variables.GetVariable("health") > 0)
+                        {
+                            // Add the item to our list of targets
+                            _targets.Add(thingInRoom);
+                        }
+                        break;
+
+                    case "CharacterThing":
+                        // Check if the character is an enemy
+                        if ((thingInRoom as CharacterThing).characterTeam != thing.characterTeam)
+                        {
+                            // Add the character to our list of targets
+                            _targets.Add(thingInRoom);
+                        }
+                        break;
+                }
+            }
+
+            Debug.Log($"Found {_targets.Count} targets");
+        }
 
         while (_canControl)
         {
@@ -113,19 +213,22 @@ public class ThingInput : UnsavedThing
                     if (!attemptedHealing && (float)thing.variables.GetVariable("health") / (float)thing.variables.GetVariable("maxHealth") < 0.5f)
                     {
                         // We're low on health, try to heal
-                        currentState = AIState.Healing;
+                        nextState = AIState.Healing;
                     }
                     else if (_targets.Count > 0)
                     {
                         // We have targets, move to them
-                        currentState = AIState.Moving;
-                        path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
+                        GetPathToCurrentTarget(thing, out path);
+
+                        nextState = AIState.Moving;
                     }
                     else
                     {
                         // We have no targets, end our turn
-                        currentState = AIState.EndingTurn;
+                        nextState = AIState.EndingTurn;
                     }
+
+                    currentState = nextState;
                     break;
 
                 case AIState.Healing:
@@ -184,7 +287,7 @@ public class ThingInput : UnsavedThing
                             _currentTargetIndex++;
 
                             if (_currentTargetIndex < _targets.Count)
-                                path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
+                                GetPathToCurrentTarget(thing, out path);
                         }
                     }
                     else
@@ -214,25 +317,9 @@ public class ThingInput : UnsavedThing
         GameManager.NextCharacter();
     }
 
-    private CharacterThing ChooseTarget(CharacterThing thing)
+    private void GetPathToCurrentTarget(CharacterThing thing, out List<GraphNode> path)
     {
-        // Get all the enemies in the game
-        List<CharacterThing> enemies = GameManager.instance.level.characters.FindAll(t => t.characterTeam != thing.characterTeam);
-
-        // Sort the enemies by distance to the character
-        enemies.Sort((a, b) => Vector3.Distance(thing.transform.position, a.transform.position).CompareTo(Vector3.Distance(thing.transform.position, b.transform.position)));
-
-        // Choose the closest enemy that is within range
-        foreach (CharacterThing enemy in enemies)
-        {
-            if (Vector3.Distance(thing.transform.position, enemy.transform.position) <= thing.variables.GetVariable("attackRange"))
-            {
-                return enemy;
-            }
-        }
-
-        // No enemies are within range
-        return null;
+        path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position);
     }
 
     public void SetTargets(List<GameThing> targets, CharacterThing endTarget)
