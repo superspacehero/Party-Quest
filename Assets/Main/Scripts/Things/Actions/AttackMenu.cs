@@ -6,8 +6,6 @@ public class AttackMenu : Menu
 {
     public ThingDisplay upAttack, downAttack, leftAttack, rightAttack;
 
-    public AttackSequenceThing attackSequence;
-
     public AttackAction attackAction
     {
         get => _attackAction;
@@ -38,11 +36,8 @@ public class AttackMenu : Menu
         if (attack != null)
             this.attackAction = attack;
 
-        if (active)
-        {
+        if (active && attackAction != null && attackAction.user is CharacterThing && (attackAction.user as CharacterThing).input.isPlayer)
             Select();
-            transform.rotation = Quaternion.identity;
-        }
         else
             Deselect();
     }
@@ -75,6 +70,28 @@ public class AttackMenu : Menu
         }
 
         // Debug.Log("Attack: " + attack);
+    }
+
+    public void PickAttack(AttackSequenceThing attackSequence, out AttackSequenceThing attackSequenceOut)
+    {
+        attackSequenceOut = null;
+        
+        ThingDisplay attackDisplay = null;
+
+        if (attackSequence == upAttack.thing)
+            attackDisplay = upAttack;
+        else if (attackSequence == downAttack.thing)
+            attackDisplay = downAttack;
+        else if (attackSequence == leftAttack.thing)
+            attackDisplay = leftAttack;
+        else if (attackSequence == rightAttack.thing)
+            attackDisplay = rightAttack;
+
+        if (attackDisplay != null)
+        {
+            attackSequenceOut = attackDisplay.thing as AttackSequenceThing;
+            attackDisplay.Select();
+        }
     }
 
     public void PickAttack(GameThing thing)

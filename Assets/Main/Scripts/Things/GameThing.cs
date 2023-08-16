@@ -34,6 +34,8 @@ public class GameThing : SerializedMonoBehaviour
 
         if (variables.GetVariable("health") > 0 && variables.GetVariable("maxHealth") <= 0)
             variables.SetVariable("maxHealth", variables.GetVariable("health"));
+
+        OccupyCurrentNode();
     }
 
     /// <summary>
@@ -121,7 +123,7 @@ public class GameThing : SerializedMonoBehaviour
     public void OccupyCurrentNode()
     {
         canOccupyCurrentNode = true;
-        Nodes.OccupyNode(currentNode, this);
+        Nodes.OccupyNode(position, this);
     }
 
     public virtual Vector3 position

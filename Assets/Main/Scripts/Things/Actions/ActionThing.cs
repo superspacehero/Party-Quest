@@ -25,7 +25,7 @@ public class ActionThing : UnsavedThing
         get => "Action";
     }
 
-    protected GameThing user;
+    public GameThing user { get; protected set; }
 
     // The current node the character is on
     public override Pathfinding.GraphNode currentNode { get => user.currentNode; set => user.currentNode = value; }

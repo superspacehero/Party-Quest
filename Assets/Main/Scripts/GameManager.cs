@@ -224,7 +224,7 @@ public class GameManager : MonoBehaviour
     public static void NextCharacter()
     {
         SetAllPlayersCanControl(false);
-        General.DelayedFunctionSeconds(instance, () => SetNextCharacter(true), delaySeconds: instance.changeCharacterDelay);
+        SetNextCharacter(true);
     }
 
     public static void SetAllPlayersCanControl(bool canControl)

@@ -204,7 +204,7 @@ public class Nodes : MonoBehaviour
     {
         if (node != null)
         {
-            node.Tag = 1;
+            node.Walkable = false;
 
             if (TilemapManager.instance == null || TilemapManager.instance.tilemap == null)
                 return;
@@ -215,16 +215,20 @@ public class Nodes : MonoBehaviour
 
     public static void OccupyNode(Vector3 position, GameThing thing)
     {
-
         if (AstarPath.active != null)
-            OccupyNode(instance.gridGraph.GetNearest(position).node, thing);
+        {
+            GraphNode node = instance.gridGraph.GetNearest(position).node;
+
+            if (node != null)
+                OccupyNode(node, thing);
+        }
     }
 
     public static void UnoccupyNode(GraphNode node)
     {
         if (node != null)
         {
-            node.Tag = 0;
+            node.Walkable = true;
 
             if (TilemapManager.instance == null || TilemapManager.instance.tilemap == null)
                 return;
@@ -236,12 +240,17 @@ public class Nodes : MonoBehaviour
     public static void UnoccupyNode(Vector3 position)
     {
         if (AstarPath.active != null)
-            UnoccupyNode(instance.gridGraph.GetNearest(position).node);
+        {
+            GraphNode node = instance.gridGraph.GetNearest(position).node;
+
+            if (node != null)
+                UnoccupyNode(node);
+        }
     }
 
     public static bool CheckNodeOccupied(GraphNode node)
     {
-        return node.Tag == 1;
+        return !node.Walkable;
     }
 
     public static bool CheckNodeOccupied(Vector3 position, out CharacterThing outCharacter)
@@ -252,7 +261,7 @@ public class Nodes : MonoBehaviour
         {
             GraphNode node = instance.gridGraph.GetNearest(position).node;
 
-            if (node.Tag == 1)
+            if (!node.Walkable)
             {
                 foreach (CharacterThing character in GameManager.instance.level.characters)
                 {
@@ -268,7 +277,7 @@ public class Nodes : MonoBehaviour
         return false;
     }
 
-    public static List<GraphNode> GetPathToNode(Vector3 startPosition, Vector3 endPosition)
+    public static List<GraphNode> GetPathToNode(Vector3 startPosition, Vector3 endPosition, int maxDistance = 0)
     {
         // Get the path from the start node to the end node
         ABPath path = ABPath.Construct(startPosition, endPosition);
@@ -280,6 +289,13 @@ public class Nodes : MonoBehaviour
         while (!path.IsDone())
         {
             // Do nothing
+        }
+
+        // If a max distance is provided, check if the path is within the max distance
+        // If not, trim the path to the max distance
+        if (maxDistance > 0 && path.GetTotalLength() > maxDistance)
+        {
+            path.path.RemoveRange(maxDistance, path.path.Count - maxDistance);
         }
 
         // Return the path

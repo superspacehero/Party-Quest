@@ -65,7 +65,7 @@ public class AttackAction : ActionThing
         }
     }
 
-    private AttackMenu attackMenu
+    public AttackMenu attackMenu
     {
         get
         {
@@ -80,7 +80,7 @@ public class AttackAction : ActionThing
     }
     private AttackMenu _attackMenu;
 
-    private enum AttackState
+    public enum AttackState
     {
         None,
         PickingAttack,
@@ -89,7 +89,7 @@ public class AttackAction : ActionThing
     }
     private List<Pathfinding.GraphNode> _reachableNodes;
 
-    private AttackState attackState
+    public AttackState attackState
     {
         get => _attackState;
         set
@@ -101,7 +101,10 @@ public class AttackAction : ActionThing
             if (_attackState == AttackState.PickingTarget)
                 Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
             else
+            {
                 Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
+                Nodes.instance?.HideNodes();
+            }
 
             switch (_attackState)
             {
@@ -110,15 +113,17 @@ public class AttackAction : ActionThing
                     break;
                 case AttackState.PickingAttack:
                     targetPosition = user.transform.position;
-                    Nodes.instance.HideNodes();
                     break;
                 case AttackState.PickingTarget:
                     if (Nodes.instance != null)
                     {
                         _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attackSequence.range, Vector2.one * attackSequence.range);
 
-                        Nodes.instance.DisplayNodes(_reachableNodes);
-                        Nodes.instance.ColorNodeObjects(_reachableNodes);
+                        if (user is CharacterThing && (user as CharacterThing).input.isPlayer)
+                        {
+                            Nodes.instance.DisplayNodes(_reachableNodes);
+                            Nodes.instance.ColorNodeObjects(_reachableNodes);
+                        }
                     }
                     break;
                 case AttackState.Attacking:
@@ -134,9 +139,6 @@ public class AttackAction : ActionThing
                             _attackState = AttackState.PickingTarget;
                             return;
                         }
-
-                        if (_attackState == AttackState.Attacking)
-                            Nodes.instance?.HideNodes();
 
                         attackSequence.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
                     }
@@ -186,7 +188,7 @@ public class AttackAction : ActionThing
                 PickAttack(direction);
                 break;
             case AttackState.PickingTarget:
-                PickTarget(direction);
+                PickTarget(direction: direction);
                 break;
             case AttackState.Attacking:
                 if (attackSequence != null)
@@ -197,7 +199,7 @@ public class AttackAction : ActionThing
 
     public AttackSequenceThing attackSequence;
 
-    private void PickAttack(Vector2 direction)
+    public void PickAttack(Vector2 direction)
     {
         if (direction.magnitude > selectionMagnitude)
         {
@@ -207,7 +209,7 @@ public class AttackAction : ActionThing
 
     public void PickAttack(AttackSequenceThing attack)
     {
-        attackSequence = attack;
+        attackMenu.PickAttack(attack, out attackSequence);
     }
 
     private Vector3 targetPosition;
@@ -247,6 +249,11 @@ public class AttackAction : ActionThing
                 }
             }
         }
+    }
+
+    public void PickTarget(Vector3 position)
+    {
+        targetPosition = position;
     }
 
     private void OnAttackSequenceFinished(bool allStepsSuccessful)
