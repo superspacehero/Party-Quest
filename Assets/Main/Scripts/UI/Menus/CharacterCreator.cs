@@ -91,7 +91,7 @@ public class CharacterCreator : GameThing
 
     #region Methods
 
-    private void Start()
+    protected override void Start()
     {
         // Step 1: Categorize the character parts
         CategorizeCharacterParts();

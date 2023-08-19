@@ -104,7 +104,7 @@ public class Nodes : MonoBehaviour
         {
             foreach (var node in instance.gridGraph.nodes)
             {
-                if (node.Walkable &&
+                if (!CheckNodeOccupied(node) &&
                     node.position.y <= maxHeightLimits.y &&
                     node.position.y >= position.y - maxHeightLimits.x)
                 {
@@ -204,12 +204,15 @@ public class Nodes : MonoBehaviour
     {
         if (node != null)
         {
-            node.Walkable = false;
+            node.Tag = 1;
 
-            if (TilemapManager.instance == null || TilemapManager.instance.tilemap == null)
+            if (GameManager.instance == null)
                 return;
 
-            LevelTile tile = TilemapManager.instance?.tilemap.GetTile<LevelTile>(TilemapManager.instance.tilemap.WorldToCell((Vector3)node.position));
+            if (GameManager.instance.level.GetTile((Vector3)node.position, true, out SavedTile tile))
+            {
+                tile.tileThing = thing;
+            }
         }
     }
 
@@ -228,12 +231,15 @@ public class Nodes : MonoBehaviour
     {
         if (node != null)
         {
-            node.Walkable = true;
+            node.Tag = 0;
 
-            if (TilemapManager.instance == null || TilemapManager.instance.tilemap == null)
+            if (GameManager.instance == null)
                 return;
 
-            LevelTile tile = TilemapManager.instance?.tilemap.GetTile<LevelTile>(TilemapManager.instance.tilemap.WorldToCell((Vector3)node.position));
+            if (GameManager.instance.level.GetTile((Vector3)node.position, true, out SavedTile tile))
+            {
+                tile.tileThing = null;
+            }
         }
     }
 
@@ -250,7 +256,7 @@ public class Nodes : MonoBehaviour
 
     public static bool CheckNodeOccupied(GraphNode node)
     {
-        return !node.Walkable;
+        return node.Tag == 1;
     }
 
     public static bool CheckNodeOccupied(Vector3 position, out CharacterThing outCharacter)
@@ -261,7 +267,7 @@ public class Nodes : MonoBehaviour
         {
             GraphNode node = instance.gridGraph.GetNearest(position).node;
 
-            if (!node.Walkable)
+            if (node != null && CheckNodeOccupied(node))
             {
                 foreach (CharacterThing character in GameManager.instance.level.characters)
                 {
@@ -281,6 +287,9 @@ public class Nodes : MonoBehaviour
     {
         // Get the path from the start node to the end node
         ABPath path = ABPath.Construct(startPosition, endPosition);
+
+        path.tagPenalties = new int[32];
+        path.tagPenalties[1] = 1000;
 
         // Calculate the path
         AstarPath.StartPath(path);

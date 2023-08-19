@@ -221,13 +221,29 @@ public class Inventory : MonoBehaviour
             if (_inventoryDisplay == null)
             {
                 Transform parent = transform.parent;
-                while (parent.parent != null)
+
+                if (parent == null)
+                    parent = transform;
+                else
                 {
-                    parent = parent.parent;
+                    while (parent.parent != null)
+                    {
+                        parent = parent.parent;
+                    }
                 }
 
                 if (parent != null)
-                    _inventoryDisplay = parent.GetComponentsInChildren<InventoryDisplay>(true)[0];
+                {
+                    foreach (var display in parent.GetComponentsInChildren<InventoryDisplay>(true))
+                    {
+                        if (display is InventoryDisplay)
+                        {
+                            _inventoryDisplay = display;
+                            break;
+                        }
+                    }
+
+                }
             }
             return _inventoryDisplay;
         }
@@ -245,6 +261,8 @@ public class Inventory : MonoBehaviour
                     inventoryDisplay.Select();
                 else
                     inventoryDisplay.Deselect();
+
+                Debug.Log("Displaying inventory: " + _displayInventory, inventoryDisplay);
             }
             else
                 Debug.LogWarning("No InventoryDisplay found on " + gameObject.name, this);

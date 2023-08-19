@@ -34,8 +34,11 @@ public class GameThing : SerializedMonoBehaviour
 
         if (variables.GetVariable("health") > 0 && variables.GetVariable("maxHealth") <= 0)
             variables.SetVariable("maxHealth", variables.GetVariable("health"));
+    }
 
-        OccupyCurrentNode();
+    // Start is called before the first frame update
+    protected virtual void Start()
+    {
     }
 
     /// <summary>
@@ -107,12 +110,12 @@ public class GameThing : SerializedMonoBehaviour
 
         set
         {
-            if (canOccupyCurrentNode)
+            if (_currentNode != null)
                 Nodes.UnoccupyNode(_currentNode);
 
             _currentNode = value;
 
-            if (canOccupyCurrentNode)
+            if (_currentNode != null)
                 Nodes.OccupyNode(_currentNode, this);
         }
     }
@@ -122,8 +125,12 @@ public class GameThing : SerializedMonoBehaviour
 
     public void OccupyCurrentNode()
     {
-        canOccupyCurrentNode = true;
-        Nodes.OccupyNode(position, this);
+        currentNode = AstarPath.active.GetNearest(position).node;
+    }
+
+    public void UnoccupyCurrentNode()
+    {
+        currentNode = null;
     }
 
     public virtual Vector3 position

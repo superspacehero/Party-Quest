@@ -98,11 +98,11 @@ public class AttackAction : ActionThing
 
             attackMenu.SetActive(_attackState == AttackState.PickingAttack, this);
 
-            if (_attackState == AttackState.PickingTarget)
-                Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
-            else
+            if (_attackState != AttackState.PickingTarget)
+                // Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
+            // else
             {
-                Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
+                // Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
                 Nodes.instance?.HideNodes();
             }
 

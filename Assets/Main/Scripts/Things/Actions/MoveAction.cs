@@ -75,8 +75,7 @@ public class MoveAction : ActionThing
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         position = user.transform.position;
-        Nodes.UnoccupyNode(currentNode);
-        user.canOccupyCurrentNode = false;
+        user.UnoccupyCurrentNode();
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, maxHeightLimits: new Vector2(jumpHeight, -1));
 
         // Display the valid grid spaces
@@ -155,8 +154,7 @@ public class MoveAction : ActionThing
         user.transform.position = position;
 
         // Occupy the node
-        Nodes.OccupyNode(currentNode, user);
-        user.canOccupyCurrentNode = true;
+        user.OccupyCurrentNode();
 
         // Set the user's room
         GameManager.instance?.level.RemoveThing(user);

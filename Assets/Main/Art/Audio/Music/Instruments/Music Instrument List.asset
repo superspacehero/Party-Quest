@@ -14,86 +14,166 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instruments:
   - name: Piano
-    sample: {fileID: 8300000, guid: 423d2c55036d0387bac60b70729b56d8, type: 3}
-    originalKey:
-      note: 1
-      octave: 4
+    samples:
+    - clip: {fileID: 8300000, guid: dcb66592009668700a0f18833b6737bd, type: 3}
+      startNote:
+        note: 1
+        octave: 1
+    - clip: {fileID: 8300000, guid: 31661e14649cb1575b13a224de11ca20, type: 3}
+      startNote:
+        note: 1
+        octave: 2
+    - clip: {fileID: 8300000, guid: 55e37384cef9dc3e9bfbb70f26bfa329, type: 3}
+      startNote:
+        note: 1
+        octave: 3
+    - clip: {fileID: 8300000, guid: 423d2c55036d0387bac60b70729b56d8, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    - clip: {fileID: 8300000, guid: 6eabe03649b73bcec859a11c6278eb48, type: 3}
+      startNote:
+        note: 1
+        octave: 5
+    - clip: {fileID: 8300000, guid: dd4c1729cd26965e88d3ac0f0831d308, type: 3}
+      startNote:
+        note: 1
+        octave: 6
+    releaseRatio: 0.25
     loop: 0
   - name: Celeste
-    sample: {fileID: 8300000, guid: 20f8005a4f0fd29dc875dfefa48971f5, type: 3}
-    originalKey:
-      note: 1
-      octave: 4
+    samples:
+    - clip: {fileID: 8300000, guid: 20f8005a4f0fd29dc875dfefa48971f5, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.25
     loop: 0
   - name: Harp
-    sample: {fileID: 8300000, guid: 5347ecef84192d849aae38c5b7cf5bfb, type: 3}
-    originalKey:
-      note: 1
-      octave: 4
+    samples:
+    - clip: {fileID: 8300000, guid: 5347ecef84192d849aae38c5b7cf5bfb, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.25
     loop: 0
   - name: Nylon Guitar
-    sample: {fileID: 8300000, guid: 14093c852ada6a82ba39e3a7811e8ec7, type: 3}
-    originalKey:
-      note: 1
-      octave: 4
+    samples:
+    - clip: {fileID: 8300000, guid: 14093c852ada6a82ba39e3a7811e8ec7, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.5
     loop: 0
   - name: Piccolo
-    sample: {fileID: 8300000, guid: 468575237b7d3dee6a8b04da15fd60db, type: 3}
-    originalKey:
-      note: 1
-      octave: 6
+    samples:
+    - clip: {fileID: 8300000, guid: 468575237b7d3dee6a8b04da15fd60db, type: 3}
+      startNote:
+        note: 1
+        octave: 6
+    releaseRatio: 0.5
     loop: 0
   - name: Clarinet
-    sample: {fileID: 8300000, guid: eb9234237b4d62be292b4b7e5d031911, type: 3}
-    originalKey:
-      note: 1
-      octave: 5
-    loop: 0
-  - name: Violin
-    sample: {fileID: 8300000, guid: dc4fb2a7b15cf521190628f47a2cf417, type: 3}
-    originalKey:
-      note: 1
-      octave: 5
+    samples:
+    - clip: {fileID: 8300000, guid: eb9234237b4d62be292b4b7e5d031911, type: 3}
+      startNote:
+        note: 1
+        octave: 5
+    releaseRatio: 0.5
     loop: 0
   - name: Glockenspiel
-    sample: {fileID: 8300000, guid: cedf23737f103fcb8baf41b51cea7c95, type: 3}
-    originalKey:
-      note: 1
-      octave: 5
+    samples:
+    - clip: {fileID: 8300000, guid: cedf23737f103fcb8baf41b51cea7c95, type: 3}
+      startNote:
+        note: 1
+        octave: 6
+    releaseRatio: 0.5
+    loop: 0
+  - name: Trumpet
+    samples:
+    - clip: {fileID: 8300000, guid: 12b3560918d461445b855c202761b5dc, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.5
     loop: 0
   - name: Tuba
-    sample: {fileID: 8300000, guid: bc08e547481b2d28b9358faa078250fb, type: 3}
-    originalKey:
-      note: 1
-      octave: 2
+    samples:
+    - clip: {fileID: 8300000, guid: bc08e547481b2d28b9358faa078250fb, type: 3}
+      startNote:
+        note: 1
+        octave: 2
+    releaseRatio: 0.5
     loop: 0
   - name: Tenor Trombone
-    sample: {fileID: 8300000, guid: 487bc31cf4b8f5530b6dc6e35c60d1bc, type: 3}
-    originalKey:
-      note: 1
-      octave: 3
+    samples:
+    - clip: {fileID: 8300000, guid: 487bc31cf4b8f5530b6dc6e35c60d1bc, type: 3}
+      startNote:
+        note: 1
+        octave: 3
+    releaseRatio: 0.5
     loop: 0
   - name: Bass Trombone
-    sample: {fileID: 8300000, guid: 4acb98fd0de8356159386f076d27d292, type: 3}
-    originalKey:
-      note: 1
-      octave: 2
+    samples:
+    - clip: {fileID: 8300000, guid: 4acb98fd0de8356159386f076d27d292, type: 3}
+      startNote:
+        note: 1
+        octave: 2
+    releaseRatio: 0.5
     loop: 0
   - name: Marimba
-    sample: {fileID: 8300000, guid: bc783dbbf6bbc713eb87655f0cf1fa7b, type: 3}
-    originalKey:
-      note: 1
-      octave: 4
+    samples:
+    - clip: {fileID: 8300000, guid: bc783dbbf6bbc713eb87655f0cf1fa7b, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.5
     loop: 0
   - name: Xylophone
-    sample: {fileID: 8300000, guid: 38fbddf3d6774982faf9a9044e97a46d, type: 3}
-    originalKey:
-      note: 1
-      octave: 5
+    samples:
+    - clip: {fileID: 8300000, guid: 38fbddf3d6774982faf9a9044e97a46d, type: 3}
+      startNote:
+        note: 1
+        octave: 5
+    releaseRatio: 0.5
     loop: 0
   - name: Violin
-    sample: {fileID: 8300000, guid: dc4fb2a7b15cf521190628f47a2cf417, type: 3}
-    originalKey:
-      note: 1
-      octave: 5
+    samples:
+    - clip: {fileID: 8300000, guid: dc4fb2a7b15cf521190628f47a2cf417, type: 3}
+      startNote:
+        note: 1
+        octave: 5
+    releaseRatio: 0.5
     loop: 0
+  - name: Birds
+    samples:
+    - clip: {fileID: 8300000, guid: 461a33c178a5677c2877a08224327891, type: 3}
+      startNote:
+        note: 1
+        octave: 1
+    - clip: {fileID: 8300000, guid: a58b39c230e7e68ad8ec7e1dced83dda, type: 3}
+      startNote:
+        note: 1
+        octave: 2
+    - clip: {fileID: 8300000, guid: 552e37d64e11cb05cb22b0ea838aa3fb, type: 3}
+      startNote:
+        note: 1
+        octave: 3
+    - clip: {fileID: 8300000, guid: 3e099bc1d4eb803acab78070060cfe16, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    - clip: {fileID: 8300000, guid: 63a7101bd804d1759948c83180aaf7c0, type: 3}
+      startNote:
+        note: 1
+        octave: 5
+    releaseRatio: 0.5
+    loop: 0
+  - name: Square Wave
+    samples:
+    - clip: {fileID: 8300000, guid: 5e898db0628e0e48689e2ab3bed725ed, type: 3}
+      startNote:
+        note: 1
+        octave: 4
+    releaseRatio: 0.5
+    loop: 1

@@ -182,7 +182,12 @@ public class CharacterSelect : UnsavedThing
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
-    public IEnumerator Start()
+    protected override void Start()
+    {
+        StartCoroutine(Initialize());
+    }
+
+    private IEnumerator Initialize()
     {
         if (!charactersLoaded)
         {

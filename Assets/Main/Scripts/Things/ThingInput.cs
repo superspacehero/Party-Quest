@@ -124,6 +124,8 @@ public class ThingInput : UnsavedThing
         int numberOfDiceRolls = thing.variables.GetVariable("movement");
         int movementRange = 0;
 
+        thing.UnoccupyCurrentNode();
+
         for (int i = 0; i < numberOfDiceRolls; i++)
         {
             // Get random number between 1 and 6
@@ -442,6 +444,8 @@ public class ThingInput : UnsavedThing
             yield return null;
         }
 
+        thing.OccupyCurrentNode();
+
         // Go to the next character
         GameManager.NextCharacter();
     }
@@ -449,6 +453,7 @@ public class ThingInput : UnsavedThing
     private void GetPathToCurrentTarget(CharacterThing thing, out List<GraphNode> path, int maxDistance = 0)
     {
         path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position, maxDistance);
+        Nodes.instance.DisplayNodes(path);
     }
 
     #endregion

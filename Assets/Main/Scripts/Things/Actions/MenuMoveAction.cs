@@ -34,8 +34,7 @@ public class MenuMoveAction : ActionThing
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         position = user.transform.position;
-        Nodes.UnoccupyNode(currentNode);
-        user.canOccupyCurrentNode = false;
+        user.UnoccupyCurrentNode();
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, -Vector2.one);
 
         // The previous position of the user
@@ -89,8 +88,7 @@ public class MenuMoveAction : ActionThing
         user.transform.position = position;
 
         // Occupy the node
-        Nodes.OccupyNode(currentNode, user);
-        user.canOccupyCurrentNode = true;
+        user.OccupyCurrentNode();
 
         // The action is no longer running
         EndAction();

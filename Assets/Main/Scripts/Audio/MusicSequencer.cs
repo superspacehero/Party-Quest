@@ -21,7 +21,7 @@ public class MusicSequencer : MonoBehaviour
     void Start()
     {
         // Start playing the notes in the tracks
-        StartCoroutine(PlayNotes());
+        Play();
     }
 
     // A class representing the data in the JSON file
@@ -46,8 +46,10 @@ public class MusicSequencer : MonoBehaviour
     [System.Serializable]
     public class Note
     {
-        [PropertyRange(1, 12)] public int note;
+        [PropertyRange(-1, 12)] public int note;
         public int octave;
+
+        public int[] chordNotes = new int[2] { 0, 0 };
 
         public Note(int note, int? octave)
         {
@@ -63,6 +65,8 @@ public class MusicSequencer : MonoBehaviour
             {
                 switch (note)
                 {
+                    case -1: return "Rest";
+                    case 0: return "Hold";
                     case 1: return "C";
                     case 2: return "C#";
                     case 3: return "D";
@@ -91,9 +95,13 @@ public class MusicSequencer : MonoBehaviour
         // The track's instrument
         public MusicInstrument instrument;
 
+        // The coroutine for fading out the track
+        [System.NonSerialized]
+        public Coroutine fadeOutCoroutine;
+
         // The track's audio source
         [System.NonSerialized]
-        public AudioSource audioSource;
+        public AudioSource[] audioSources = new AudioSource[3];
 
         // The string containing the notes in the track
         public string noteString;
@@ -105,7 +113,7 @@ public class MusicSequencer : MonoBehaviour
         public Track()
         {
             instrument = new MusicInstrument();
-            audioSource = null;
+            audioSources = null;
             noteString = "";
             notes = new List<Note>();
         }
@@ -122,10 +130,10 @@ public class MusicSequencer : MonoBehaviour
         jsonSong = jsonString;
         songData = JsonUtility.FromJson<SongData>(jsonString);
 
-        // Remove the existing audio sources
+        // Remove the existing audio sources that are not in the tracks
         DestroyAudioSources();
 
-        // Create an audio source for each track
+        // Create or reuse an audio source for each track
         foreach (Track track in songData.tracks)
         {
             // Initialize the dictionary
@@ -135,50 +143,110 @@ public class MusicSequencer : MonoBehaviour
             track.instrument = instruments.GetInstrument(track.instrument.name);
 
             // Parse the notes and calculate their pitches
-            for (int i = 0; i < track.noteString.Length; i++)
+            ParseNotes(track);
+
+            // Reuse or create a new audio source component
+            if (track.audioSources == null)
+                track.audioSources = new AudioSource[3];
+
+            // Create a GameObject to hold the audio source components
+            if (track.audioSources[0] == null)
             {
-                // Get the current note
-                Note note = new Note(0, null);
+                GameObject audioSourceObject = new GameObject(track.instrument.name + " Audio Source");
+                audioSourceObject.transform.SetParent(transform);
+                audioSourceObject.transform.localPosition = Vector3.zero;
+                audioSourceObject.transform.localRotation = Quaternion.identity;
+                audioSourceObject.transform.localScale = Vector3.one;
 
-                // Calculate the pitch of the note if it is not a space or dash
-                if (track.noteString[i] != ' ' && track.noteString[i] != '-' && track.noteString[i] != '.')
+                for (int i = 0; i < track.audioSources.Length; i++)
                 {
-                    note.note = System.Convert.ToInt32(track.noteString[i].ToString(), 16);
+                    AudioSource audioSource = audioSourceObject.AddComponent<AudioSource>();
+                    track.audioSources[i] = audioSource;
 
-                    i++;
-                    note.octave = int.Parse(track.noteString[i].ToString());
-
-                    // Add the note and its pitch to the dictionary
-                    track.notes.Add(note);
-                }
-                else
-                {
-                    switch (track.noteString[i])
-                    {
-                        case '-': note.note = 0; break;
-                        case '.': note.note = -1; break;
-                        case ' ': continue;
-                    }
-
-                    // Add the rest/hold as a null value in the dictionary
-                    track.notes.Add(note);
+                    // Reset the audio source's properties
+                    ResetAudioSource(audioSource, track.instrument);
                 }
             }
-
-            // Create a new audio source component
-            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-
-            // Set the audio source's properties
-            audioSource.clip = track.instrument.sample;
-            audioSource.loop = track.instrument.loop;
-            audioSource.playOnAwake = false;
-            audioSource.outputAudioMixerGroup = audioMixerGroup;
-
-            // Assign the audio source to the track
-            track.audioSource = audioSource;
         }
 
         return songData != null;
+    }
+
+    private void ParseNotes(Track track)
+    {
+        // Initialize the dictionary
+        track.notes = new List<Note>();
+
+        // Parse the notes and calculate their pitches
+        for (int i = 0; i < track.noteString.Length; i++)
+        {
+            // Get the current note
+            Note note = new Note(0, null);
+
+            // Calculate the pitch of the note if it is not a space or dash
+            if (track.noteString[i] != ' ' && track.noteString[i] != '-' && track.noteString[i] != '.')
+            {
+                note.note = System.Convert.ToInt32(track.noteString[i].ToString(), 16);
+
+                i++;
+                note.octave = System.Convert.ToInt32(track.noteString[i].ToString());
+
+                i++;
+                note.chordNotes[0] = System.Convert.ToInt32(track.noteString[i].ToString(), 16);
+
+                i++;
+                note.chordNotes[1] = System.Convert.ToInt32(track.noteString[i].ToString(), 16);
+
+                // Add the note and its pitch to the dictionary
+                track.notes.Add(note);
+            }
+            else
+            {
+                switch (track.noteString[i])
+                {
+                    case '-': note.note = 0; break;
+                    case '.': note.note = -1; break;
+                    case ' ': continue;
+                }
+
+                // Add the rest/hold as a null value in the dictionary
+                track.notes.Add(note);
+            }
+        }
+    }
+
+    private void ResetAudioSource(AudioSource audioSource, MusicInstrument instrument)
+    {
+        // Set the audio source's properties
+        // audioSource.clip = track.instrument.sample;  // This is set when setting up the note
+        audioSource.loop = instrument.loop;
+        audioSource.playOnAwake = false;
+        audioSource.outputAudioMixerGroup = audioMixerGroup;
+        audioSource.volume = 1f;
+        audioSource.pitch = 1f;
+    }
+
+    private void DestroyAudioSources()
+    {
+
+#if UNITY_EDITOR
+        // Destroy the audio sources that are not in the tracks
+        foreach (Transform child in transform)
+        {
+            if (child.name.Contains("Audio Source"))
+                DestroyImmediate(child.gameObject);
+        }
+#else
+        // Destroy the audio sources that are not in the tracks
+        foreach (Track track in songData.tracks)
+        {
+            foreach (Transform child in transform)
+            {
+                if (child.name.Contains("Audio Source") && !child.name.Contains(track.instrument.name))
+                    Destroy(child.gameObject);
+            }
+        }
+#endif
     }
 
     private bool ParseJSON(TextAsset jsonFile)
@@ -191,10 +259,33 @@ public class MusicSequencer : MonoBehaviour
         return ParseJSON(jsonSong);
     }
 
+    [Button]
     private string GetJSON()
     {
+        // foreach (Track track in songData.tracks)
+        // {
+        //     track.noteString = "";
+
+        //     foreach (Note note in track.notes)
+        //     {
+        //         if (note.note == 0)
+        //             track.noteString += "-";
+        //         else if (note.note == -1)
+        //             track.noteString += ".";
+        //         else
+        //         {
+        //             track.noteString += note.note.ToString("X");
+        //             track.noteString += note.octave.ToString();
+        //             track.noteString += note.chordNotes[0].ToString("X");
+        //             track.noteString += note.chordNotes[1].ToString("X");
+        //         }
+        //     }
+        // }
+
         return JsonUtility.ToJson(songData);
     }
+
+    private Coroutine playNotesCoroutine;
 
     // Plays the notes in the tracks
     private IEnumerator PlayNotes()
@@ -234,7 +325,7 @@ public class MusicSequencer : MonoBehaviour
         // );
 
         // Calculate the duration of a beat based on the song's tempo
-        float beatDuration = (60.0f / songData.tempo);
+        float beatDuration = (60.0f / songData.tempo) / 4.0f;
 
         WaitForSecondsRealtime beat = new WaitForSecondsRealtime(beatDuration);
 
@@ -256,18 +347,14 @@ public class MusicSequencer : MonoBehaviour
                 // Get the current note
                 Note note = track.notes[currentBeat];
 
-                // Play the note if it is not a hold or rest
-                if (note.note > 0)
+                // Stop the previous FadeOut coroutine, if it's running
+                if (track.fadeOutCoroutine != null)
                 {
-                    // Calculate the pitch of the note, and play the note
-                    track.audioSource.pitch = CalculatePitch(note, track.instrument);
-                    track.audioSource.Play();
+                    StopCoroutine(track.fadeOutCoroutine);
+                    track.fadeOutCoroutine = null;
                 }
-                else if (note.note < 0)
-                {
-                    // Stop playing the note
-                    track.audioSource.Stop();
-                }
+
+                PlayNote(track, note);
             }
 
             // Increment the current beat
@@ -281,42 +368,98 @@ public class MusicSequencer : MonoBehaviour
         }
     }
 
-    private float CalculatePitch(Note note, MusicInstrument instrument)
+    private void PlayNote(Track track, Note note)
     {
-        // Calculate the pitch of the note
-        float pitch = Mathf.Pow(2.0f, (note.note - instrument.originalKey.note) / 12.0f);
+        // Get the instrument from the track
+        MusicInstrument instrument = track.instrument;
 
-        // Apply the octave of the note
-        pitch *= Mathf.Pow(2.0f, note.octave - instrument.originalKey.octave);
+        // Function to play a single note on a given audio source
+        void PlaySingleNote(AudioSource audioSource, Note singleNote)
+        {
+            AudioClip sampleClip = instrument.GetSampleForNote(singleNote);
+            int noteDifference = (singleNote.octave * 12 + singleNote.note) - (instrument.samples[0].startNote.octave * 12 + instrument.samples[0].startNote.note);
 
-        // Debug.Log("Note: " + note.note + ", pitch: " + pitch);
+            for (int i = 0; i < instrument.samples.Count; i++)
+            {
+                if (instrument.samples[i].clip == sampleClip)
+                {
+                    noteDifference = (singleNote.octave * 12 + singleNote.note) - (instrument.samples[i].startNote.octave * 12 + instrument.samples[i].startNote.note);
+                    break;
+                }
+            }
 
-        return pitch;
+            float pitch = Mathf.Pow(2.0f, noteDifference / 12.0f);
+            audioSource.volume = 1f;
+            audioSource.clip = sampleClip;
+            audioSource.pitch = pitch;
+            audioSource.Play();
+        }
+
+        // Play the note if it is not a hold or rest
+        if (note.note > 0)
+        {
+            // Play the main note
+            PlaySingleNote(track.audioSources[0], note);
+
+            // Play chord notes, if any
+            for (int i = 0; i < note.chordNotes.Length; i++)
+            {
+                if (note.chordNotes[i] > 0)
+                {
+                    Note chordNote = new Note(note.chordNotes[i], note.octave);
+                    PlaySingleNote(track.audioSources[i + 1], chordNote);
+                }
+            }
+        }
+        else if (note.note < 0)
+        {
+            // Stop playing the note
+            track.fadeOutCoroutine = StartCoroutine(FadeOut(track));
+        }
     }
 
-    [Sirenix.OdinInspector.ButtonGroup("Media Buttons")]
+
+    // This coroutine will handle the fade out effect when a note is released
+    private IEnumerator FadeOut(Track track)
+    {
+        foreach (AudioSource audioSource in track.audioSources)
+        {
+            if (audioSource != null && audioSource.clip != null)
+            {
+                // Debug.Log("Fading out " + audioSource.ToString(), audioSource);
+                float sampleLength = audioSource.clip.length;
+                float releaseTime = sampleLength * track.instrument.releaseRatio;
+                float startVolume = 1f;
+                float elapsedTime = 0f;
+                while (elapsedTime < releaseTime)
+                {
+                    if (audioSource == null)
+                        yield break;
+
+                    audioSource.volume = Mathf.Lerp(startVolume, 0, elapsedTime / releaseTime);
+                    elapsedTime += Time.deltaTime;
+                    yield return null;
+                }
+                audioSource.Stop();
+                audioSource.volume = startVolume;
+            }
+        }
+    }
+
+    [ButtonGroup("Media Buttons")]
     public void Play()
     {
-        StopCoroutine(PlayNotes());
-        StartCoroutine(PlayNotes());
+        if (playNotesCoroutine != null)
+            StopCoroutine(playNotesCoroutine);
+        playNotesCoroutine = StartCoroutine(PlayNotes());
     }
 
-    [Sirenix.OdinInspector.ButtonGroup("Media Buttons")]
+    [ButtonGroup("Media Buttons")]
     public void Stop()
     {
-        StopCoroutine(PlayNotes());
+        if (playNotesCoroutine != null)
+            StopCoroutine(playNotesCoroutine);
         DestroyAudioSources();
-    }
-
-    void DestroyAudioSources()
-    {
-        // Destroy the audio sources
-        foreach (AudioSource audioSource in GetComponents<AudioSource>())
-#if UNITY_EDITOR
-            DestroyImmediate(audioSource);
-#else
-            Destroy(audioSource);
-#endif
     }
 
     #region Notes
@@ -325,12 +468,24 @@ public class MusicSequencer : MonoBehaviour
     private void SetNote(int trackIndex, int noteIndex, int note, int octave)
     {
         songData.tracks[trackIndex].notes[noteIndex] = new Note(note, octave);
+
+        PlayNote
+        (
+            songData.tracks[trackIndex],
+            songData.tracks[trackIndex].notes[noteIndex]
+        );
     }
 
     // Adds a new note with the given note and octave to the given track at the given index
     private void AddNote(int trackIndex, int noteIndex, int note, int octave)
     {
         songData.tracks[trackIndex].notes.Insert(noteIndex, new Note(note, octave));
+
+        PlayNote
+        (
+            songData.tracks[trackIndex],
+            songData.tracks[trackIndex].notes[noteIndex]
+        );
     }
 
     // Adjusts the note at the given index by the amount of semitones given
@@ -357,27 +512,16 @@ public class MusicSequencer : MonoBehaviour
         SetNote(trackIndex, noteIndex, newNote, newOctave);
     }
 
+    [Button]
     private void RaiseNote(int trackIndex, int noteIndex)
     {
         AdjustNote(trackIndex, noteIndex, 1);
     }
 
+    [Button]
     private void LowerNote(int trackIndex, int noteIndex)
     {
         AdjustNote(trackIndex, noteIndex, -1);
-    }
-
-    [Button]
-    void TestAudioSources()
-    {
-        foreach (Track track in songData.tracks)
-        {
-            if (track.audioSource != null)
-                track.audioSource.Play();
-        }
-
-        foreach (AudioSource audioSource in GetComponents<AudioSource>())
-            audioSource.Play();
     }
 
     #endregion

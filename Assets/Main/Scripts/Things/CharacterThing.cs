@@ -512,8 +512,10 @@ public class CharacterThing : GameThing
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
-    void Start()
+    protected override void Start()
     {
+        OccupyCurrentNode();
+
         AssembleCharacter();
     }
 
@@ -532,8 +534,7 @@ public class CharacterThing : GameThing
     {
         GameManager.RemoveCharacter(this);
 
-        if (_currentNode != null)
-            Nodes.UnoccupyNode(_currentNode);
+        UnoccupyCurrentNode();
     }
 
     /// <summary>
@@ -543,7 +544,6 @@ public class CharacterThing : GameThing
     {
         base.OnDestroy();
 
-        if (_currentNode != null)
-            Nodes.UnoccupyNode(_currentNode);
+        UnoccupyCurrentNode();
     }
 }
