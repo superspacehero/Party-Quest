@@ -288,7 +288,7 @@ public class Menu : MonoBehaviour
             gameObject.SetActive(true);
             enabled = true;
 
-            Debug.Log("Enabling " + gameObject.name + " for selection");
+            // Debug.Log("Enabling " + gameObject.name + " for selection");
 
             return;
         }

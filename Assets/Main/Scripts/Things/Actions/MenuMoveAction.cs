@@ -26,7 +26,7 @@ public class MenuMoveAction : ActionThing
         user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {
-            controller.canControl = 2;
+            controller.canControl = MovementController.ControlLevel.Full;
 
             controller.canMove = true;
             controller.canJump = true;
@@ -34,8 +34,11 @@ public class MenuMoveAction : ActionThing
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         position = user.transform.position;
-        user.UnoccupyCurrentNode();
+        user.UnoccupyCurrentNode(true);
+
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, float.PositiveInfinity, -Vector2.one);
+
+        // Nodes.instance.DisplayNodes(validSpaces);
 
         // The previous position of the user
         Vector3 previousPosition = user.transform.position;
@@ -83,11 +86,12 @@ public class MenuMoveAction : ActionThing
 
         // Disable movement control
         if (controller != null)
-            controller.canControl = 0;
+            controller.canControl = MovementController.ControlLevel.None;
 
         user.transform.position = position;
 
         // Occupy the node
+        user.canOccupyCurrentNode = true;
         user.OccupyCurrentNode();
 
         // The action is no longer running

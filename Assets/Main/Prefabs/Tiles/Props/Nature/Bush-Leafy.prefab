@@ -57,10 +57,10 @@ CapsuleCollider:
   m_Material: {fileID: 13400000, guid: e22c35a45fac28e4eb8a295407e775b7, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2258235
-  m_Height: 2.815704
+  m_Radius: 0.3
+  m_Height: 0.9
   m_Direction: 1
-  m_Center: {x: -0.000000029802322, y: 1.4078518, z: -0.0018198788}
+  m_Center: {x: -0.000000029802322, y: 0.15, z: -0.0018198788}
 --- !u!205 &5462391176781059292
 LODGroup:
   m_ObjectHideFlags: 0
@@ -97,14 +97,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 0
-    SerializedBytes: 2d010b00000069006e0074006500720061006300740069006f006e00
+    SerializedFormat: 2
+    SerializedBytes: 
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes: []
+    SerializationNodes:
+    - Name: interaction
+      Entry: 6
+      Data: 
   thingPrefab: {fileID: 932194284778317373}
   _thingName: 
   properNoun: 0

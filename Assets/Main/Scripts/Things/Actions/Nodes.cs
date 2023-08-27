@@ -104,7 +104,7 @@ public class Nodes : MonoBehaviour
         {
             foreach (var node in instance.gridGraph.nodes)
             {
-                if (!CheckNodeOccupied(node) &&
+                if (node.Walkable && !CheckNodeOccupied(node) &&
                     node.position.y <= maxHeightLimits.y &&
                     node.position.y >= position.y - maxHeightLimits.x)
                 {
@@ -200,11 +200,26 @@ public class Nodes : MonoBehaviour
         }
     }
 
-    public static void OccupyNode(GraphNode node, GameThing thing)
+    public static void SetNodeTag(GraphNode node, uint tag, GameThing thing, bool log = false)
     {
         if (node != null)
         {
-            node.Tag = 1;
+            if (log)
+            {
+                uint previousTag = node.Tag;
+
+                Debug.Log($"{thing.thingName}'s previous: {previousTag}. Current: {tag}.", thing);
+            }
+
+            node.Tag = tag;
+        }
+    }
+
+    public static void OccupyNode(GraphNode node, GameThing thing, bool log = false)
+    {
+        if (node != null)
+        {
+            SetNodeTag(node, 1, thing, log);
 
             if (GameManager.instance == null)
                 return;
@@ -216,22 +231,22 @@ public class Nodes : MonoBehaviour
         }
     }
 
-    public static void OccupyNode(Vector3 position, GameThing thing)
+    public static void OccupyNode(Vector3 position, GameThing thing, bool log = false)
     {
         if (AstarPath.active != null)
         {
             GraphNode node = instance.gridGraph.GetNearest(position).node;
 
             if (node != null)
-                OccupyNode(node, thing);
+                OccupyNode(node, thing, log);
         }
     }
 
-    public static void UnoccupyNode(GraphNode node)
+    public static void UnoccupyNode(GraphNode node, GameThing thing, bool log = false)
     {
         if (node != null)
         {
-            node.Tag = 0;
+            SetNodeTag(node, 0, thing, log);
 
             if (GameManager.instance == null)
                 return;
@@ -243,14 +258,14 @@ public class Nodes : MonoBehaviour
         }
     }
 
-    public static void UnoccupyNode(Vector3 position)
+    public static void UnoccupyNode(Vector3 position, GameThing thing, bool log = false)
     {
         if (AstarPath.active != null)
         {
             GraphNode node = instance.gridGraph.GetNearest(position).node;
 
             if (node != null)
-                UnoccupyNode(node);
+                UnoccupyNode(node, thing, log);
         }
     }
 
@@ -283,13 +298,13 @@ public class Nodes : MonoBehaviour
         return false;
     }
 
-    public static List<GraphNode> GetPathToNode(Vector3 startPosition, Vector3 endPosition, int maxDistance = 0)
+    public static List<GraphNode> GetPathToNode(Vector3 startPosition, Vector3 endPosition, int maxDistance = 0, int disabledTag = 1)
     {
         // Get the path from the start node to the end node
         ABPath path = ABPath.Construct(startPosition, endPosition);
 
-        path.tagPenalties = new int[32];
-        path.tagPenalties[1] = 1000;
+        // Disable the tag to prevent the ABPath from using nodes with that tag
+        path.enabledTags = ~(1 << disabledTag);
 
         // Calculate the path
         AstarPath.StartPath(path);

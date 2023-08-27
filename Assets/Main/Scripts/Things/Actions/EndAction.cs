@@ -9,6 +9,8 @@ public class EndAction : ActionThing
 
     protected override IEnumerator RunAction()
     {
+        user.OccupyCurrentNode();
+
         GameManager.NextCharacter();
 
         // The action is no longer running

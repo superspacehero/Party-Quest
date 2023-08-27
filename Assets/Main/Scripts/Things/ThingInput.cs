@@ -55,13 +55,13 @@ public class ThingInput : UnsavedThing
                         if (character == GameManager.currentCharacter)
                         {
                             _actionCoroutine = StartCoroutine(ActionCoroutine(character));
-                            character.movementController.canControl = 2;
+                            character.movementController.canControl = MovementController.ControlLevel.Full;
                             character.movementController.canMove = true;
                             character.movementController.canJump = true;
                         }
                         else
                         {
-                            character.movementController.canControl = 0;
+                            character.movementController.canControl = MovementController.ControlLevel.None;
                             character.movementController.canMove = false;
                             character.movementController.canJump = false;
                         }
@@ -81,7 +81,7 @@ public class ThingInput : UnsavedThing
                         if (slot.thing && slot.thing is CharacterThing)
                         {
                             CharacterThing character = slot.thing as CharacterThing;
-                            character.movementController.canControl = 0;
+                            character.movementController.canControl = MovementController.ControlLevel.None;
                             character.movementController.canMove = false;
                             character.movementController.canJump = false;
                         }
@@ -124,7 +124,7 @@ public class ThingInput : UnsavedThing
         int numberOfDiceRolls = thing.variables.GetVariable("movement");
         int movementRange = 0;
 
-        thing.UnoccupyCurrentNode();
+        thing.UnoccupyCurrentNode(true);
 
         for (int i = 0; i < numberOfDiceRolls; i++)
         {
@@ -453,7 +453,7 @@ public class ThingInput : UnsavedThing
     private void GetPathToCurrentTarget(CharacterThing thing, out List<GraphNode> path, int maxDistance = 0)
     {
         path = Nodes.GetPathToNode(thing.transform.position, _targets[_currentTargetIndex].transform.position, maxDistance);
-        Nodes.instance.DisplayNodes(path);
+        // Nodes.instance.DisplayNodes(path);
     }
 
     #endregion

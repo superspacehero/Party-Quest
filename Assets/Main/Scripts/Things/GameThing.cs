@@ -55,15 +55,15 @@ public class GameThing : SerializedMonoBehaviour
     }
 
     public GameObject thingPrefab;
-    #if UNITY_EDITOR
-        [Button, HideIf("hasPrefab")]
-        protected void GetPrefab()
-        {
-            thingPrefab = gameObject;
-        }
+#if UNITY_EDITOR
+    [Button, HideIf("hasPrefab")]
+    protected void GetPrefab()
+    {
+        thingPrefab = gameObject;
+    }
 
-        protected bool hasPrefab { get => thingPrefab != null; }
-    #endif
+    protected bool hasPrefab { get => thingPrefab != null; }
+#endif
 
     public virtual string thingName
     {
@@ -98,39 +98,61 @@ public class GameThing : SerializedMonoBehaviour
             if (_currentNode == null)
             {
                 _currentNode = AstarPath.active.GetNearest(transform.position).node;
-
-                // Debug.LogWarning($"GameThing {name} has no currentNode. Setting to nearest node {_currentNode}.");
-
-                if (canOccupyCurrentNode)
-                    Nodes.OccupyNode(_currentNode, this);
             }
 
             return _currentNode;
         }
-
         set
         {
-            if (_currentNode != null)
-                Nodes.UnoccupyNode(_currentNode);
-
-            _currentNode = value;
-
-            if (_currentNode != null)
-                Nodes.OccupyNode(_currentNode, this);
+            if (canOccupyCurrentNode)
+            {
+                UnoccupyNode(_currentNode);
+                _currentNode = value;
+                OccupyNode(_currentNode);
+            }
+            else
+            {
+                _currentNode = value;
+            }
         }
     }
+
     protected GraphNode _currentNode;
 
     public bool canOccupyCurrentNode = true;
 
     public void OccupyCurrentNode()
     {
+        canOccupyCurrentNode = true;
+
         currentNode = AstarPath.active.GetNearest(position).node;
     }
 
-    public void UnoccupyCurrentNode()
+    public void UnoccupyCurrentNode(bool overrideCanOccupyCurrentNode = false)
     {
+        if (overrideCanOccupyCurrentNode)
+            canOccupyCurrentNode = true;
+
         currentNode = null;
+
+        if (overrideCanOccupyCurrentNode)
+            canOccupyCurrentNode = false;
+    }
+
+    private void OccupyNode(GraphNode node)
+    {
+        if (node != null)
+        {
+            Nodes.OccupyNode(node, this, true);
+        }
+    }
+
+    private void UnoccupyNode(GraphNode node)
+    {
+        if (node != null)
+        {
+            Nodes.UnoccupyNode(node, this, true);
+        }
     }
 
     public virtual Vector3 position
@@ -138,7 +160,8 @@ public class GameThing : SerializedMonoBehaviour
         get => currentNode != null ? (Vector3)currentNode.position : transform.position;
         set
         {
-            currentNode = AstarPath.active.GetNearest(value).node;
+            GraphNode nearestNode = AstarPath.active.GetNearest(value).node;
+            currentNode = nearestNode;
             transform.position = value;
         }
     }

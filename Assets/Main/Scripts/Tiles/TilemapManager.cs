@@ -130,7 +130,6 @@ public class TilemapManager : MonoBehaviour
             }
         }
 
-
         UpdateNavMesh();
     }
 

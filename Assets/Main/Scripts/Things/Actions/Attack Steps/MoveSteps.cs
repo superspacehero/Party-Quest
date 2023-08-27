@@ -21,7 +21,7 @@ public abstract class MovementControllerStep : AttackStep
             yield break;
         }
 
-        moveController.canControl = 1;
+        moveController.canControl = MovementController.ControlLevel.MovementOnly;
 
         if (targetThing == null)
             targetThing = attacker;
@@ -54,7 +54,7 @@ public abstract class MovementControllerStep : AttackStep
 
         if (moveController != null)
         {
-            moveController.canControl = 0;
+            moveController.canControl = MovementController.ControlLevel.None;
             moveController.movementInput = Vector2.zero;
             moveController.jumpInput = false;
 
@@ -78,7 +78,7 @@ public abstract class MovementControllerStep : AttackStep
 
         if (moveController != null)
         {
-            moveController.canControl = 0;
+            moveController.canControl = MovementController.ControlLevel.None;
             moveController.movementInput = Vector2.zero;
             moveController.jumpInput = false;
 

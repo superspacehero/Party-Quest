@@ -22,7 +22,7 @@ public class General
 
         public static WaitForFixedUpdate waitForFixedUpdate = new WaitForFixedUpdate();
 
-        public static void DelayedFunctionFrames(MonoBehaviour monoBehaviour, System.Action action, int delayFrames = 0)
+        public static void DelayedFunctionFrames(MonoBehaviour monoBehaviour, System.Action action, int delayFrames = 1)
         {
             monoBehaviour.StartCoroutine(DelayedFunctionCoroutine(action, delayFrames));
         }

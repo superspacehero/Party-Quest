@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Sirenix.OdinInspector;
@@ -253,11 +254,11 @@ public class CharacterThing : GameThing
             if (actionList != null)
                 actionList.Move(direction);
 
-            if (movementController != null && movementController.canControl > 1)
+            if (movementController != null && movementController.canControl > MovementController.ControlLevel.MovementOnly)
                 movementController.movementInput = direction;
         }
         else
-            if (movementController != null && movementController.canControl > 1)
+            if (movementController != null && movementController.canControl > MovementController.ControlLevel.MovementOnly)
             movementController.movementInput = Vector2.zero;
 
         base.Move(direction);
@@ -271,7 +272,7 @@ public class CharacterThing : GameThing
             if (actionList != null)
                 actionList.PrimaryAction(pressed);
 
-            if (movementController != null && movementController.canControl > 1)
+            if (movementController != null && movementController.canControl > MovementController.ControlLevel.MovementOnly)
                 movementController.jumpInput = pressed;
         }
 
@@ -512,11 +513,17 @@ public class CharacterThing : GameThing
     /// Start is called on the frame when a script is enabled just before
     /// any of the Update methods is called the first time.
     /// </summary>
-    protected override void Start()
+    new private IEnumerator Start()
     {
-        OccupyCurrentNode();
-
         AssembleCharacter();
+
+        while (currentNode == null || (currentNode != null && !Nodes.CheckNodeOccupied(currentNode)))
+        {
+            OccupyCurrentNode();
+            yield return null;
+        }
+
+        // Debug.Log($"{thingName} is started", this);
     }
 
     /// <summary>

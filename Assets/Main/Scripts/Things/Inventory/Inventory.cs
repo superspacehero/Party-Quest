@@ -262,7 +262,7 @@ public class Inventory : MonoBehaviour
                 else
                     inventoryDisplay.Deselect();
 
-                Debug.Log("Displaying inventory: " + _displayInventory, inventoryDisplay);
+                // Debug.Log("Displaying inventory: " + _displayInventory, inventoryDisplay);
             }
             else
                 Debug.LogWarning("No InventoryDisplay found on " + gameObject.name, this);

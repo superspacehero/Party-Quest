@@ -65,7 +65,7 @@ public class MoveAction : ActionThing
         user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {
-            controller.canControl = 2;
+            controller.canControl = MovementController.ControlLevel.Full;
 
             controller.canMove = true;
             controller.canJump = true;
@@ -75,7 +75,9 @@ public class MoveAction : ActionThing
 
         // Calculate the set of valid grid spaces within the number of spaces the character can move
         position = user.transform.position;
-        user.UnoccupyCurrentNode();
+
+        user.UnoccupyCurrentNode(true);
+
         validSpaces = Nodes.GetNodesInRadius(user.transform.position, movementRange, maxHeightLimits: new Vector2(jumpHeight, -1));
 
         // Display the valid grid spaces
@@ -118,10 +120,14 @@ public class MoveAction : ActionThing
                     // revert the appropriate axes to the previous position
                     user.transform.position = new Vector3(!validSpaces.Contains(xNode) ? previousPosition.x : user.transform.position.x, user.transform.position.y, !validSpaces.Contains(zNode) ? previousPosition.z : user.transform.position.z);
 
+                    // Debug.Log("Invalid space");
+
                     currentNode = previousNode;
                 }
                 else if (Nodes.CheckNodeOccupied(currentNode))
                 {
+                    // Debug.Log("Node occupied");
+
                     currentNode = previousNode;
                 }
 
@@ -149,7 +155,7 @@ public class MoveAction : ActionThing
 
         // Disable movement control
         if (controller != null)
-            controller.canControl = 0;
+            controller.canControl = MovementController.ControlLevel.None;
 
         user.transform.position = position;
 
@@ -188,9 +194,9 @@ public class MoveAction : ActionThing
         {
             if (user is CharacterThing && user.TryGetComponent(out MovementController controller))
             {
-                controller.canControl = (controller.canControl == 0) ? 2 : 0;
+                controller.canControl = (controller.canControl == 0) ? MovementController.ControlLevel.Full : MovementController.ControlLevel.None;
 
-                if (controller.canControl < 2)
+                if (controller.canControl < MovementController.ControlLevel.Full)
                     (user as CharacterThing).DisplayActions(true);
                 else
                     GameManager.EnableTouchControls();

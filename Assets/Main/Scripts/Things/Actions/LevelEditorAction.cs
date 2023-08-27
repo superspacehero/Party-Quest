@@ -229,7 +229,7 @@ public class LevelEditorAction : ActionThing
         user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {
-            controller.canControl = 2;
+            controller.canControl = MovementController.ControlLevel.Full;
 
             controller.canMove = true;
 
@@ -281,7 +281,7 @@ public class LevelEditorAction : ActionThing
 
         // Disable movement control
         if (controller != null)
-            controller.canControl = 0;
+            controller.canControl = MovementController.ControlLevel.None;
 
         // The action is no longer running
         EndAction();

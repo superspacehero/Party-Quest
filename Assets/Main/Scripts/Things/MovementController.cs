@@ -56,8 +56,14 @@ public class MovementController : Controller
     public Transform cameraTransform;
     Transform tr;
 
-    [FoldoutGroup("Controls"), Range(0, 2)]
-    public int canControl = 0;
+    public enum ControlLevel
+    {
+        None,
+        MovementOnly,
+        Full
+    }
+    [FoldoutGroup("Controls")]
+    public ControlLevel canControl = ControlLevel.None;
     [FoldoutGroup("Controls")]
     public bool canMove, canJump;
 
@@ -82,7 +88,7 @@ public class MovementController : Controller
     void FixedUpdate()
     {
         //If the character is not allowed to control itself, return;
-        if (canControl == 0)
+        if (canControl == ControlLevel.None)
             movementInput = Vector2.zero;
 
         //Run initial mover ground check;
@@ -147,7 +153,7 @@ public class MovementController : Controller
     private Vector3 CalculateMovementDirection()
     {
         //If no character input script is attached to this object, return no input;
-        if (canControl == 0 || !canMove)
+        if (canControl == ControlLevel.None || !canMove)
             return Vector3.zero;
 
         Vector3 _direction = Vector3.zero;
