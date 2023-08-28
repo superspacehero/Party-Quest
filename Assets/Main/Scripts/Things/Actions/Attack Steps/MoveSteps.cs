@@ -70,7 +70,7 @@ public abstract class MovementControllerStep : AttackStep
 
     public override void ResetStep()
     {
-        Debug.Log("Resetting movement step");
+        // Debug.Log("Resetting movement step");
 
         moveConditionMet = false;
         targetPosition = Vector3.zero;

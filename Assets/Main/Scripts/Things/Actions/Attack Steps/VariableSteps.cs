@@ -47,7 +47,7 @@ public class VariableBranchStep : AttackStep
     public override IEnumerator ExecuteStep(GameThing attacker, Vector3 target, Vector3 originalPosition, Action<StepResult> callback, GameThing targetThing = null)
     {
         int var = (targetThing != null && useTarget) ? targetThing.variables.GetVariable(variable.name) : attacker.variables.GetVariable(variable.name);
-        
+
         if (branchType == BranchType.GreaterThan)
         {
             if (var > variable.value)
@@ -128,7 +128,7 @@ public class DamageStep : AttackStep
         int calculatedDamage = (overrideDamage) ? targetThing.variables.GetVariable("health") - damage : Mathf.Max(0, attacker.variables.GetVariable("attack") - targetThing.variables.GetVariable("defense"));
         targetedThing.variables.SetVariable("health", targetThing.variables.GetVariable("health") - calculatedDamage);
 
-        Debug.Log($"{attacker.name} dealt {calculatedDamage} damage to {targetedThing?.name}.");
+        Debug.Log($"{attacker.name} dealt {calculatedDamage} damage to {targetedThing?.name}.\n{targetedThing?.name} now has {targetedThing?.variables.GetVariable("health")} health.");
 
         GameManager.instance.DamageEffect(calculatedDamage, targetThing.transform.position);
 

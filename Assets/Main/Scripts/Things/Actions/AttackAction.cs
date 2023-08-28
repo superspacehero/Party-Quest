@@ -99,7 +99,7 @@ public class AttackAction : ActionThing
             attackMenu.SetActive(_attackState == AttackState.PickingAttack, this);
 
             if (_attackState != AttackState.PickingTarget)
-                // Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
+            // Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
             // else
             {
                 // Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
@@ -236,7 +236,7 @@ public class AttackAction : ActionThing
                     // Color the previous target node
                     if (Nodes.instance != null && targetPosition != Vector3.zero)
                     {
-                        Nodes.instance.ColorNodeObject(Nodes.instance.gridGraph.GetNearest(targetPosition).node, Nodes.instance.walkableColor);
+                        Nodes.instance.ColorNodeObject(Nodes.instance.gridGraph.GetNearest(targetPosition).node);
                     }
 
                     targetPosition = potentialTargetPosition;

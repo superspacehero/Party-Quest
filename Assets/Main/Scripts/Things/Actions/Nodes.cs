@@ -177,12 +177,25 @@ public class Nodes : MonoBehaviour
         return (nodeObjects.ContainsKey(node)) ? nodeObjects[node] : null;
     }
 
+    public void ColorNodeObject(GraphNode node)
+    {
+        // Get the node display object for the GraphNode,
+        if (GetNodeObject(node) != null && GetNodeObject(node).transform.GetChild(0).TryGetComponent(out SpriteRenderer renderer))
+        {
+            // and set the color of the node display object
+            if (CheckNodeOccupied(node))
+                ColorNodeObject(node, occupiedColor);
+            else
+                ColorNodeObject(node, walkableColor);
+        }
+    }
+
     public void ColorNodeObject(GraphNode node, Color color)
     {
         // Get the node display object for the GraphNode,
         if (GetNodeObject(node) != null && GetNodeObject(node).transform.GetChild(0).TryGetComponent(out SpriteRenderer renderer))
         {
-            // and set the color of the node display object        
+            // and set the color of the node display object
             renderer.color = color;
         }
     }
@@ -193,10 +206,7 @@ public class Nodes : MonoBehaviour
         foreach (GraphNode node in nodes)
         {
             // Color the node display object for the GraphNode
-            if (CheckNodeOccupied(node))
-                ColorNodeObject(node, occupiedColor);
-            else
-                ColorNodeObject(node, walkableColor);
+            ColorNodeObject(node);
         }
     }
 

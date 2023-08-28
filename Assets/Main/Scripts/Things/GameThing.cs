@@ -143,7 +143,7 @@ public class GameThing : SerializedMonoBehaviour
     {
         if (node != null)
         {
-            Nodes.OccupyNode(node, this, true);
+            Nodes.OccupyNode(node, this);
         }
     }
 
@@ -151,7 +151,7 @@ public class GameThing : SerializedMonoBehaviour
     {
         if (node != null)
         {
-            Nodes.UnoccupyNode(node, this, true);
+            Nodes.UnoccupyNode(node, this);
         }
     }
 

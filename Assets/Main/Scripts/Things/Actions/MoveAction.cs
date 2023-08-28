@@ -136,7 +136,7 @@ public class MoveAction : ActionThing
                     // Highlight the current node
                     if (Nodes.instance != null)
                     {
-                        Nodes.instance.ColorNodeObject(previousNode, Nodes.instance.walkableColor);
+                        Nodes.instance.ColorNodeObject(previousNode);
                         Nodes.instance.ColorNodeObject(currentNode, Nodes.instance.currentColor);
                     }
                 }
