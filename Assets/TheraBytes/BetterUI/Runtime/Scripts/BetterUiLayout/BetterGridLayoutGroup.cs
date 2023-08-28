@@ -53,17 +53,50 @@ namespace TheraBytes.BetterUi
         public Vector2SizeModifier SpacingSizer { get { return customSpacingSizers.GetCurrentItem(spacingSizerFallback); } }
         public Settings CurrentSettings { get { return customSettings.GetCurrentItem(settingsFallback); } }
 
+        public new RectOffset padding
+        {
+            get { return base.padding; }
+            set { Config.Set(value, (o) => base.padding = value, (o) => PaddingSizer.SetSize(this, new Margin(o))); }
+        }
+        public new Vector2 spacing
+        {
+            get { return base.spacing; }
+            set { Config.Set(value, (o) => base.spacing = value, (o) => SpacingSizer.SetSize(this, o)); }
+        }
+        public new Vector2 cellSize
+        {
+            get { return base.cellSize; }
+            set { Config.Set(value, (o) => base.cellSize = value, (o) => CellSizer.SetSize(this, o)); }
+        }
+        public new Constraint constraint
+        {
+            get { return base.constraint; }
+            set { Set(value, (o) => base.constraint = o, (s, o) => s.Constraint = o); }
+        }
+        public new int constraintCount
+        {
+            get { return base.constraintCount; }
+            set { Set(value, (o) => base.constraintCount = o, (s, o) => s.ConstraintCount = o); }
+        }
+        public new TextAnchor childAlignment
+        {
+            get { return base.childAlignment; }
+            set { Set(value, (o) => base.childAlignment = o, (s, o) => s.ChildAlignment = o); }
+        }
+        public new Axis startAxis
+        {
+            get { return base.startAxis; }
+            set { Set(value, (o) => base.startAxis = o, (s, o) => s.StartAxis = o); }
+        }
+        public new Corner startCorner
+        {
+            get { return base.startCorner; }
+            set { Set(value, (o) => base.startCorner = o, (s, o) => s.StartCorner = o); }
+        }
         public bool Fit
         {
             get { return fit; }
-            set
-            {
-                if (fit == value)
-                    return;
-
-                fit = value;
-                CalculateCellSize();
-            }
+            set { Set(value, (o) => fit = o, (s, o) => s.Fit = o); }
         }
 
         [FormerlySerializedAs("paddingSizer")]
@@ -215,6 +248,13 @@ namespace TheraBytes.BetterUi
             this.m_StartCorner = settings.StartCorner;
             this.fit = settings.Fit;
         }
+
+        void Set<T>(T value, Action<T> setBase, Action<Settings, T> setSettings)
+        {
+            Config.Set(value, setBase, (o) => setSettings(CurrentSettings, value));
+            CalculateCellSize();
+        }
+
 
 #if UNITY_EDITOR
         protected override void OnValidate()

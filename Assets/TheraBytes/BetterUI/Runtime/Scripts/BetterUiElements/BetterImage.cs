@@ -52,6 +52,10 @@ namespace TheraBytes.BetterUi
         public class SpriteSettingsConfigCollection : SizeConfigCollection<SpriteSettings> { }
         #endregion
 
+#if !UNITY_2019_1_OR_NEWER
+        float multipliedPixelsPerUnit => base.pixelsPerUnit;
+#endif
+
         public bool KeepBorderAspectRatio
         {
             get { return keepBorderAspectRatio; }
@@ -74,9 +78,43 @@ namespace TheraBytes.BetterUi
 
         public VertexMaterialData MaterialProperties { get { return materialProperties; } }
 
-        public ColorMode ColoringMode { get { return colorMode; } set { colorMode = value; } }
-        public Color SecondColor { get { return secondColor; } set { secondColor = value; } }
+        public ColorMode ColoringMode 
+        { 
+            get { return colorMode; }
+            set
+            {
+                Config.Set(value, (o) => colorMode = value, (o) => CurrentSpriteSettings.ColorMode = value);
+                SetVerticesDirty();
+            } 
+        }
 
+        public Color SecondColor 
+        { 
+            get { return secondColor; }
+            set
+            {
+                Config.Set(value, (o) => secondColor = value, (o) => CurrentSpriteSettings.SecondaryColor = value);
+                SetVerticesDirty(); 
+            } 
+        }
+
+        public override Color color
+        {
+            get { return base.color; }
+            set
+            {
+                Config.Set(value, (o) => base.color = value, (o) => CurrentSpriteSettings.PrimaryColor = value);
+            }
+        }
+
+        public new Sprite sprite
+        {
+            get { return base.sprite; }
+            set
+            {
+                Config.Set(value, (o) => base.sprite = value, (o) => CurrentSpriteSettings.Sprite = value);
+            }
+        }
 
         [SerializeField]
         ColorMode colorMode = ColorMode.Color;
@@ -124,6 +162,8 @@ namespace TheraBytes.BetterUi
         }
         
         Animator animator;
+
+        private Sprite activeSprite => (overrideSprite != null) ? overrideSprite : sprite;
 
         protected override void OnEnable()
         {
@@ -174,7 +214,7 @@ namespace TheraBytes.BetterUi
                     MaterialProperties.FloatProperties[2].Value = materialProperty3;
             }
 
-            if (this.overrideSprite == null)
+            if (this.activeSprite == null)
             {
                 GenerateSimpleSprite(toFill, false);
                 return;
@@ -205,78 +245,64 @@ namespace TheraBytes.BetterUi
         private void GenerateSimpleSprite(VertexHelper vh, bool preserveAspect)
         {
             Rect rect = GetDrawingRect(preserveAspect);
-            Vector4 uv = (this.overrideSprite == null)
+            Vector4 uv = (activeSprite == null)
                 ? Vector4.zero
-                : DataUtility.GetOuterUV(this.overrideSprite);
+                : DataUtility.GetOuterUV(activeSprite);
 
             vh.Clear();
-            AddQuad(vh, rect, 
-                rect.min, rect.max, 
+            AddQuad(vh, rect,
+                rect.min, rect.max,
                 colorMode, color, secondColor,
                 new Vector2(uv.x, uv.y), new Vector2(uv.z, uv.w));
         }
 
         private Rect GetDrawingRect(bool shouldPreserveAspect)
         {
-            Rect rect = base.GetPixelAdjustedRect();
-            if(!(shouldPreserveAspect))
-            {
+            Vector4 padding = (activeSprite == null) ? Vector4.zero : DataUtility.GetPadding(activeSprite);
+            Vector2 spriteSize = (activeSprite == null) ? Vector2.zero : new Vector2(activeSprite.rect.width, activeSprite.rect.height);
+            Rect rect = GetPixelAdjustedRect();
+
+            if (activeSprite == null)
                 return rect;
+
+            float w = Mathf.RoundToInt(spriteSize.x);
+            float h = Mathf.RoundToInt(spriteSize.y);
+            Vector4 paddingFraction = new Vector4(
+                padding.x / w,
+                padding.y / h,
+                (w - padding.z) / w,
+                (h - padding.w) / h);
+
+            if (shouldPreserveAspect && spriteSize.sqrMagnitude > 0f)
+            {
+                PreserveSpriteAspectRatio(ref rect, spriteSize);
             }
 
-            Vector2 size;
-            Vector4 padding = (this.overrideSprite != null)
-                ? DataUtility.GetPadding(this.overrideSprite) 
-                : Vector4.zero;
-            if (this.overrideSprite != null)
+            var v = new Vector4(
+                rect.x + rect.width * paddingFraction.x,
+                rect.y + rect.height * paddingFraction.y,
+                rect.x + rect.width * paddingFraction.z,
+                rect.y + rect.height * paddingFraction.w);
+
+            return new Rect(v.x, v.y, v.z - v.x, v.w - v.y);
+        }
+
+        private void PreserveSpriteAspectRatio(ref Rect rect, Vector2 spriteSize)
+        {
+            float spriteAspect = spriteSize.x / spriteSize.y;
+            float rectAspect = rect.width / rect.height;
+            if (spriteAspect > rectAspect)
             {
-                Rect r = this.overrideSprite.rect;
-                size = new Vector2(r.width, this.overrideSprite.rect.height);
+                float height = rect.height;
+                rect.height = rect.width * (1f / spriteAspect);
+                rect.y += (height - rect.height) * base.rectTransform.pivot.y;
             }
             else
             {
-                size = Vector2.zero;
+                float width = rect.width;
+                rect.width = rect.height * spriteAspect;
+                rect.x += (width - rect.width) * base.rectTransform.pivot.x;
             }
-
-            Vector2 pixelSize = size;
-
-            int pxX = Mathf.RoundToInt(pixelSize.x);
-            int pxY = Mathf.RoundToInt(pixelSize.y);
-
-            Vector4 bounds = new Vector4(
-                padding.x / (float)pxX, 
-                padding.y / (float)pxY,
-                ((float)pxX - padding.z) / (float)pxX, 
-                ((float)pxY - padding.w) / (float)pxY);
-
-            if (pixelSize.sqrMagnitude > 0f)
-            {
-                float aspect = pixelSize.x / pixelSize.y;
-                Vector2 pivot = base.rectTransform.pivot;
-
-                if (aspect <= rect.width / rect.height)
-                {
-                    float w = rect.width;
-                    rect.width = rect.height * aspect;
-                    float x = rect.x;
-                    float deltaWidth = w - rect.width;
-                    rect.x = x + deltaWidth * pivot.x;
-                }
-                else
-                {
-                    float h = rect.height;
-                    rect.height = rect.width * (1f / aspect);
-                    float y = rect.y;
-                    float deltaHeight = h - rect.height;
-                    rect.y = y + deltaHeight * pivot.y;
-                }
-            }
-            
-            return new Rect(
-                rect.x + rect.width * bounds.x,
-                rect.y + rect.height * bounds.y,
-                rect.width * bounds.z,
-                rect.height * bounds.w);
         }
         #endregion
 
@@ -291,12 +317,12 @@ namespace TheraBytes.BetterUi
 
             Vector4 outer, inner, padding, border;
 
-            if (overrideSprite != null)
+            if (activeSprite != null)
             {
-                outer = DataUtility.GetOuterUV(overrideSprite);
-                inner = DataUtility.GetInnerUV(overrideSprite);
-                padding = DataUtility.GetPadding(overrideSprite);
-                border = overrideSprite.border;
+                outer = DataUtility.GetOuterUV(activeSprite);
+                inner = DataUtility.GetInnerUV(activeSprite);
+                padding = DataUtility.GetPadding(activeSprite);
+                border = activeSprite.border;
             }
             else
             {
@@ -306,7 +332,7 @@ namespace TheraBytes.BetterUi
                 border = Vector4.zero;
             }
 
-            Vector2 scale = SpriteBorderScale.CalculateSize(this);
+            Vector2 scale = SpriteBorderScale.CalculateSize(this) / multipliedPixelsPerUnit;
             Rect rect = GetPixelAdjustedRect();
 
             border = new Vector4(
@@ -315,10 +341,10 @@ namespace TheraBytes.BetterUi
                 scale.x * border.z,
                 scale.y * border.w);
 
-            border = GetAdjustedBorders(border / pixelsPerUnit, rect, KeepBorderAspectRatio,
+            border = GetAdjustedBorders(border, rect, KeepBorderAspectRatio,
                 new Vector2(
-                    base.overrideSprite.textureRect.width * scale.x, 
-                    base.overrideSprite.textureRect.height * scale.y));
+                    activeSprite.rect.width * scale.x,
+                    activeSprite.rect.height * scale.y) );
 
 
             if ((border.x + border.z) > rect.width)
@@ -336,7 +362,7 @@ namespace TheraBytes.BetterUi
             }
 
 
-            padding = padding / this.pixelsPerUnit;
+            padding = padding / multipliedPixelsPerUnit;
 
             vertScratch[0] = new Vector2(padding.x, padding.y);
             vertScratch[3] = new Vector2(rect.width - padding.z, rect.height - padding.w);
@@ -374,11 +400,11 @@ namespace TheraBytes.BetterUi
                             posMin: new Vector2(vertScratch[x].x, vertScratch[y].y),
                             posMax: new Vector2(vertScratch[xIdx].x, vertScratch[yIdx].y),
                             bounds: rect,
-                            mode: colorMode, colorA: color, colorB: secondColor, 
+                            mode: colorMode, colorA: color, colorB: secondColor,
                             uvMin: new Vector2(uvScratch[x].x, uvScratch[y].y),
                             uvMax: new Vector2(uvScratch[xIdx].x, uvScratch[yIdx].y));
                     }
-                    
+
                 }
             }
         }
@@ -391,7 +417,7 @@ namespace TheraBytes.BetterUi
             Vector4 outerUV, innerUV, border;
             Vector2 spriteSize;
 
-            if (this.overrideSprite == null)
+            if (activeSprite == null)
             {
                 outerUV = Vector4.zero;
                 innerUV = Vector4.zero;
@@ -400,20 +426,20 @@ namespace TheraBytes.BetterUi
             }
             else
             {
-                outerUV = DataUtility.GetOuterUV(this.overrideSprite);
-                innerUV = DataUtility.GetInnerUV(this.overrideSprite);
-                border = this.overrideSprite.border;
-                spriteSize = this.overrideSprite.rect.size;
+                outerUV = DataUtility.GetOuterUV(activeSprite);
+                innerUV = DataUtility.GetInnerUV(activeSprite);
+                border = activeSprite.border;
+                spriteSize = activeSprite.rect.size;
             }
             Rect rect = base.GetPixelAdjustedRect();
 
-            float tileWidth = (spriteSize.x - border.x - border.z) / this.pixelsPerUnit;
-            float tileHeight = (spriteSize.y - border.y - border.w) / this.pixelsPerUnit;
-            
-            border = this.GetAdjustedBorders(border / this.pixelsPerUnit, rect, false,
+            float tileWidth = (spriteSize.x - border.x - border.z) / multipliedPixelsPerUnit;
+            float tileHeight = (spriteSize.y - border.y - border.w) / multipliedPixelsPerUnit;
+
+            border = this.GetAdjustedBorders(border / multipliedPixelsPerUnit, rect, false,
                                 new Vector2(
-                                    base.overrideSprite.textureRect.width,
-                                    overrideSprite.textureRect.height));
+                                    activeSprite.textureRect.width,
+                                    activeSprite.textureRect.height));
 
             Vector2 scale = SpriteBorderScale.CalculateSize(this);
             tileWidth *= scale.x;
@@ -465,7 +491,7 @@ namespace TheraBytes.BetterUi
                         AddQuad(toFill, rect,
                             new Vector2(x1, y1) + pos,
                             new Vector2(x2, y2) + pos,
-                            colorMode, color, secondColor, 
+                            colorMode, color, secondColor,
                             uvMin, uvMax2);
                     }
                 }
@@ -483,7 +509,7 @@ namespace TheraBytes.BetterUi
                     }
                     AddQuad(toFill, rect,
                         new Vector2(0f, y1) + pos,
-                        new Vector2(xMin, y2) + pos, 
+                        new Vector2(xMin, y2) + pos,
                         colorMode, color, secondColor,
                         new Vector2(outerUV.x, uvMin.y), new Vector2(uvMin.x, uvMax2.y));
 

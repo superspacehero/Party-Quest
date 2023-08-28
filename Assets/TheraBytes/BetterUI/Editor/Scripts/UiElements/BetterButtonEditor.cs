@@ -20,8 +20,7 @@ namespace TheraBytes.BetterUi.Editor
         {
             base.OnInspectorGUI();
 
-            BetterButton btn = target as BetterButton;
-            helper.DrawGui(serializedObject, btn);
+            helper.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

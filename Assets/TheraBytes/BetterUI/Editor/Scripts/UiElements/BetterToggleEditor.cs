@@ -13,22 +13,28 @@ namespace TheraBytes.BetterUi.Editor
     [CustomEditor(typeof(BetterToggle)), CanEditMultipleObjects]
     public class BetterToggleEditor : ToggleEditor
     {
-        BetterElementHelper<Toggle, BetterToggle> helper =
+        BetterElementHelper<Toggle, BetterToggle> transitions = 
             new BetterElementHelper<Toggle, BetterToggle>();
 
-        int toggleTransCount = 0;
+        BetterElementHelper<Toggle, BetterToggle> transitionsWhenOn =
+            new BetterElementHelper<Toggle, BetterToggle>("betterTransitionsWhenOn");
+
+        BetterElementHelper<Toggle, BetterToggle> transitionsWhenOff =
+            new BetterElementHelper<Toggle, BetterToggle>("betterTransitionsWhenOff");
+
+        BetterElementHelper<Toggle, BetterToggle> OnOffTransitions =
+            new BetterElementHelper<Toggle, BetterToggle>("betterToggleTransitions");
+
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
             BetterToggle tgl = target as BetterToggle;
-            helper.DrawGui(serializedObject, tgl);
-            
-            // Toggle Transitions
-            var tgProp = serializedObject.FindProperty("betterToggleTransitions");
-            EditorGuiUtils.DrawTransitions("Better Toggle Transitions (On / Off)", tgl.BetterToggleTransitions, tgProp, 
-                ref toggleTransCount, Transitions.OnOffStateNames);
+            transitions.DrawGui(serializedObject);
+            OnOffTransitions.DrawGui(serializedObject);
+            transitionsWhenOn.DrawGui(serializedObject);
+            transitionsWhenOff.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

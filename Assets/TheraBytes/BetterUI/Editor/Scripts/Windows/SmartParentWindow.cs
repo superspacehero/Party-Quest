@@ -18,7 +18,7 @@ namespace TheraBytes.BetterUi.Editor
         Texture2D snapAllPic, snapVerticalPic, snapHorizontalPic, freeParentModeOnPic, freeParentModeOffPic;
         GUIContent snapAllContent, snapVerticalContent, snapHorizontalContent, freeParentModeOnContent, freeParentModeOffContent;
 
-        [MenuItem("Tools/Better UI/Smart Parent", false, 30)]
+        [MenuItem("Tools/Better UI/Smart Parent", false, 61)]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(SmartParentWindow), false, "Smart Parent");
@@ -214,7 +214,7 @@ namespace TheraBytes.BetterUi.Editor
             foreach (var child in selection)
             {
                 var rt = child as RectTransform;
-                if (rt == null)
+                if (rt == null || !rt.gameObject.activeSelf)
                     continue;
 
                 Rect rect = rt.ToScreenRect(startAtBottom: true);

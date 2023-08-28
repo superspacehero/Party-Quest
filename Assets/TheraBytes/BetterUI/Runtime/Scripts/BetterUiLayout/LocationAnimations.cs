@@ -247,8 +247,9 @@ namespace TheraBytes.BetterUi
             runningAnimation.Time += deltaTime * runningAnimation.TimeScale;
             if (animationTimeIsOver)
             {
-                runningAnimation.ActionAfterFinish.Invoke();
+                var cache = runningAnimation;
                 runningAnimation = null;
+                cache.ActionAfterFinish.Invoke();
             }
         }
 

@@ -11,7 +11,6 @@ namespace TheraBytes.BetterUi
     [AddComponentMenu("Better UI/Controls/Better Raw Image", 30)]
     public class BetterRawImage : RawImage, IImageAppearanceProvider, IResolutionDependency
     {
-
         #region Nested Types
         [Serializable]
         public class TextureSettings : IScreenConfigConnection
@@ -55,9 +54,52 @@ namespace TheraBytes.BetterUi
 
         public VertexMaterialData MaterialProperties { get { return materialProperties; } }
 
-        public ColorMode ColoringMode { get { return colorMode; } set { colorMode = value; } }
-        public Color SecondColor { get { return secondColor; } set { secondColor = value; } }
-        
+        public ColorMode ColoringMode
+        {
+            get { return colorMode; } 
+            set
+            {
+                Config.Set(value, (o) => colorMode = value, (o) => CurrentTextureSettings.ColorMode = value);
+                SetVerticesDirty();
+            }
+        }
+        public Color SecondColor
+        { 
+            get { return secondColor; } 
+            set
+            {
+                Config.Set(value, (o) => secondColor = value, (o) => CurrentTextureSettings.SecondaryColor = value);
+                SetVerticesDirty();
+            }
+        }
+
+        public override Color color
+        {
+            get { return base.color; }
+            set
+            {
+                Config.Set(value, (o) => base.color = value, (o) => CurrentTextureSettings.PrimaryColor = value);
+            }
+        }
+
+        public new Texture texture
+        {
+            get { return base.texture; }
+            set
+            {
+                Config.Set(value, (o) => base.texture = value, (o) => CurrentTextureSettings.Texture = value);
+            }
+        }
+
+        public new Rect uvRect
+        {
+            get { return base.uvRect; }
+            set
+            {
+                Config.Set(value, (o) => base.uvRect = value, (o) => CurrentTextureSettings.UvRect = value);
+            }
+        }
+
         [SerializeField]
         ColorMode colorMode = ColorMode.Color;
 

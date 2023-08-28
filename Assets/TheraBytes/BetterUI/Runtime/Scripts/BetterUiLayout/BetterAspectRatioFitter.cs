@@ -32,6 +32,25 @@ namespace TheraBytes.BetterUi
 
         public Settings CurrentSettings { get { return customSettings.GetCurrentItem(settingsFallback); } }
 
+        public new AspectMode aspectMode
+        {
+            get { return base.aspectMode; }
+            set
+            {
+                Config.Set(value, (o) => base.aspectMode = value, (o) => CurrentSettings.AspectMode = value);
+            }
+        }
+
+        public new float aspectRatio
+        {
+            get { return base.aspectRatio; }
+            set
+            {
+                Config.Set(value, (o) => base.aspectRatio = value, (o) => CurrentSettings.AspectRatio = value);
+            }
+        }
+
+
         [SerializeField]
         Settings settingsFallback = new Settings();
 

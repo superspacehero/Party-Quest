@@ -31,6 +31,7 @@ namespace TheraBytes.BetterUi.Editor
         private GUIContent m_SpriteContent;
         private GUIContent m_SpriteTypeContent;
         private GUIContent m_ClockwiseContent;
+        private GUIContent m_UseSpriteMeshContent;
 
         private AnimBool m_ShowSlicedOrTiled;
         private AnimBool m_ShowSliced;
@@ -68,6 +69,9 @@ namespace TheraBytes.BetterUi.Editor
             this.m_SpriteContent = new GUIContent("Source Image");
             this.m_SpriteTypeContent = new GUIContent("Image Type");
             this.m_ClockwiseContent = new GUIContent("Clockwise");
+            this.m_UseSpriteMeshContent = new GUIContent("Use Sprite Mesh",
+                "In Better UI, this option is not supported. If you need it, please use an Image, not Better Image.");
+
             this.m_Sprite = base.serializedObject.FindProperty("m_Sprite");
             this.m_Type = base.serializedObject.FindProperty("m_Type");
             this.m_FillCenter = base.serializedObject.FindProperty("m_FillCenter");
@@ -138,7 +142,9 @@ namespace TheraBytes.BetterUi.Editor
                 EditorGUI.indentLevel = EditorGUI.indentLevel + 1;
                 if (m_useSpriteMesh != null)
                 {
-                    EditorGUILayout.PropertyField(this.m_useSpriteMesh, new GUILayoutOption[0]);
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.Toggle(m_UseSpriteMeshContent, false, new GUILayoutOption[0]);
+                    EditorGUI.EndDisabledGroup();
                 }
                 EditorGUILayout.PropertyField(this.m_PreserveAspect, new GUILayoutOption[0]);
                 EditorGUI.indentLevel = EditorGUI.indentLevel - 1;
@@ -271,9 +277,12 @@ namespace TheraBytes.BetterUi.Editor
             this.m_ShowSliced.target = (!flag1 || this.m_Type.hasMultipleDifferentValues ? false : mType == Image.Type.Sliced);
             this.m_ShowFilled.target = (this.m_Type.hasMultipleDifferentValues ? false : mType == Image.Type.Filled);
             Image image = this.target as Image;
-            if (EditorGUILayout.BeginFadeGroup(this.m_ShowSlicedOrTiled.faded) && image.hasBorder)
+            if (EditorGUILayout.BeginFadeGroup(this.m_ShowSlicedOrTiled.faded) || image.hasBorder)
             {
-                EditorGUILayout.PropertyField(this.m_FillCenter, new GUILayoutOption[0]);
+                if (mType == Image.Type.Sliced)
+                {
+                    EditorGUILayout.PropertyField(this.m_FillCenter, new GUILayoutOption[0]);
+                }
 
                 if (m_pixelPerUnitMultiplyer != null)
                 {

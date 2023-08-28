@@ -9,6 +9,9 @@ namespace TheraBytes.BetterUi
     public interface ISizeConfigCollection
     {
         string GetCurrentConfigName();
+        void MarkDirty();
+        bool IsDirty { get; }
+        void Sort();
     }
 
     [Serializable]
@@ -18,16 +21,26 @@ namespace TheraBytes.BetterUi
         [SerializeField]
         List<T> items = new List<T>();
         
-        public List<T> Items { get { return items; } }
+        public IReadOnlyList<T> Items { get { return items; } }
 
-        bool sorted = false;
+        bool isDirty = true;
+        public bool IsDirty { get { return isDirty; } }
+
+        public void AddItem(T item)
+        {
+            items.Add(item);
+            MarkDirty();
+        }
 
         public void Sort()
         {
+            if (!isDirty)
+                return;
+
             List<string> order = ResolutionMonitor.Instance.OptimizedScreens.Select(o => o.Name).ToList();
             items.Sort((a, b) => order.IndexOf(a.ScreenConfigName).CompareTo(order.IndexOf(b.ScreenConfigName)));
 
-            sorted = true;
+            isDirty = false;
         }
 
         public string GetCurrentConfigName()
@@ -40,18 +53,24 @@ namespace TheraBytes.BetterUi
             return null;
         }
 
+        public T GetItemForConfig(string configName, T fallback)
+        {
+            foreach(var itm in items)
+            {
+                if (itm.ScreenConfigName == configName)
+                    return itm;
+            }
+
+            return fallback;
+        }
+
         public T GetCurrentItem(T fallback)
         {
             // if there is no config matching the screen
             if (ResolutionMonitor.CurrentScreenConfiguration == null)
                 return fallback;
 
-            if (!(sorted))
-            {
-                Sort();
-            }
-
-
+            Sort();
 #if UNITY_EDITOR
             
             // simulation
@@ -92,6 +111,10 @@ namespace TheraBytes.BetterUi
             // final fallback
             return fallback;
         }
-        
+
+        public void MarkDirty()
+        {
+            isDirty = true;
+        }
     }
 }

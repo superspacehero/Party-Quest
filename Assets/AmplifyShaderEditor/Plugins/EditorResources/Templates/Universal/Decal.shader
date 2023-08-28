@@ -64,7 +64,7 @@ Shader  /*ase_name*/"Hidden/Universal/Decal"/*end*/
 				false:RemoveDefine:DBufferMesh:pragma multi_compile _ LOD_FADE_CROSSFADE
 				false:RemoveDefine:DecalScreenSpaceMesh:pragma multi_compile _ LOD_FADE_CROSSFADE
 				false:RemoveDefine:DecalGBufferMesh:pragma multi_compile _ LOD_FADE_CROSSFADE
-			Option:Angle Fade:false,true:false
+			Option:Angle Fade:false,true:true
 				true:SetDefine:DECAL_ANGLE_FADE 1
 				true:SetShaderProperty:_DecalAngleFadeSupported,[HideInInspector] _DecalAngleFadeSupported("Decal Angle Fade Supported", Float) = 1
 				false:RemoveDefine:DECAL_ANGLE_FADE 1

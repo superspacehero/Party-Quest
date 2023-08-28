@@ -48,7 +48,16 @@ namespace TheraBytes.BetterUi
             set { this.verticalStartPosition = value; }
         }
 
-
+        public new float horizontalScrollbarSpacing
+        {
+            get { return base.horizontalScrollbarSpacing; }
+            set { Config.Set(value, (o) => base.horizontalScrollbarSpacing = o, (o) => HorizontalSpacingSizer.SetSize(this, o)); }
+        }
+        public new float verticalScrollbarSpacing
+        {
+            get { return base.verticalScrollbarSpacing; }
+            set { Config.Set(value, (o) => base.verticalScrollbarSpacing = o, (o) => VerticalSpacingSizer.SetSize(this, o)); }
+        }
         public FloatSizeModifier HorizontalSpacingSizer { get { return customHorizontalSpacingSizers.GetCurrentItem(horizontalSpacingFallback); } }
         public FloatSizeModifier VerticalSpacingSizer { get { return customVerticalSpacingSizers.GetCurrentItem(verticalSpacingFallback); } }
 

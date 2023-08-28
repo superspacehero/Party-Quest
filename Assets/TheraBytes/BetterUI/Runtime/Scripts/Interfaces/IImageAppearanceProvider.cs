@@ -9,8 +9,8 @@ namespace TheraBytes.BetterUi
     public interface IImageAppearanceProvider
     {
         ColorMode ColoringMode { get; }
-        Color SecondColor { get; }
-        Color color { get; }
+        Color SecondColor { get; set; }
+        Color color { get; set; }
         
 
         string MaterialType { get; set; }

@@ -544,7 +544,6 @@ Shader /*ase_name*/ "Hidden/Universal/Unlit" /*end*/
 
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma shader_feature _ _SAMPLE_GI
 			#pragma multi_compile _ DEBUG_DISPLAY
 
 			#pragma vertex vert
@@ -1400,7 +1399,6 @@ Shader /*ase_name*/ "Hidden/Universal/Unlit" /*end*/
 
 			#pragma multi_compile _ LIGHTMAP_ON
 			#pragma multi_compile _ DIRLIGHTMAP_COMBINED
-			#pragma shader_feature _ _SAMPLE_GI
 			#pragma multi_compile _ _DBUFFER_MRT1 _DBUFFER_MRT2 _DBUFFER_MRT3
 			#pragma multi_compile _ DEBUG_DISPLAY
 			#define SHADERPASS SHADERPASS_UNLIT

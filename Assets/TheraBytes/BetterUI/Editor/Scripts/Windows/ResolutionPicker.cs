@@ -43,7 +43,7 @@ namespace TheraBytes.BetterUi.Editor
         static Assembly assembly;
         static EditorWindow gameView;
 
-        [MenuItem("Tools/Better UI/Pick Resolution", false, 60)]
+        [MenuItem("Tools/Better UI/Pick Resolution", false, 90)]
         public static void ShowWindow()
         {
             assembly = typeof(EditorWindow).Assembly;
@@ -109,7 +109,14 @@ namespace TheraBytes.BetterUi.Editor
                 AddSize(gameSizeType, gameSize, i, isCustom);
             }
 
-            selectedIndex = gameView.GetType().GetProperty("selectedSizeIndex", BindingFlags.Instance | BindingFlags.NonPublic);
+            BindingFlags bindingFlags =
+#if UNITY_2022_1_OR_NEWER
+                BindingFlags.Instance | BindingFlags.Public;
+#else
+                BindingFlags.Instance | BindingFlags.NonPublic;
+#endif
+
+            selectedIndex = gameView.GetType().GetProperty("selectedSizeIndex", bindingFlags);
         }
 
         void OnGUI()
@@ -297,6 +304,11 @@ namespace TheraBytes.BetterUi.Editor
                 var method = type.GetMethod("UpdateZoomAreaAndParent", BindingFlags.Instance | BindingFlags.NonPublic);
                 method.Invoke(gameView, null);
             }
+
+            var resizedNotifyMethod = type.GetMethod("OnResized", BindingFlags.Instance | BindingFlags.NonPublic);
+            resizedNotifyMethod.Invoke(gameView, null);
+
+            SceneView.RepaintAll();
         }
 
         void Begin(bool mainSection)

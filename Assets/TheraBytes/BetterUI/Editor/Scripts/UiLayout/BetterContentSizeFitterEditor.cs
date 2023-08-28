@@ -18,6 +18,7 @@ namespace TheraBytes.BetterUi.Editor
         SerializedProperty maxHeightFallback, maxHeightList;
         SerializedProperty paddingFallback, paddingList;
         SerializedProperty source;
+        SerializedProperty treatAsLayoutElement;
 
         bool showMinHeight, showMinWidth;
         bool showMaxHeight, showMaxWidth;
@@ -42,11 +43,14 @@ namespace TheraBytes.BetterUi.Editor
             paddingList = serializedObject.FindProperty("paddingSizers");
 
             source = serializedObject.FindProperty("source");
+            treatAsLayoutElement = serializedObject.FindProperty("treatAsLayoutElement");
+
         }
 
         public override void OnInspectorGUI()
         {
             EditorGUILayout.PropertyField(source);
+            EditorGUILayout.PropertyField(treatAsLayoutElement);
 
             ScreenConfigConnectionHelper.DrawGui("Settings", settingsList, ref settingsFallback, DrawSettings);
 

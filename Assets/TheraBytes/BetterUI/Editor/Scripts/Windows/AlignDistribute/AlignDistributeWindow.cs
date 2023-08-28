@@ -26,7 +26,7 @@ namespace TheraBytes.BetterUi.Editor.AlignDistribute
         private Texture2D alignLeft, alignCenter, alignRight, alignBottom, alignMiddle, alignTop;
         private Texture2D distributeHorizontal, distributeVertical;
 
-        [MenuItem("Tools/Better UI/Align and Distribute", false, 31)]
+        [MenuItem("Tools/Better UI/Align and Distribute", false, 62)]
         public static void ShowWindow()
         {
             EditorWindow window = GetWindow(typeof(AlignDistributeWindow), false, "Align/Distribute");

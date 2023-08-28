@@ -96,7 +96,7 @@ namespace TheraBytes.BetterUi
             keysToRemove.Clear();
 
             // trigger value changes
-            if (duration == 0)
+            if (duration == 0 || !target.enabled || !target.gameObject.activeInHierarchy)
             {
                 target.SetMaterialProperty(propertyIndex, targetValue);
             }

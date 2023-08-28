@@ -37,7 +37,7 @@ namespace TheraBytes.BetterUi.Editor
                 "Open Thread in Unity Forum", () => Application.OpenURL("https://forum.unity.com/threads/better-ui.453808/")));
 
             Add(new InfoWithButtonWizardPageElement("Alternatively, you can send us a mail.",
-                "Send Mail", () => Application.OpenURL("mailto:info@therabytes.de")));
+                "Send Mail", () => Application.OpenURL("mailto:info@therabytes.de?subject=Better%20UI")));
 
             Add(new SeparatorWizardPageElement());
             Add(new InfoWithButtonWizardPageElement("If you want to watch some explanatory videos, visit the Asset Store page.\n" +

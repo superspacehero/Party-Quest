@@ -20,7 +20,7 @@ namespace TheraBytes.BetterUi.Editor
         {
             base.OnInspectorGUI();
 
-            helper.DrawGui(serializedObject, target);
+            helper.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

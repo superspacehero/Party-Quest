@@ -1,3 +1,31 @@
+v1.9.2
+
+   Highlights
+      * Added support for 2023.2 and URP/HDRP 16x
+      * Added URP/HDRP 16x samples
+      * Fixed URP/HDRP 15x samples
+      * Added "Always Align to Grid" option to Preferences
+
+   Editor
+      * Node lengths now align to grid during snap
+      * Node header height now same regardless of subtitle
+      * Shader Function node Icon now white
+      * Removed [ASEBegin]/[ASEEnd] SRP tags
+
+   Samples
+      * Fixed Built-in samples
+      * Removed some Built-in samples conflicting with ASP
+
+v1.9.1.9
+
+   Editor
+      * Adjusted UIUtils toolbar style fix to include Unity 2021.3
+      * Switched from http to https as workaround for connection issues
+
+   Templates
+      * Fixed Decal related errors in Lit template (HDRP 14x 15x)
+      * Fixed OUTPUT_SH errors on URP 15x
+
 v1.9.1.8
 
    Editor

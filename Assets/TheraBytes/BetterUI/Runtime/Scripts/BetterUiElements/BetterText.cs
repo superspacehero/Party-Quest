@@ -26,7 +26,12 @@ namespace TheraBytes.BetterUi
 
         public FloatSizeModifier FontSizer { get { return customFontSizers.GetCurrentItem(fontSizerFallback); } }
         public FittingMode Fitting { get { return fitting; } set { fitting = value; CalculateSize(); } }
-        
+
+        public new float fontSize
+        {
+            get { return base.fontSize; }
+            set { Config.Set(value, (o) => base.fontSize = Mathf.RoundToInt(o), (o) => FontSizer.SetSize(this, o)); }
+        }
 
         [SerializeField]
         FittingMode fitting = FittingMode.StayInBounds;

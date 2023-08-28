@@ -16,7 +16,7 @@ namespace TheraBytes.BetterUi
         public List<Transitions> BetterTransitions { get { return betterTransitions; } }
         public List<Graphic> AdditionalPlaceholders { get { return additionalPlaceholders; } }
 
-        [SerializeField]
+        [SerializeField, DefaultTransitionStates]
         List<Transitions> betterTransitions = new List<Transitions>();
 
         [SerializeField]

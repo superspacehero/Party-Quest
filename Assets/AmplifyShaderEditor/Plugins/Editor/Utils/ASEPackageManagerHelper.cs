@@ -79,8 +79,8 @@ namespace AmplifyShaderEditor
 			{ ( int )ASESRPBaseline.ASE_SRP_13, new ASESRPPackageDesc( ASESRPBaseline.ASE_SRP_13, "57fcea0ed8b5eb347923c4c21fa31b57", "9a5e61a8b3421b944863d0946e32da0a" ) },
 			{ ( int )ASESRPBaseline.ASE_SRP_14, new ASESRPPackageDesc( ASESRPBaseline.ASE_SRP_14, "2e9da72e7e3196146bf7d27450013734", "89f0b84148d149d4d96b838d7ef60e92" ) },
 			{ ( int )ASESRPBaseline.ASE_SRP_15, new ASESRPPackageDesc( ASESRPBaseline.ASE_SRP_15, "0904cdf24ddcd5042b024326476220d5", "19939ee2cdb76e0489b1b8cd4bed7f3d" ) },
-            { ( int )ASESRPBaseline.ASE_SRP_16, new ASESRPPackageDesc( ASESRPBaseline.ASE_SRP_16, "0904cdf24ddcd5042b024326476220d5", "19939ee2cdb76e0489b1b8cd4bed7f3d" ) },
-        };
+			{ ( int )ASESRPBaseline.ASE_SRP_16, new ASESRPPackageDesc( ASESRPBaseline.ASE_SRP_16, "929783250050f8a448821b6ca1f2c578", "70777e8ce9f3c8d4a8182ca2f965cdb2" ) },
+		};
 
 		private static Shader m_lateShader;
 		private static Material m_lateMaterial;

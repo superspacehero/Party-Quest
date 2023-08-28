@@ -64,7 +64,7 @@ namespace AmplifyShaderEditor
 		[MenuItem( "Assets/Create/Amplify Shader/Templates/UI-Default", false, 85 )]
 		public static void ApplyTemplateTemplatesUIDefault()
 		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "380b711cca07009809b75fbaafdc418b" );
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "4c019dfdfeda602508c84e0090081e36" );
 		}
 		[MenuItem( "Assets/Create/Amplify Shader/UI/Default", false, 85 )]
 		public static void ApplyTemplateUIDefault()
@@ -99,7 +99,7 @@ namespace AmplifyShaderEditor
 		[MenuItem( "Assets/Create/Amplify Shader/Universal/Lit 1", false, 85 )]
 		public static void ApplyTemplateUniversalLit1()
 		{
-			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "be68bdb850ef78bd19da804103ceb0a0" );
+			AmplifyShaderEditorWindow.CreateConfirmationTemplateShader( "3a305264a228284038437e2cea5366f3" );
 		}
 		[MenuItem( "Assets/Create/Amplify Shader/Universal/Unlit", false, 85 )]
 		public static void ApplyTemplateUniversalUnlit()

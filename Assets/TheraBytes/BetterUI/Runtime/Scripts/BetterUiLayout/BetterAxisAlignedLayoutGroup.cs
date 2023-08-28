@@ -19,6 +19,7 @@ namespace TheraBytes.BetterUi
     public class BetterAxisAlignedLayoutGroup 
         : HorizontalOrVerticalLayoutGroup, IBetterHorizontalOrVerticalLayoutGroup, IResolutionDependency
     {
+
         [Serializable]
         public class Settings : IScreenConfigConnection
         {
@@ -88,6 +89,73 @@ namespace TheraBytes.BetterUi
 
         [SerializeField]
         Axis orientation;
+
+        #region new base setters
+        public new RectOffset padding
+        {
+            get { return base.padding; }
+            set { Config.Set(value, (o) => base.padding = value, (o) => PaddingSizer.SetSize(this, new Margin(o))); }
+        }
+
+        public new float spacing
+        {
+            get { return base.spacing; }
+            set { Config.Set(value, (o) => base.spacing = value, (o) => SpacingSizer.SetSize(this, o)); }
+        }
+        public new TextAnchor childAlignment
+        {
+            get { return base.childAlignment; }
+            set { Config.Set(value, (o) => base.childAlignment = o, (o) => CurrentSettings.ChildAlignment = o); }
+        }
+
+
+        public new bool childForceExpandHeight
+        {
+            get { return base.childForceExpandHeight; }
+            set { Config.Set(value, (o) => base.childForceExpandHeight = o, (o) => CurrentSettings.ChildForceExpandHeight = o); }
+        }
+
+        public new bool childForceExpandWidth
+        {
+            get { return base.childForceExpandWidth; }
+            set { Config.Set(value, (o) => base.childForceExpandWidth = o, (o) => CurrentSettings.ChildForceExpandWidth = o); }
+        }
+
+#if UNITY_2020_1_OR_NEWER
+        public new bool reverseArrangement
+        {
+            get { return base.reverseArrangement; }
+            set { Config.Set(value, (o) => base.reverseArrangement = o, (o) => CurrentSettings.ReverseArrangement = o); }
+        }
+#endif
+#if UNITY_2019_1_OR_NEWER
+        public new bool childScaleWidth
+        {
+            get { return base.childScaleWidth; }
+            set { Config.Set(value, (o) => base.childScaleWidth = o, (o) => CurrentSettings.ChildScaleWidth = o); }
+        }
+
+        public new bool childScaleHeight
+        {
+            get { return base.childScaleHeight; }
+            set { Config.Set(value, (o) => base.childScaleHeight = o, (o) => CurrentSettings.ChildScaleHeight = o); }
+        }
+#endif
+#if !(UNITY_5_4) && !(UNITY_5_3)
+        public new bool childControlWidth
+        {
+            get { return base.childControlWidth; }
+            set { Config.Set(value, (o) => base.childControlWidth = o, (o) => CurrentSettings.ChildControlWidth = o); }
+        }
+
+        public new bool childControlHeight
+        {
+            get { return base.childControlHeight; }
+            set { Config.Set(value, (o) => base.childControlHeight = o, (o) => CurrentSettings.ChildControlHeight = o); }
+        }
+#endif
+#endregion
+
 
         protected override void OnEnable()
         {

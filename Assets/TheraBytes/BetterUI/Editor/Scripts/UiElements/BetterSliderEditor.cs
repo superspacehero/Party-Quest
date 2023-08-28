@@ -21,7 +21,7 @@ namespace TheraBytes.BetterUi.Editor
             base.OnInspectorGUI();
 
             BetterSlider obj = target as BetterSlider;
-            helper.DrawGui(serializedObject, obj);
+            helper.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

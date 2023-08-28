@@ -16,25 +16,23 @@ namespace TheraBytes.BetterUi.Editor
         BetterElementHelper<InputField, BetterInputField> helper =
             new BetterElementHelper<InputField, BetterInputField>();
 
-        int phCount = 0;
+        SerializedProperty additionalPlaceholdersProp;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            additionalPlaceholdersProp = serializedObject.FindProperty("additionalPlaceholders");
+        }
+
 
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
-            BetterInputField obj = target as BetterInputField;
-            helper.DrawGui(serializedObject, obj);
+            helper.DrawGui(serializedObject);
 
-            var prop = serializedObject.FindProperty("additionalPlaceholders");
-            EditorGuiUtils.DrawLayoutList("Additional Placeholders",
-                obj.AdditionalPlaceholders, prop, ref phCount,
-                createCallback: null,
-                drawItemCallback: (item, p) =>
-                {
-                    EditorGUILayout.PropertyField(p);
-                    serializedObject.ApplyModifiedProperties();
-                }
-            );
+            ThirdParty.ReorderableListGUI.Title("Additional Placeholders");
+            ThirdParty.ReorderableListGUI.ListField(additionalPlaceholdersProp);
 
             serializedObject.ApplyModifiedProperties();
         }

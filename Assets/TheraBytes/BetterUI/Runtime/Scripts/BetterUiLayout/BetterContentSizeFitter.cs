@@ -17,7 +17,7 @@ namespace TheraBytes.BetterUi
 #endif
     [HelpURL("https://documentation.therabytes.de/better-ui/BetterContentSizeFitter.html")]
     [AddComponentMenu("Better UI/Layout/Better Content Size Fitter", 30)]
-    public class BetterContentSizeFitter : ContentSizeFitter, IResolutionDependency, ILayoutChildDependency
+    public class BetterContentSizeFitter : ContentSizeFitter, IResolutionDependency, ILayoutChildDependency, ILayoutElement, ILayoutIgnorer
     {
         [Serializable]
         public class Settings : IScreenConfigConnection
@@ -28,7 +28,7 @@ namespace TheraBytes.BetterUi
 
             public bool IsAnimated;
             public float AnimationTime = 0.2f;
-            
+
             public bool HasMinWidth;
             public bool HasMinHeight;
 
@@ -48,6 +48,30 @@ namespace TheraBytes.BetterUi
         public Settings CurrentSettings { get { return customSettings.GetCurrentItem(settingsFallback); } }
 
         public RectTransform Source { get { return (source != null) ? source : this.rectTransform; } set { source = value; SetDirty(); } }
+        public bool TreatAsLayoutElement { get { return treatAsLayoutElement; } set { treatAsLayoutElement = value; } }
+
+
+        public FloatSizeModifier CurrentMinWidth { get { return minWidthSizers.GetCurrentItem(minWidthSizerFallback); } }
+        public FloatSizeModifier CurrentMinHeight { get { return minHeightSizers.GetCurrentItem(minHeightSizerFallback); } }
+        public FloatSizeModifier CurrentMaxWidth { get { return maxWidthSizers.GetCurrentItem(maxWidthSizerFallback); } }
+        public Vector2SizeModifier CurrentPadding { get { return paddingSizers.GetCurrentItem(paddingFallback); } }
+
+        public new FitMode horizontalFit
+        {
+            get { return base.horizontalFit; }
+            set
+            {
+                Config.Set(value, (o) => base.horizontalFit = value, (o) => CurrentSettings.HorizontalFit = value);
+            }
+        }
+        public new FitMode verticalFit
+        {
+            get { return base.verticalFit; }
+            set
+            {
+                Config.Set(value, (o) => base.verticalFit = value, (o) => CurrentSettings.VerticalFit = value);
+            }
+        }
 
         [SerializeField]
         RectTransform source;
@@ -57,7 +81,7 @@ namespace TheraBytes.BetterUi
 
         [SerializeField]
         SettingsConfigCollection customSettings = new SettingsConfigCollection();
-        
+
         [SerializeField]
         FloatSizeModifier minWidthSizerFallback = new FloatSizeModifier(0, 0, 4000);
         [SerializeField]
@@ -86,10 +110,14 @@ namespace TheraBytes.BetterUi
         [SerializeField]
         Vector2SizeConfigCollection paddingSizers = new Vector2SizeConfigCollection();
 
+        [SerializeField]
+        bool treatAsLayoutElement = true;
+
         RectTransformData start = new RectTransformData();
         RectTransformData end = new RectTransformData();
 
         bool isAnimating;
+        Vector2 lastCalculatedSize;
 
         protected override void OnEnable()
         {
@@ -143,7 +171,11 @@ namespace TheraBytes.BetterUi
             {
                 start.PullFromTransform(this.transform as RectTransform);
             }
-            
+
+            // disable layout element functionality to prevent wrong size calculation for itself.
+            bool wasLayoutElement = this.treatAsLayoutElement;
+            this.treatAsLayoutElement = false;
+
             if (axis == 0)
             {
                 base.SetLayoutHorizontal();
@@ -162,6 +194,9 @@ namespace TheraBytes.BetterUi
 
                 Animate();
             }
+
+            // restore layout element functionality to prevent wrong size calculation for parent layout groups.
+            this.treatAsLayoutElement = wasLayoutElement;
         }
 
         void ApplyOffsetToDefaultSize(int axis, FitMode fitMode)
@@ -172,19 +207,22 @@ namespace TheraBytes.BetterUi
 
             if (hasMax || hasMin || !Mathf.Approximately(padding[axis], 0) || source != null)
             {
+
                 float size = (fitMode == FitMode.MinSize)
                         ? LayoutUtility.GetMinSize(Source, axis)
                         : LayoutUtility.GetPreferredSize(Source, axis);
+
 
                 size += padding[axis];
 
                 size = ClampSize((RectTransform.Axis)axis, size);
 
+                lastCalculatedSize[axis] = size;
                 rectTransform.SetSizeWithCurrentAnchors((RectTransform.Axis)axis, size);
             }
         }
 
-       
+
         float ClampSize(RectTransform.Axis axis, float size)
         {
             switch (axis)
@@ -236,37 +274,6 @@ namespace TheraBytes.BetterUi
             return bounds;
         }
 
-
-        #region ILayoutChildDependency
-
-        public void ChildSizeChanged(Transform child)
-        {
-            ChildChanged();
-        }
-
-        public void ChildAddedOrEnabled(Transform child)
-        {
-            ChildChanged();
-        }
-
-        public void ChildRemovedOrDisabled(Transform child)
-        {
-            ChildChanged();
-        }
-
-        void ChildChanged()
-        {
-            bool tmp = CurrentSettings.IsAnimated;
-            CurrentSettings.IsAnimated = false;
-            SetLayoutHorizontal();
-            SetLayoutVertical();
-            CurrentSettings.IsAnimated = tmp;
-        }
-
-
-        #endregion
-
-
         private void Animate()
         {
             if (!CurrentSettings.IsAnimated)
@@ -307,12 +314,95 @@ namespace TheraBytes.BetterUi
             CurrentSettings.IsAnimated = true;
         }
 
+        #region ILayoutChildDependency
+
+        public void ChildSizeChanged(Transform child)
+        {
+            ChildChanged();
+        }
+
+        public void ChildAddedOrEnabled(Transform child)
+        {
+            ChildChanged();
+        }
+
+        public void ChildRemovedOrDisabled(Transform child)
+        {
+            ChildChanged();
+        }
+
+        void ChildChanged()
+        {
+            bool tmp = CurrentSettings.IsAnimated;
+            CurrentSettings.IsAnimated = false;
+            SetLayoutHorizontal();
+            SetLayoutVertical();
+            CurrentSettings.IsAnimated = tmp;
+        }
+
+
+        #endregion
+
+        #region ILayoutElement & ILayoutIgnorer
+        float ILayoutElement.minWidth
+        {
+            get { return treatAsLayoutElement && CurrentSettings.HasMinWidth ? CurrentMinWidth.LastCalculatedSize : -1; }
+        }
+        float ILayoutElement.minHeight
+        {
+            get { return treatAsLayoutElement && CurrentSettings.HasMinHeight ? CurrentMinHeight.LastCalculatedSize : -1; }
+        }
+
+
+        float ILayoutElement.preferredWidth
+        {
+            get
+            {
+                if (!treatAsLayoutElement)
+                    return -1;
+
+                SetLayoutHorizontal();
+                return lastCalculatedSize.x;
+            }
+        }
+
+        float ILayoutElement.preferredHeight
+        {
+            get
+            {
+                if (!treatAsLayoutElement)
+                    return -1;
+
+                SetLayoutVertical();
+                return lastCalculatedSize.y;
+            }
+        }
+
+        float ILayoutElement.flexibleWidth { get { return -1; } }
+        float ILayoutElement.flexibleHeight { get { return -1; } }
+
+        int ILayoutElement.layoutPriority { get { return 1; } }
+
+        bool ILayoutIgnorer.ignoreLayout { get { return !treatAsLayoutElement; } }
+
+        void ILayoutElement.CalculateLayoutInputHorizontal()
+        {
+            SetLayoutHorizontal();
+        }
+
+        void ILayoutElement.CalculateLayoutInputVertical()
+        {
+            SetLayoutVertical();
+        }
+        #endregion
+
 #if UNITY_EDITOR
         protected override void OnValidate()
         {
             base.OnValidate();
             Apply();
         }
+
 
 #endif
 

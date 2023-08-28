@@ -224,7 +224,13 @@ namespace TheraBytes.BetterUi.Editor
         private static IEnumerable<KeyValuePair<SerializedObject, string>> FindReferencesTo(UnityEngine.Component obj)
         {
             // iterate objects in the scene
-            var allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+            var allObjects =
+#if UNITY_2022_2_OR_NEWER
+                UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+                UnityEngine.Object.FindObjectsOfType<GameObject>();
+#endif
+
             for (int i = 0; i < allObjects.Length; i++)
             {
                 var go = allObjects[i];

@@ -19,7 +19,7 @@ namespace TheraBytes.BetterUi.Editor
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
-            helper.DrawGui(serializedObject, target);
+            helper.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

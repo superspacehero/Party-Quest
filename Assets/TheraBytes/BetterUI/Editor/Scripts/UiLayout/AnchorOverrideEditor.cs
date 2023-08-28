@@ -13,7 +13,7 @@ namespace TheraBytes.BetterUi.Editor
         static readonly GUIContent IsAnimatedContent = new GUIContent("Animate",
             "If enabled the anchors are not applied instantly but with an animation.");
 
-        static readonly GUIContent AccelerationContent = new GUIContent("Acceleration", 
+        static readonly GUIContent AccelerationContent = new GUIContent("Acceleration",
             "Defines how fast the movement reaches maximum speed.");
 
         static readonly GUIContent MaxMoveSpeedContent = new GUIContent("Max Move Speed",
@@ -26,7 +26,7 @@ namespace TheraBytes.BetterUi.Editor
         static readonly string[] VerticalOptions = { "Center", "Pivot", "Bottom", "Top" };
 
         SerializedProperty anchorsFallback, anchorsConfigs,
-            isAnimated, acceleration, maxMoveSpeed, snapThreshold;
+            mode, isAnimated, acceleration, maxMoveSpeed, snapThreshold;
 
         Dictionary<string, UnityEditorInternal.ReorderableList> lists = new Dictionary<string, UnityEditorInternal.ReorderableList>();
 
@@ -37,6 +37,7 @@ namespace TheraBytes.BetterUi.Editor
             anchorsFallback = serializedObject.FindProperty("anchorsFallback");
             anchorsConfigs = serializedObject.FindProperty("anchorsConfigs");
 
+            mode = serializedObject.FindProperty("mode");
             isAnimated = serializedObject.FindProperty("isAnimated");
             acceleration = serializedObject.FindProperty("acceleration");
             maxMoveSpeed = serializedObject.FindProperty("maxMoveSpeed");
@@ -59,12 +60,32 @@ namespace TheraBytes.BetterUi.Editor
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space();
-
+            DrawModeSelection();
             DrawAnimationSettings();
 
             EditorGUILayout.Space();
 
             ScreenConfigConnectionHelper.DrawGui("Anchors", anchorsConfigs, ref anchorsFallback, DrawAnchorSettings);
+        }
+
+        private void DrawModeSelection()
+        {
+            if (isAnimated.boolValue)
+            {
+                EditorGUILayout.PropertyField(mode);
+            }
+            else
+            {
+                string[] options = { "Auto Update", /* enum index 1 is skipped, */ "Manual Update" };
+
+                int prevIndex = (mode.enumValueIndex == 2) ? 1 : 0;
+                int newIndex = EditorGUILayout.Popup("Mode", prevIndex, options);
+                if (newIndex != prevIndex)
+                {
+                    mode.enumValueIndex = (newIndex == 1) ? 2 : 0;
+                    serializedObject.ApplyModifiedProperties();
+                }
+            }
         }
 
         private void DrawAnimationSettings()

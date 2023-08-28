@@ -24,8 +24,11 @@ namespace TheraBytes.BetterUi
 
         public T OptimizedSize;
         public T MinSize;
-        public T MaxSize;              
-            
+        public T MaxSize;
+
+        public bool UseMinSize;
+        public bool UseMaxSize;
+
         protected T value;
         
         public T LastCalculatedSize { get { return value; } }
@@ -36,6 +39,9 @@ namespace TheraBytes.BetterUi
             this.MinSize = min;
             this.MaxSize = max;
             this.value = initValue;
+
+            this.UseMinSize = false;
+            this.UseMaxSize = false;
         }
 
         public T CalculateSize(Component caller)
@@ -46,7 +52,15 @@ namespace TheraBytes.BetterUi
 
         protected float GetSize(float factor, float opt, float min, float max)
         {
-            return Mathf.Clamp(factor * opt, min, max);
+            var result = factor * opt;
+
+            if(UseMinSize && result < min)
+                return min;
+
+            if (UseMaxSize && result > max)
+                return max;
+
+            return result;
         }
 
         /// <summary>

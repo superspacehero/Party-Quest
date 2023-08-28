@@ -20,13 +20,20 @@ namespace TheraBytes.BetterUi
     [HelpURL("https://documentation.therabytes.de/better-ui/AboutMaterials.html")]
     public class Materials : SingletonScriptableObject<Materials>
     {
-        const string STANDARD = "Standard";
-        const string GRAYSCALE = "Grayscale";
-        const string HUE_SATURATION_BRIGHTNESS = "Hue Saturation Brightness";
-
         static string FilePath { get { return "TheraBytes/Resources/Materials"; } }
 
-        static readonly List<string> materialOrder = new List<string>() { STANDARD, GRAYSCALE, HUE_SATURATION_BRIGHTNESS };
+        public static readonly StandardMaterial Standard = new StandardMaterial();
+        public static readonly GrayscaleMaterial Grayscale = new GrayscaleMaterial();
+        public static readonly ColorOverlayMaterial ColorOverlay = new ColorOverlayMaterial();
+        public static readonly HueSaturationBrightnessMaterial HueSaturationBrightness = new HueSaturationBrightnessMaterial();
+
+        static readonly List<string> materialOrder = new List<string>() 
+        { 
+            Standard, 
+            Grayscale, 
+            ColorOverlay,
+            HueSaturationBrightness,
+        };
 
         [Serializable]
         public class MaterialInfo

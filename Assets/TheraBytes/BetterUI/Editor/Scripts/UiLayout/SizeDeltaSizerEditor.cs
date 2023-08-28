@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEditor;
+using UnityEngine;
 
 namespace TheraBytes.BetterUi.Editor
 {
@@ -23,6 +24,13 @@ namespace TheraBytes.BetterUi.Editor
 
         public override void OnInspectorGUI()
         {
+            EditorGUILayout.HelpBox("Size Delta Sizer is obsolete. Use Better Offsetter instead.", MessageType.Warning);
+            if(GUILayout.Button("♠ Convert to Better Offsetter", GUILayout.Height(30)))
+            {
+                BetterOffsetterEditor.ConvertToBetterOffsetter(target as SizeDeltaSizer);
+                return;
+            }
+
             ScreenConfigConnectionHelper.DrawGui("Settings", settingsList, ref settingsFallback, DrawSettings);
             ScreenConfigConnectionHelper.DrawSizerGui("Size Delta Settings", deltaSizerCollection, ref deltaSizerFallback);
         }

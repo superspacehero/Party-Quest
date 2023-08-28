@@ -47,6 +47,42 @@ namespace TheraBytes.BetterUi
         public FloatSizeModifier PreferredWidthSizer { get { return customPreferredWidthSizers.GetCurrentItem(preferredWidthSizerFallback); } }
         public FloatSizeModifier PreferredHeightSizer { get { return customPreferredHeightSizers.GetCurrentItem(preferredHeightSizerFallback); } }
 
+        public new bool ignoreLayout
+        {
+            get { return base.ignoreLayout; }
+            set { Config.Set(value, (o) => base.ignoreLayout = o, (o) => CurrentSettings.IgnoreLayout = o); }
+        }
+        public new float flexibleWidth
+        {
+            get { return base.flexibleWidth; }
+            set { Config.Set(value, (o) => base.flexibleWidth = o, (o) => CurrentSettings.FlexibleWidth = o); }
+        }
+        public new float flexibleHeight
+        {
+            get { return base.flexibleHeight; }
+            set { Config.Set(value, (o) => base.flexibleHeight = o, (o) => CurrentSettings.FlexibleHeight = o); }
+        }
+        public new float minWidth
+        {
+            get { return base.minWidth; }
+            set { Config.Set(value, (o) => base.minWidth = o, (o) => MinWidthSizer.SetSize(this, o)); }
+        }
+        public new float minHeight
+        {
+            get { return base.minHeight; }
+            set { Config.Set(value, (o) => base.minHeight = o, (o) => MinHeightSizer.SetSize(this, o)); }
+        }
+        public new float preferredWidth
+        {
+            get { return base.preferredWidth; }
+            set { Config.Set(value, (o) => base.preferredWidth = o, (o) => PreferredWidthSizer.SetSize(this, o)); }
+        }
+        public new float preferredHeight
+        {
+            get { return base.preferredHeight; }
+            set { Config.Set(value, (o) => base.preferredHeight = o, (o) => PreferredHeightSizer.SetSize(this, o)); }
+        }
+
         [SerializeField]
         FloatSizeModifier minWidthSizerFallback = new FloatSizeModifier(0, 0, 5000);
         [SerializeField]

@@ -11,16 +11,28 @@ namespace TheraBytes.BetterUi.Editor
         where TBase : MonoBehaviour
         where TBetter : TBase, IBetterTransitionUiElement
     {
-        int count = 0;
+        TransitionCollectionDrawer drawer;
+        string fieldName;
 
+        public BetterElementHelper(string fieldName = "betterTransitions")
+        {
+            this.fieldName = fieldName;
+            this.drawer = new TransitionCollectionDrawer(typeof(TBetter), fieldName);
+        }
+
+        public void DrawGui(SerializedObject serializedObject)
+        {
+            drawer.Draw(() => serializedObject.FindProperty(fieldName));
+        }
+
+
+        [Obsolete(EditorGuiUtils.ObsoleteMessage)]
         public void DrawGui(SerializedObject serializedObject, UnityEngine.Object target)
         {
-            TBetter obj = target as TBetter;
-            var listProp = serializedObject.FindProperty("betterTransitions");
-            
-            // Transitions
-            EditorGuiUtils.DrawTransitions("Better Transitions", obj.BetterTransitions, listProp,
-                ref count, Transitions.SelectionStateNames);
+            EditorGuiUtils.DrawOldMethodCallWarning();
+
+            DrawGui(serializedObject);
         }
+
     }
 }

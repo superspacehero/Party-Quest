@@ -489,11 +489,24 @@ namespace TheraBytes.BetterUi
 
         static IEnumerable<GameObject> GetAllEditableObjects()
         {
-            foreach (GameObject go in GameObject.FindObjectsOfType<GameObject>())
+            var allObjects =
+#if UNITY_2022_2_OR_NEWER
+                UnityEngine.Object.FindObjectsByType<GameObject>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+#else
+                UnityEngine.Object.FindObjectsOfType<GameObject>();
+#endif
+
+            foreach (GameObject go in allObjects)
                 yield return go;
 
 #if UNITY_EDITOR && UNITY_2018_3_OR_NEWER
-            var prefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+            var prefabStage =
+#if UNITY_2021_2_OR_NEWER
+                UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+#else
+                UnityEditor.Experimental.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
+#endif
+
             if (prefabStage != null)
             {
                 foreach(GameObject root in prefabStage.scene.GetRootGameObjects())
@@ -579,8 +592,12 @@ namespace TheraBytes.BetterUi
 
         public static bool IsZoomPossible()
         {
+#if UNITY_2018_3_OR_NEWER // minimum officially supported version
+            return true;
+#else
             return unityVersion.Major > 5
                 || (unityVersion.Major == 5 && unityVersion.Minor >= 4);
+#endif
         }
 
         public void SetOptimizedResolutionFallback(Vector2 resolution)
@@ -588,7 +605,7 @@ namespace TheraBytes.BetterUi
             this.optimizedResolutionFallback = resolution;
         }
 #endif
-    }
+        }
 }
 
 #pragma warning restore 0618

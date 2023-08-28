@@ -18,6 +18,13 @@ namespace TheraBytes.BetterUi
     [AddComponentMenu("Better UI/Layout/Anchor Override", 30)]
     public class AnchorOverride : UIBehaviour, IResolutionDependency
     {
+        public enum Modus
+        {
+            AutoUpdateInstantOnStart,
+            AutoUpdateAlwaysAnimate,
+            ManualUpdate,
+        }
+
         [Serializable]
         public class AnchorReference
         {
@@ -68,6 +75,7 @@ namespace TheraBytes.BetterUi
         [SerializeField]
         AnchorReferenceCollectionConfigCollection anchorsConfigs = new AnchorReferenceCollectionConfigCollection();
 
+        [SerializeField] Modus mode;
         [SerializeField] bool isAnimated;
         [SerializeField] float acceleration = 1;
         [SerializeField] float maxMoveSpeed = 0.05f;
@@ -80,7 +88,7 @@ namespace TheraBytes.BetterUi
         {
             get
             {
-                if(currentAnchors == null)
+                if (currentAnchors == null)
                 {
                     currentAnchors = anchorsConfigs.GetCurrentItem(anchorsFallback);
                 }
@@ -88,6 +96,14 @@ namespace TheraBytes.BetterUi
                 return currentAnchors;
             }
         }
+
+        public Modus Mode { get { return mode; } set { mode = value; } }
+        public bool IsAnimated { get { return isAnimated; } set { isAnimated = value; } }
+        public float AnimationAcceleration { get { return acceleration; } set { acceleration = value; } }
+        public float AnimationMaxMoveSpeed { get { return maxMoveSpeed; } set { maxMoveSpeed = value; } }
+        public float AnimationSnapThreshold { get { return snapThreshold; } set { snapThreshold = value; } }
+
+        public bool IsCurrentlyAnimating { get { return IsCurrentlyAnimating; } }
 
         Canvas canvas;
 
@@ -97,19 +113,24 @@ namespace TheraBytes.BetterUi
 
         float currentVelocity = 0;
 
+        // instantUpdate doesn't work if triggered before the UI is fully initialized.
+        // This counter enforces instantUpdates for the specified number of frames as a workaround.
+        int instantApplyFrames;
+        bool isCurrentlyAnimating;
+
         protected override void OnEnable()
         {
             base.OnEnable();
-            
+
             bool instantUpdate =
 #if UNITY_EDITOR
-                !Application.isPlaying || currentAnchors == null;
-#else
-                false;
+                !Application.isPlaying || currentAnchors == null ||
 #endif
+                mode == Modus.AutoUpdateInstantOnStart || (mode == Modus.ManualUpdate && !isAnimated);
+
 
             currentAnchors = anchorsConfigs.GetCurrentItem(anchorsFallback);
-
+            instantApplyFrames = instantUpdate ? 1 : 0;
             UpdateAnchors(instantUpdate);
         }
 
@@ -125,8 +146,82 @@ namespace TheraBytes.BetterUi
             UpdateAnchors(true);
         }
 
+        public void SetAnchorReferenceTarget(RectTransform target,
+            int index = -1, bool skipAnimation = true)
+        {
+            SetAnchorReferenceTarget(target, anchorsFallback, index, skipAnimation);
+
+            foreach (var config in anchorsConfigs.Items)
+            {
+                SetAnchorReferenceTarget(target, config, index, skipAnimation);
+            }
+        }
+
+        public void SetAnchorReferenceTarget(RectTransform target, string screenConfigName,
+            int index = -1, bool skipAnimation = true)
+        {
+            if (screenConfigName == null || screenConfigName == ResolutionMonitor.Instance.FallbackName)
+            {
+                SetAnchorReferenceTarget(target, anchorsFallback, index, skipAnimation);
+            }
+            else
+            {
+                var config = anchorsConfigs.Items.FirstOrDefault(o => o.ScreenConfigName == screenConfigName);
+                if (config == null)
+                {
+                    Debug.LogErrorFormat("AnchorOverride.SetAnchorReferenceTarget() - Could not find config with name \"{0}\"", screenConfigName);
+                    return;
+                }
+
+                SetAnchorReferenceTarget(target, config, index, skipAnimation);
+            }
+        }
+
+        public void SetAnchorReferenceTarget(RectTransform target, AnchorReferenceCollection referenceCollection,
+            int index = -1, bool skipAnimation = true)
+        {
+            if (index < 0) // if -1, recursively call this method for every index
+            {
+                for (int i = 0; i < referenceCollection.Elements.Count; i++)
+                {
+                    SetAnchorReferenceTarget(target, referenceCollection, i, skipAnimation);
+                }
+
+                return;
+            }
+
+            if (index >= referenceCollection.Elements.Count)
+            {
+                throw new IndexOutOfRangeException(string.Format("Trying to set target for index {0} in {1} which only has {2} elements.", index, referenceCollection.ScreenConfigName, referenceCollection.Elements.Count));
+            }
+
+            var config = referenceCollection.Elements[index];
+            if (config == null)
+            {
+                throw new NullReferenceException(string.Format("Config at index {0} is null.", index));
+            }
+
+            config.Reference = target;
+
+            if (skipAnimation && Mode != Modus.ManualUpdate && referenceCollection == CurrentAnchors)
+            {
+                UpdateAnchors(true);
+                instantApplyFrames = 1;
+            }
+        }
+
         private void Update()
         {
+            if (instantApplyFrames > 0)
+            {
+                UpdateAnchors(true);
+                instantApplyFrames -= 1;
+                return;
+            }
+
+            if (mode == Modus.ManualUpdate && !isCurrentlyAnimating)
+                return;
+
             bool instantUpdate =
 #if UNITY_EDITOR
             !Application.isPlaying;
@@ -182,7 +277,7 @@ namespace TheraBytes.BetterUi
                 }
             }
 
-            if(isAnimated && !forceInstant)
+            if (isAnimated && !forceInstant)
             {
                 float distMinX = Mathf.Abs(RectTransform.anchorMin.x - anchorMin.x);
                 float distMinY = Mathf.Abs(RectTransform.anchorMin.y - anchorMin.y);
@@ -196,6 +291,7 @@ namespace TheraBytes.BetterUi
                     currentVelocity = 0;
                     RectTransform.anchorMin = anchorMin;
                     RectTransform.anchorMax = anchorMax;
+                    isCurrentlyAnimating = false;
                     return;
                 }
 
@@ -212,11 +308,13 @@ namespace TheraBytes.BetterUi
 
                 RectTransform.anchorMin = new Vector2(minX, minY);
                 RectTransform.anchorMax = new Vector2(maxX, maxY);
+                isCurrentlyAnimating = true;
             }
             else
             {
                 RectTransform.anchorMin = anchorMin;
                 RectTransform.anchorMax = anchorMax;
+                isCurrentlyAnimating = false;
             }
         }
 

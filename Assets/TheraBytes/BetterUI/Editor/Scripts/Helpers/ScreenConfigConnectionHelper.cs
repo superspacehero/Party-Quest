@@ -41,14 +41,22 @@ namespace TheraBytes.BetterUi.Editor
             EditorGUILayout.LabelField(title, EditorStyles.boldLabel);
 
             var configs = collection.GetValue<ISizeConfigCollection>();
+            if (configs.IsDirty)
+            {
+                configs.Sort();
+                return;
+            }
+
             string currentConfig = configs.GetCurrentConfigName();
-            
+            string currentScreen = ResolutionMonitor.CurrentScreenConfiguration?.Name;
+            SerializedProperty items = collection.FindPropertyRelative("items");
+
+
             // LIST
             bool configFound = currentConfig != null;
             HashSet<string> names = new HashSet<string>();
 
-            SerializedProperty items = collection.FindPropertyRelative("items");
-            for(int i = 0; i < items.arraySize; i++)
+            for (int i = 0; i < items.arraySize; i++)
             {
                 SerializedProperty item = items.GetArrayElementAtIndex(i);
                 var nameProp = item.FindPropertyRelative("screenConfigName");
@@ -65,7 +73,7 @@ namespace TheraBytes.BetterUi.Editor
                 }
 
                 bool foldout = false;
-                
+
                 // DELETE
                 DrawItemHeader(name, baseHash, false, currentConfig, out foldout, () =>
                 {
@@ -109,6 +117,24 @@ namespace TheraBytes.BetterUi.Editor
 
                 EditorGUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
+
+                // Quick Action: Add current config
+                if (currentConfig != currentScreen)
+                {
+                    GUIStyle style = "minibutton";
+                    var content = EditorGUIUtility.IconContent("OL Plus");
+                    content.text = $" {currentScreen}";
+
+                    var size = style.CalcSize(content);
+                    Rect rect = new Rect(bgRect.xMax - size.x - 20, bgRect.y + 3, size.x, 16);
+
+                    if (GUI.Button(rect, content, "minibutton"))
+                    {
+                        AddSizerToList(currentScreen, ref fallback, items, newElementInitCallback);
+                        configs.MarkDirty();
+                    }
+                }
+
                 //int idx = EditorGUILayout.Popup(-1, options, "OL Plus", GUILayout.Width(20));
                 Rect r = new Rect(bgRect.x + bgRect.width - 20, bgRect.y + 3, 20, 20);
                 int idx = EditorGUI.Popup(r, -1, options, "OL Plus");
@@ -119,12 +145,21 @@ namespace TheraBytes.BetterUi.Editor
                     idx = -1;
 
                     AddSizerToList(name, ref fallback, items, newElementInitCallback);
+                    configs.MarkDirty();
                 }
 
                 EditorGUILayout.EndHorizontal();
             }
 
             fallback.serializedObject.ApplyModifiedProperties();
+
+            // immediately handle the ordering of the configs and update the serialized object
+            // otherwise this would happen one frame delayed and an error would popup in the console.
+            if(configs.IsDirty)
+            {
+                configs.Sort();
+                fallback.serializedObject.Update();
+            }
 
             EditorGUILayout.EndVertical();
         }
@@ -183,7 +218,7 @@ namespace TheraBytes.BetterUi.Editor
                 }
             }
 
-            GUILayout.Space(-6);
+           GUILayout.Space(-6);
 
             if (deleteCallback != null)
             {

@@ -20,8 +20,7 @@ namespace TheraBytes.BetterUi.Editor
         {
             base.OnInspectorGUI();
 
-            BetterDropdown obj = target as BetterDropdown;
-            helper.DrawGui(serializedObject, obj);
+            helper.DrawGui(serializedObject);
 
             serializedObject.ApplyModifiedProperties();
         }

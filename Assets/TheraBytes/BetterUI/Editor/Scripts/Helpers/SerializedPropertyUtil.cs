@@ -25,7 +25,7 @@ namespace TheraBytes.BetterUi.Editor
                     Copy(source.GetArrayElementAtIndex(i), target.GetArrayElementAtIndex(i));
                 }
             }
-            else if (source.hasChildren)
+            else if (source.hasVisibleChildren)
             {
                 var endSource = source.GetEndProperty(true).propertyPath;
                 var endTarget = target.GetEndProperty(true).propertyPath;

@@ -27,11 +27,12 @@ namespace TheraBytes.BetterUi.Editor
         bool parentPosition;
         Vector2 point = new Vector2(0.5f, 0.5f);
 
-        Texture2D allBorderPic, pointPic, verticalPointPic, horizontalPointPic, verticalBorderPic, horizontalBorderPic;
+        Texture2D allBorderPic, verticalBorderPic, horizontalBorderPic, matchParentPic, 
+            pointPic, verticalPointPic, horizontalPointPic;
 
         GUIStyle setPivotStyle, selectPointStyle;
 
-        [MenuItem("Tools/Better UI/Snap Anchors", false, 30)]
+        [MenuItem("Tools/Better UI/Snap Anchors", false, 60)]
         public static void ShowWindow()
         {
             EditorWindow.GetWindow(typeof(SnapAnchorsWindow), false, "Snap Anchors");
@@ -49,7 +50,7 @@ namespace TheraBytes.BetterUi.Editor
             verticalPointPic = Resources.Load<Texture2D>("snap_vertical_point");
             horizontalBorderPic = Resources.Load<Texture2D>("snap_horizontal_edges");
             verticalBorderPic = Resources.Load<Texture2D>("snap_vertical_edges");
-
+            matchParentPic = Resources.Load<Texture2D>("snap_to_parent");
 
         }
 
@@ -129,10 +130,16 @@ namespace TheraBytes.BetterUi.Editor
                         if (GUILayout.Button(new GUIContent(horizontalBorderPic, "Snap to left and right border"), GUILayout.Width(120), GUILayout.Height(60)))
                             SnapBorder(left: true, right: true, top: false, bottom: false);
 
-                        EditorGUILayout.LabelField("", GUILayout.Width(60));
+                       // EditorGUILayout.LabelField("", GUILayout.Width(60));
 
+                        if(GUILayout.Button(new GUIContent(matchParentPic, "Resize to the size of parent and set the anchors to the borders."), GUILayout.Width(60), GUILayout.Height(60)))
+                        {
+                            MatchParent();
+                        }
                         GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
+
+                        EditorGUILayout.Space();
 
 
                         if (!(active))
@@ -172,6 +179,18 @@ namespace TheraBytes.BetterUi.Editor
 
             EditorGUILayout.Space();
 
+        }
+
+        private void MatchParent()
+        {
+            Undo.RecordObjects(objects.ToArray(), "Match Parent" + DateTime.Now.ToFileTime());
+            foreach (RectTransform obj in objects)
+            {
+                obj.anchorMin = Vector2.zero;
+                obj.anchorMax = Vector2.one;
+                obj.anchoredPosition = Vector2.zero;
+                obj.sizeDelta = Vector2.zero;
+            }
         }
 
         private void SetPoint(float x, float y)
@@ -324,6 +343,7 @@ namespace TheraBytes.BetterUi.Editor
             foreach (var obj in objects)
             {
                 SnapBorder(obj, left, right, top, bottom);
+
             }
 
             Undo.CollapseUndoOperations(group);
@@ -333,16 +353,17 @@ namespace TheraBytes.BetterUi.Editor
         {
             Undo.RecordObject(obj.transform, "Snap Anchors Border");
 
+            Quaternion parentRotation = obj.parent.rotation;
+            Quaternion objLocalRotation = obj.localRotation;
+            Vector3 objLocalScale = obj.localScale;
+            obj.parent.rotation = Quaternion.identity;
+            obj.localRotation = Quaternion.identity;
+            obj.localScale = Vector3.one;
+
             RectTransform parentTransform = obj.parent as RectTransform;
             Rect parent = (parentTransform != null)
                 ? parentTransform.ToScreenRect()
                 : new Rect(0, 0, Screen.width, Screen.height);
-
-            Quaternion tmpRot = obj.rotation;
-            Vector3 tmpScale = obj.localScale;
-
-            obj.rotation = Quaternion.identity;
-            obj.localScale = Vector3.one;
 
             Rect rect = obj.ToScreenRect();
             
@@ -368,8 +389,9 @@ namespace TheraBytes.BetterUi.Editor
             obj.anchoredPosition = new Vector2(x, y);
             obj.sizeDelta = new Vector3(sx, sy);
 
-            obj.rotation = tmpRot;
-            obj.localScale = tmpScale;
+            obj.parent.rotation = parentRotation;
+            obj.localRotation = objLocalRotation;
+            obj.localScale = objLocalScale;
         }
 
         void SnapPoint(bool horizontal, bool vertical)
@@ -391,6 +413,13 @@ namespace TheraBytes.BetterUi.Editor
             Undo.RecordObject(obj.transform, "Snap Anchors Point");
 
             Vector2 pivot = obj.pivot + pivotOffset;
+
+            Quaternion parentRotation = obj.parent.rotation;
+            Quaternion objLocalRotation = obj.localRotation;
+            Vector3 objLocalScale = obj.localScale;
+            obj.parent.rotation = Quaternion.identity;
+            obj.localRotation = Quaternion.identity;
+            obj.localScale = Vector3.one;
 
             RectTransform parentTransform = obj.parent as RectTransform;
             Rect parent = (parentTransform != null)
@@ -430,6 +459,10 @@ namespace TheraBytes.BetterUi.Editor
                 obj.sizeDelta = new Vector2(obj.sizeDelta.x, rect.size.y);
                 obj.anchoredPosition -= new Vector2(0, diff.y);
             }
+
+            obj.parent.rotation = parentRotation;
+            obj.localRotation = objLocalRotation;
+            obj.localScale = objLocalScale;
         }
 
         static float CalculateMinAnchor(bool calculate, float innerPos, float outerPos, float outerSize, float fallback)
