@@ -103,7 +103,7 @@ public class MenuMoveAction : ActionThing
         actionRunning = false;
         onActionEnd?.Invoke();
 
-        user.actionList.currentAction = null;
+        user.actionList.ClearAction();
 
         GameManager.NextCharacter();
     }

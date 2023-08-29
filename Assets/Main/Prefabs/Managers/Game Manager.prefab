@@ -866,6 +866,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -878,6 +880,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -890,6 +894,8 @@ MonoBehaviour:
     OptimizedSize: 1000
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -902,6 +908,8 @@ MonoBehaviour:
     OptimizedSize: 1000
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -914,6 +922,8 @@ MonoBehaviour:
     OptimizedSize: {x: 0, y: 0}
     MinSize: {x: -5000, y: -5000}
     MaxSize: {x: 5000, y: 5000}
+    UseMinSize: 0
+    UseMaxSize: 0
     ModX:
       ExponentialScale: 1
       SizeModifiers:
@@ -926,6 +936,7 @@ MonoBehaviour:
         Impact: 1
   paddingSizers:
     items: []
+  treatAsLayoutElement: 1
 --- !u!1 &302181503
 GameObject:
   m_ObjectHideFlags: 0
@@ -1192,6 +1203,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 5000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1204,6 +1217,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 5000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1216,6 +1231,8 @@ MonoBehaviour:
     OptimizedSize: 100
     MinSize: 0
     MaxSize: 5000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers: []
@@ -1226,6 +1243,8 @@ MonoBehaviour:
     OptimizedSize: 100
     MinSize: 0
     MaxSize: 5000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers: []
@@ -1263,6 +1282,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1275,6 +1296,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1287,6 +1310,8 @@ MonoBehaviour:
     OptimizedSize: 1000
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1299,6 +1324,8 @@ MonoBehaviour:
     OptimizedSize: 1000
     MinSize: 0
     MaxSize: 4000
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -1311,6 +1338,8 @@ MonoBehaviour:
     OptimizedSize: {x: 0, y: 0}
     MinSize: {x: -5000, y: -5000}
     MaxSize: {x: 5000, y: 5000}
+    UseMinSize: 0
+    UseMaxSize: 0
     ModX:
       ExponentialScale: 1
       SizeModifiers:
@@ -1323,6 +1352,7 @@ MonoBehaviour:
         Impact: 1
   paddingSizers:
     items: []
+  treatAsLayoutElement: 1
 --- !u!1 &689612083
 GameObject:
   m_ObjectHideFlags: 0
@@ -3363,6 +3393,8 @@ MonoBehaviour:
       right: 1000
       top: 1000
       bottom: 1000
+    UseMinSize: 0
+    UseMaxSize: 0
     ModLeft:
       ExponentialScale: 1
       SizeModifiers:
@@ -3390,6 +3422,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 300
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:
@@ -4813,6 +4847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8973403866325814839}
   - component: {fileID: 3207559946163953871}
+  - component: {fileID: 6204468895553663427}
   m_Layer: 0
   m_Name: Audio
   m_TagString: Untagged
@@ -4852,6 +4887,18 @@ MonoBehaviour:
     . 9400 . 2400 . 2400 -"}]}'
   instruments: {fileID: 11400000, guid: e21154fbb2ea0e41aa4b7e8a854b9aac, type: 2}
   audioMixerGroup: {fileID: -3104771224508644411, guid: 03cfa4a6a01f02346a3e9f0a1f2987b5, type: 2}
+--- !u!114 &6204468895553663427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5639522108991199500}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d894cd620aa7ef448942667e1e3f9f2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6156509201703773904
 GameObject:
   m_ObjectHideFlags: 0
@@ -5828,6 +5875,8 @@ MonoBehaviour:
       right: 1000
       top: 1000
       bottom: 1000
+    UseMinSize: 0
+    UseMaxSize: 0
     ModLeft:
       ExponentialScale: 1
       SizeModifiers:
@@ -5855,6 +5904,8 @@ MonoBehaviour:
     OptimizedSize: 0
     MinSize: 0
     MaxSize: 300
+    UseMinSize: 0
+    UseMaxSize: 0
     Mod:
       ExponentialScale: 1
       SizeModifiers:

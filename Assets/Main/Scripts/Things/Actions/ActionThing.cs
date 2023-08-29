@@ -55,9 +55,12 @@ public class ActionThing : UnsavedThing
     {
         // This is the base RunAction() function for ActionThings.
         // It does nothing, and is overridden by subclasses.
-        EndAction();
+        while (actionRunning)
+        {
+            yield return null;
+        }
 
-        yield return null;
+        EndAction();
     }
 
     [Sirenix.OdinInspector.Button]
@@ -71,7 +74,7 @@ public class ActionThing : UnsavedThing
         actionRunning = false;
         onActionEnd?.Invoke();
 
-        user.actionList.currentAction = null;
+        user.actionList.ClearAction();
         user.actionList.usedActionCategories.Add(thingSubType);
 
         if (user is CharacterThing && displayInventory)
@@ -85,9 +88,16 @@ public class ActionThing : UnsavedThing
         onActionEnd.RemoveAllListeners();
         StopAllCoroutines();
 
-        actionRunning = false;
-        user.actionList.currentAction = null;
+        user.actionList.ClearAction();
 
-        (user as CharacterThing).DisplayActions(true);
+        actionRunning = false;
+
+        if (user is CharacterThing)
+        {
+            (user as CharacterThing).DisplayActions(true);
+            Debug.Log($"ActionThing {thingName} was cancelled.");
+        }
+
+        gameObject.SetActive(false);
     }
 }

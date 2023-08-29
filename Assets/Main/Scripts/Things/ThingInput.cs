@@ -22,6 +22,83 @@ public class ThingInput : UnsavedThing
     }
     private PlayerInput _playerInput;
 
+    #region Vibration
+
+    private Gamepad gamepad
+    {
+        get
+        {
+            if (_gamepad == null && !_hasCheckedForGamepad)
+            {
+                _hasCheckedForGamepad = true;
+                if (playerInput != null)
+                    _gamepad = playerInput.devices.FirstOrDefault(device => device is Gamepad) as Gamepad;
+            }
+
+            return _gamepad;
+        }
+    }
+    private Gamepad _gamepad;
+    private bool _hasCheckedForGamepad = false;
+
+    private List<AudioSource> audioSources = new List<AudioSource>();
+    private bool isVibrationCoroutineRunning = false;
+
+    public void AddAudioSourceForVibration(AudioSource source)
+    {
+        if (source == null || audioSources.Contains(source)) return;
+
+        audioSources.Add(source);
+
+        if (!isVibrationCoroutineRunning)
+        {
+            StartCoroutine(VibrateBasedOnAudio());
+        }
+    }
+
+    private IEnumerator VibrateBasedOnAudio()
+    {
+        isVibrationCoroutineRunning = true;
+
+        while (audioSources.Count > 0)
+        {
+            float cumulativeVibration = 0;
+
+            for (int i = audioSources.Count - 1; i >= 0; i--)
+            {
+                if (audioSources[i] == null || !audioSources[i].isPlaying)
+                {
+                    audioSources.RemoveAt(i);
+                }
+                else
+                {
+                    cumulativeVibration += GetCurrentAudioVolume(audioSources[i]);
+                }
+            }
+
+            cumulativeVibration = Mathf.Clamp01(cumulativeVibration);
+            gamepad?.SetMotorSpeeds(cumulativeVibration, cumulativeVibration);
+
+            yield return null; // wait for the next frame
+        }
+
+        isVibrationCoroutineRunning = false;
+    }
+
+    private float GetCurrentAudioVolume(AudioSource source)
+    {
+        float[] data = new float[256];
+        source.GetOutputData(data, 0);
+        float a = 0;
+        foreach (float s in data)
+        {
+            a += Mathf.Abs(s);
+        }
+        return a / 256.0f;
+    }
+
+    #endregion
+
     #region AI Variables
 
     private Coroutine _actionCoroutine;

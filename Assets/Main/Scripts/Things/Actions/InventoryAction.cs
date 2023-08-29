@@ -14,4 +14,18 @@ public class InventoryAction : ActionThing
         if (user.inventory != null)
             user.inventory.displayInventory = true;
     }
+
+    public override void SecondaryAction(bool pressed)
+    {
+        if (pressed)
+            CancelAction();
+    }
+
+    protected override void CancelAction()
+    {
+        base.CancelAction();
+
+        if (user.inventory != null)
+            user.inventory.displayInventory = false;
+    }
 }

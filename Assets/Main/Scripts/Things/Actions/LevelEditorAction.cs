@@ -237,7 +237,9 @@ public class LevelEditorAction : ActionThing
             controller.currentVerticalSpeed = 0;
         }
 
-        if (user.TryGetComponent(out Collider collider))
+        user.TryGetComponent(out Collider collider);
+
+        if (collider != null)
             collider.isTrigger = true;
 
         // While the user is still moving and hasn't stopped their movement turn
@@ -282,6 +284,9 @@ public class LevelEditorAction : ActionThing
         // Disable movement control
         if (controller != null)
             controller.canControl = MovementController.ControlLevel.None;
+
+        if (collider != null)
+            collider.isTrigger = false;
 
         // The action is no longer running
         EndAction();

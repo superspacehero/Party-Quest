@@ -5,16 +5,7 @@ using UnityEngine;
 [AddComponentMenu("Game Things/Inventories/Action List"), DisallowMultipleComponent]
 public class ActionList : Inventory
 {
-    public ActionThing currentAction
-    {
-        get => _currentAction;
-        set
-        {
-            _currentAction = value;
-            displayInventory = _currentAction == null;
-        }
-    }
-    private ActionThing _currentAction;
+    public ActionThing currentAction { get; private set; }
 
     public List<string> usedActionCategories = new List<string>();
 
@@ -34,10 +25,7 @@ public class ActionList : Inventory
     public void UseAction(GameThing user)
     {
         if (!usedActionCategories.Contains(currentAction.thingSubType))
-        {
-            currentAction.onActionEnd.AddListener(() => usedActionCategories.Add(currentAction.thingSubType));
             currentAction.Use(user);
-        }
     }
 
     public void ResetActions()

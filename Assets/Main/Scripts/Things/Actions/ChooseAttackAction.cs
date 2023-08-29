@@ -9,12 +9,12 @@ public class ChooseAttackAction : ActionThing
 
         List<string> whitelistedActionCategories = new List<string>() { "Attack" };
         actionList.PopulateActionList(user.GetComponentsInChildren<ActionThing>(true), whitelistedActionCategories);
-        
+
         if (user is CharacterThing && (user as CharacterThing).input.isPlayer)
             actionList.displayInventory = true;
         else
             GameManager.instance.emptyMenu.Select();
-        
+
         gameObject.SetActive(true);
     }
 
@@ -24,10 +24,10 @@ public class ChooseAttackAction : ActionThing
             CancelAction();
     }
 
-    protected override void CancelAction()
-    {
-        base.CancelAction();
+    // protected override void CancelAction()
+    // {
+    //     actionList.displayInventory = false;
 
-        actionList.displayInventory = false;
-    }
+    //     base.CancelAction();
+    // }
 }

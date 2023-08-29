@@ -220,6 +220,8 @@ public class CharacterThing : GameThing
 
         if (actionListToUse != null)
             actionListToUse.displayInventory = display && (input?.isPlayer).GetValueOrDefault();
+        else
+            Debug.LogWarning("No action list found for character " + thingName);
     }
 
     // Movement controller for moving the character
