@@ -117,13 +117,27 @@ public class GameManager : MonoBehaviour
     #region Things
 
     public DicePool dicePool;
-
     [SerializeField] private General.ObjectPool<UnityEngine.VFX.VisualEffect> damagePool, footstepPool;
-    public void DamageEffect(int damageAmount, Vector3 position)
+    [SerializeField] private General.ObjectPool<NumberVisual> damageIndicatorPool, healIndicatorPool;
+    public void DamageEffect(int damageAmount, GameThing thing, Vector3 position)
     {
+        // Set up the damage indicator
+        NumberVisual damageIndicator = damageIndicatorPool.GetObjectFromPool(Vector3.zero);
+        damageIndicator.number = damageAmount;
+        damageIndicator.followWorldPosition.target = thing;
+
+        // Set up the visual effect
         UnityEngine.VFX.VisualEffect damageEffect = damagePool.GetObjectFromPool(position);
         damageEffect.SetInt("Damage", damageAmount);
         damageEffect.Play();
+    }
+
+    public void HealEffect(int healAmount, GameThing thing)
+    {
+        // Set up the heal indicator
+        NumberVisual healIndicator = healIndicatorPool.GetObjectFromPool(Vector3.zero);
+        healIndicator.number = healAmount;
+        healIndicator.followWorldPosition.target = thing;
     }
 
     public void FootstepEffect(Vector3 position)

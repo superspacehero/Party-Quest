@@ -211,6 +211,7 @@ public class General
     public class ObjectPool<T> where T : Behaviour
     {
         [SerializeField] private GameObject objectPrefab;
+        [SerializeField] private Transform objectParent;
         private List<T> objectPool = new List<T>();
 
         private Transform parent
@@ -218,7 +219,10 @@ public class General
             get
             {
                 if (_parent == null)
+                {
                     _parent = new GameObject(objectPrefab.name + " Pool").transform;
+                    _parent.SetParent(objectParent);
+                }
 
                 return _parent;
             }

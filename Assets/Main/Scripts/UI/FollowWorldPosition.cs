@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class FollowWorldPosition : MonoBehaviour
 {
-    private GameThing target
+    public GameThing target
     {
-        get
+        private get
         {
             if (_target == null)
             {
@@ -17,6 +17,11 @@ public class FollowWorldPosition : MonoBehaviour
                 parent.TryGetComponent(out _target);
             }
             return _target;
+        }
+
+        set
+        {
+            _target = value;
         }
     }
     private GameThing _target;

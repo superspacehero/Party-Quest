@@ -5146,10 +5146,19 @@ MonoBehaviour:
   changeCharacterDelay: 0
   dicePool:
     objectPrefab: {fileID: 2515930728152100468, guid: 4e3a9da03fe0e07198f41271c12f7390, type: 3}
+    objectParent: {fileID: 0}
   damagePool:
     objectPrefab: {fileID: 3244333360566992698, guid: 972cb0e57c5c7e56ea79152a6089aec1, type: 3}
+    objectParent: {fileID: 0}
   footstepPool:
     objectPrefab: {fileID: 3244333360566992698, guid: d87a8d37981236a9ab70d90664938589, type: 3}
+    objectParent: {fileID: 0}
+  damageIndicatorPool:
+    objectPrefab: {fileID: 9017017470615935954, guid: c42ed250636f0b7bd90a09ab126bcdb0, type: 3}
+    objectParent: {fileID: 3522521205602679472}
+  healIndicatorPool:
+    objectPrefab: {fileID: 0}
+    objectParent: {fileID: 0}
   nextCharacterUI: {fileID: 3254549891512399179}
   currentCharacterIndex: 0
   teams: 
@@ -5961,6 +5970,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   previousMenuOnCancel: 1
+--- !u!224 &3522521205602679472 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 706131493875513603, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+  m_PrefabInstance: {fileID: 4120279661727974323}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8561587464097178000 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 5764311661433528867, guid: 3020728ed0d0c9509a35461936133620, type: 3}

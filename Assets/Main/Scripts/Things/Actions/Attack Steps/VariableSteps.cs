@@ -131,7 +131,7 @@ public class DamageStep : AttackStep
 
         // Debug.Log($"{attacker.thingName} dealt {calculatedDamage} damage to {targetedThing.thingName}.\n{targetedThing.thingName} now has {finalHealth} health.");
 
-        GameManager.instance.DamageEffect(calculatedDamage, targetedThing.transform.position);
+        GameManager.instance.DamageEffect(calculatedDamage, targetedThing, targetedThing.transform.position);
 
         callback?.Invoke(StepResult.Success);
 
