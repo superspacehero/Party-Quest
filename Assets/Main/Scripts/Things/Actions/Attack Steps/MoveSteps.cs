@@ -23,10 +23,10 @@ public abstract class MovementControllerStep : AttackStep
 
         moveController.canControl = MovementController.ControlLevel.MovementOnly;
 
-        attacker.TryGetComponent(out Collider collider);
+        // attacker.TryGetComponent(out Collider collider);
 
-        if (collider != null)
-            collider.isTrigger = true;
+        // if (collider != null)
+        //     collider.isTrigger = true;
 
         if (targetThing == null)
             targetThing = attacker;
@@ -70,8 +70,8 @@ public abstract class MovementControllerStep : AttackStep
             moveController.rotationBehavior = originalRotationBehavior;
         }
 
-        if (collider != null)
-            collider.isTrigger = false;
+        // if (collider != null)
+        //     collider.isTrigger = false;
 
         callback?.Invoke(StepResult.Success);
     }

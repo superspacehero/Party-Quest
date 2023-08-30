@@ -18,7 +18,7 @@ public class SFXManager : MonoBehaviour
     }
     private static SFXManager _instance;
 
-    private General.ObjectPool<AudioSource> audioSourcePool = new General.ObjectPool<AudioSource>();
+    private General.ObjectPool<AudioSource> audioSourcePool;
 
     private int soundIndex = 0;
 

@@ -157,6 +157,14 @@ public class InteractionListInteraction : Interaction
 
     private ActionThing[] originalActions = null;
 
+    public override bool canInteract
+    {
+        get
+        {
+            return _actions != null && _actions.Length > 0; 
+        }
+    }
+
     public override void Interact(GameThing interactor, GameThing interactee)
     {
         base.Interact(interactor, interactee);

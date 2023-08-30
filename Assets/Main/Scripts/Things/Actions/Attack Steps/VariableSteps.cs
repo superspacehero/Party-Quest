@@ -125,12 +125,13 @@ public class DamageStep : AttackStep
             yield break;
         }
 
-        int calculatedDamage = (overrideDamage) ? targetThing.variables.GetVariable("health") - damage : Mathf.Max(0, attacker.variables.GetVariable("attack") - targetThing.variables.GetVariable("defense"));
-        targetedThing.variables.SetVariable("health", targetThing.variables.GetVariable("health") - calculatedDamage);
+        int initialHealth = targetedThing.variables.GetVariable("health");
+        int calculatedDamage = (overrideDamage) ? damage : Mathf.Max(0, attacker.variables.GetVariable("attack") - targetedThing.variables.GetVariable("defense"));
+        targetedThing.variables.AddToVariable("health", -calculatedDamage);
 
-        Debug.Log($"{attacker.name} dealt {calculatedDamage} damage to {targetedThing?.name}.\n{targetedThing?.name} now has {targetedThing?.variables.GetVariable("health")} health.");
+        // Debug.Log($"{attacker.thingName} dealt {calculatedDamage} damage to {targetedThing.thingName}.\n{targetedThing.thingName} now has {finalHealth} health.");
 
-        GameManager.instance.DamageEffect(calculatedDamage, targetThing.transform.position);
+        GameManager.instance.DamageEffect(calculatedDamage, targetedThing.transform.position);
 
         callback?.Invoke(StepResult.Success);
 

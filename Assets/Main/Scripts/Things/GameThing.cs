@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Newtonsoft.Json;
 using Sirenix.OdinInspector;
@@ -31,7 +32,10 @@ public class GameThing : SerializedMonoBehaviour
         {
             GameManager.instance.level.AddThing(this);
         }
+    }
 
+    protected void SetMaxHealth()
+    {
         if (variables.GetVariable("health") > 0 && variables.GetVariable("maxHealth") <= 0)
             variables.SetVariable("maxHealth", variables.GetVariable("health"));
     }
@@ -39,6 +43,7 @@ public class GameThing : SerializedMonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        SetMaxHealth();
     }
 
     /// <summary>
@@ -364,25 +369,24 @@ public class GameThing : SerializedMonoBehaviour
     }
     private Transform _thingTop;
 
-    public GameThingVariables variables;
+    public GameThingVariables variables = new GameThingVariables();
 
-    // We need a way to be able to add variables to the GameThing class without having to modify the class itself - we can do that with a struct.
     [System.Serializable]
-    public struct GameThingVariables
+    public class GameThingVariables
     {
         // A list of variables, each with a name and a value.
-        public List<Variable> variables;
+        public List<Variable> variables = new List<Variable>();
 
-        // A struct to represent a single variable, with a name and a value.
+        // A class to represent a single variable, with a name and a value.
         [System.Serializable]
-        public struct Variable
+        public class Variable
         {
             // The name of the variable.
             [HorizontalGroup("Variable", LabelWidth = 40)] public string name;
             // The value of the variable.
             [HorizontalGroup("Variable", LabelWidth = 40)] public int value;
 
-            // Constructor for the Variable struct.
+            // Constructor for the Variable class.
             public Variable(string name, int value)
             {
                 this.name = name;
@@ -400,7 +404,7 @@ public class GameThing : SerializedMonoBehaviour
             // Find the variable with the given name.
             Variable variable = variables.Find(v => v.name == name);
             // If the variable is not found, return 0.
-            if (variable.name == null)
+            if (variable == null)
                 return 0;
 
             // Return the value of the variable.
@@ -410,17 +414,9 @@ public class GameThing : SerializedMonoBehaviour
         // Set the value of a variable.
         public void SetVariable(string name, int value)
         {
-            // If the variable list is null, create a new one.
-            if (variables == null)
-                variables = new List<Variable>();
-
-            // Find the variable with the given name.
-            Variable variable = variables.Find(v => v.name == name);
-            // If the variable is not found, add it to the list.
-            if (variable.name == null)
-                variables.Add(new Variable(name, value));
-            // If the variable is found, set its value to the given value.
-            else
+            // Find the index of the variable with the given name.
+            int index = variables.FindIndex(v => v.name == name);
+            if (index != -1)
             {
                 if (name == "health")
                 {
@@ -432,94 +428,76 @@ public class GameThing : SerializedMonoBehaviour
                     }
                 }
 
-                variable.value = value;
+                variables[index].value = value; // Update the value directly since it's a class now
             }
+            else
+            {
+                variables.Add(new Variable(name, value));
+            }
+
+            Debug.Log($"Set variable {name} to {value}.");
+        }
+
+        // Add a value to a variable.
+        public void AddToVariable(string name, int value)
+        {
+            SetVariable(name, GetVariable(name) + value);
         }
 
         // Operator to add two instances of GameThingVariables together.
         public static GameThingVariables operator +(GameThingVariables a, GameThingVariables b)
         {
-            // If a is null or b is null, return the other one.
-            if (a.variables == null || b.variables == null)
-                return a.variables == null ? b : a;
-
-            // Create a new GameThingVariables instance to store the result.
             GameThingVariables result = new GameThingVariables();
-            result.variables = new List<Variable>();
 
-            // Iterate over the variables in a.
             foreach (Variable variable in a.variables)
             {
-                // Check if the variable is also present in b.
                 Variable otherVariable = b.variables.Find(v => v.name == variable.name);
-                if (otherVariable.name != null)
+                if (otherVariable != null)
                 {
-                    // If the variable is present in b, add the values together and add the result to the result list.
                     result.variables.Add(new Variable(variable.name, variable.value + otherVariable.value));
                 }
                 else
                 {
-                    // If the variable is not present in b, add it to the result list as-is.
-                    result.variables.Add(variable);
+                    result.variables.Add(new Variable(variable.name, variable.value));
                 }
             }
 
-            // Iterate over the variables in b.
             foreach (Variable variable in b.variables)
             {
-                // Check if the variable is not present in a.
-                Variable otherVariable = a.variables.Find(v => v.name == variable.name);
-                if (otherVariable.name == null)
+                if (!result.variables.Exists(v => v.name == variable.name))
                 {
-                    // If the variable is not present in a, add it to the result list as-is.
-                    result.variables.Add(variable);
+                    result.variables.Add(new Variable(variable.name, variable.value));
                 }
             }
 
-            // Return the result.
             return result;
         }
 
-        // Operators to compare two instances of GameThingVariables.
-        public static bool Equals(GameThingVariables a, GameThingVariables b)
+        // Operator to compare two instances of GameThingVariables.
+        public override bool Equals(object obj)
         {
-            // If a is null or b is null, return false.
-            if (a.variables == null || b.variables == null)
+            if (!(obj is GameThingVariables other))
                 return false;
 
-            // Iterate over the variables in a.
-            foreach (Variable variable in a.variables)
+            if (variables.Count != other.variables.Count)
+                return false;
+
+            foreach (Variable variable in variables)
             {
-                // Check if the variable is also present in b.
-                Variable otherVariable = b.variables.Find(v => v.name == variable.name);
-                if (otherVariable.name != null)
-                {
-                    // If the variable is present in b, check if the values are equal.
-                    if (variable.value != otherVariable.value)
-                        return false;
-                }
-                else
-                {
-                    // If the variable is not present in b, return false.
+                Variable otherVariable = other.variables.Find(v => v.name == variable.name);
+                if (otherVariable == null || otherVariable.value != variable.value)
                     return false;
-                }
             }
 
-            // Iterate over the variables in b.
-            foreach (Variable variable in b.variables)
-            {
-                // Check if the variable is not present in a.
-                Variable otherVariable = a.variables.Find(v => v.name == variable.name);
-                if (otherVariable.name == null)
-                {
-                    // If the variable is not present in a, return false.
-                    return false;
-                }
-            }
-
-            // Return true.
             return true;
         }
+
+        public override int GetHashCode()
+        {
+            // A simple approach to generating a hash code. This could be enhanced further.
+            return variables.Select(v => v.name.GetHashCode() ^ v.value.GetHashCode()).Aggregate(0, (a, b) => a ^ b);
+        }
+
     }
 
     #region Colors

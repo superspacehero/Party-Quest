@@ -524,8 +524,8 @@ public class CharacterThing : GameThing
             OccupyCurrentNode();
             yield return null;
         }
-
-        // Debug.Log($"{thingName} is started", this);
+        
+        base.Start();
     }
 
     /// <summary>
