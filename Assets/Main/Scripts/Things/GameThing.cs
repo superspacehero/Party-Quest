@@ -435,7 +435,7 @@ public class GameThing : SerializedMonoBehaviour
                 variables.Add(new Variable(name, value));
             }
 
-            Debug.Log($"Set variable {name} to {value}.");
+            // Debug.Log($"Set variable {name} to {value}.");
         }
 
         // Add a value to a variable.

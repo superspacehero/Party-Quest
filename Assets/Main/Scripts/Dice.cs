@@ -204,29 +204,11 @@ public class Dice : UnsavedThing
 }
 
 [System.Serializable]
-public class DicePool
+public class DicePool : General.ObjectPool<Dice>
 {
-    [SerializeField] private GameObject dicePrefab;
-    private List<Dice> dicePool = new List<Dice>();
-
     public Dice GetDieFromPool(Vector3 diePosition, UnityEngine.Events.UnityAction diceEnabledAction = null, UnityEngine.Events.UnityAction<int> diceValueChangeAction = null, UnityEngine.Events.UnityAction diceDisabledAction = null)
     {
-        Dice die = null;
-
-        foreach (Dice pooledDie in dicePool)
-        {
-            if (!pooledDie.gameObject.activeInHierarchy)
-            {
-                die = pooledDie;
-                break;
-            }
-        }
-
-        if (die == null)
-        {
-            die = GameObject.Instantiate(dicePrefab, diePosition, Quaternion.identity).GetComponent<Dice>();
-            dicePool.Add(die);
-        }
+        Dice die = GetObjectFromPool(diePosition);
 
 
         die.enabledEvent.RemoveAllListeners();
