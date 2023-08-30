@@ -260,4 +260,37 @@ public class General
     }
 
     #endregion
+
+    #region Other
+
+    /// <summary>
+    /// Finds the first descendant of the given transform with the specified tag.
+    /// </summary>
+    /// <param name="parent">The starting transform from which to begin the search.</param>
+    /// <param name="tag">The tag of the desired game object.</param>
+    /// <returns>The transform of the found game object, or null if no such game object is found.</returns>
+    public static Transform FindDescendantWithTag(Transform parent, string tag)
+    {
+        // Check the current transform.
+        if (parent.CompareTag(tag))
+        {
+            return parent;
+        }
+
+        // Check all children.
+        for (int i = 0; i < parent.childCount; i++)
+        {
+            Transform child = parent.GetChild(i);
+            Transform result = FindDescendantWithTag(child, tag);
+            if (result != null)
+            {
+                return result;
+            }
+        }
+
+        // If no children or the current transform match, return null.
+        return null;
+    }
+
+    #endregion
 }
