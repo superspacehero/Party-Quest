@@ -18,7 +18,7 @@ public class InventoryDisplay : Menu
         }
         set => _inventoryOwner = value;
     }
-    [SerializeField] private GameThing _inventoryOwner;
+    [SerializeField] protected GameThing _inventoryOwner;
 
     public virtual Inventory inventory
     {
@@ -38,7 +38,6 @@ public class InventoryDisplay : Menu
     }
     [SerializeField] protected Inventory _inventory;
 
-    public GameObject slotPrefab;
     public Transform slotContainer;
 
     protected List<ThingDisplay> thingDisplays = new List<ThingDisplay>();
@@ -66,8 +65,8 @@ public class InventoryDisplay : Menu
         {
             while (thingDisplays.Count < inventory.thingSlots.Length)
             {
-                if (Instantiate(slotPrefab, slotContainer).TryGetComponent(out ThingDisplay thingDisplay))
-                    thingDisplays.Add(thingDisplay);
+                ThingDisplay thingDisplay = GameManager.GetThingDisplay(slotContainer);
+                thingDisplays.Add(thingDisplay);
             }
         }
 

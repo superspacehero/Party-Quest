@@ -270,7 +270,7 @@ public class ThingInput : UnsavedThing
         }
 
         // The state of attack
-        AttackAction attackAction = null;
+        WeaponThing weapon = null;
         // The attack sequence
         AttackSequenceThing attackSequence = null;
 
@@ -395,32 +395,60 @@ public class ThingInput : UnsavedThing
                         currentState = AIState.Idling;
                         nextState = AIState.ChoosingAction;
 
-                        (thing as CharacterThing).OccupyCurrentNode();
+                        thing.OccupyCurrentNode();
                     }
                     break;
 
                 case AIState.Attacking:
-                    if (attackAction == null)
+                    if (thing.attackMenu.weapon == null)
                     {
-                        // Check if we have AttackActions
-                        List<AttackAction> attackActions = thing.GetComponentsInChildren<AttackAction>(true).ToList();
+                        // Check if we have WeaponThings
+                        List<WeaponThing> weapons = thing.GetComponentsInChildren<WeaponThing>(true).ToList();
 
-                        for (int i = attackActions.Count - 1; i >= 0; i--)
+                        for (int i = weapons.Count - 1; i >= 0; i--)
                         {
-                            if (attackActions[i].weapon.upAttack == null && attackActions[i].weapon.downAttack == null && attackActions[i].weapon.sideAttack == null)
+                            if (weapons[i].upAttackSlot == null && weapons[i].downAttackSlot == null && weapons[i].sideAttackSlot == null)
                             {
-                                // We don't have any attacks, remove the AttackAction
-                                attackActions.RemoveAt(i);
+                                // We don't have any attacks, remove the WeaponThing
+                                weapons.RemoveAt(i);
                             }
                         }
 
-                        if (attackActions.Count > 0)
+                        if (weapons.Count > 0)
                         {
-                            // We have AttackActions, use a random one
-                            attackAction = attackActions[Random.Range(0, attackActions.Count)];
+                            // We have WeaponThings, use a random one
+                            weapon = weapons[Random.Range(0, weapons.Count)];
 
-                            // We have an AttackAction, use it
-                            attackAction.Use(thing);
+                            // We have an WeaponThing, use it
+                            weapon.Use(thing);
+
+                            // Pick an attack
+                            List<AttackSequenceThing> attackSequences = new List<AttackSequenceThing>();
+                            if (weapon.upAttackSlot)
+                                attackSequences.Add(weapon.upAttackSlot as AttackSequenceThing);
+                            if (weapon.downAttackSlot)
+                                attackSequences.Add(weapon.downAttackSlot as AttackSequenceThing);
+                            if (weapon.sideAttackSlot)
+                                attackSequences.Add(weapon.sideAttackSlot as AttackSequenceThing);
+
+                            if (attackSequences.Count > 0)
+                                attackSequence = attackSequences[Random.Range(0, attackSequences.Count)];
+
+                            if (attackSequence != null)
+                            {
+                                // We've picked an attack, use it
+                                thing.attackMenu.PickAttack(attackSequence, thing.attackAction);
+                            }
+                            else
+                            {
+                                // We couldn't find an attack, end our turn
+                                Debug.Log($"Couldn't find an attack for {thing.thingName}");
+
+                                nextState = AIState.EndingTurn;
+                                currentState = AIState.Idling;
+                            }
+                            break;
+
                         }
                         else
                         {
@@ -431,51 +459,20 @@ public class ThingInput : UnsavedThing
                             currentState = AIState.Idling;
                         }
                     }
-                    else
+                    else if (thing.attackAction.attackSequenceThing != null)
                     {
-                        switch (attackAction.attackState)
+                        switch (thing.attackAction.attackState)
                         {
-                            case AttackAction.AttackState.PickingAttack:
-                                // Pick an attack
-                                List<AttackSequenceThing> attackSequences = new List<AttackSequenceThing>();
-                                if (attackAction.weapon)
-                                {
-                                    if (attackAction.weapon.upAttack)
-                                        attackSequences.Add(attackAction.weapon.upAttack);
-                                    if (attackAction.weapon.downAttack)
-                                        attackSequences.Add(attackAction.weapon.downAttack);
-                                    if (attackAction.weapon.sideAttack)
-                                        attackSequences.Add(attackAction.weapon.sideAttack);
-                                }
-
-                                if (attackSequences.Count > 0)
-                                    attackAction.attackMenu.PickAttack(attackSequences[Random.Range(0, attackSequences.Count)], out attackSequence);
-
-                                if (attackSequence != null)
-                                {
-                                    // We've picked an attack, use it
-                                    attackAction.PickAttack(attackSequence);
-                                }
-                                else
-                                {
-                                    // We couldn't find an attack, end our turn
-                                    Debug.Log($"Couldn't find an attack for {thing.thingName}");
-
-                                    nextState = AIState.EndingTurn;
-                                    currentState = AIState.Idling;
-                                }
-                                break;
-
                             case AttackAction.AttackState.PickingTarget:
                                 // Attack the current target
                                 if (_targets != null && _targets[_targets.Count - 1] != null)
                                 {
-                                    if (Vector3.Distance(thing.transform.position, _targets[_targets.Count - 1].transform.position) < attackAction.attackSequence.range)
-                                        attackAction.PickTarget(_targets[_targets.Count - 1].position);
+                                    if (Vector3.Distance(thing.transform.position, _targets[_targets.Count - 1].transform.position) < thing.attackAction.attackSequenceThing.range)
+                                        thing.attackAction.PickTarget(_targets[_targets.Count - 1].position);
                                     else
                                     {
                                         // We're too far away, end our turn
-                                        attackAction.attackState = AttackAction.AttackState.None;
+                                        thing.attackAction.attackState = AttackAction.AttackState.None;
 
                                         nextState = AIState.EndingTurn;
                                         currentState = AIState.Idling;
@@ -484,7 +481,7 @@ public class ThingInput : UnsavedThing
                                 break;
 
                             case AttackAction.AttackState.Attacking:
-                                if (attackAction.attackSequence != null)
+                                if (thing.attackAction.attackSequenceThing != null)
                                 {
                                     // Wait for the attack to finish
                                 }
@@ -499,11 +496,19 @@ public class ThingInput : UnsavedThing
                                 break;
                         }
 
-                        if (attackAction.attackState != AttackAction.AttackState.None && attackAction.attackState != AttackAction.AttackState.Attacking)
+                        if (thing.attackAction.attackState != AttackAction.AttackState.None && thing.attackAction.attackState != AttackAction.AttackState.Attacking)
                         {
-                            attackAction.PrimaryAction(true);
-                            attackAction.PrimaryAction(false);
+                            weapon.PrimaryAction(true);
+                            weapon.PrimaryAction(false);
                         }
+                    }
+                    else
+                    {
+                        // We don't have an AttackAction, end our turn
+                        Debug.Log($"Couldn't find an AttackAction for {thing.thingName}");
+
+                        nextState = AIState.EndingTurn;
+                        currentState = AIState.Idling;
                     }
 
                     break;

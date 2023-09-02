@@ -119,6 +119,7 @@ public class GameManager : MonoBehaviour
     public DicePool dicePool;
     [SerializeField] private General.ObjectPool<UnityEngine.VFX.VisualEffect> damagePool, footstepPool;
     [SerializeField] private General.ObjectPool<NumberVisual> damageIndicatorPool, healIndicatorPool;
+
     public void DamageEffect(int damageAmount, GameThing thing, Vector3 position)
     {
         // Set up the damage indicator
@@ -152,6 +153,23 @@ public class GameManager : MonoBehaviour
         UnityEngine.VFX.VisualEffect landingEffect = footstepPool.GetObjectFromPool(position);
         landingEffect.ResetOverride("Smoke Count");
         landingEffect.Play();
+    }
+
+    [SerializeField] private General.ObjectPool<ThingDisplay> thingDisplayPool, thingDisplayDescriptionPool;
+    public static ThingDisplay GetThingDisplay(Transform parent = null, bool description = false)
+    {
+        ThingDisplay thingDisplay = null;
+
+        if (description)
+        {
+            thingDisplay = instance.thingDisplayDescriptionPool.GetObjectFromPool(Vector3.zero);
+            thingDisplay.transform.SetParent(parent, false);
+            return thingDisplay;
+        }
+
+        thingDisplay = instance.thingDisplayPool.GetObjectFromPool(Vector3.zero);
+        thingDisplay.transform.SetParent(parent, false);
+        return thingDisplay;
     }
 
     #region Characters

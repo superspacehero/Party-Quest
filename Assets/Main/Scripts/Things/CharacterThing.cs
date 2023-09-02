@@ -188,6 +188,17 @@ public class CharacterThing : GameThing
     }
     private AttackMenu _attackMenu;
 
+    public AttackAction attackAction
+    {
+        get
+        {
+            if (_attackAction == null)
+                _attackAction = GetComponentInChildren<AttackAction>(true);
+            return _attackAction;
+        }
+    }
+    private AttackAction _attackAction;
+
     #region Controlling Characters
 
     // The action to run at the start of the character's turn

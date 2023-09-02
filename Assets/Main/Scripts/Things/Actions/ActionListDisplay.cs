@@ -10,9 +10,15 @@ public class ActionListDisplay : InventoryDisplay
         {
             if (_inventory != null)
                 return _inventory;
+            else if (inventoryOwner != null)
+            {
+                if (_inventoryOwner is CharacterThing)
+                    _inventory = (_inventoryOwner as CharacterThing).actionList;
+                else
+                    _inventory = _inventoryOwner.inventory;
 
-            if (inventoryOwner != null)
-                _inventory = (inventoryOwner as CharacterThing).actionList;
+                // Debug.Log($"Using {_inventoryOwner.thingName}'s action list as inventory");
+            }
 
             return _inventory;
         }
@@ -28,12 +34,12 @@ public class ActionListDisplay : InventoryDisplay
 
     protected override void PopulateThings(List<GameThing> excludedThings = null)
     {
-        if (inventory is not ActionList)
-            return;
+        // if (inventory is not ActionList)
+        //     return;
 
         if (excludedThings == null)
             excludedThings = new List<GameThing>();
-        
+
         foreach (Inventory.ThingSlot slot in inventory.thingSlots)
         {
             if ((slot.thing != null && slot.thing is ActionThing) && ((slot.thing as ActionThing).actionRunning || (inventory as ActionList).usedActionCategories.Contains(slot.thing.thingSubType)))

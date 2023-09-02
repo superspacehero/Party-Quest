@@ -8,4 +8,7 @@ public class EquipmentThing : CharacterPartThing
     {
         get => "Equipment";
     }
+
+    [Sirenix.OdinInspector.FoldoutGroup("Equipment")]
+    public Inventory.ThingSlot elementSlot;
 }

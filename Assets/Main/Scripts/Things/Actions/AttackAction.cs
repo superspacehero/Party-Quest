@@ -19,17 +19,25 @@ public class AttackAction : ActionThing
             transform.position = user.transform.position;
     }
 
-    public WeaponThing weapon
+    public AttackSequenceThing attackSequenceThing
     {
-        get
+        get => _attackSequenceThing;
+        set
         {
-            if (_weapon == null)
-                _weapon = GetComponentInParent<WeaponThing>(true);
+            if (_attackSequenceThing != null)
+            {
+                _attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            }
 
-            return _weapon;
+            _attackSequenceThing = value;
+
+            if (_attackSequenceThing != null)
+            {
+                _attackSequenceThing.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
+            }
         }
     }
-    private WeaponThing _weapon;
+    private AttackSequenceThing _attackSequenceThing;
 
     public override string thingName
     {
@@ -37,8 +45,8 @@ public class AttackAction : ActionThing
         {
             if (string.IsNullOrEmpty(_thingName) || _thingName == "Attack")
             {
-                if (weapon != null)
-                    _thingName = weapon.thingName;
+                if (attackSequenceThing != null)
+                    _thingName = attackSequenceThing.thingName;
             }
 
             return _thingName;
@@ -51,13 +59,13 @@ public class AttackAction : ActionThing
         {
             if (_thingIcon == null)
             {
-                if (weapon != null)
+                if (attackSequenceThing != null)
                 {
-                    redColor = weapon.redColor;
-                    greenColor = weapon.greenColor;
-                    blueColor = weapon.blueColor;
+                    redColor = attackSequenceThing.redColor;
+                    greenColor = attackSequenceThing.greenColor;
+                    blueColor = attackSequenceThing.blueColor;
 
-                    _thingIcon = weapon.thingIcon;
+                    _thingIcon = attackSequenceThing.thingIcon;
                 }
             }
 
@@ -65,25 +73,9 @@ public class AttackAction : ActionThing
         }
     }
 
-    public AttackMenu attackMenu
-    {
-        get
-        {
-            if (_attackMenu == null)
-            {
-                if (user is CharacterThing)
-                    _attackMenu = (user as CharacterThing).attackMenu;
-            }
-
-            return _attackMenu;
-        }
-    }
-    private AttackMenu _attackMenu;
-
     public enum AttackState
     {
         None,
-        PickingAttack,
         PickingTarget,
         Attacking
     }
@@ -95,8 +87,6 @@ public class AttackAction : ActionThing
         set
         {
             _attackState = value;
-
-            attackMenu.SetActive(_attackState == AttackState.PickingAttack, this);
 
             if (_attackState != AttackState.PickingTarget)
             // Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
@@ -111,13 +101,16 @@ public class AttackAction : ActionThing
                 case AttackState.None:
                     CancelAction();
                     break;
-                case AttackState.PickingAttack:
-                    targetPosition = user.transform.position;
-                    break;
                 case AttackState.PickingTarget:
+                    if (attackSequenceThing == null)
+                    {
+                        CancelAction();
+                        break;
+                    }
+
                     if (Nodes.instance != null)
                     {
-                        _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attackSequence.range, Vector2.one * attackSequence.range);
+                        _reachableNodes = Nodes.GetNodesInRadius(user.transform.position, attackSequenceThing.range, Vector2.one * attackSequenceThing.range);
 
                         if (user is CharacterThing && (user as CharacterThing).input.isPlayer)
                         {
@@ -127,20 +120,20 @@ public class AttackAction : ActionThing
                     }
                     break;
                 case AttackState.Attacking:
-                    if (attackSequence != null)
+                    if (attackSequenceThing != null)
                     {
                         CharacterThing character = GameManager.GetCharacterAtNode(Nodes.instance.gridGraph.GetNearest(targetPosition).node);
                         if (character != null && character != user)
-                            attackSequence.StartAttack(user, character);
-                        else if (attackSequence.canUseEmptyTarget)
-                            attackSequence.StartAttack(user, targetPosition);
+                            attackSequenceThing.StartAttack(user, character);
+                        else if (attackSequenceThing.canUseEmptyTarget)
+                            attackSequenceThing.StartAttack(user, targetPosition);
                         else
                         {
                             _attackState = AttackState.PickingTarget;
                             return;
                         }
 
-                        attackSequence.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
+                        attackSequenceThing.AttackSequenceFinished.AddListener(OnAttackSequenceFinished);
                     }
                     break;
             }
@@ -150,14 +143,14 @@ public class AttackAction : ActionThing
             // Debug.Log("AttackState: " + _attackState);
         }
     }
-    private AttackState _attackState = AttackState.PickingAttack;
+    private AttackState _attackState = AttackState.None;
 
     public override void Use(GameThing user)
     {
         base.Use(user);
 
         ResetAttack();
-        attackState = AttackState.PickingAttack;
+        attackState = AttackState.PickingTarget;
     }
 
     private void ResetAttack()
@@ -167,10 +160,10 @@ public class AttackAction : ActionThing
         _reachableNodes = null;
         targetPosition = Vector3.zero;
         targetDirection = Vector2Int.zero;
-        if (attackSequence != null)
+        if (attackSequenceThing != null)
         {
-            attackSequence.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
-            attackSequence = null;
+            attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attackSequenceThing = null;
         }
     }
 
@@ -184,32 +177,14 @@ public class AttackAction : ActionThing
     {
         switch (attackState)
         {
-            case AttackState.PickingAttack:
-                PickAttack(direction);
-                break;
             case AttackState.PickingTarget:
                 PickTarget(direction: direction);
                 break;
             case AttackState.Attacking:
-                if (attackSequence != null)
-                    attackSequence.Move(direction);
+                if (attackSequenceThing != null)
+                    attackSequenceThing.Move(direction);
                 break;
         }
-    }
-
-    public AttackSequenceThing attackSequence;
-
-    public void PickAttack(Vector2 direction)
-    {
-        if (direction.magnitude > selectionMagnitude)
-        {
-            attackMenu.PickAttack(direction, out attackSequence);
-        }
-    }
-
-    public void PickAttack(AttackSequenceThing attack)
-    {
-        attackMenu.PickAttack(attack, out attackSequence);
     }
 
     private Vector3 targetPosition;
@@ -225,9 +200,9 @@ public class AttackAction : ActionThing
             {
                 targetDirection = newTargetDirection;
                 Vector3 potentialTargetPosition =
-                    (attackSequence.range <= 1)
-                        ? user.transform.position + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequence.range)
-                        : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequence.range);
+                    (attackSequenceThing.range <= 1)
+                        ? user.transform.position + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequenceThing.range)
+                        : targetPosition + (new Vector3(targetDirection.x, 0, targetDirection.y) * attackSequenceThing.range);
 
                 // Check if the potential target position is within the attack range
                 Pathfinding.GraphNode potentialTargetNode = Nodes.instance.gridGraph.GetNearest(potentialTargetPosition).node;
@@ -259,10 +234,10 @@ public class AttackAction : ActionThing
     private void OnAttackSequenceFinished(bool allStepsSuccessful)
     {
         // Unsubscribe from the AttackSequenceFinished event to avoid memory leaks
-        if (attackSequence != null)
+        if (attackSequenceThing != null)
         {
-            attackSequence.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
-            attackSequence = null;
+            attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+            attackSequenceThing = null;
         }
 
         Debug.Log("AttackSequenceFinished: " + allStepsSuccessful);
@@ -279,17 +254,13 @@ public class AttackAction : ActionThing
                 if (pressed)
                     attackState++;
                 break;
-            case AttackState.PickingAttack:
-                if (pressed && attackSequence != null)
-                    attackState++;
-                break;
             case AttackState.PickingTarget:
                 if (pressed && targetPosition != Vector3.zero)
                     attackState++;
                 break;
             case AttackState.Attacking:
-                if (attackSequence != null)
-                    attackSequence.PrimaryAction(pressed);
+                if (attackSequenceThing != null)
+                    attackSequenceThing.PrimaryAction(pressed);
                 break;
         }
     }
@@ -303,8 +274,8 @@ public class AttackAction : ActionThing
                     attackState--;
                 break;
             case AttackState.Attacking:
-                if (attackSequence != null)
-                    attackSequence.SecondaryAction(pressed);
+                if (attackSequenceThing != null)
+                    attackSequenceThing.SecondaryAction(pressed);
                 break;
         }
     }

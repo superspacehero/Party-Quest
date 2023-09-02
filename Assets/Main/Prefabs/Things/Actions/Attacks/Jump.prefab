@@ -45,198 +45,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   serializationData:
-    SerializedFormat: 2
-    SerializedBytes: 
+    SerializedFormat: 0
+    SerializedBytes: 2d010b00000069006e0074006500720061006300740069006f006e0001010b000000610074007400610063006b00530074006500700073002f00000000011d000000410074007400610063006b0053007400650070005b005d002c00200041007300730065006d0062006c0079002d0043005300680061007200700000000000060400000000000000022f010000000120000000570061006900740046006f007200540069006d00650053007400650070002c00200041007300730065006d0062006c0079002d00430053006800610072007000010000001f01080000007700610069007400540069006d006500cdcc4c3e05022f0200000001210000004a0075006d0070004f006e0054006100720067006500740053007400650070002c00200041007300730065006d0062006c0079002d00430053006800610072007000020000001d010a0000006d006f007600650054006100720067006500740002000000000000001f010c0000006a0075006d007000440069007300740061006e0063006500cdcccc3d05022f0300000001230000005600610072006900610062006c0065004200720061006e006300680053007400650070002c00200041007300730065006d0062006c0079002d00430053006800610072007000030000000101080000007600610072006900610062006c0065002f040000000136000000470061006d0065005400680069006e0067002b00470061006d0065005400680069006e0067005600610072006900610062006c00650073002b005600610072006900610062006c0065002c00200041007300730065006d0062006c0079002d00430053006800610072007000040000002701040000006e0061006d00650001080000007300700069006b00650054006f007000170105000000760061006c007500650000000000052b0109000000750073006500540061007200670065007400011d010a0000006200720061006e006300680054007900700065000000000000000000010109000000740072007500650053007400650070007300300000000005000000060100000000000000022f05000000011b000000440061006d0061006700650053007400650070002c00200041007300730065006d0062006c0079002d00430053006800610072007000060000002b010e0000006f007600650072007200690064006500440061006d0061006700650001170106000000640061006d00610067006500010000002b01090000007500730065005400610072006700650074000105070501010a000000660061006c007300650053007400650070007300300000000007000000060400000000000000023005000000080000002b010e0000006f007600650072007200690064006500440061006d0061006700650000170106000000640061006d00610067006500010000002b01090000007500730065005400610072006700650074000105022f06000000011a00000049006e0070007500740053007400650070002c00200041007300730065006d0062006c0079002d00430053006800610072007000090000001d010d0000007200650071007500690072006500640049006e0070007500740000000000000000002b0113000000770072006f006e00670049006e007000750074004600610069006c0073005300740065007000011f010b0000006d0069006e0048006f006c006400540069006d006500000000001f010b0000006d006100780048006f006c006400540069006d0065000000807f1f010b0000006d00610078005700610069007400540069006d006500cdcc4c3e2b010a0000007000720065007300730049006e00700075007400012b010900000068006f006c00640049006e0070007500740000050230020000000a0000001d010a0000006d006f007600650054006100720067006500740002000000000000001f010c0000006a0075006d007000440069007300740061006e0063006500cdcccc3d050230050000000b0000002b010e0000006f007600650072007200690064006500440061006d0061006700650000170106000000640061006d00610067006500010000002b010900000075007300650054006100720067006500740001050705050230020000000c0000001d010a0000006d006f007600650054006100720067006500740000000000000000001f010c0000006a0075006d007000440069007300740061006e0063006500cdcccc3d050705
     ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: interaction
-      Entry: 6
-      Data: 
-    - Name: attackSteps
-      Entry: 7
-      Data: 0|AttackStep[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 1|WaitForTimeStep, Assembly-CSharp
-    - Name: waitTime
-      Entry: 4
-      Data: 0.2
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 2|JumpOnTargetStep, Assembly-CSharp
-    - Name: moveTarget
-      Entry: 3
-      Data: 2
-    - Name: jumpDistance
-      Entry: 4
-      Data: 0.1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 3|VariableBranchStep, Assembly-CSharp
-    - Name: variable
-      Entry: 7
-      Data: GameThing+GameThingVariables+Variable, Assembly-CSharp
-    - Name: name
-      Entry: 1
-      Data: spikeTop
-    - Name: value
-      Entry: 3
-      Data: 0
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: useTarget
-      Entry: 5
-      Data: true
-    - Name: branchType
-      Entry: 3
-      Data: 0
-    - Name: trueSteps
-      Entry: 7
-      Data: 4|AttackStep[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 5|DamageStep, Assembly-CSharp
-    - Name: overrideDamage
-      Entry: 5
-      Data: true
-    - Name: damage
-      Entry: 3
-      Data: 1
-    - Name: useTarget
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: falseSteps
-      Entry: 7
-      Data: 6|AttackStep[], Assembly-CSharp
-    - Name: 
-      Entry: 12
-      Data: 4
-    - Name: 
-      Entry: 7
-      Data: 7|DamageStep, Assembly-CSharp
-    - Name: overrideDamage
-      Entry: 5
-      Data: false
-    - Name: damage
-      Entry: 3
-      Data: 1
-    - Name: useTarget
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 8|InputStep, Assembly-CSharp
-    - Name: requiredInput
-      Entry: 3
-      Data: 0
-    - Name: wrongInputFailsStep
-      Entry: 5
-      Data: true
-    - Name: minHoldTime
-      Entry: 4
-      Data: 0
-    - Name: maxHoldTime
-      Entry: 4
-      Data: Infinity
-    - Name: maxWaitTime
-      Entry: 4
-      Data: 0.2
-    - Name: pressInput
-      Entry: 5
-      Data: true
-    - Name: holdInput
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 9|JumpOnTargetStep, Assembly-CSharp
-    - Name: moveTarget
-      Entry: 3
-      Data: 2
-    - Name: jumpDistance
-      Entry: 4
-      Data: 0.1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 10|DamageStep, Assembly-CSharp
-    - Name: overrideDamage
-      Entry: 5
-      Data: false
-    - Name: damage
-      Entry: 3
-      Data: 1
-    - Name: useTarget
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 11|JumpOnTargetStep, Assembly-CSharp
-    - Name: moveTarget
-      Entry: 3
-      Data: 0
-    - Name: jumpDistance
-      Entry: 4
-      Data: 0.1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  thingPrefab: {fileID: 2375837015626762368}
   _thingName: Jump
   properNoun: 0
   thingDescription: Press just before landing on an enemy!
   _thingIcon: {fileID: 713617979, guid: 9395717fe4de73a42a995d0eb0e1014d, type: 3}
+  canOccupyCurrentNode: 1
   thingValue: 0
   attachedThing:
     thing: {fileID: 0}

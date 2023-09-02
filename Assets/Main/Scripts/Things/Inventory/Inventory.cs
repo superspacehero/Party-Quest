@@ -29,7 +29,7 @@ public class Inventory : MonoBehaviour
 
         public string thingType;
 
-        public void AddThing(GameThing thingToAdd)
+        public void AddThing(GameThing thingToAdd, bool setTransform = true)
         {
             if (thingToAdd == null || thingType != "" && (thingType != thingToAdd.thingType && thingType != thingToAdd.thingSubType))
             {
@@ -39,25 +39,38 @@ public class Inventory : MonoBehaviour
 
             thing = thingToAdd;
 
-            if (transform != null)
+            if (setTransform && transform != null)
             {
-                thingToAdd.transform.parent = transform;
-                thingToAdd.transform.localPosition = Vector3.zero;
-                thingToAdd.transform.localRotation = Quaternion.identity;
-                thingToAdd.transform.localScale = Vector3.one;
+                SetParentTransform(thingToAdd, transform);
             }
 
             thingToAdd.gameObject.SetActive(!disableWhenInInventory);
         }
 
-        public void RemoveThing()
+        public void RemoveThing(Transform newParent = null)
         {
             if (thing == null)
                 return;
 
-            thing.transform.parent = null;
+            if (newParent == null)
+                newParent = thing.transform.parent;  // Keep the original parent if none is provided
+
+            RemoveParentTransform(thing, newParent);
             thing.gameObject.SetActive(true);
             thing = null;
+        }
+
+        private void SetParentTransform(GameThing thing, Transform parent)
+        {
+            thing.transform.parent = parent;
+            thing.transform.localPosition = Vector3.zero;
+            thing.transform.localRotation = Quaternion.identity;
+            thing.transform.localScale = Vector3.one;
+        }
+
+        private void RemoveParentTransform(GameThing thing, Transform newParent = null)
+        {
+            thing.transform.parent = newParent;
         }
     }
 
@@ -78,7 +91,7 @@ public class Inventory : MonoBehaviour
         slot.AddThing(item);
     }
 
-    public void AddThing(GameThing item, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true)
+    public void AddThing(GameThing item, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
     {
         if (addSlot)
         {
@@ -98,7 +111,7 @@ public class Inventory : MonoBehaviour
 
                 newThingSlots[thingSlots.Length].disableWhenInInventory = disableWhenInInventory;
                 newThingSlots[thingSlots.Length].thingType = (item.thingSubType != "" ? item.thingSubType : item.thingType);
-                newThingSlots[thingSlots.Length].AddThing(item);
+                newThingSlots[thingSlots.Length].AddThing(item, setParent);  // Passing the setParent argument here
 
                 thingSlots = newThingSlots;
             }
@@ -113,6 +126,15 @@ public class Inventory : MonoBehaviour
                     return;
                 }
             }
+        }
+    }
+
+
+    public void AddThings(GameThing[] items, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
+    {
+        foreach (GameThing item in items)
+        {
+            AddThing(item, addSlot, slotTransform, disableWhenInInventory, setParent);
         }
     }
 
@@ -133,6 +155,16 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void Clear()
+    {
+        foreach (ThingSlot slot in thingSlots)
+        {
+            RemoveThing(slot);
+        }
+
+        thingSlots = new ThingSlot[0];
+    }
+
     public bool Contains(GameThing item)
     {
         foreach (ThingSlot slot in thingSlots)
@@ -140,7 +172,7 @@ public class Inventory : MonoBehaviour
             if (slot.thing == item)
                 return true;
         }
-        
+
         return false;
     }
 
@@ -154,7 +186,7 @@ public class Inventory : MonoBehaviour
                 return true;
             }
         }
-        
+
         outSlot = null;
         return false;
     }
@@ -166,7 +198,7 @@ public class Inventory : MonoBehaviour
             if (slot.thing != null && slot.thing.thingName == thingName)
                 return true;
         }
-        
+
         return false;
     }
 
@@ -179,7 +211,7 @@ public class Inventory : MonoBehaviour
             if (slot.thing != null && slot.thing.variables.GetVariable(variableName) > 0)
                 things.Add(slot.thing);
         }
-        
+
         return things;
     }
 
@@ -214,7 +246,7 @@ public class Inventory : MonoBehaviour
     }
 
     // Displaying the inventory in-game
-    protected InventoryDisplay inventoryDisplay
+    public InventoryDisplay inventoryDisplay
     {
         get
         {
