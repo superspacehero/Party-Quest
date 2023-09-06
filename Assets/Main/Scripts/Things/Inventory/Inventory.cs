@@ -130,12 +130,15 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void AddThings(GameThing[] items, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
+    public void AddThings(GameThing[] items, bool displayInventory, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
     {
         foreach (GameThing item in items)
         {
             AddThing(item, addSlot, slotTransform, disableWhenInInventory, setParent);
         }
+
+        if (displayInventory)
+            this.displayInventory = true;
     }
 
     public void RemoveThing(ThingSlot slot)

@@ -61,31 +61,45 @@ public class InventoryDisplay : Menu
         if (excludedThings == null)
             excludedThings = new List<GameThing>();
 
-        if (thingDisplays.Count < inventory.thingSlots.Length)
+        // if (thingDisplays.Count < inventory.thingSlots.Length)
+        // {
+        //     while (thingDisplays.Count < inventory.thingSlots.Length)
+        //     {
+        //         ThingDisplay thingDisplay = GameManager.GetThingDisplay(slotContainer);
+        //         thingDisplays.Add(thingDisplay);
+        //     }
+        // }
+
+        foreach (ThingDisplay thingDisplay in thingDisplays)
         {
-            while (thingDisplays.Count < inventory.thingSlots.Length)
-            {
-                ThingDisplay thingDisplay = GameManager.GetThingDisplay(slotContainer);
-                thingDisplays.Add(thingDisplay);
-            }
+            thingDisplay.gameObject.SetActive(false);
         }
 
-        for (int i = 0; i < thingDisplays.Count; i++)
+        thingDisplays.Clear();
+
+        for (int i = 0; i < inventory.thingSlots.Length; i++)
         {
-            if (i < inventory.thingSlots.Length)
-            {
+            // if (i < inventory.thingSlots.Length)
+            // {
+                ThingDisplay thingDisplay = GameManager.GetThingDisplay(slotContainer);
+
                 if (inventory.thingSlots[i].thing != null && excludedThings.Contains(inventory.thingSlots[i].thing))
-                    thingDisplays[i].gameObject.SetActive(false);
-                else
-                    thingDisplays[i].gameObject.SetActive(true);
+                {
+                    thingDisplay.gameObject.SetActive(false);
+                    continue;
+                }
+                // else
+                //     thingDisplays[i].gameObject.SetActive(true);
 
-                thingDisplays[i].thingOwner = inventoryOwner;
-                thingDisplays[i].thing = inventory.thingSlots[i].thing;
+                thingDisplay.thingOwner = inventoryOwner;
+                thingDisplay.thing = inventory.thingSlots[i].thing;
 
-                thingDisplays[i].gameObject.name = thingDisplays[i].thing == null ? "Empty Slot" : thingDisplays[i].thing.thingName;
-            }
-            else
-                thingDisplays[i].thing = null;
+                thingDisplay.gameObject.name = thingDisplay.thing == null ? "Empty Slot" : thingDisplay.thing.thingName;
+
+                thingDisplays.Add(thingDisplay);
+            // }
+            // else
+            //     thingDisplays[i].thing = null;
         }
 
         foreach (ThingDisplay thingDisplay in thingDisplays)

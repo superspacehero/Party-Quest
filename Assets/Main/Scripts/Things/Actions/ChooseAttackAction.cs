@@ -12,14 +12,10 @@ public class ChooseAttackAction : ActionThing
 
         inventory.inventoryDisplay.inventoryOwner = user;
         inventory.Clear();
-        inventory.AddThings(user.GetComponentsInChildren<WeaponThing>(true), true, null, false, false);
-        if (user is CharacterThing && (user as CharacterThing).input.isPlayer)
-        {
-            inventory.displayInventory = true;
-            Debug.Log("Player is choosing attack");
-        }
-        else
-            Debug.Log("AI is choosing attack");
+        inventory.AddThings(
+            user.GetComponentsInChildren<WeaponThing>(true),
+            user is CharacterThing && (user as CharacterThing).input.isPlayer,
+            true, null, false, false);
         // inventory.inventoryDisplay.inventoryOwner = originalOwner;
 
 
