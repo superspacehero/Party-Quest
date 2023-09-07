@@ -39,15 +39,35 @@ public class GameManager : MonoBehaviour
 
     public Menu touchControls, emptyMenu;
 
-    public static void EnableTouchControls()
+    public static void EnableTouchControls(GameThing thing = null)
     {
         if (instance == null)
+        {
+            Debug.LogWarning("GameManager is null");
             return;
+        }
 
-        if (currentCharacter.input.isPlayer)
+        // if (thing == null)
+        // {
+        //     thing = currentCharacter;
+        // }
+
+#if UNITY_ANDROID || UNITY_IOS
             instance.touchControls.Select();
-        else
-            instance.emptyMenu.Select();
+#else
+        instance.emptyMenu.Select();
+#endif
+    }
+
+    public static void DisableTouchControls()
+    {
+        if (instance == null)
+        {
+            Debug.LogWarning("GameManager is null");
+            return;
+        }
+
+        instance.emptyMenu.Select();
     }
 
     #endregion
@@ -347,11 +367,14 @@ public class GameManager : MonoBehaviour
         SpawnPlayers();
 
         // Set up the menus
-        foreach (Menu menu in FindObjectsOfType<Menu>(true))
-        {
-            if (menu.previousOption == null)
-                menu.previousOption = touchControls;
-        }
+        // foreach (Menu menu in FindObjectsOfType<Menu>(true))
+        // {
+        //     if (menu.previousOption == null)
+        //         menu.previousOption = touchControls;
+        // }
+
+        // Set up the screen
+        DisableTouchControls();
 
         // Set up the camera
         if (gameMode == GameMode.Play)
@@ -440,7 +463,7 @@ public class GameManager : MonoBehaviour
                 {
                     // General.DelayedFunctionFrames(character, () =>
                     // {
-                        character.position = (Vector3)(Nodes.instance.gridGraph.GetNearest(position.Value).node.position);
+                    character.position = (Vector3)(Nodes.instance.gridGraph.GetNearest(position.Value).node.position);
                     //     Debug.Log("Spawned player at " + character.transform.position);
                     // });
                 }
@@ -448,8 +471,8 @@ public class GameManager : MonoBehaviour
                 {
                     // General.DelayedFunctionFrames(character, () =>
                     // {
-                        character.position = playerSpawner.position;
-                        // Debug.Log("Spawned player at " + character.transform.position);
+                    character.position = playerSpawner.position;
+                    // Debug.Log("Spawned player at " + character.transform.position);
                     // });
                 }
 

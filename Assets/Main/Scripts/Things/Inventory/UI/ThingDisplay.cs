@@ -6,19 +6,21 @@ using TMPro;
 
 public class ThingDisplay : MonoBehaviour
 {
-    [HideInInspector] public GameThing thingOwner;
+    private GameThing thingOwner;
 
     public GameThing thing
     {
         get => _thing;
-        set
-        {
-            UpdateDisplay(value);
-
-            _thing = value;
-        }
+        set => UpdateDisplay(value);
     }
     private GameThing _thing;
+
+    public void SetThing(GameThing thing, GameThing owner = null)
+    {
+        UpdateDisplay(thing, owner);
+
+        // Debug.Log(owner.GetType(), this);
+    }
 
     [SerializeField] private Image iconImage;
     public Button iconButton;
@@ -34,8 +36,14 @@ public class ThingDisplay : MonoBehaviour
             iconButton.Select();
     }
 
-    private void UpdateDisplay(GameThing displayThing)
+    private void UpdateDisplay(GameThing displayThing = null, GameThing owner = null)
     {
+        if (displayThing != null)
+            _thing = displayThing;
+
+        if (owner != null)
+            thingOwner = owner;
+
         if (displayThing == null)
         {
             foreach (TextMeshProUGUI text in nameTexts)
@@ -71,7 +79,7 @@ public class ThingDisplay : MonoBehaviour
                 iconButton.onClick.RemoveAllListeners();
 
                 if (thingOwner != null)
-                    iconButton.onClick.AddListener(() => displayThing.Use(user:thingOwner));
+                    iconButton.onClick.AddListener(() => displayThing.Use(user: thingOwner));
 
                 iconButton.interactable = true;
             }

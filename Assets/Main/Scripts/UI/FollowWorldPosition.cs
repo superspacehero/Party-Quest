@@ -26,6 +26,8 @@ public class FollowWorldPosition : MonoBehaviour
     }
     private GameThing _target;
 
+    [SerializeField, Range(0f, 1f)] private float followHeight = 1f;
+
     void Start()
     {
         Move();
@@ -41,7 +43,7 @@ public class FollowWorldPosition : MonoBehaviour
         if (target != null)
         {
             // Set the position of the UI object to the position of the target object in world space
-            (transform as RectTransform).position = (Vector2)GameplayCamera.instance.myCamera.WorldToScreenPoint(target.thingTop.position);
+            (transform as RectTransform).position = (Vector2)GameplayCamera.instance.myCamera.WorldToScreenPoint(Vector3.Lerp(target.transform.position, target.thingTop.position, followHeight));
         }
     }
 }

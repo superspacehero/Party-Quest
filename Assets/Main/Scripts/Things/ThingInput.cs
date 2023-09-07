@@ -184,7 +184,7 @@ public class ThingInput : UnsavedThing
 
     private IEnumerator ActionCoroutine(CharacterThing thing)
     {
-        GameManager.instance?.emptyMenu?.Select();
+        GameManager.DisableTouchControls();
 
         AIState currentState = AIState.Idling;
         AIState nextState = AIState.ChoosingAction;
@@ -400,7 +400,7 @@ public class ThingInput : UnsavedThing
                     break;
 
                 case AIState.Attacking:
-                    if (thing.attackMenu.weapon == null)
+                    if (weapon == null)
                     {
                         // Check if we have WeaponThings
                         List<WeaponThing> weapons = thing.GetComponentsInChildren<WeaponThing>(true).ToList();
@@ -461,8 +461,14 @@ public class ThingInput : UnsavedThing
                     }
                     else if (thing.attackAction.attackSequenceThing != null)
                     {
+                        // Debug.Log($"Attack state: {thing.attackAction.attackState}");
                         switch (thing.attackAction.attackState)
                         {
+                            case AttackAction.AttackState.None:
+                                // We're not attacking, end our turn
+                                nextState = AIState.EndingTurn;
+                                currentState = AIState.Idling;
+                                break;
                             case AttackAction.AttackState.PickingTarget:
                                 // Attack the current target
                                 if (_targets != null && _targets[_targets.Count - 1] != null)
@@ -471,6 +477,8 @@ public class ThingInput : UnsavedThing
                                         thing.attackAction.PickTarget(_targets[_targets.Count - 1].position);
                                     else
                                     {
+                                        Debug.Log($"Couldn't find a target for {thing.thingName}", thing.gameObject);
+
                                         // We're too far away, end our turn
                                         thing.attackAction.attackState = AttackAction.AttackState.None;
 
@@ -478,12 +486,20 @@ public class ThingInput : UnsavedThing
                                         currentState = AIState.Idling;
                                     }
                                 }
+                                else
+                                {
+                                    Debug.Log($"Couldn't find a target for {thing.thingName}", thing.gameObject);
+
+                                    // We're too far away, end our turn
+                                    thing.attackAction.attackState = AttackAction.AttackState.None;
+                                }
                                 break;
 
                             case AttackAction.AttackState.Attacking:
                                 if (thing.attackAction.attackSequenceThing != null)
                                 {
                                     // Wait for the attack to finish
+                                    // Debug.Log($"Waiting for {thing.attackAction.attackSequenceThing.thingName} to finish attacking");
                                 }
                                 else
                                 {
@@ -498,8 +514,8 @@ public class ThingInput : UnsavedThing
 
                         if (thing.attackAction.attackState != AttackAction.AttackState.None && thing.attackAction.attackState != AttackAction.AttackState.Attacking)
                         {
-                            weapon.PrimaryAction(true);
-                            weapon.PrimaryAction(false);
+                            thing.attackAction.PrimaryAction(true);
+                            thing.attackAction.PrimaryAction(false);
                         }
                     }
                     else

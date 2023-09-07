@@ -42,16 +42,16 @@ public class InventoryDisplay : Menu
 
     protected List<ThingDisplay> thingDisplays = new List<ThingDisplay>();
 
-    public override void Select()
+    public void Select(GameThing owner)
     {
         base.Select();
 
         transform.rotation = Quaternion.identity;
 
-        PopulateThings();
+        PopulateThings(null, owner);
     }
 
-    protected virtual void PopulateThings(List<GameThing> excludedThings = null)
+    protected virtual void PopulateThings(List<GameThing> excludedThings = null, GameThing overrideOwner = null)
     {
         inventory = inventory;
 
@@ -60,6 +60,9 @@ public class InventoryDisplay : Menu
 
         if (excludedThings == null)
             excludedThings = new List<GameThing>();
+
+        if (overrideOwner == null)
+            overrideOwner = inventoryOwner;
 
         // if (thingDisplays.Count < inventory.thingSlots.Length)
         // {
@@ -91,8 +94,7 @@ public class InventoryDisplay : Menu
                 // else
                 //     thingDisplays[i].gameObject.SetActive(true);
 
-                thingDisplay.thingOwner = inventoryOwner;
-                thingDisplay.thing = inventory.thingSlots[i].thing;
+                thingDisplay.SetThing(inventory.thingSlots[i].thing, overrideOwner);
 
                 thingDisplay.gameObject.name = thingDisplay.thing == null ? "Empty Slot" : thingDisplay.thing.thingName;
 
@@ -109,6 +111,14 @@ public class InventoryDisplay : Menu
                 thingDisplay.iconButton.Select();
                 break;
             }
+        }
+    }
+
+    public void SetThingOwner(GameThing thingOwner)
+    {
+        foreach (ThingDisplay thingDisplay in thingDisplays)
+        {
+            thingDisplay.SetThing(null, thingOwner);
         }
     }
 }

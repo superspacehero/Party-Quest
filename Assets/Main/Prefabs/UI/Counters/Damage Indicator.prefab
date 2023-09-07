@@ -322,6 +322,7 @@ MonoBehaviour:
   - rid: 9006242264430149647
   - rid: 9006242264430149640
   - rid: 9006242264430149642
+  - rid: 4402042357618835456
   updateType: 0
   timeScaleIndependent: 0
   autoplayMode: 1
@@ -336,19 +337,7 @@ MonoBehaviour:
       m_Calls: []
   onFinishedEvent:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9017017470615935954}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
   onProgressEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -356,6 +345,26 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 4402042357618835456
+      type: {class: InvokeCallbackAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
+      data:
+        delay: 0
+        flowType: 0
+        callback:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 9017017470615935954}
+              m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+              m_MethodName: SetActive
+              m_Mode: 6
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
     - rid: 9006242264430149632
       type: {class: DOTweenAnimationStep, ns: BrunoMikoski.AnimationSequencer, asm: BrunoMikoski.AnimationSequencer}
       data:
@@ -581,3 +590,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8e5164f4206d5e284ff17d32f0037d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  followHeight: 1

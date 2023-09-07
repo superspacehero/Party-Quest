@@ -3002,14 +3002,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -69633717937323671, guid: 2df8bf2a466b13149a30deb3212374d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb47b08adc4be8ad48d3102548a167b0, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3018,7 +3018,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!114 &2784230290047801215
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3397,24 +3397,16 @@ MonoBehaviour:
     UseMaxSize: 0
     ModLeft:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModRight:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModTop:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModBottom:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
   customPaddingSizers:
     items: []
   spacingSizerFallback:
@@ -3426,9 +3418,7 @@ MonoBehaviour:
     UseMaxSize: 0
     Mod:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 0
-        Impact: 1
+      SizeModifiers: []
   customSpacingSizers:
     items: []
   settingsFallback:
@@ -3445,7 +3435,7 @@ MonoBehaviour:
   customSettings:
     items:
     - ChildAlignment: 0
-      ReverseArrangement: 0
+      ReverseArrangement: 1
       ChildForceExpandHeight: 1
       ChildForceExpandWidth: 1
       ChildScaleWidth: 0
@@ -3818,7 +3808,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 547888717d2b5c799bd0938b22e0b9c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thingOwner: {fileID: 0}
   iconImage: {fileID: 0}
   iconButton: {fileID: 0}
   nameTexts:
@@ -4316,14 +4305,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -69633717937323671, guid: 2df8bf2a466b13149a30deb3212374d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb47b08adc4be8ad48d3102548a167b0, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4332,7 +4321,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!114 &7559559370407504957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5486,14 +5475,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -69633717937323671, guid: 2df8bf2a466b13149a30deb3212374d1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: fb47b08adc4be8ad48d3102548a167b0, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5502,7 +5491,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 0.25
 --- !u!114 &4469966300028893323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5675,6 +5664,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8561587463186187232}
     m_Modifications:
+    - target: {fileID: 1586779889050664446, guid: 3020728ed0d0c9509a35461936133620, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1634289537234900026, guid: 3020728ed0d0c9509a35461936133620, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -5894,24 +5887,16 @@ MonoBehaviour:
     UseMaxSize: 0
     ModLeft:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModRight:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModTop:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
     ModBottom:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 1
-        Impact: 1
+      SizeModifiers: []
   customPaddingSizers:
     items: []
   spacingSizerFallback:
@@ -5923,9 +5908,7 @@ MonoBehaviour:
     UseMaxSize: 0
     Mod:
       ExponentialScale: 1
-      SizeModifiers:
-      - Mode: 0
-        Impact: 1
+      SizeModifiers: []
   customSpacingSizers:
     items: []
   settingsFallback:

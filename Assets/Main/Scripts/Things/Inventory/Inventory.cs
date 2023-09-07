@@ -130,7 +130,7 @@ public class Inventory : MonoBehaviour
     }
 
 
-    public void AddThings(GameThing[] items, bool displayInventory, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
+    public void AddThings(GameThing[] items, bool displayInventory, GameThing owner, bool addSlot = false, Transform slotTransform = null, bool disableWhenInInventory = true, bool setParent = true)
     {
         foreach (GameThing item in items)
         {
@@ -138,7 +138,10 @@ public class Inventory : MonoBehaviour
         }
 
         if (displayInventory)
-            this.displayInventory = true;
+        {
+            // this.displayInventory = true;
+            inventoryDisplay.Select(owner);
+        }
     }
 
     public void RemoveThing(ThingSlot slot)
@@ -293,7 +296,7 @@ public class Inventory : MonoBehaviour
             if (inventoryDisplay != null)
             {
                 if (_displayInventory)
-                    inventoryDisplay.Select();
+                    inventoryDisplay.Select(null);
                 else
                     inventoryDisplay.Deselect();
 

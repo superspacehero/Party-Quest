@@ -6,7 +6,7 @@ public class AttackMenu : Menu
 {
     private CharacterThing user;
 
-    public ThingDisplay upAttack, downAttack, leftAttack, rightAttack;
+    public ThingDisplay upAttack, middleAttack, downAttack;
 
     public WeaponThing weapon
     {
@@ -19,26 +19,22 @@ public class AttackMenu : Menu
             {
                 upAttack.thing = null;
                 downAttack.thing = null;
-                leftAttack.thing = null;
-                rightAttack.thing = null;
+                middleAttack.thing = null;
             }
             else
             {
-                upAttack.thing = value.upAttackSlot;
-                downAttack.thing = value.downAttackSlot;
-                leftAttack.thing = value.sideAttackSlot;
-                rightAttack.thing = value.sideAttackSlot;
+                upAttack.SetThing(value.upAttackSlot, user);
+                downAttack.SetThing(value.downAttackSlot, user);
+                middleAttack.SetThing(value.sideAttackSlot, user);
             }
 
-            upAttack.iconButton.onClick.AddListener(() => PickAttack(upAttack.thing));
-            downAttack.iconButton.onClick.AddListener(() => PickAttack(downAttack.thing));
-            leftAttack.iconButton.onClick.AddListener(() => PickAttack(leftAttack.thing));
-            rightAttack.iconButton.onClick.AddListener(() => PickAttack(rightAttack.thing));
+            upAttack.iconButton.onClick.AddListener(() => PickAttack(upAttack.thing as AttackSequenceThing, user.attackAction));
+            downAttack.iconButton.onClick.AddListener(() => PickAttack(downAttack.thing as AttackSequenceThing, user.attackAction));
+            middleAttack.iconButton.onClick.AddListener(() => PickAttack(middleAttack.thing as AttackSequenceThing, user.attackAction));
 
             upAttack.gameObject.SetActive(upAttack.thing != null);
             downAttack.gameObject.SetActive(downAttack.thing != null);
-            leftAttack.gameObject.SetActive(leftAttack.thing != null);
-            rightAttack.gameObject.SetActive(rightAttack.thing != null);
+            middleAttack.gameObject.SetActive(middleAttack.thing != null);
         }
     }
     private WeaponThing _weapon;
@@ -51,75 +47,23 @@ public class AttackMenu : Menu
             weapon = newWeapon;
 
         if (active && weapon != null && user.input.isPlayer)
+        {
+            if (middleAttack.thing != null)
+                objectToSelect = middleAttack.iconButton.gameObject;
+            else if (upAttack.thing != null)
+                objectToSelect = upAttack.iconButton.gameObject;
+            else if (downAttack.thing != null)
+                objectToSelect = downAttack.iconButton.gameObject;
+
             Select();
-    }
-
-    public void PickAttack(Vector2 direction, AttackAction attackAction)
-    {
-        ThingDisplay attackDisplay = null;
-
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            if (direction.x > 0f)
-                attackDisplay = rightAttack;
-            else if (direction.x < 0f)
-                attackDisplay = leftAttack;
         }
-        else
-        {
-            if (direction.y > 0f)
-                attackDisplay = upAttack;
-            else if (direction.y < 0f)
-                attackDisplay = downAttack;
-        }
-
-        if (attackDisplay != null)
-        {
-            attackDisplay.Select();
-        }
-
-        // Debug.Log("Attack: " + attack);
     }
 
     public void PickAttack(AttackSequenceThing attackSequence, AttackAction attackAction)
     {
-
-        ThingDisplay attackDisplay = null;
-
-        if (attackSequence == upAttack.thing)
-            attackDisplay = upAttack;
-        else if (attackSequence == downAttack.thing)
-            attackDisplay = downAttack;
-        else if (attackSequence == leftAttack.thing)
-            attackDisplay = leftAttack;
-        else if (attackSequence == rightAttack.thing)
-            attackDisplay = rightAttack;
-
-        if (attackDisplay != null)
-        {
-            attackDisplay.Select();
-        }
-
         if (attackAction != null)
         {
-            attackAction.Use(user);
+            attackAction.Use(user, attackSequence);
         }
-    }
-
-    public void PickAttack(GameThing thing)
-    {
-        Vector2 direction = Vector2.zero;
-
-        if (thing == upAttack.thing)
-            direction = Vector2.up;
-        else if (thing == downAttack.thing)
-            direction = Vector2.down;
-        else if (thing == leftAttack.thing)
-            direction = Vector2.left;
-        else if (thing == rightAttack.thing)
-            direction = Vector2.right;
-
-        if (user != null)
-            PickAttack(direction, user.attackAction);
     }
 }

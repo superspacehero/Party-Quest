@@ -31,7 +31,7 @@ public class MoveAction : ActionThing
 
         yield return null;
 
-        GameManager.EnableTouchControls();
+        GameManager.EnableTouchControls(user);
 
         for (int i = 0; i < numberOfDiceRolls; i++)
         {

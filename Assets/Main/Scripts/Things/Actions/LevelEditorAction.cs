@@ -226,6 +226,8 @@ public class LevelEditorAction : ActionThing
         if (user is CharacterThing)
             (user as CharacterThing).input.canControl = true;
 
+        GameManager.EnableTouchControls(user);
+
         user.TryGetComponent(out MovementController controller);
         if (controller != null)
         {

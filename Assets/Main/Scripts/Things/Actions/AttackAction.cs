@@ -26,7 +26,7 @@ public class AttackAction : ActionThing
         {
             if (_attackSequenceThing != null)
             {
-                _attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+                _attackSequenceThing.AttackSequenceFinished.RemoveAllListeners();
             }
 
             _attackSequenceThing = value;
@@ -88,13 +88,11 @@ public class AttackAction : ActionThing
         {
             _attackState = value;
 
+            if (_attackState != AttackState.None)
+                GameManager.EnableTouchControls(user);
+
             if (_attackState != AttackState.PickingTarget)
-            // Nodes.UnoccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node);
-            // else
-            {
-                // Nodes.OccupyNode(Nodes.instance.gridGraph.GetNearest(user.transform.position).node, user);
                 Nodes.instance?.HideNodes();
-            }
 
             switch (_attackState)
             {
@@ -104,6 +102,7 @@ public class AttackAction : ActionThing
                 case AttackState.PickingTarget:
                     if (attackSequenceThing == null)
                     {
+                        Debug.Log("AttackSequenceThing is null");
                         CancelAction();
                         break;
                     }
@@ -145,26 +144,25 @@ public class AttackAction : ActionThing
     }
     private AttackState _attackState = AttackState.None;
 
-    public override void Use(GameThing user)
+    public void Use(GameThing user, AttackSequenceThing attack)
     {
         base.Use(user);
 
-        ResetAttack();
-        attackState = AttackState.PickingTarget;
+        Debug.Log($"Using {attack.thingName} as attack for {user.thingName}");
+        SetUpAttack(attack);
     }
 
-    private void ResetAttack()
+    private void SetUpAttack(AttackSequenceThing attack = null)
     {
         // Reset all the variables that need to be reset here
-        _attackState = AttackState.None;
-        _reachableNodes = null;
+        if (attackSequenceThing != null)
+            attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
+
+        attackSequenceThing = attack;
+        attackState = AttackState.PickingTarget;
+        // _reachableNodes = null;
         targetPosition = Vector3.zero;
         targetDirection = Vector2Int.zero;
-        if (attackSequenceThing != null)
-        {
-            attackSequenceThing.AttackSequenceFinished.RemoveListener(OnAttackSequenceFinished);
-            attackSequenceThing = null;
-        }
     }
 
 
@@ -196,7 +194,7 @@ public class AttackAction : ActionThing
         {
             Vector2Int newTargetDirection = Vector2Int.RoundToInt(direction.normalized);
 
-            if (newTargetDirection != targetDirection)
+            if (newTargetDirection != targetDirection && attackSequenceThing != null && _reachableNodes != null)
             {
                 targetDirection = newTargetDirection;
                 Vector3 potentialTargetPosition =

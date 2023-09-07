@@ -8,16 +8,11 @@ public class ChooseAttackAction : ActionThing
         this.user = user;
         user.actionList.SetAction(this);
 
-        GameThing originalOwner = inventory.inventoryDisplay.inventoryOwner;
-
-        inventory.inventoryDisplay.inventoryOwner = user;
         inventory.Clear();
         inventory.AddThings(
             user.GetComponentsInChildren<WeaponThing>(true),
             user is CharacterThing && (user as CharacterThing).input.isPlayer,
-            true, null, false, false);
-        // inventory.inventoryDisplay.inventoryOwner = originalOwner;
-
+            user, true, null, false, false);
 
         gameObject.SetActive(true);
     }

@@ -32,7 +32,7 @@ public class ActionListDisplay : InventoryDisplay
     }
     // [SerializeField] private ActionList actionList;
 
-    protected override void PopulateThings(List<GameThing> excludedThings = null)
+    protected override void PopulateThings(List<GameThing> excludedThings = null, GameThing overrideOwner = null)
     {
         // if (inventory is not ActionList)
         //     return;
@@ -46,7 +46,7 @@ public class ActionListDisplay : InventoryDisplay
                 excludedThings.Add(slot.thing);
         }
 
-        base.PopulateThings(excludedThings);
+        base.PopulateThings(excludedThings, overrideOwner);
 
 
         // foreach (ThingDisplay thingDisplay in thingDisplays)
