@@ -1,0 +1,703 @@
+[gd_resource type="VisualShader" load_steps=74 format=3 uid="uid://bs10cvs1exqwv"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_s61tt"]
+parameter_name = "Horizon_Color"
+default_value_enabled = true
+default_value = Color(1, 0.2, 0, 1)
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_gsvui"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_m1rk8"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_n4qem"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_eiy3p"]
+size = Vector2(477.01, 318.512)
+title = "Day-Night Sky Blend"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_eoknp"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_lsr80"]
+function = 18
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_nc6l2"]
+default_input_values = [0, 0.0, 1, 0.5]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_h5oau"]
+expanded_output_ports = [0]
+input_name = "light0_direction"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_1xlnp"]
+output_port_for_preview = 0
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_h0fmc"]
+parameter_name = "Horizon_Brightness"
+default_value_enabled = true
+default_value = 1.84
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_0rv8t"]
+default_input_values = [0, 0.5, 1, 1.0, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_00gj8"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_gqshw"]
+parameter_name = "Horizon_Width"
+default_value_enabled = true
+default_value = 1.5
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ja71b"]
+function = 12
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_c8byc"]
+size = Vector2(2359.76, 689.191)
+title = "Day-Night Sky Blend"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_6pyls"]
+expanded_output_ports = [0]
+input_name = "light0_direction"
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_3ywbe"]
+function = 18
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_6mhwd"]
+size = Vector2(537.053, 265.974)
+title = "Sky Blend"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_sa12i"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_kfwfo"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_kxr0b"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_5vbe2"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_qtm38"]
+function = 18
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ljuns"]
+function = 18
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_hqdk2"]
+default_input_values = [0, 0.0, 1, 50.0]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_m1h01"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_btk8d"]
+operator = 3
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_g34br"]
+parameter_name = "Moon_Radius"
+hint = 1
+min = 0.001
+max = 2.0
+default_value_enabled = true
+default_value = 1.84
+
+[sub_resource type="VisualShaderNodeVectorDistance" id="VisualShaderNodeVectorDistance_w65di"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_cqhda"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+
+[sub_resource type="VisualShaderNodeVectorFunc" id="VisualShaderNodeVectorFunc_blwft"]
+function = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_xivrm"]
+input_name = "light0_direction"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_w8xe0"]
+input_name = "sky_coords"
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_nt8d3"]
+size = Vector2(1653.33, 544.221)
+title = "Moon"
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_4ky6q"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_kkbfh"]
+function = 18
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_agg3e"]
+default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 6.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_bw05f"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_adbx5"]
+default_input_values = [0, Quaternion(0.25, 0.25, 0.25, 1), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_t381b"]
+parameter_name = "Sky_Color_Day_Bottom"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_usi13"]
+parameter_name = "Sky_Color_Day_Top"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_sy4vu"]
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_10fxb"]
+function = 12
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_w0gwx"]
+function = 0
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_5c8r0"]
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_wtj5k"]
+input_name = "sky_coords"
+
+[sub_resource type="VisualShaderNodeUVFunc" id="VisualShaderNodeUVFunc_t0r6d"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_ukndx"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, -1, 1, 1)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_44j31"]
+input_name = "light0_direction"
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="VisualShaderNodeSmoothStep_iwhxg"]
+default_input_values = [0, 0.0, 1, 0.1, 2, 0.5]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_36e05"]
+default_input_values = [0, Vector2(8, 2), 1, Vector2(0, 0)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_i64ie"]
+parameter_name = "Star_Density"
+hint = 1
+min = 0.001
+max = 10.0
+default_value_enabled = true
+default_value = 1.84
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_yhscp"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_gk7i1"]
+width = 128
+height = 128
+seamless = true
+noise = SubResource("FastNoiseLite_yhscp")
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_hd1na"]
+expanded_output_ports = [0]
+texture = SubResource("NoiseTexture2D_gk7i1")
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_3b8a3"]
+function = 18
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_8n74e"]
+default_input_values = [0, 0.0, 1, 50.0]
+operator = 5
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_3d0os"]
+output_port_for_preview = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_scb7h"]
+function = 31
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_nxte4"]
+function = 18
+
+[sub_resource type="VisualShaderNodeRemap" id="VisualShaderNodeRemap_t4gtx"]
+default_input_values = [1, 0.0, 2, 1.0, 3, 0.0, 4, 6.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_v78wt"]
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_wfvgj"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_k4ai1"]
+parameter_name = "Sky_Color_Night_Bottom"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_hb5ja"]
+parameter_name = "Sky_Color_Night_Top"
+default_value_enabled = true
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_t18tb"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_fhvvr"]
+function = 12
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="VisualShaderNodeFloatFunc_ym0lh"]
+function = 0
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_5vjmj"]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_1uhch"]
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeMix" id="VisualShaderNodeMix_r7xyy"]
+default_input_values = [0, Quaternion(0.25, 0.25, 0.25, 1), 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0.5, 0.5, 0.5, 0.5)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_7opnm"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[resource]
+code = "shader_type sky;
+uniform float Horizon_Width = 1.5;
+uniform float Horizon_Brightness = 1.8400000333786;
+uniform vec4 Horizon_Color : source_color = vec4(1.000000, 0.200000, 0.000000, 1.000000);
+uniform vec4 Sky_Color_Night_Bottom : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform vec4 Sky_Color_Night_Top : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform vec4 Sky_Color_Day_Bottom : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform vec4 Sky_Color_Day_Top : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform float Moon_Radius : hint_range(0.0010000000475, 2) = 1.8400000333786;
+
+
+
+void sky() {
+// Input:19
+	vec3 n_out19p0 = LIGHT0_DIRECTION;
+	float n_out19p2 = n_out19p0.g;
+
+
+// FloatFunc:17
+	float n_out17p0 = min(max(n_out19p2, 0.0), 1.0);
+
+
+// FloatFunc:15
+	float n_out15p0 = 1.0 - n_out17p0;
+
+
+// FloatOp:18
+	float n_in18p1 = 0.50000;
+	float n_out18p0 = n_out19p2 + n_in18p1;
+
+
+// FloatOp:13
+	float n_out13p0 = n_out15p0 * n_out18p0;
+
+
+// FloatParameter:23
+	float n_out23p0 = Horizon_Width;
+
+
+// Input:27
+	vec3 n_out27p0 = LIGHT0_DIRECTION;
+	float n_out27p2 = n_out27p0.g;
+
+
+// FloatFunc:28
+	float n_out28p0 = min(max(n_out27p2, 0.0), 1.0);
+
+
+// FloatFunc:24
+	float n_out24p0 = abs(n_out28p0);
+
+
+// FloatFunc:22
+	float n_out22p0 = 1.0 - n_out24p0;
+
+
+// SmoothStep:21
+	float n_in21p0 = 0.50000;
+	float n_out21p0 = smoothstep(n_in21p0, n_out23p0, n_out22p0);
+
+
+// FloatParameter:20
+	float n_out20p0 = Horizon_Brightness;
+
+
+// FloatOp:12
+	float n_out12p0 = n_out21p0 * n_out20p0;
+
+
+// FloatOp:11
+	float n_out11p0 = n_out13p0 * n_out12p0;
+
+
+// ColorParameter:10
+	vec4 n_out10p0 = Horizon_Color;
+
+
+// VectorOp:9
+	vec4 n_out9p0 = vec4(n_out11p0) * n_out10p0;
+
+
+// ColorParameter:70
+	vec4 n_out70p0 = Sky_Color_Night_Bottom;
+
+
+// ColorParameter:71
+	vec4 n_out71p0 = Sky_Color_Night_Top;
+
+
+// Input:56
+	vec2 n_out56p0 = SKY_COORDS;
+
+
+// VectorDecompose:76
+	float n_out76p0 = n_out56p0.x;
+	float n_out76p1 = n_out56p0.y;
+
+
+// Clamp:75
+	float n_in75p1 = 0.00000;
+	float n_in75p2 = 1.00000;
+	float n_out75p0 = clamp(n_out76p1, n_in75p1, n_in75p2);
+
+
+// FloatFunc:74
+	float n_out74p0 = sin(n_out76p0);
+
+
+// FloatFunc:73
+	float n_out73p0 = abs(n_out74p0);
+
+
+// FloatOp:69
+	float n_out69p0 = n_out75p0 + n_out73p0;
+
+
+	float n_out68p0;
+// Remap:68
+	float n_in68p1 = 0.00000;
+	float n_in68p2 = 1.00000;
+	float n_in68p3 = 0.00000;
+	float n_in68p4 = 6.00000;
+	{
+		float __input_range = n_in68p2 - n_in68p1;
+		float __output_range = n_in68p4 - n_in68p3;
+		n_out68p0 = n_in68p3 + __output_range * ((n_out69p0 - n_in68p1) / __input_range);
+	}
+
+
+// FloatFunc:67
+	float n_out67p0 = min(max(n_out68p0, 0.0), 1.0);
+
+
+// Mix:72
+	vec4 n_out72p0 = mix(n_out70p0, n_out71p0, vec4(n_out67p0));
+
+
+// ColorParameter:50
+	vec4 n_out50p0 = Sky_Color_Day_Bottom;
+
+
+// ColorParameter:51
+	vec4 n_out51p0 = Sky_Color_Day_Top;
+
+
+// VectorDecompose:55
+	float n_out55p0 = n_out56p0.x;
+	float n_out55p1 = n_out56p0.y;
+
+
+// Clamp:52
+	float n_in52p1 = 0.00000;
+	float n_in52p2 = 1.00000;
+	float n_out52p0 = clamp(n_out55p1, n_in52p1, n_in52p2);
+
+
+// FloatFunc:54
+	float n_out54p0 = sin(n_out55p0);
+
+
+// FloatFunc:53
+	float n_out53p0 = abs(n_out54p0);
+
+
+// FloatOp:49
+	float n_out49p0 = n_out52p0 + n_out53p0;
+
+
+	float n_out48p0;
+// Remap:48
+	float n_in48p1 = 0.00000;
+	float n_in48p2 = 1.00000;
+	float n_in48p3 = 0.00000;
+	float n_in48p4 = 6.00000;
+	{
+		float __input_range = n_in48p2 - n_in48p1;
+		float __output_range = n_in48p4 - n_in48p3;
+		n_out48p0 = n_in48p3 + __output_range * ((n_out49p0 - n_in48p1) / __input_range);
+	}
+
+
+// FloatFunc:47
+	float n_out47p0 = min(max(n_out48p0, 0.0), 1.0);
+
+
+// Mix:46
+	vec4 n_out46p0 = mix(n_out50p0, n_out51p0, vec4(n_out47p0));
+
+
+// SmoothStep:6
+	float n_in6p0 = 0.00000;
+	float n_in6p1 = 0.10000;
+	float n_out6p0 = smoothstep(n_in6p0, n_in6p1, n_out28p0);
+
+
+// Mix:7
+	vec4 n_out7p0 = mix(n_out72p0, n_out46p0, vec4(n_out6p0));
+
+
+// Input:44
+	vec2 n_out44p0 = SKY_COORDS;
+
+
+// Input:41
+	vec3 n_out41p0 = LIGHT0_DIRECTION;
+
+
+// VectorFunc:40
+	vec3 n_out40p0 = -(n_out41p0);
+
+
+// Distance:39
+	float n_out39p0 = distance(vec3(n_out44p0, 0.0), n_out40p0);
+
+
+// FloatParameter:38
+	float n_out38p0 = Moon_Radius;
+
+
+// FloatOp:37
+	float n_out37p0 = n_out39p0 / n_out38p0;
+
+
+// FloatFunc:36
+	float n_out36p0 = 1.0 - n_out37p0;
+
+
+// FloatOp:35
+	float n_in35p1 = 50.00000;
+	float n_out35p0 = n_out36p0 * n_in35p1;
+
+
+// FloatFunc:34
+	float n_out34p0 = min(max(n_out35p0, 0.0), 1.0);
+
+
+// FloatFunc:33
+	float n_out33p0 = min(max(n_out34p0, 0.0), 1.0);
+
+
+// VectorOp:32
+	vec4 n_in32p0 = vec4(0.00000, 0.00000, 0.00000, 0.00000);
+	vec4 n_in32p1 = vec4(0.00000, 0.00000, 0.00000, 0.00000);
+	vec4 n_out32p0 = n_in32p0 * n_in32p1;
+
+
+// VectorOp:31
+	vec4 n_out31p0 = vec4(n_out33p0) * n_out32p0;
+
+
+// VectorOp:30
+	vec4 n_in30p1 = vec4(0.00000, 0.00000, 0.00000, 0.00000);
+	vec4 n_out30p0 = n_out31p0 + n_in30p1;
+
+
+// Mix:8
+	vec4 n_out8p0 = mix(n_out7p0, n_out30p0, n_out30p0);
+
+
+// VectorOp:4
+	vec4 n_out4p0 = n_out9p0 + n_out8p0;
+
+
+// Mix:5
+	vec4 n_in5p0 = vec4(0.25000, 0.25000, 0.25000, 1.00000);
+	vec4 n_in5p1 = vec4(1.00000, 1.00000, 1.00000, 1.00000);
+	vec4 n_out5p0 = mix(n_in5p0, n_in5p1, vec4(n_out6p0));
+
+
+// VectorOp:3
+	vec4 n_in3p1 = vec4(0.00000, 0.00000, 0.00000, 0.00000);
+	vec4 n_out3p0 = n_out5p0 * n_in3p1;
+
+
+// VectorOp:2
+	vec4 n_out2p0 = n_out4p0 + n_out3p0;
+
+
+// Output:0
+	COLOR = vec3(n_out2p0.xyz);
+
+
+}
+"
+mode = 3
+flags/use_half_res_pass = false
+flags/use_quarter_res_pass = false
+flags/disable_fog = false
+flags/use_debanding = false
+nodes/sky/2/node = SubResource("VisualShaderNodeVectorOp_1xlnp")
+nodes/sky/2/position = Vector2(200, 140)
+nodes/sky/3/node = SubResource("VisualShaderNodeVectorOp_sa12i")
+nodes/sky/3/position = Vector2(0, 280)
+nodes/sky/4/node = SubResource("VisualShaderNodeVectorOp_cqhda")
+nodes/sky/4/position = Vector2(0, 40)
+nodes/sky/5/node = SubResource("VisualShaderNodeMix_adbx5")
+nodes/sky/5/position = Vector2(-260, 240)
+nodes/sky/6/node = SubResource("VisualShaderNodeSmoothStep_iwhxg")
+nodes/sky/6/position = Vector2(-1880, -1400)
+nodes/sky/7/node = SubResource("VisualShaderNodeMix_wfvgj")
+nodes/sky/7/position = Vector2(-1660, -1480)
+nodes/sky/8/node = SubResource("VisualShaderNodeMix_r7xyy")
+nodes/sky/8/position = Vector2(-260, 60)
+nodes/sky/9/node = SubResource("VisualShaderNodeVectorOp_7opnm")
+nodes/sky/9/position = Vector2(-280, -620)
+nodes/sky/10/node = SubResource("VisualShaderNodeColorParameter_s61tt")
+nodes/sky/10/position = Vector2(-620, -520)
+nodes/sky/11/node = SubResource("VisualShaderNodeFloatOp_gsvui")
+nodes/sky/11/position = Vector2(-520, -780)
+nodes/sky/12/node = SubResource("VisualShaderNodeFloatOp_m1rk8")
+nodes/sky/12/position = Vector2(-1580, -660)
+nodes/sky/13/node = SubResource("VisualShaderNodeFloatOp_n4qem")
+nodes/sky/13/position = Vector2(-820, -880)
+nodes/sky/14/node = SubResource("VisualShaderNodeComment_eiy3p")
+nodes/sky/14/position = Vector2(-1920, -1520)
+nodes/sky/15/node = SubResource("VisualShaderNodeFloatFunc_eoknp")
+nodes/sky/15/position = Vector2(-1100, -880)
+nodes/sky/17/node = SubResource("VisualShaderNodeFloatFunc_lsr80")
+nodes/sky/17/position = Vector2(-1340, -880)
+nodes/sky/18/node = SubResource("VisualShaderNodeFloatOp_nc6l2")
+nodes/sky/18/position = Vector2(-1200, -780)
+nodes/sky/19/node = SubResource("VisualShaderNodeInput_h5oau")
+nodes/sky/19/position = Vector2(-1700, -880)
+nodes/sky/20/node = SubResource("VisualShaderNodeFloatParameter_h0fmc")
+nodes/sky/20/position = Vector2(-1880, -580)
+nodes/sky/21/node = SubResource("VisualShaderNodeSmoothStep_0rv8t")
+nodes/sky/21/position = Vector2(-1880, -800)
+nodes/sky/22/node = SubResource("VisualShaderNodeFloatFunc_00gj8")
+nodes/sky/22/position = Vector2(-2160, -840)
+nodes/sky/23/node = SubResource("VisualShaderNodeFloatParameter_gqshw")
+nodes/sky/23/position = Vector2(-2220, -720)
+nodes/sky/24/node = SubResource("VisualShaderNodeFloatFunc_ja71b")
+nodes/sky/24/position = Vector2(-2400, -840)
+nodes/sky/25/node = SubResource("VisualShaderNodeComment_c8byc")
+nodes/sky/25/position = Vector2(-2440, -920)
+nodes/sky/27/node = SubResource("VisualShaderNodeInput_6pyls")
+nodes/sky/27/position = Vector2(-3120, -1260)
+nodes/sky/28/node = SubResource("VisualShaderNodeFloatFunc_3ywbe")
+nodes/sky/28/position = Vector2(-2780, -1220)
+nodes/sky/29/node = SubResource("VisualShaderNodeComment_6mhwd")
+nodes/sky/29/position = Vector2(-3140, -1340)
+nodes/sky/30/node = SubResource("VisualShaderNodeVectorOp_kfwfo")
+nodes/sky/30/position = Vector2(-740, 620)
+nodes/sky/31/node = SubResource("VisualShaderNodeVectorOp_kxr0b")
+nodes/sky/31/position = Vector2(-980, 620)
+nodes/sky/32/node = SubResource("VisualShaderNodeVectorOp_5vbe2")
+nodes/sky/32/position = Vector2(-1260, 760)
+nodes/sky/33/node = SubResource("VisualShaderNodeFloatFunc_qtm38")
+nodes/sky/33/position = Vector2(-1280, 640)
+nodes/sky/34/node = SubResource("VisualShaderNodeFloatFunc_ljuns")
+nodes/sky/34/position = Vector2(-1540, 420)
+nodes/sky/35/node = SubResource("VisualShaderNodeFloatOp_hqdk2")
+nodes/sky/35/position = Vector2(-1740, 420)
+nodes/sky/36/node = SubResource("VisualShaderNodeFloatFunc_m1h01")
+nodes/sky/36/position = Vector2(-2000, 420)
+nodes/sky/37/node = SubResource("VisualShaderNodeFloatOp_btk8d")
+nodes/sky/37/position = Vector2(-2180, 360)
+nodes/sky/38/node = SubResource("VisualShaderNodeFloatParameter_g34br")
+nodes/sky/38/position = Vector2(-2480, 420)
+nodes/sky/39/node = SubResource("VisualShaderNodeVectorDistance_w65di")
+nodes/sky/39/position = Vector2(-2480, 260)
+nodes/sky/40/node = SubResource("VisualShaderNodeVectorFunc_blwft")
+nodes/sky/40/position = Vector2(-2680, 360)
+nodes/sky/41/node = SubResource("VisualShaderNodeInput_xivrm")
+nodes/sky/41/position = Vector2(-2960, 420)
+nodes/sky/44/node = SubResource("VisualShaderNodeInput_w8xe0")
+nodes/sky/44/position = Vector2(-2960, 280)
+nodes/sky/45/node = SubResource("VisualShaderNodeComment_nt8d3")
+nodes/sky/45/position = Vector2(-2980, 220)
+nodes/sky/46/node = SubResource("VisualShaderNodeMix_4ky6q")
+nodes/sky/46/position = Vector2(-2500, -1640)
+nodes/sky/47/node = SubResource("VisualShaderNodeFloatFunc_kkbfh")
+nodes/sky/47/position = Vector2(-2760, -1560)
+nodes/sky/48/node = SubResource("VisualShaderNodeRemap_agg3e")
+nodes/sky/48/position = Vector2(-2960, -1560)
+nodes/sky/49/node = SubResource("VisualShaderNodeFloatOp_bw05f")
+nodes/sky/49/position = Vector2(-3160, -1600)
+nodes/sky/50/node = SubResource("VisualShaderNodeColorParameter_t381b")
+nodes/sky/50/position = Vector2(-2820, -2020)
+nodes/sky/51/node = SubResource("VisualShaderNodeColorParameter_usi13")
+nodes/sky/51/position = Vector2(-2820, -1820)
+nodes/sky/52/node = SubResource("VisualShaderNodeClamp_sy4vu")
+nodes/sky/52/position = Vector2(-3380, -1740)
+nodes/sky/53/node = SubResource("VisualShaderNodeFloatFunc_10fxb")
+nodes/sky/53/position = Vector2(-3380, -1560)
+nodes/sky/54/node = SubResource("VisualShaderNodeFloatFunc_w0gwx")
+nodes/sky/54/position = Vector2(-3600, -1560)
+nodes/sky/55/node = SubResource("VisualShaderNodeVectorDecompose_5c8r0")
+nodes/sky/55/position = Vector2(-3820, -1760)
+nodes/sky/56/node = SubResource("VisualShaderNodeInput_wtj5k")
+nodes/sky/56/position = Vector2(-4280, -1500)
+nodes/sky/57/node = SubResource("VisualShaderNodeUVFunc_t0r6d")
+nodes/sky/57/position = Vector2(-3879.98, -1134.53)
+nodes/sky/58/node = SubResource("VisualShaderNodeVectorOp_ukndx")
+nodes/sky/58/position = Vector2(-4140, -1000)
+nodes/sky/59/node = SubResource("VisualShaderNodeInput_44j31")
+nodes/sky/59/position = Vector2(-4440, -860)
+nodes/sky/60/node = SubResource("VisualShaderNodeVectorOp_36e05")
+nodes/sky/60/position = Vector2(-4120, -1180)
+nodes/sky/61/node = SubResource("VisualShaderNodeFloatParameter_i64ie")
+nodes/sky/61/position = Vector2(-4440, -1140)
+nodes/sky/62/node = SubResource("VisualShaderNodeTexture_hd1na")
+nodes/sky/62/position = Vector2(-3600, -1140)
+nodes/sky/63/node = SubResource("VisualShaderNodeFloatFunc_3b8a3")
+nodes/sky/63/position = Vector2(-3360, -1000)
+nodes/sky/64/node = SubResource("VisualShaderNodeFloatOp_8n74e")
+nodes/sky/64/position = Vector2(-3140, -1000)
+nodes/sky/65/node = SubResource("VisualShaderNodeFloatOp_3d0os")
+nodes/sky/65/position = Vector2(-2960, -1000)
+nodes/sky/66/node = SubResource("VisualShaderNodeFloatFunc_scb7h")
+nodes/sky/66/position = Vector2(-3200, -840)
+nodes/sky/67/node = SubResource("VisualShaderNodeFloatFunc_nxte4")
+nodes/sky/67/position = Vector2(-2740, -2300)
+nodes/sky/68/node = SubResource("VisualShaderNodeRemap_t4gtx")
+nodes/sky/68/position = Vector2(-2940, -2300)
+nodes/sky/69/node = SubResource("VisualShaderNodeFloatOp_v78wt")
+nodes/sky/69/position = Vector2(-3140, -2340)
+nodes/sky/70/node = SubResource("VisualShaderNodeColorParameter_k4ai1")
+nodes/sky/70/position = Vector2(-2800, -2760)
+nodes/sky/71/node = SubResource("VisualShaderNodeColorParameter_hb5ja")
+nodes/sky/71/position = Vector2(-2800, -2560)
+nodes/sky/72/node = SubResource("VisualShaderNodeMix_t18tb")
+nodes/sky/72/position = Vector2(-2480, -2380)
+nodes/sky/73/node = SubResource("VisualShaderNodeFloatFunc_fhvvr")
+nodes/sky/73/position = Vector2(-3360, -2300)
+nodes/sky/74/node = SubResource("VisualShaderNodeFloatFunc_ym0lh")
+nodes/sky/74/position = Vector2(-3580, -2300)
+nodes/sky/75/node = SubResource("VisualShaderNodeClamp_5vjmj")
+nodes/sky/75/position = Vector2(-3360, -2480)
+nodes/sky/76/node = SubResource("VisualShaderNodeVectorDecompose_1uhch")
+nodes/sky/76/position = Vector2(-3800, -2500)
+nodes/sky/connections = PackedInt32Array(2, 0, 0, 0, 3, 0, 2, 1, 4, 0, 2, 0, 5, 0, 3, 0, 6, 0, 5, 2, 6, 0, 7, 2, 8, 0, 4, 1, 9, 0, 4, 0, 10, 0, 9, 1, 11, 0, 9, 0, 12, 0, 11, 1, 13, 0, 11, 0, 15, 0, 13, 0, 17, 0, 15, 0, 19, 2, 17, 0, 19, 2, 18, 0, 18, 0, 13, 1, 20, 0, 12, 1, 21, 0, 12, 0, 22, 0, 21, 2, 23, 0, 21, 1, 24, 0, 22, 0, 27, 2, 28, 0, 28, 0, 24, 0, 28, 0, 6, 2, 7, 0, 8, 0, 30, 0, 8, 1, 30, 0, 8, 2, 31, 0, 30, 0, 32, 0, 31, 1, 33, 0, 31, 0, 34, 0, 33, 0, 35, 0, 34, 0, 36, 0, 35, 0, 37, 0, 36, 0, 38, 0, 37, 1, 39, 0, 37, 0, 40, 0, 39, 1, 41, 0, 40, 0, 44, 0, 39, 0, 46, 0, 7, 1, 47, 0, 46, 2, 48, 0, 47, 0, 49, 0, 48, 0, 50, 0, 46, 0, 51, 0, 46, 1, 52, 0, 49, 0, 53, 0, 49, 1, 54, 0, 53, 0, 55, 0, 54, 0, 55, 1, 52, 0, 56, 0, 55, 0, 56, 0, 57, 0, 58, 0, 57, 2, 59, 0, 58, 0, 60, 0, 57, 1, 61, 0, 60, 1, 57, 0, 62, 0, 62, 1, 63, 0, 63, 0, 64, 0, 64, 0, 65, 0, 66, 0, 65, 1, 67, 0, 72, 2, 68, 0, 67, 0, 69, 0, 68, 0, 70, 0, 72, 0, 71, 0, 72, 1, 75, 0, 69, 0, 73, 0, 69, 1, 74, 0, 73, 0, 76, 0, 74, 0, 76, 1, 75, 0, 56, 0, 76, 0, 72, 0, 7, 0)

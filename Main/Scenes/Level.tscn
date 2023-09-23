@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciatdywy3s4yc"]
+
+[ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_88v8i"]
+
+[node name="Level" type="Node3D"]
+
+[node name="Game Manager" parent="." instance=ExtResource("1_88v8i")]

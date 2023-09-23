@@ -1,35 +1,24 @@
 #!/bin/bash
 
 first_letter="$(echo $1 | head -c1)"
-unity="/home/superspacehero/Applications/Unity/2021.3.16f1/Editor/Unity"
-scenepath="$(pwd)/Assets/Main/Scenes"
-defaultScene="Level.unity"
-github="flatpak run io.github.shiftey.Desktop"
-code="code"
+godot="/home/superspacehero/.local/share/godot/app_userdata/Godots/versions/Godot_v4_1_1-stable_linux_x86_64/Godot_v4.1.1-stable_linux.x86_64  \"--path\""
+project_path=". -e"
+github="flatpak run io.github.shiftey.Desktop & git lfs pull"
 
 case "$first_letter" in
     "p")
-        $unity -openfile $scenepath/$defaultScene & $code . & $github &
+        $godot $project_path & code . & $github &
         ;;
     "b")
-        $unity -openfile $scenepath/$defaultScene & flatpak run org.blender.Blender & $github &
+        $godot $project_path & flatpak run org.blender.Blender & $github &
         ;;
     "a")
-        $unity -openfile $scenepath/$defaultScene & flatpak run org.audacityteam.Audacity & $github &
-        ;;
-    "g")
-        $unity -openfile $scenepath/$defaultScene & flatpak run org.gimp.GIMP & $github &
-        ;;
-    "i")
-        $unity -openfile $scenepath/$defaultScene & flatpak run org.inkscape.Inkscape & $github &
+        $godot $project_path & flatpak run org.gimp.GIMP & $github &
         ;;
     "c")
-        $unity -openfile $scenepath/$defaultScene & clip-snap-paint & $github &
-        ;;
-    "m")
-        $unity -openfile $scenepath/Menus_TitleCharacter.unity & $github & $code . &
+        $godot $project_path & clip-snap-paint & $github &
         ;;
     *)
-        $unity -openfile $scenepath/$defaultScene & $github &
+        $godot $project_path & $github &
         ;;
 esac

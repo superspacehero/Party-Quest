@@ -1,0 +1,2 @@
+extends GameThing
+class_name UnsavedThing

@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Path of active commit type csv file
+COMMIT_CSV_FILE_PATH=".giticon/giticontypes.csv"
+
+# Add emoji to commit message: Y/N
+ADD_EMOJI="Y"
+
+# If flag is not valid: warn/error/ignore
+INVALID_FLAG_ACTION="warn"
+
+# Terminate if warning: Y/N
+TERMINATE_ON_WARNING="Y"
