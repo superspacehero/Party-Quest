@@ -219,7 +219,7 @@ func attach_parts_to_part(part: CharacterPartThing):
 func attach_part_to_slot(slot: ThingSlot):
 	var attached_part_success: bool = false
 	for part in parts:
-		if (part.thing_type == slot.thing_type or part.thing_subtype == slot.thing_type) and !added_parts.has(part):
+		if part and slot and (part.thing_type == slot.thing_type or part.thing_subtype == slot.thing_type) and !added_parts.has(part):
 			attach_part(part, slot)
 			attached_part_success = true
 			break

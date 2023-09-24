@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CharacterInfo" load_steps=4 format=3 uid="uid://vwhk5exstwwy"]
+
+[ext_resource type="PackedScene" uid="uid://bfnnukhmr8o1v" path="res://Main/Prefabs/Things/Parts/Body/Body/Body_SmallRound.tscn" id="1_4iogx"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/CharacterInfo.gd" id="1_yaj72"]
+[ext_resource type="PackedScene" uid="uid://bfi8c4qkl36wo" path="res://Main/Prefabs/Things/Parts/Body/Arm/Arm.res" id="2_7qfvh"]
+
+[resource]
+script = ExtResource("1_yaj72")
+name = "Default"
+description = "The default character."
+value = 0
+character_parts = Array[PackedScene]([ExtResource("1_4iogx"), ExtResource("2_7qfvh"), ExtResource("2_7qfvh")])
+variables = {}

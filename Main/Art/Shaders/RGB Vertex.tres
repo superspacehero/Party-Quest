@@ -39,9 +39,11 @@ operator = 2
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_ijvdv"]
 parameter_name = "Red_Color"
+default_value_enabled = true
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_86xyq"]
 parameter_name = "Green_Color"
+default_value_enabled = true
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_egp40"]
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
@@ -50,6 +52,7 @@ operator = 2
 
 [sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_7q3w6"]
 parameter_name = "Blue_Color"
+default_value_enabled = true
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_h7qfw"]
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
@@ -88,9 +91,9 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 uniform bool Integer_Positions = true;
 uniform float Color_Randomization : hint_range(0, 1) = 0.25;
-uniform vec4 Red_Color : source_color;
-uniform vec4 Green_Color : source_color;
-uniform vec4 Blue_Color : source_color;
+uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 
 
 
