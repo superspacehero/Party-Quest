@@ -22,7 +22,7 @@ var elapsed_time = 0.0
 
 func _ready():
 	camera_offset_node.position = camera_offset
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _process(delta):
 	if camera_rotation_amount.length() > 0:

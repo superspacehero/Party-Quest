@@ -12,7 +12,7 @@ class_name CharacterThing
 @export var character_speed : float = 4  # The speed at which the character moves.
 @export var jump_height: float = 1  # The height of the character's jump.
 @export var jump_offset: float = 0.15  # The offset of the character's jump.
-@export var gravity: float = 100  # The gravity of the character.
+@export var gravity: float = 50  # The gravity of the character.
 
 @onready var jump_full_height: float = jump_height + jump_offset
 @onready var jump_velocity: float = sqrt(2 * gravity * jump_full_height)
@@ -45,7 +45,7 @@ func _ready():
 	super()
 
 	assemble_character()
-	gameplay_camera.set_camera_object(self, 1, true)
+	gameplay_camera.set_camera_object(self, 0.5, true)
 	character_body.velocity = Vector3.ZERO
 	
 	rotate_base(Vector3.FORWARD if rotation_behavior != movement_rotation_behavior.LEFT_RIGHT_ROTATION else Vector3.RIGHT)
@@ -54,6 +54,12 @@ func _physics_process(delta):
 	var movement_vector = calculate_movement_direction() * character_speed
 	velocity.x = movement_vector.x
 	velocity.z = movement_vector.z
+
+	# if movement.z != 0:
+	# 	set_sorting_offset_to_position()
+	# 	for part in parts:
+	# 		var found_part = find_part_in_children(part)
+	# 		found_part.set_sorting_offset_to_position()
 
 	if character_body.is_on_floor():
 		if !jump_input:
@@ -129,9 +135,6 @@ func move(direction):
 	movement.z = direction.y
 	
 	# print("move: " + str(direction))
-
-func aim(direction):
-	gameplay_camera.camera_rotation_amount = direction
 	
 func primary(pressed):
 	jump_input = pressed
@@ -159,7 +162,7 @@ func pause(_pressed):
 @export_category("Character Assembly")
 
 @export_file("*.tres") var character_info_path
-var parts: Array = [Node3D]
+var parts: Array = [CharacterPartThing]
 var added_parts: Array = [Node3D]
 
 # 6. Character Assembly Functions
@@ -241,19 +244,23 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 func attach_parts_to_part(part: CharacterPartThing):
 	for slot in part.inventory:
 		if slot is ThingSlot:
-			attach_part_to_slot(slot)
+			attach_part_to_slot(slot, part)
 
-func attach_part_to_slot(slot: ThingSlot):
+func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 	var attached_part_success: bool = false
 
 	# The primary search should be within the children nodes.
 	for part in parts:
 		var found_part = find_part_in_children(part)
-		if found_part and (found_part.thing_type == slot.thing_type or found_part.thing_subtype == slot.thing_type) and !added_parts.has(found_part):
+		if found_part and not slot.thing and (found_part.thing_type == slot.thing_type or found_part.thing_subtype == slot.thing_type) and !added_parts.has(found_part):
 			attach_part(found_part, slot)
 			attached_part_success = true
-			print("Attached part: " + found_part.name + " to " + slot.name)
-			break
+
+			# Set the thing's visual's sorting offset, if a VisualInstance3D has been set
+			if slot_part:
+				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + slot.sorting_offset
+			# print("Attached part: " + found_part.name + " to " + slot.name)
+			# break
 
 	if !attached_part_success:
 		print("No part to attach to slot: " + slot.name)

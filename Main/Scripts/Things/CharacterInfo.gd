@@ -18,11 +18,7 @@ class_name CharacterInfo
 
 # Methods to serialize and deserialize the data to/from JSON.
 func to_json() -> String:
-	var data = {
-		"parts": character_parts
-	}
 	return to_json()
 
 func from_json(json_string: String):
-	var data = from_json(json_string)
-	character_parts = data["parts"]
+	from_json(json_string)

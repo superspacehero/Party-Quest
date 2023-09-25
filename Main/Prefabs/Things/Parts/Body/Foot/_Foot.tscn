@@ -4,9 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://ejvxnf5w8m68" path="res://Main/Art/Sprites/Parts/Body/Foot_Shoe_Round.png" id="2_cms5i"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/FootThing.gd" id="3_l5qwa"]
 
-[node name="Foot" type="Sprite3D"]
+[node name="Foot" type="Sprite3D" node_paths=PackedStringArray("thing_visual")]
 material_override = ExtResource("1_4qjyb")
 centered = false
 pixel_size = 0.0033
+alpha_cut = 1
 texture = ExtResource("2_cms5i")
 script = ExtResource("3_l5qwa")
+thing_visual = NodePath(".")

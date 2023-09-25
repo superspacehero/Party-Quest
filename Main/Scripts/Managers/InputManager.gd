@@ -9,7 +9,6 @@ static var instance: InputManager = null
 # List of actions you want to explicitly process (whitelist)
 var allowed_actions: Array = [
 	"move_up", "move_down", "move_left", "move_right",
-	"aim_up", "aim_down", "aim_left", "aim_right",
 	"left_trigger", "right_trigger",
 	"primary", "secondary", "tertiary", "quaternary", 
 	"pause"

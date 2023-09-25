@@ -13,6 +13,8 @@ func _ready():
 			inventory.append(node)
 	# print("Final Inventory:", inventory)
 
+	set_sorting_offset_to_position()
+
 # Variables
 @export var thing_root : Node3D:
 	get:
@@ -20,6 +22,15 @@ func _ready():
 			thing_root = self
 			
 		return thing_root
+
+@export var thing_visual : VisualInstance3D
+@export var relative_sorting_offset: float = 0.0:
+	set(value):
+		relative_sorting_offset = value
+		if thing_visual:
+			thing_visual.sorting_offset = relative_sorting_offset
+	get:
+		return relative_sorting_offset
 
 @export var thing_name : String
 @export var thing_description : String = ""
@@ -37,10 +48,10 @@ var thing_top: Node3D = null:
 			thing_top = find_child("Top", true, true)
 
 			if thing_top == null:
-				print("No thing_top found for ", name, ". Setting to transform.")
+				# print("No thing_top found for ", name, ". Setting to transform.")
 				thing_top = self
-			else:
-				print("thing_top found for ", name, ": ", thing_top)
+			# else:
+			# 	print("thing_top found for ", name, ": ", thing_top)
 		return thing_top
 	set(value):
 		thing_top = value
@@ -65,15 +76,17 @@ func _init():
 	thing_type = "Game"
 	thing_subtype = "Game"
 
+func set_sorting_offset_to_position():
+	if thing_visual:
+		thing_visual.sorting_offset = thing_visual.position.z + relative_sorting_offset
+		print("Setting sorting offset for ", name, " to ", thing_visual.sorting_offset)
+
 func die():
 	print("Dying!")
 	# Destroy self
 	queue_free()
 
 func move(_direction):
-	pass
-
-func aim(_direction):
 	pass
 	
 func primary(_pressed):

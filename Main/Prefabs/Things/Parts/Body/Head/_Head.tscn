@@ -5,39 +5,47 @@
 [ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="3_sudff"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/HeadThing.gd" id="4_b0wq6"]
 
-[node name="Head" type="Sprite3D"]
+[node name="Head" type="Sprite3D" node_paths=PackedStringArray("thing_visual")]
+sorting_offset = 1.0
 material_override = ExtResource("1_0n3b3")
 centered = false
 offset = Vector2(-104, -64)
 pixel_size = 0.0033
+alpha_cut = 1
 texture = ExtResource("2_v02ni")
 script = ExtResource("4_b0wq6")
+thing_visual = NodePath(".")
 inventory_paths = Array[NodePath]([NodePath("Headgear"), NodePath("Ear_Front"), NodePath("Ear_Back"), NodePath("Eyebrow_Front"), NodePath("Eyebrow_Back"), NodePath("Face/Eye_Front"), NodePath("Face/Eye_Back"), NodePath("Face/Nose"), NodePath("Face/Mouth")])
 
 [node name="Headgear" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
 script = ExtResource("3_sudff")
 thing_type = "Headgear"
+sorting_offset = 2
 
 [node name="Ear_Front" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.213, 0.215, 0)
 script = ExtResource("3_sudff")
 thing_type = "Ear"
+sorting_offset = 2
 
 [node name="Ear_Back" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.234, 0.2, 0)
 script = ExtResource("3_sudff")
 thing_type = "Ear"
+sorting_offset = -1
 
 [node name="Eyebrow_Front" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.33, 0)
 script = ExtResource("3_sudff")
 thing_type = "Eyebrow"
+sorting_offset = 3
 
 [node name="Eyebrow_Back" type="Node3D" parent="."]
 transform = Transform3D(-1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0.3, 0.33, 0)
 script = ExtResource("3_sudff")
 thing_type = "Eyebrow"
+sorting_offset = 3
 
 [node name="Face" type="Node3D" parent="."]
 
@@ -45,21 +53,25 @@ thing_type = "Eyebrow"
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015, 0.216, 0)
 script = ExtResource("3_sudff")
 thing_type = "Eye"
+sorting_offset = 1
 
 [node name="Eye_Back" type="Node3D" parent="Face"]
 transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0.225, 0.216, 0)
 script = ExtResource("3_sudff")
 thing_type = "Eye"
+sorting_offset = 1
 
 [node name="Nose" type="Node3D" parent="Face"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.15, 0.073, 0)
 script = ExtResource("3_sudff")
 thing_type = "Nose"
+sorting_offset = 1
 
 [node name="Mouth" type="Node3D" parent="Face"]
 transform = Transform3D(-1, 0, 0, 0, -1, 0, 0, 0, -1, 0.11, -0.075, 0)
 script = ExtResource("3_sudff")
 thing_type = "Mouth"
+sorting_offset = 1
 
 [node name="Top" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06, 0)

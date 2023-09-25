@@ -5,3 +5,9 @@
 [node name="Level" type="Node3D"]
 
 [node name="Game Manager" parent="." instance=ExtResource("1_88v8i")]
+
+[node name="Environmental Lights" parent="Game Manager" index="5"]
+transform = Transform3D(0.5, -0.866025, -3.78552e-08, 0, -4.37114e-08, 1, -0.866025, -0.5, -2.18557e-08, 0, 0, 0)
+
+[editable path="Game Manager"]
+[editable path="Game Manager/Canvas"]

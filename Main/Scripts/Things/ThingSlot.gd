@@ -3,6 +3,7 @@ class_name ThingSlot
 
 @export var thing_type: String = ""
 @export var disable_when_in_inventory: bool = false
+@export var sorting_offset: int = 0
 
 var thing: Node3D = null
 

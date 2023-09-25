@@ -4,10 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://bkx8wdey3ml2p" path="res://Main/Art/Sprites/Parts/Body/Ear_Round.png" id="2_fe6ti"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/EarThing.gd" id="3_cjvfi"]
 
-[node name="Ear" type="Sprite3D"]
+[node name="Ear" type="Sprite3D" node_paths=PackedStringArray("thing_visual")]
+sorting_offset = 2.0
 material_override = ExtResource("1_xcu8n")
 centered = false
 offset = Vector2(-63, -65)
 pixel_size = 0.0033
+shaded = true
+alpha_cut = 2
 texture = ExtResource("2_fe6ti")
 script = ExtResource("3_cjvfi")
+thing_visual = NodePath(".")

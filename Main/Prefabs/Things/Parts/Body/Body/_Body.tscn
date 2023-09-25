@@ -5,48 +5,57 @@
 [ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/BodyThing.gd" id="3_j235m"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="4_5wesw"]
 
-[node name="Body" type="Sprite3D"]
+[node name="Body" type="Sprite3D" node_paths=PackedStringArray("thing_visual")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.1, 0)
 material_override = ExtResource("1_le71i")
 centered = false
 offset = Vector2(-96.5, 0)
 pixel_size = 0.0033
+alpha_cut = 1
 texture = ExtResource("2_hsyu2")
 script = ExtResource("3_j235m")
 collider_dimensions = Vector2(0.64, 1.5)
+thing_visual = NodePath(".")
 inventory_paths = Array[NodePath]([NodePath("Head"), NodePath("Arm_Front"), NodePath("Arm_Back"), NodePath("Foot_Front"), NodePath("Foot_Back"), NodePath("Shirt"), NodePath("Pants")])
 
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Head"
+sorting_offset = 1
 
 [node name="Arm_Front" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.6, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Arm"
+sorting_offset = 4
 
 [node name="Arm_Back" type="Node3D" parent="."]
 transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, 0.17, 0.65, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Arm"
+sorting_offset = -2
 
 [node name="Foot_Front" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.1, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Foot"
+sorting_offset = 3
 
 [node name="Foot_Back" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Foot"
+sorting_offset = -1
 
 [node name="Shirt" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Shirt"
+sorting_offset = 2
 
 [node name="Pants" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
 script = ExtResource("4_5wesw")
 thing_type = "Pants"
+sorting_offset = 1
