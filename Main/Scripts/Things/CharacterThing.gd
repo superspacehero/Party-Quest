@@ -4,11 +4,12 @@ class_name CharacterThing
 # 1. Member Variables/Properties
 
 @export var character_body : CharacterBody3D = null
-@export var gameplay_camera : GameplayCamera
+@export var gameplay_camera : GameplayCamera = null
 @export var character_base : ThingSlot = null
+@export var character_collider : CollisionShape3D = null
 
 @export_category("Movement")
-@export var character_speed : float = 8  # The speed at which the character moves.
+@export var character_speed : float = 4  # The speed at which the character moves.
 @export var jump_height: float = 1  # The height of the character's jump.
 @export var jump_offset: float = 0.15  # The offset of the character's jump.
 @export var gravity: float = 100  # The gravity of the character.
@@ -158,8 +159,8 @@ func pause(_pressed):
 @export_category("Character Assembly")
 
 @export_file("*.tres") var character_info_path
-var parts: Array = [CharacterPartThing]
-var added_parts: Array = [CharacterPartThing]
+var parts: Array = [Node3D]
+var added_parts: Array = [Node3D]
 
 # 6. Character Assembly Functions
 
@@ -178,8 +179,6 @@ func assemble_character(path: String = ""):
 
 		for part in character_info_resource.character_parts:
 			var part_instance = part.instantiate()
-			if part_instance is HeadThing:
-				thing_top = part_instance.thing_top
 			parts.append(part_instance)
 			# Set any properties on the part, such as color.
 
@@ -196,16 +195,44 @@ func clear_previous_parts() -> void:
 	parts.clear()
 	added_parts.clear()
 
-func attach_part(part: CharacterPartThing, parent: ThingSlot):
-	if !added_parts.has(part):
-		parent.add_thing(part)
-		added_parts.append(part)
+# Helper function to find the CharacterPartThing instance in children nodes recursively
+func find_part_in_children(node: Node) -> CharacterPartThing:
+	if not node:
+		return null
+	for child in node.get_children():
+		if child is CharacterPartThing:
+			return child as CharacterPartThing
+		else:
+			var result = find_part_in_children(child)
+			if result:
+				return result
+	return null
 
-		part.position = Vector3.ZERO
-		# part.rotation = Vector3.ZERO
-		part.scale = Vector3.ONE
+func attach_part(part: CharacterPartThing, parent: ThingSlot):
+	if !added_parts.has(part.thing_root):
+		parent.add_thing(part)
+		added_parts.append(part.thing_root)
+
+		part.thing_root.position = Vector3.ZERO
+		# part_base.rotation = Vector3.ZERO
+		part.thing_root.scale = Vector3.ONE
 
 		variables.merge(part.variables)
+		
+		if part is HeadThing:
+			thing_top = part.thing_top
+		elif part is BodyThing:
+			var body_thing: BodyThing = part as BodyThing
+			match character_collider.shape:
+				CapsuleShape3D:
+					var capsule = character_collider.shape as CapsuleShape3D
+					if capsule:
+						capsule.radius = body_thing.collider_dimensions.x * 0.5
+						capsule.height = body_thing.collider_dimensions.y
+				BoxShape3D:
+					var box = character_collider.shape as BoxShape3D
+					if box:
+						box.extents = body_thing.collider_dimensions * 0.5
 
 		attach_parts_to_part(part)
 
@@ -218,10 +245,16 @@ func attach_parts_to_part(part: CharacterPartThing):
 
 func attach_part_to_slot(slot: ThingSlot):
 	var attached_part_success: bool = false
+
+	# The primary search should be within the children nodes.
 	for part in parts:
-		if part and slot and (part.thing_type == slot.thing_type or part.thing_subtype == slot.thing_type) and !added_parts.has(part):
-			attach_part(part, slot)
+		var found_part = find_part_in_children(part)
+		if found_part and (found_part.thing_type == slot.thing_type or found_part.thing_subtype == slot.thing_type) and !added_parts.has(found_part):
+			attach_part(found_part, slot)
 			attached_part_success = true
+			print("Attached part: " + found_part.name + " to " + slot.name)
 			break
+
 	if !attached_part_success:
 		print("No part to attach to slot: " + slot.name)
+

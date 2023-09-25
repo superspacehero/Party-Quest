@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://wfstcqg8qgwo"]
+
+[ext_resource type="PackedScene" uid="uid://dq1jbooi2hjjt" path="res://Main/Prefabs/Things/Parts/Body/Head/_Head.tscn" id="1_rnwq1"]
+[ext_resource type="Texture2D" uid="uid://ct14o7ygtrbyt" path="res://Main/Art/Sprites/Parts/Body/Head_Narrow.png" id="2_jt2dy"]
+
+[node name="Head_Narrow" type="Node3D"]
+
+[node name="Head" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_rnwq1")]
+offset = Vector2(-94, -64)
+texture = ExtResource("2_jt2dy")
+thing_root = NodePath("..")
+
+[node name="Headgear" parent="Head" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
+
+[node name="Ear_Front" parent="Head" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.213, 0.257, 0)
+
+[node name="Ear_Back" parent="Head" index="2"]
+transform = Transform3D(1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, 1, 0.234, 0.242, 0)
+
+[node name="Eye_Front" parent="Head/Face" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.015, 0.258, 0)
+
+[node name="Eye_Back" parent="Head/Face" index="1"]
+transform = Transform3D(-0.819152, -0.573576, 0, -0.573576, 0.819152, 0, 0, 0, 1, 0.225, 0.258, 0)
+
+[editable path="Head"]

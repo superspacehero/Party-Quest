@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://lnua3j3fangd"]
+
+[ext_resource type="PackedScene" uid="uid://bfi8c4qkl36wo" path="res://Main/Prefabs/Things/Parts/Body/Arm/_Arm.res" id="1_18qpv"]
+
+[node name="Arm" type="Node3D"]
+
+[node name="Arm" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_18qpv")]
+thing_root = NodePath("..")

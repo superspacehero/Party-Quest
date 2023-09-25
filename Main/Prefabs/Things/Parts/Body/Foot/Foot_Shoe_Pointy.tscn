@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://h5a4okpkbcmd"]
+
+[ext_resource type="PackedScene" uid="uid://bpegbycd46pei" path="res://Main/Prefabs/Things/Parts/Body/Foot/_Foot.tscn" id="1_irslr"]
+[ext_resource type="Texture2D" uid="uid://cepcp416r3a6c" path="res://Main/Art/Sprites/Parts/Body/Foot_Shoe_Pointy.png" id="2_1ngog"]
+
+[node name="Foot" type="Node3D"]
+
+[node name="Foot" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_irslr")]
+texture = ExtResource("2_1ngog")
+thing_root = NodePath("..")
+
+[editable path="Foot"]

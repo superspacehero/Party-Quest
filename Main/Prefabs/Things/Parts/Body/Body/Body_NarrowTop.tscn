@@ -1,53 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://dtcnmiiru7k2s"]
+[gd_scene load_steps=2 format=3 uid="uid://dtcnmiiru7k2s"]
 
-[ext_resource type="Material" uid="uid://cxmgj0mkvgsmt" path="res://Main/Art/Materials/Sprites/Sprite_BodyParts.tres" id="1_s3pup"]
-[ext_resource type="Texture2D" uid="uid://vt44cdn2gqr8" path="res://Main/Art/Sprites/Parts/Body/Bodies_NarrowTop.png" id="2_75l5m"]
-[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/BodyThing.gd" id="3_ar1bs"]
-[ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="4_0pskb"]
+[ext_resource type="PackedScene" uid="uid://dtsfgt46s7c3u" path="res://Main/Prefabs/Things/Parts/Body/Body/_Body.tscn" id="1_uw8vg"]
 
-[node name="Body_NarrowTop" type="Node3D"]
-script = ExtResource("3_ar1bs")
-inventory_paths = Array[NodePath]([NodePath("Body/Head"), NodePath("Body/Arm_Front"), NodePath("Body/Arm_Back"), NodePath("Body/Foot_Front"), NodePath("Body/Foot_Back"), NodePath("Body/Shirt"), NodePath("Body/Pants")])
+[node name="Body" type="Node3D"]
 
-[node name="Body" type="Sprite3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
-material_override = ExtResource("1_s3pup")
-centered = false
-offset = Vector2(-96.5, 0)
-pixel_size = 0.0033
-texture = ExtResource("2_75l5m")
+[node name="Body" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_uw8vg")]
+thing_root = NodePath("..")
 
-[node name="Head" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Head"
-
-[node name="Arm_Front" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.17, 0.6, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Arm"
-
-[node name="Arm_Back" type="Node3D" parent="Body"]
-transform = Transform3D(0.819152, -0.573576, 0, 0.573576, 0.819152, 0, 0, 0, 1, 0.17, 0.65, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Arm"
-
-[node name="Foot_Front" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, -0.1, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Foot"
-
-[node name="Foot_Back" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Foot"
-
-[node name="Shirt" type="Node3D" parent="Body"]
+[node name="Shirt" parent="Body" index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, 0.45, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Shirt"
 
-[node name="Pants" type="Node3D" parent="Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
-script = ExtResource("4_0pskb")
-thing_type = "Pants"
+[editable path="Body"]

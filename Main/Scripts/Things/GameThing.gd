@@ -14,9 +14,16 @@ func _ready():
 	# print("Final Inventory:", inventory)
 
 # Variables
-var thing_name : String
-var thing_description : String = ""
-var thing_value : int = 0
+@export var thing_root : Node3D:
+	get:
+		if not thing_root:
+			thing_root = self
+			
+		return thing_root
+
+@export var thing_name : String
+@export var thing_description : String = ""
+@export var thing_value : int = 0
 
 var thing_type : String
 var thing_subtype : String

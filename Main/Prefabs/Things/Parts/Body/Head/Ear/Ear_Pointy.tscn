@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://8615dl21ubxf"]
+
+[ext_resource type="PackedScene" uid="uid://b37ychaes4mqh" path="res://Main/Prefabs/Things/Parts/Body/Head/Ear/_Ear.tscn" id="1_ysk7d"]
+[ext_resource type="Texture2D" uid="uid://dsattx8kdfukc" path="res://Main/Art/Sprites/Parts/Body/Ear_Pointy.png" id="2_x0iks"]
+
+[node name="Ear" type="Node3D"]
+
+[node name="Ear" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_ysk7d")]
+offset = Vector2(-71, -64)
+texture = ExtResource("2_x0iks")
+thing_root = NodePath("..")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bmbl8bkwht1dj"]
+
+[ext_resource type="PackedScene" uid="uid://b37ychaes4mqh" path="res://Main/Prefabs/Things/Parts/Body/Head/Ear/_Ear.tscn" id="1_3hgph"]
+
+[node name="Ear" type="Node3D"]
+
+[node name="Ear" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_3hgph")]
+thing_root = NodePath("..")

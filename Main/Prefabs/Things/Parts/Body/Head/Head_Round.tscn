@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bq85h053iu32l"]
+
+[ext_resource type="PackedScene" uid="uid://dq1jbooi2hjjt" path="res://Main/Prefabs/Things/Parts/Body/Head/_Head.tscn" id="1_5rhwt"]
+
+[node name="Head" type="Node3D"]
+
+[node name="Head" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_5rhwt")]
+thing_root = NodePath("..")
+
+[editable path="Head"]

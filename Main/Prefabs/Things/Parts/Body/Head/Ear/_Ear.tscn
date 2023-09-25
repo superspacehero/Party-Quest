@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://b37ychaes4mqh"]
+
+[ext_resource type="Material" uid="uid://cxmgj0mkvgsmt" path="res://Main/Art/Materials/Sprites/Sprite_BodyParts.tres" id="1_xcu8n"]
+[ext_resource type="Texture2D" uid="uid://bkx8wdey3ml2p" path="res://Main/Art/Sprites/Parts/Body/Ear_Round.png" id="2_fe6ti"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/EarThing.gd" id="3_cjvfi"]
+
+[node name="Ear" type="Sprite3D"]
+material_override = ExtResource("1_xcu8n")
+centered = false
+offset = Vector2(-63, -65)
+pixel_size = 0.0033
+texture = ExtResource("2_fe6ti")
+script = ExtResource("3_cjvfi")

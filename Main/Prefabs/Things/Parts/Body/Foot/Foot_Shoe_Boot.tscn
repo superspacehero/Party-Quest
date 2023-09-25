@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://djjqojy55lexf"]
+
+[ext_resource type="PackedScene" uid="uid://bpegbycd46pei" path="res://Main/Prefabs/Things/Parts/Body/Foot/_Foot.tscn" id="1_qytnr"]
+[ext_resource type="Texture2D" uid="uid://bdg8hy8tb7n0a" path="res://Main/Art/Sprites/Parts/Body/Foot_Shoe_Boot.png" id="2_njr1p"]
+
+[node name="Foot" type="Node3D"]
+
+[node name="Foot" parent="." node_paths=PackedStringArray("thing_root") instance=ExtResource("1_qytnr")]
+offset = Vector2(-24, 0)
+texture = ExtResource("2_njr1p")
+thing_root = NodePath("..")
+
+[editable path="Foot"]

@@ -1,0 +1,12 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpegbycd46pei"]
+
+[ext_resource type="Material" uid="uid://cxmgj0mkvgsmt" path="res://Main/Art/Materials/Sprites/Sprite_BodyParts.tres" id="1_4qjyb"]
+[ext_resource type="Texture2D" uid="uid://ejvxnf5w8m68" path="res://Main/Art/Sprites/Parts/Body/Foot_Shoe_Round.png" id="2_cms5i"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/FootThing.gd" id="3_l5qwa"]
+
+[node name="Foot" type="Sprite3D"]
+material_override = ExtResource("1_4qjyb")
+centered = false
+pixel_size = 0.0033
+texture = ExtResource("2_cms5i")
+script = ExtResource("3_l5qwa")
