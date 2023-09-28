@@ -56,10 +56,10 @@ func _physics_process(delta):
 	velocity.z = movement_vector.z
 
 	# if movement.z != 0:
-	# 	set_sorting_offset_to_position()
-	# 	for part in parts:
-	# 		var found_part = find_part_in_children(part)
-	# 		found_part.set_sorting_offset_to_position()
+	set_sorting_offset_to_position(character_body.position.z)
+	for part in parts:
+		var found_part = find_part_in_children(part)
+		found_part.set_sorting_offset_to_position(character_body.position.z)
 
 	if character_body.is_on_floor():
 		if !jump_input:
@@ -253,12 +253,13 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 	for part in parts:
 		var found_part = find_part_in_children(part)
 		if found_part and not slot.thing and (found_part.thing_type == slot.thing_type or found_part.thing_subtype == slot.thing_type) and !added_parts.has(found_part):
+			# Set the thing's visual's sorting offset, if a VisualInstance3D has been set
+			if slot_part and !added_parts.has(part):
+				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + (slot.sorting_offset  * 0.35)
+				found_part.set_sorting_offset_to_position()
+
 			attach_part(found_part, slot)
 			attached_part_success = true
-
-			# Set the thing's visual's sorting offset, if a VisualInstance3D has been set
-			if slot_part:
-				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + slot.sorting_offset
 			# print("Attached part: " + found_part.name + " to " + slot.name)
 			# break
 

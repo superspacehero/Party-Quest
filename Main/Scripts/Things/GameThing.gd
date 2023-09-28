@@ -13,7 +13,7 @@ func _ready():
 			inventory.append(node)
 	# print("Final Inventory:", inventory)
 
-	set_sorting_offset_to_position()
+	# set_sorting_offset_to_position()
 
 # Variables
 @export var thing_root : Node3D:
@@ -76,10 +76,10 @@ func _init():
 	thing_type = "Game"
 	thing_subtype = "Game"
 
-func set_sorting_offset_to_position():
+func set_sorting_offset_to_position(offset: float = 0.0):
 	if thing_visual:
-		thing_visual.sorting_offset = thing_visual.position.z + relative_sorting_offset
-		print("Setting sorting offset for ", name, " to ", thing_visual.sorting_offset)
+		thing_visual.sorting_offset = offset + relative_sorting_offset
+		# print("Setting sorting offset for ", name, " to ", thing_visual.sorting_offset)
 
 func die():
 	print("Dying!")
