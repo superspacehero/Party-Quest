@@ -4,7 +4,6 @@ class_name CharacterThing
 # 1. Member Variables/Properties
 
 @export var character_body : CharacterBody3D = null
-@export var gameplay_camera : GameplayCamera = null
 @export var character_base : ThingSlot = null
 @export var character_collider : CollisionShape3D = null
 
@@ -45,7 +44,7 @@ func _ready():
 	super()
 
 	assemble_character()
-	gameplay_camera.set_camera_object(self, 0.5, true)
+	GameplayCamera.instance.set_camera_object(self, 0.5, true)
 	character_body.velocity = Vector3.ZERO
 	
 	rotate_base(Vector3.FORWARD if rotation_behavior != movement_rotation_behavior.LEFT_RIGHT_ROTATION else Vector3.RIGHT)
@@ -85,8 +84,8 @@ func _process(delta):
 func calculate_movement_direction() -> Vector3:
 	var direction = Vector3.ZERO
 
-	direction += Plane(gameplay_camera.basis.x,character_body.basis.y.z).normalized().normal * movement.x
-	direction += Plane(gameplay_camera.basis.z,character_body.basis.y.z).normalized().normal * movement.z
+	direction += Plane(GameplayCamera.instance.basis.x,character_body.basis.y.z).normalized().normal * movement.x
+	direction += Plane(GameplayCamera.instance.basis.z,character_body.basis.y.z).normalized().normal * movement.z
 	direction.y = 0
 
 	direction = direction.normalized()
@@ -115,7 +114,7 @@ func rotate_base(direction: Vector3):
 			
 			direction.z *= 0.5
 		movement_rotation_behavior.TOWARDS_CAMERA:
-			direction = -gameplay_camera.basis.z
+			direction = -GameplayCamera.instance.basis.z
 
 	rotation_direction = direction
 	goto_rotation = atan2(rotation_direction.x, rotation_direction.z)

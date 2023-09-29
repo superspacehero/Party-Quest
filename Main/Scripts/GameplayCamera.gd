@@ -1,6 +1,9 @@
 extends Node3D
 class_name GameplayCamera
 
+# Singleton
+static var instance: GameplayCamera = null
+
 # Camera Variables
 @export var camera_adjust_time = 0.25
 @export var camera_sensitivity = 1.5
@@ -21,6 +24,10 @@ var start_position = Vector3.ZERO
 var elapsed_time = 0.0
 
 func _ready():
+	if instance != null and instance != self:
+		instance.queue_free()
+	instance = self
+
 	camera_offset_node.position = camera_offset
 	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -43,11 +50,10 @@ func rotate_camera(relative: Vector2):
 
 # Set the camera's attachment to a GameThing object
 func set_camera_object(game_thing: GameThing, camera_height: float = 0.5, immediate: bool = false):
-	# if self.get_parent() != game_thing:
-	#	game_thing.add_child(self)
-	# self.owner = game_thing
+	if self.get_parent() != game_thing.thing_root:
+		self.reparent(game_thing.thing_root)
 	start_position = self.global_position
-	target_position = lerp(game_thing.global_position, game_thing.thing_top.global_position, camera_height)
+	target_position = lerp(game_thing.thing_root.global_position, game_thing.thing_top.global_position, camera_height)
 
 	if immediate:
 		self.global_position = target_position

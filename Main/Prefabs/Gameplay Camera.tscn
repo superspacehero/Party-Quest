@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://5ofkl7upo5to"]
+
+[ext_resource type="Script" path="res://Main/Scripts/GameplayCamera.gd" id="1_v48aj"]
+[ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="2_wngy4"]
+[ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas.res" id="3_nx70d"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6yl7q"]
+
+[node name="Gameplay Camera" type="SpringArm3D" node_paths=PackedStringArray("camera_offset_node")]
+shape = SubResource("SphereShape3D_6yl7q")
+spring_length = 7.0
+margin = 0.1
+script = ExtResource("1_v48aj")
+camera_offset = Vector3(0, 0, 3.5)
+camera_offset_node = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+environment = ExtResource("2_wngy4")
+current = true
+fov = 60.0
+
+[node name="Canvas" parent="Camera3D" instance=ExtResource("3_nx70d")]
+
+[editable path="Camera3D/Canvas"]
