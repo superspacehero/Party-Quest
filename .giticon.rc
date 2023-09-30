@@ -1,13 +1,31 @@
-#!/bin/bash
+#!/bin/sh
+# shellcheck disable=SC2034
 
 # Path of active commit type csv file
-COMMIT_CSV_FILE_PATH=".giticon/giticontypes.csv"
+COMMIT_CSV_FILE=".giticon/commit_types.csv"
 
 # Add emoji to commit message: Y/N
 ADD_EMOJI="Y"
 
-# If flag is not valid: warn/error/ignore
+# If prompting add a prompt for scope
+PROMPT_FOR_SCOPE="N"
+
+# If prompting add a prompt for breaking change
+PROMPT_FOR_BREAKING="N"
+
+# If prompting add a prompt for message body
+PROMPT_FOR_BODY="N"
+
+# If prompting add a prompt for message end
+PROMPT_FOR_END="N"
+
+# Have no spaces between emoji, type, and description,
+# with optional delimiter ":" if breaking or scope
+SQUEEZE_MESSAGE="N"
+
+# If flag is not valid: warn/error/ignore; warn
+# will re-prompt if message is over 50 chars
 INVALID_FLAG_ACTION="warn"
 
 # Terminate if warning: Y/N
-TERMINATE_ON_WARNING="Y"
+TERMINATE_ON_WARNING="N"
