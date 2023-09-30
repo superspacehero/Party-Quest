@@ -6,6 +6,7 @@ class_name CharacterThing
 @export var character_body : CharacterBody3D = null
 @export var character_base : ThingSlot = null
 @export var character_collider : CollisionShape3D = null
+@export var nav_agent : NavigationAgent3D = null
 
 @export_category("Movement")
 @export var character_speed : float = 4  # The speed at which the character moves.
@@ -20,7 +21,6 @@ enum control_level { NONE, MOVEMENT_ONLY, FULL }
 @export var can_control: control_level = control_level.FULL
 @export var can_move: bool = true
 @export var can_jump: bool = true
-# @onready var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 enum movement_rotation_behavior { NONE, FULL_ROTATION, LEFT_RIGHT_ROTATION, TOWARDS_CAMERA }
 @export var rotation_behavior = movement_rotation_behavior.LEFT_RIGHT_ROTATION
@@ -264,4 +264,3 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 
 	if !attached_part_success:
 		print("No part to attach to slot: " + slot.name)
-

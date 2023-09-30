@@ -11,15 +11,26 @@ config_version=5
 [application]
 
 config/name="Party Quest"
-run/main_scene="res://Main/Scenes/Level.tscn"
+run/main_scene="res://Main/Scenes/Logos.tscn"
 config/features=PackedStringArray("4.1", "Mobile")
-boot_splash/image="res://Main/Art/Sprites/UI/Thetari.png"
+boot_splash/bg_color=Color(0.0705882, 0, 0.219608, 1)
+boot_splash/show_image=false
+boot_splash/image="res://Main/Art/Sprites/UI/Logo.png"
 boot_splash/default_cell_height=0.25
 boot_splash/default_cell_size=0.25
 
 [autoload]
 
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
+
+[display]
+
+window/size/viewport_width=800
+window/size/viewport_height=600
+window/size/mode=3
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=6
 
 [dotnet]
 
