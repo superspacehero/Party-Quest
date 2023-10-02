@@ -52,9 +52,8 @@ static func start_game(showLevelIntro):
 	if instance == null:
 		return
 
-	if showLevelIntro:
+	# if showLevelIntro:
 		# Do the gdscript equivalent of gameObject.SetActive(true) on the levelIntroUI
-		instance.levelIntroUI
 	# else:
 
 
@@ -70,7 +69,7 @@ func _ready():
 	# if gameMode == GameMode.Play:
 		# GameplayCamera.instance.centerCamera()
 		
-	start_game(gameMode == GameMode.Play)
+	GameManager.start_game(gameMode == GameMode.Play)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
