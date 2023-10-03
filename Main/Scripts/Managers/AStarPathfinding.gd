@@ -25,7 +25,7 @@ func _ready():
 func _add_points():
 	var cell_size = gridmap.cell_size
 	var highest_y = _get_highest_y_value()
-	for cell in gridmap.get_cell():
+	for cell in gridmap.get_used_cells():
 		var cell_position = gridmap.map_to_local(cell)
 		_add_highest_pathables_for(cell_position.x, cell_position.z, cell_size.y, highest_y)
 
