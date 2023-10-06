@@ -72,8 +72,7 @@ func _add_point(point: Vector3):
 
 func _connect_points():
 	for point in points:
-		var pos_str = point.split(",")
-		var world_pos := Vector3(pos_str[0], pos_str[1], pos_str[2])
+		var world_pos : Vector3 = point
 		var adjacent_points = _get_adjacent_points(world_pos)
 		var current_id = points[point]
 		for neighbor_id in adjacent_points:
@@ -150,9 +149,9 @@ func find_path(from: Vector3, to: Vector3) -> Array:
 	return astar.get_point_path(start_id, end_id)
 
 
-func world_to_astar(world: Vector3) -> String:
+func world_to_astar(world: Vector3) -> Vector3:
 	var x = snapped(world.x, grid_step)
 	var y = snapped(world.y, grid_step)
 	var z = snapped(world.z, grid_step)
-	return "%d,%d,%d" % [x, y, z]
+	return Vector3(x, y, z)
 

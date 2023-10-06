@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://1bbbqkvjexx7"]
+[gd_scene load_steps=5 format=3 uid="uid://1bbbqkvjexx7"]
 
 [ext_resource type="Material" uid="uid://ddadfcgaa55c2" path="res://Main/Art/Materials/Nature/Nature.material" id="1_sfnm7"]
 [ext_resource type="ArrayMesh" uid="uid://b14kndj5b4gh3" path="res://Main/Art/Models/Building/Grass.obj" id="2_2bf3k"]
 [ext_resource type="ArrayMesh" uid="uid://bkj4kekm5323y" path="res://Main/Art/Models/Building/Building.obj" id="3_8bwd6"]
+[ext_resource type="ArrayMesh" uid="uid://cp1c1n1he078v" path="res://Main/Art/Models/Building/Dirt.obj" id="3_xsfvl"]
 
 [node name="Node3D" type="Node3D"]
 
@@ -10,7 +11,11 @@
 material_override = ExtResource("1_sfnm7")
 mesh = ExtResource("2_2bf3k")
 
-[node name="Building" type="MeshInstance3D" parent="."]
+[node name="Dirt" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = ExtResource("3_xsfvl")
+
+[node name="Building" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
 material_override = ExtResource("1_sfnm7")
 mesh = ExtResource("3_8bwd6")
