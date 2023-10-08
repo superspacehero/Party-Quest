@@ -10,12 +10,11 @@ class_name AutoGridMap
 
 const Top = 0x01
 const Bottom = 0x02
-const Standalone = 0x04
+const Solo = 0x04
 
 var meshes: Dictionary
-var sub_gridmap: GridMap
 
-func set_refresh(value):
+func set_refresh(_value):
     print("Refreshed!")
     _setup()
 
@@ -25,65 +24,87 @@ func _ready():
 func _setup():
     if mesh_library_3d == null:
         return
-    
-    sub_gridmap = get_node_or_null("subgridmap")
-    
-    if !sub_gridmap:
-        sub_gridmap = GridMap.new()
-        add_child(sub_gridmap)
-        sub_gridmap.name = "subgridmap"
-        sub_gridmap.cell_size = Vector3(1, 1, 1)
-        sub_gridmap.mesh_library = mesh_library_3d
-        sub_gridmap.set_owner(get_tree().edited_scene_root)
-    
-    # Create a function to fetch mesh by name to make the code cleaner
-    
+
     meshes = {
-        Top: { "mesh": get_mesh_item("Top"), "orientation": 0 },
-        Bottom: { "mesh": get_mesh_item("Bottom"), "orientation": 16 },
-        Top | Bottom: { "mesh": get_mesh_item("Middle"), "orientation": 0 },
-        Standalone: { "mesh": get_mesh_item("Standalone"), "orientation": 0 }
+        Top: [],
+        Bottom: [],
+        Top | Bottom: [],
+        Solo: []
     }
 
-    # Optional: You may want to automatically update the grid after setting up
-    _update_grid()
+    for i in range(mesh_library_3d.get_item_list().size()):
+        var item_name = mesh_library_3d.get_item_name(i)
+        var mesh_data = { "mesh": i, "orientation": 0 } # default orientation
 
-func get_mesh_item(mesh_name: String):
-    mesh_library_3d.find_item_by_name(mesh_name)
+        if item_name.ends_with("Top"):
+            meshes[Top].append(mesh_data)
+        elif item_name.ends_with("Bot"):
+            meshes[Bottom].append(mesh_data)
+        elif item_name.ends_with("Mid"):
+            meshes[Top | Bottom].append(mesh_data)
+        elif item_name.ends_with("Sol"):
+            meshes[Solo].append(mesh_data)
+
+    _update_grid()
 
 func _get_neighborhood_mask(cell_position: Vector3) -> int:
     var mask = 0x00
+    var current_tile_name = mesh_library_3d.get_item_name(get_cell_item(cell_position))
+    var prefix = current_tile_name.substr(0, current_tile_name.length() - 3)
 
-    # Check for each neighboring position and adjust the mask accordingly
-    if sub_gridmap.get_cell_item(Vector3(cell_position.x, cell_position.y + 1, cell_position.z)) != -1:
+    var top_neighbor = _is_neighboring_tile_matching(Vector3(cell_position.x, cell_position.y - 1, cell_position.z), prefix)
+    var bottom_neighbor = _is_neighboring_tile_matching(Vector3(cell_position.x, cell_position.y + 1, cell_position.z), prefix)
+
+    if top_neighbor: 
         mask |= Top
-    if sub_gridmap.get_cell_item(Vector3(cell_position.x, cell_position.y - 1, cell_position.z)) != -1:
+    if bottom_neighbor: 
         mask |= Bottom
-
-    # If neither Top nor Bottom neighbors are present, it's a standalone cell
-    if mask == 0x00:
-        mask |= Standalone
+    if !top_neighbor and !bottom_neighbor:
+        mask |= Solo
 
     return mask
 
-func _update_grid():
-    # Loop over each tile in the grid
-    for cell in get_used_cells():
-        # Get the position of the tile
-        var cell_position = cell
-        
-        # Detect the neighborhood for the current tile
-        var mask = _get_neighborhood_mask(cell_position)
-        
-        # Based on the neighborhood, get the appropriate mesh and orientation
-        var mesh_data = meshes.get(mask, null)
-        
-        if mesh_data:
-            set_cell_item(cell_position, mesh_data["mesh"])
-        else:
-            set_cell_item(cell_position, -1)
+func _is_neighboring_tile_matching(tile_position, prefix):
+    var neighboring_tile_id = get_cell_item(tile_position)
+    if neighboring_tile_id != -1:
+        return mesh_library_3d.get_item_name(neighboring_tile_id).begins_with(prefix)
+    return false
 
-        print("Cell: ", cell_position, "Mask: ", mask)
+func _update_grid(specific_coord = null):
+    if specific_coord:
+        # Check and update the tiles upwards
+        var current_position = specific_coord
+        while get_cell_item(current_position) != -1:
+            _update_cell(current_position)
+            current_position.y += 1  # Move upwards
 
-func _on_sub_gridmap_updated():
-    _update_grid()
+        # Reset position and check downwards
+        current_position = specific_coord
+        current_position.y -= 1  # Start below the given cell
+        while get_cell_item(current_position) != -1:
+            _update_cell(current_position)
+            current_position.y -= 1  # Move downwards
+
+    else:
+        # Original loop to update all cells
+        for cell in get_used_cells():
+            _update_cell(cell)
+
+func _update_cell(cell_position: Vector3):
+    var mask = _get_neighborhood_mask(cell_position)
+    var current_tile_name = mesh_library_3d.get_item_name(get_cell_item(cell_position))
+    var prefix = current_tile_name.substr(0, current_tile_name.length() - 3)
+
+    if mask in meshes:
+        for mesh_data in meshes[mask]:
+            if mesh_library_3d.get_item_name(mesh_data["mesh"]).begins_with(prefix):
+                set_cell_item(cell_position, mesh_data["mesh"])
+                break
+
+
+func get_mesh_id_from_prefix_and_suffix(prefix: String, suffix: String) -> int:
+    for i in range(mesh_library_3d.get_item_list().size()):
+        var item_name = mesh_library_3d.get_item_name(i)
+        if item_name == prefix + suffix:
+            return i
+    return -1
