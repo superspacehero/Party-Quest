@@ -225,16 +225,18 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 			thing_top = part.thing_top
 		elif part is BodyThing:
 			var body_thing: BodyThing = part as BodyThing
-			match character_collider.shape:
-				CapsuleShape3D:
-					var capsule = character_collider.shape as CapsuleShape3D
-					if capsule:
-						capsule.radius = body_thing.collider_dimensions.x * 0.5
-						capsule.height = body_thing.collider_dimensions.y
-				BoxShape3D:
-					var box = character_collider.shape as BoxShape3D
-					if box:
-						box.extents = body_thing.collider_dimensions * 0.5
+			character_collider.position.y = body_thing.collider_dimensions.y * 0.5
+			if character_collider.shape is CapsuleShape3D:
+				var capsule = character_collider.shape as CapsuleShape3D
+				if capsule:
+					capsule.radius = body_thing.collider_dimensions.x * 0.5
+					capsule.height = body_thing.collider_dimensions.y
+					print("Capsule: " + str(capsule.radius) + ", " + str(capsule.height))
+			elif character_collider.shape is BoxShape3D:
+				var box = character_collider.shape as BoxShape3D
+				if box:
+					box.extents = body_thing.collider_dimensions * 0.5
+					print("Box: " + str(box.extents))
 
 		attach_parts_to_part(part)
 
