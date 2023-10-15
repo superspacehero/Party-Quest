@@ -1,6 +1,5 @@
-[gd_scene load_steps=11 format=3 uid="uid://tipmmutodp2y"]
+[gd_scene load_steps=10 format=3 uid="uid://tipmmutodp2y"]
 
-[ext_resource type="Script" path="res://Main/Scripts/UI/LoadScene.gd" id="1_5637c"]
 [ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas.res" id="1_x0deq"]
 [ext_resource type="FontFile" uid="uid://bb0tegk8ae8b2" path="res://Main/Art/Fonts/Yulong-Regular.ttf" id="2_77wml"]
 [ext_resource type="PackedScene" uid="uid://ciatdywy3s4yc" path="res://Main/Scenes/Level.tscn" id="2_d737d"]
@@ -22,7 +21,7 @@ Label/styles/normal = null
 
 [sub_resource type="Animation" id="Animation_qdrly"]
 resource_name = "Logos"
-length = 5.0
+length = 3.8
 loop_mode = 2
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -31,10 +30,10 @@ tracks/0/path = NodePath("Canvas/Safe Area/Fade:color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.2, 2.7, 3.7, 4.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.5, 1.5, 2, 2.2, 2.7, 3.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Color(0.0705882, 0, 0.219608, 1), Color(0.0705882, 0, 0.219608, 0), Color(0.0705882, 0, 0.219608, 0), Color(0.0705882, 0, 0.219608, 1), Color(0.0705882, 0, 0.219608, 1), Color(0.0705882, 0, 0.219608, 0), Color(0.0705882, 0, 0.219608, 0), Color(0.0705882, 0, 0.219608, 1)]
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -59,6 +58,18 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [false, false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Canvas/Circle Wipe:load_scene")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(3.7),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_88iag"]
@@ -99,6 +110,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Canvas/Circle Wipe:load_scene")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k6e66"]
 _data = {
@@ -107,10 +130,6 @@ _data = {
 }
 
 [node name="Logos" type="Node"]
-script = ExtResource("1_5637c")
-scene_path = ExtResource("2_d737d")
-load_on_start = true
-load_wait_time = 5.0
 
 [node name="Canvas" parent="." instance=ExtResource("1_x0deq")]
 
@@ -121,7 +140,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.0705882, 0, 0.219608, 1)
+color = Color(0, 0, 0, 1)
 
 [node name="Super Space Studio" type="Control" parent="Canvas/Safe Area" index="0"]
 layout_mode = 1
@@ -186,6 +205,36 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
+
+[node name="Fade2" type="ColorRect" parent="Canvas/Safe Area" index="3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0, 0.219608, 0)
+
+[node name="Fade3" type="ColorRect" parent="Canvas/Safe Area" index="4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0, 0.219608, 0)
+
+[node name="Fade4" type="ColorRect" parent="Canvas/Safe Area" index="5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0705882, 0, 0.219608, 0)
+
+[node name="Circle Wipe" parent="Canvas" index="2"]
+scene_to_load = ExtResource("2_d737d")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "Logos"

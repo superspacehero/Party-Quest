@@ -1,4 +1,4 @@
-extends TextureRect
+extends ColorRect
 class_name Iris
 
 enum IrisState
@@ -8,76 +8,90 @@ enum IrisState
 	OPENING = 1
 }
 
-# Exports
-@export var startingState: IrisState = IrisState.NONE
-@export_range(0.001, 10, 0.001) var irisTime: float = 0.5
-@export_range(0, 10, 0.5) var irisWaitTime: float = 0.5
+# Singleton
+static var instance
 
-# Signals (equivalent to UnityEvents)
+# Exports
+@export var starting_state: IrisState = IrisState.NONE
+@export_range(0.001, 10, 0.001) var iris_time: float = 0.5
+@export_range(0, 10, 0.5) var iris_wait_time: float = 0.5
+
+# Signals
 signal on_iris_open
 signal on_iris_close
 
 var mat
-var tween  # Used for interpolation
+
+# Interpolation related variables
+var interpolating = false
+var elapsed_time = 0.0
+var start_value = 1.0
+var target_value = 0.0
+var signal_name = ""
 
 func _ready():
+	instance = self
+
 	mat = material as ShaderMaterial
 	if not mat:
 		printerr("No ShaderMaterial found!")
 		return
 
-	# Initialize Tween
-	tween = create_tween()
-
-	match int(startingState):
-		IrisState.NONE:
-			# Do nothing for None
-			pass
-		IrisState.CLOSING:
-			close_iris()
-		IrisState.OPENING:
-			open_iris()
-
-	if irisWaitTime > 0:
-		var timer = Timer.new()
-		timer.wait_time = irisWaitTime
-		timer.one_shot = true
-		timer.connect("timeout", Callable(self, "animate_iris"))
-		add_child(timer)
-		timer.start()
-	else:
-		animate_iris()
+	# Start the interpolation based on starting_state
+	animate_iris()
 
 func close_iris():
-	mat.set_shader_param("_Circle_Size", 1.0)
-	# You might want to handle the visibility or shader's effect here
+	mat.set_shader_parameter("Circle_Size", 1.0)
 
 func open_iris():
-	mat.set_shader_param("_Circle_Size", 0.0)
-	# You might want to handle the visibility or shader's effect here
+	mat.set_shader_parameter("Circle_Size", 0.0)
 
 func animate_iris():
-	# tween.remove_all()
-
-	var start_value
-	var target_value
-	var signal_name
-
-	match int(startingState):
-		IrisState.NONE:
+	# Setup interpolation values based on starting_state
+	match int(starting_state):
+		IrisState.OPENING:
 			start_value = 1.0
 			target_value = 0.0
 			signal_name = "on_iris_open"
+			close_iris()
 		IrisState.CLOSING:
 			start_value = 0.0
 			target_value = 1.0
 			signal_name = "on_iris_close"
+			open_iris()
 		_:
-			return  # Do nothing for other cases
+			return
 
-	# tween.interpolate_property(mat, "_Circle_Size", start_value, target_value, irisTime, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	# tween.connect("completed", Callable(self, "_on_tween_complete"), signal_name)
-	# tween.start()
+	# Start interpolating
+	interpolating = true
+	
+func _process(delta):
+	if interpolating:
+		elapsed_time += delta
+		if elapsed_time < iris_wait_time:
+			return
+		if elapsed_time < iris_time + iris_wait_time:
+			var ratio = (elapsed_time - iris_wait_time) / iris_time
+			var current_value = lerp(start_value, target_value, ratio)
+			mat.set_shader_parameter("Circle_Size", current_value)
+		else:
+			interpolating = false
+			mat.set_shader_parameter("Circle_Size", target_value)
+			emit_signal(signal_name)
+			elapsed_time = 0.0
+			
+# Static
+@export var scene_to_load: PackedScene
+@export var load_scene: bool:
+	set(value):
+		if value:
+			instance.iris_to_scene(scene_to_load)
 
-func _on_tween_complete(signal_name):
-	emit_signal(signal_name)
+static func iris_to_scene(scene: PackedScene):
+	instance.scene_to_load = scene
+	instance.on_iris_close.connect(scene_load)
+	instance.starting_state = IrisState.CLOSING
+	instance.animate_iris()
+
+static func scene_load():
+	instance.get_tree().change_scene_to_packed(instance.scene_to_load)
