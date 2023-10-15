@@ -35,13 +35,13 @@ group_uniforms clouds;
 	uniform vec3 clouds_color : source_color = vec3( 1.0, 1.0, 1.00 );
 	uniform float clouds_speed : hint_range( 0.0, 20.0, 0.01 ) = 2.0;
 	uniform float clouds_direction : hint_range( -1.0, 1.0, 1.0 ) = 1.0;
-	uniform float clouds_density = 2.0;
+	uniform float clouds_density = 1.0;
 	uniform float clouds_roughness = 5.0;
 	uniform float clouds_cutoff : hint_range( 0.0, 1.0, 0.01 ) = 0.3;
 	uniform float clouds_fuzziness : hint_range( 0.0, 2.0, 0.01 ) = 0.5;
 	// More weight is simply a darker color, usefull for rain/storm
 	uniform float clouds_weight : hint_range( 0.0, 1.0, 0.01 ) = 0.0;
-	uniform float clouds_fade_point : hint_range(0.0, 1.0, 0.01) = 0.5;
+	uniform float clouds_fade_point : hint_range(0.0, 1.0, 0.01) = 0.75;
 	uniform float clouds_blur : hint_range( 0.0, 1.0, 0.01 ) = 0.25;
 
 group_uniforms stars;
@@ -161,9 +161,9 @@ void sky()
 			_sky_uv.x * _stars_speed_sin + _sky_uv.y * _stars_speed_cos
 		);
 		// Stars texture
-		float _stars_value = texture( voronoi_texture, _stars_uv ).r * -LIGHT0_DIRECTION.y;
+		float _stars_value = texture( voronoi_texture, _stars_uv ).r;
 
-		_stars_value = smoothstep( 0.249, 0.25, _stars_value );
+		_stars_value = smoothstep( 0.97, 0.98, _stars_value ) * -LIGHT0_DIRECTION.y;
 		
 		// Hiding stars behind the moon
 		_stars_value *= 1.0 - _moon_amount;
@@ -173,7 +173,7 @@ void sky()
 	//////////////////// CLOUDS ////////////////////////////////////////////////////////////////
 	// Clouds UV movement direction
 	float _clouds_speed = time * clouds_speed * 0.01;
-	float _sin_x = sin( clouds_direction * PI * -0.5 );
+	float _sin_x = sin( clouds_direction * PI * 0.5 );
 	float _cos_y = cos( clouds_direction * PI );
 
 	// The speed of movement (and direction a little) is different for the illusion of the changing shape of the clouds.

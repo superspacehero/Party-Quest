@@ -27,36 +27,36 @@ func _add_points():
 	var highest_y = _get_highest_y_value()
 	for cell in gridmap.get_used_cells():
 		var cell_position = gridmap.map_to_local(cell)
-		_add_highest_pathables_for(cell_position.x, cell_position.z, cell_size.y, highest_y)
+		_add_highest_pathables_for(cell_position.x, cell_position.z, cell_size.y, highest_y, -highest_y)
 
 func _get_highest_y_value() -> float:
 	var highest_y = float("-inf")
 	for cell in gridmap.get_used_cells():
 		if cell.y > highest_y:
 			highest_y = cell.y
+	highest_y += minimum_gap_size
 	return highest_y * gridmap.cell_size.y
 
 
-func _add_highest_pathables_for(x: float, z: float, step_y: float, max_y: float):
-	var last_occupied_y = max_y + step_y
-	var gap_start_y = last_occupied_y
+func _add_highest_pathables_for(x: float, z: float, step_y: float, max_y: float, min_y: float):
+	var gap_size = 0.0
+	# var gap_start_y = 0.0
 	var is_gap_started = false
-	
-	for y in range(ceil(max_y / step_y), -1, -1):
+
+	for y in range(ceil(max_y / step_y), floor(min_y / step_y), -1):
 		var world_pos = Vector3(x, y * step_y, z)
 		var cell = gridmap.local_to_map(world_pos)
-		
+
 		if not is_cell_occupied(cell):
-			if is_gap_started and (gap_start_y - world_pos.y) >= minimum_gap_size:
-				_add_point(Vector3(x, last_occupied_y, z))
-				last_occupied_y = world_pos.y
-				is_gap_started = false
-			elif not is_gap_started:
-				gap_start_y = world_pos.y
+			if not is_gap_started:
 				is_gap_started = true
+			gap_size += step_y
 		else:
-			last_occupied_y = world_pos.y
+			if is_gap_started and gap_size >= minimum_gap_size:
+				_add_point(Vector3(x, y, z))
+			gap_size = 0.0
 			is_gap_started = false
+
 
 func is_cell_occupied(cell: Vector3) -> bool:
 	return gridmap.get_cell_item(cell) != -1
@@ -67,7 +67,7 @@ func _add_point(point: Vector3):
 	astar.add_point(id, point)
 	points[world_to_astar(point)] = id
 	_create_nav_cube(point)
-	print("Added point %s with id %d" % [point, id])
+	# print("Added point %s with id %d" % [point, id])
 
 
 func _connect_points():
@@ -95,17 +95,20 @@ func _create_nav_cube(cube_position: Vector3):
 func _get_adjacent_points(world_point: Vector3) -> Array:
 	var adjacent_points = []
 	var search_coords = [-grid_step, 0, grid_step]
+
 	for x in search_coords:
 		for z in search_coords:
-			var search_offset = Vector3(x, 0, z)
-			if search_offset == Vector3.ZERO:
-				continue
+			# Check same level, one level up and down.
+			for y_offset in range(0, -2, -1):  # 0 for same level, -1 for one below, -2 for two below etc.
+				if y_offset == 0 and x == 0 and z == 0:
+					continue  # Skip checking the node against itself
 
-			var potential_neighbor = world_to_astar(world_point + search_offset)
-			if points.has(potential_neighbor):
-				adjacent_points.append(points[potential_neighbor])
+				var search_offset = Vector3(x, y_offset * grid_step, z)
+				var potential_neighbor = world_to_astar(world_point + search_offset)
+
+				if points.has(potential_neighbor):
+					adjacent_points.append(points[potential_neighbor])
 	return adjacent_points
-
 
 func handle_obstacle_added(obstacle: Node3D):
 	var normalized_origin = obstacle.global_transform.origin
