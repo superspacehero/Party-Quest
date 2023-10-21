@@ -3,5 +3,5 @@ class_name BodyThing
 
 @export var collider_dimensions: Vector2 = Vector2(1, 2)
 
-func _init():
-	thing_subtype = "Body"
+func get_thing_subtype() -> String:
+    return "Body"

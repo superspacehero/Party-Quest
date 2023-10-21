@@ -72,9 +72,10 @@ var max_health: int = 100
 @export var variables: Dictionary
 
 # Functions
-func _init():
-	thing_type = "Game"
-	thing_subtype = "Game"
+func get_thing_type() -> String:
+	return "Game"
+func get_thing_subtype() -> String:
+	return "Game"
 
 func set_sorting_offset_to_position(offset: float = 0.0):
 	if thing_visual:

@@ -1,5 +1,5 @@
 extends CharacterPartThing
 class_name HeadThing
 
-func _init():
-	thing_subtype = "Head"
+func get_thing_subtype() -> String:
+    return "Head"

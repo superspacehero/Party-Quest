@@ -37,8 +37,8 @@ var movement: Vector3 = Vector3.ZERO
 
 # 2. Built-in Functions
 
-func _init():
-	thing_type = "Character"
+func get_thing_type() -> String:
+	return "Character"
 
 func _ready():
 	super()
@@ -253,7 +253,7 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 	# The primary search should be within the children nodes.
 	for part in parts:
 		var found_part = find_part_in_children(part)
-		if found_part and not slot.thing and (found_part.thing_type == slot.thing_type or found_part.thing_subtype == slot.thing_type) and !added_parts.has(found_part):
+		if found_part and not slot.thing and (found_part.get_thing_type() == slot.thing_type or found_part.get_thing_subtype() == slot.thing_type) and !added_parts.has(found_part):
 			# Set the thing's visual's sorting offset, if a VisualInstance3D has been set
 			if slot_part and !added_parts.has(part):
 				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + (slot.sorting_offset  * 0.35)

@@ -8,7 +8,7 @@ class_name ThingSlot
 var thing: Node3D = null
 
 func add_thing(thing_to_add: GameThing, set_parent: bool = true) -> void:
-	if !thing_to_add or thing_type == "" and (thing_type != thing_to_add.thing_type and thing_type != thing_to_add.thing_subtype):
+	if !thing_to_add or thing_type == "" and (thing_type != thing_to_add.get_thing_type() and thing_type != thing_to_add.get_thing_subtype()):
 		return
 
 	thing = thing_to_add.thing_root

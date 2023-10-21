@@ -1,5 +1,5 @@
 extends GameThing
 class_name CharacterPartThing
 
-func _init():
-	thing_type = "Part"
+func get_thing_type() -> String:
+    return "Part"

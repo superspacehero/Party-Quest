@@ -1,5 +1,5 @@
 extends WeaponThing
 class_name HandheldThing
 
-func _init():
-	thing_subtype = "Handheld"
+func get_thing_subtype() -> String:
+    return "Handheld"
