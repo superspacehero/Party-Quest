@@ -5,6 +5,7 @@ class_name GameplayCamera
 static var instance: GameplayCamera = null
 
 # Camera Variables
+@export var camera: Camera3D = null
 @export var camera_adjust_time = 0.25
 @export var camera_sensitivity = 1.5
 

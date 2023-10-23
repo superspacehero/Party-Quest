@@ -1,10 +1,17 @@
 extends Node3D
 class_name AStarPathfinding
 
+static var instance: AStarPathfinding
 
 @export var should_draw_cubes : bool = false
 @export var minimum_gap_size: float = 2.0
 @export var gridmap: GridMap
+@export var point_display: ObjectPool
+
+@export_group("Colors")
+@export var walkable_color: Color = Color.WHITE
+@export var current_color: Color = Color.BLUE
+@export var occupied_color: Color = Color.RED
 
 var grid_step = 1.0
 var points = {}
@@ -14,8 +21,9 @@ var cube_mesh = BoxMesh.new()
 var red_material = StandardMaterial3D.new()
 var green_material = StandardMaterial3D.new()
 
-
 func _ready():
+	instance = self
+
 	red_material.albedo_color = Color.RED
 	green_material.albedo_color = Color.GREEN
 	cube_mesh.size = Vector3(0.25, 0.25, 0.25)
@@ -110,6 +118,20 @@ func _get_adjacent_points(world_point: Vector3) -> Array:
 					adjacent_points.append(points[potential_neighbor])
 	return adjacent_points
 
+func check_point_occupied(point: Vector3) -> bool:
+	var astar_id = points[point]
+	return astar.is_point_disabled(astar_id)
+
+func occupy_point(point):
+	astar.set_point_disabled(point, true)
+	if should_draw_cubes:
+		get_child(point).material_override = red_material
+
+func unoccupy_point(point):
+	astar.set_point_disabled(point, false)
+	if should_draw_cubes:
+		get_child(point).material_override = green_material
+
 func handle_obstacle_added(obstacle: Node3D):
 	var normalized_origin = obstacle.global_transform.origin
 
@@ -158,3 +180,61 @@ func world_to_astar(world: Vector3) -> Vector3:
 	var z = snapped(world.z, grid_step)
 	return Vector3(x, y, z)
 
+func is_walkable(astar_point: Vector3) -> bool:
+	var astar_id = points[astar_point]
+	return not astar.is_point_disabled(astar_id)
+
+func astar_to_world(astar_point: Vector3) -> Vector3:
+	var x = astar_point.x * grid_step
+	var y = astar_point.y * grid_step
+	var z = astar_point.z * grid_step
+	return Vector3(x, y, z)
+
+func get_points_in_radius(center: Vector3, radius: float, max_height_limits: Vector2) -> Array:
+	var points_in_radius = []
+
+	if max_height_limits.x < 0:
+		max_height_limits.x = float("inf")
+	if max_height_limits.y < 0:
+		max_height_limits.y = float("inf")
+
+	# If radius is set to infinity, add all walkabale points to the points_in_radius array.
+	if radius == float("inf"):
+		for point in points:
+			var world_pos = astar_to_world(point)
+			if world_pos.y >= max_height_limits.x and world_pos.y <= max_height_limits.y:
+				points_in_radius.append(world_pos)
+		return points_in_radius
+	else:
+		var current_point = world_to_astar(center)
+		points_in_radius.append(current_point)
+
+		var queue = []
+		queue.append(current_point)
+		
+		var directions = [Vector3(1, 0, 0), Vector3(-1, 0, 0), Vector3(0, 0, 1), Vector3(0, 0, -1)]
+
+		# Iterate through all the points in the movement range
+		for i in range(int(radius)):
+			var queue_count = queue.size()
+			for j in range(queue_count):
+				var search_point = queue.pop_front()
+				
+				# Iterate through all the directions
+				for direction in directions:
+					var next_point = search_point + direction
+					var next_world_pos = astar_to_world(next_point)
+
+					if next_world_pos and not points_in_radius.has(next_point):
+						# Check if the point is walkable
+						if is_walkable(next_point):
+							# Calculate the difference in height
+							var delta_y = next_world_pos.y - astar_to_world(search_point).y
+
+							if delta_y <= max_height_limits.x and delta_y >= -max_height_limits.y:
+								points_in_radius.append(next_point)
+								queue.append(next_point)
+							
+		return points_in_radius
+
+# func color_node_object:

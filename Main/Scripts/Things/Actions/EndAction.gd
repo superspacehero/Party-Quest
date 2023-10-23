@@ -7,7 +7,7 @@ func get_thing_subtype() -> String:
 
 # Override run_action
 func run_action() -> void:
-	user.occupy_current_node()
+	user.occupy_current_point()
 	GameManager.next_character()
 	
 	# End the action

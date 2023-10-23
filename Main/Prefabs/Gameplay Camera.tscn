@@ -4,9 +4,10 @@
 [ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="2_wngy4"]
 [ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas.res" id="3_nx70d"]
 
-[node name="Gameplay Camera" type="Node3D" node_paths=PackedStringArray("camera_offset_node")]
+[node name="Gameplay Camera" type="Node3D" node_paths=PackedStringArray("camera", "camera_offset_node")]
 transform = Transform3D(1, 0, 0, 0, 0.980955, 0.194234, 0, -0.194234, 0.980955, 0, 0, 0)
 script = ExtResource("1_v48aj")
+camera = NodePath("Camera3D")
 camera_rotation = Vector3(-11.25, 0, 0)
 camera_offset_node = NodePath("Camera3D")
 
@@ -16,5 +17,12 @@ current = true
 fov = 60.0
 
 [node name="Canvas" parent="Camera3D" instance=ExtResource("3_nx70d")]
+
+[node name="Safe Area" parent="Camera3D/Canvas" index="1"]
+anchors_preset = 15
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [editable path="Camera3D/Canvas"]

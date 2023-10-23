@@ -23,7 +23,7 @@ resources_spreadsheet_view/context_menu_on_leftclick=false
 config/name="Party Quest"
 run/main_scene="res://Main/Scenes/Logos.tscn"
 config/features=PackedStringArray("4.2", "Mobile")
-boot_splash/bg_color=Color(0.0705882, 0, 0.219608, 1)
+boot_splash/bg_color=Color(0, 0, 0, 1)
 boot_splash/show_image=false
 boot_splash/image="res://Main/Art/Sprites/UI/Logo.png"
 boot_splash/default_cell_height=0.25
@@ -131,3 +131,4 @@ pause={
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true

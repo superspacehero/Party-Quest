@@ -3,21 +3,22 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://b2ojyhsgubnm4"
-path.s3tc="res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.s3tc.ctex"
+path.bptc="res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.bptc.ctex"
+path.astc="res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Main/Art/Models/Gameplay/Dice-Normal.png"
-dest_files=["res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.s3tc.ctex"]
+dest_files=["res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.bptc.ctex", "res://.godot/imported/Dice-Normal.png-83355c77a30430cf1a5eb4a6f472616f.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=1

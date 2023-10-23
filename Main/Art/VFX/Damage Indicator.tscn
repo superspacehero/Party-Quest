@@ -1,0 +1,105 @@
+[gd_scene load_steps=16 format=3 uid="uid://3nk6bhx5623j"]
+
+[ext_resource type="Shader" uid="uid://f5li13bfu5gp" path="res://Main/Art/Shaders/RGB Texture.tres" id="1_0y1sj"]
+[ext_resource type="Texture2D" uid="uid://dp1tqm1up5cf4" path="res://Main/Art/Models/Gameplay/Dice-Health.png" id="2_hh03h"]
+[ext_resource type="ArrayMesh" uid="uid://bty7q4n48vy2h" path="res://Main/Art/Models/Gameplay/Dice - Same Sides.obj" id="3_sj76c"]
+[ext_resource type="Texture2D" uid="uid://8d2iv82sck12" path="res://Main/Art/Textures/Leaves.png" id="4_c28lb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q43ps"]
+render_priority = 0
+shader = ExtResource("1_0y1sj")
+shader_parameter/Integer_Positions = true
+shader_parameter/Color_Randomization = 0.25
+shader_parameter/Red_Color = Color(1, 0, 0, 1)
+shader_parameter/Green_Color = Color(1, 1, 1, 1)
+shader_parameter/Blue_Color = Color(1, 1, 1, 1)
+shader_parameter/MainTex = ExtResource("2_hh03h")
+
+[sub_resource type="Curve" id="Curve_ajqdb"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="CurveTexture" id="CurveTexture_e82vm"]
+curve = SubResource("Curve_ajqdb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kf3ba"]
+spread = 180.0
+gravity = Vector3(0, -19.62, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+scale_min = 0.25
+scale_max = 0.25
+scale_curve = SubResource("CurveTexture_e82vm")
+sub_emitter_mode = 2
+sub_emitter_amount_at_end = 32
+attractor_interaction_enabled = false
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 1.0
+collision_use_scale = true
+
+[sub_resource type="Gradient" id="Gradient_sjdjb"]
+colors = PackedColorArray(0.6, 0.6, 0.6, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_t3ntr"]
+gradient = SubResource("Gradient_sjdjb")
+
+[sub_resource type="Gradient" id="Gradient_rnw12"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_88p8p"]
+gradient = SubResource("Gradient_rnw12")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ph8t3"]
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 5.0
+scale_curve = SubResource("CurveTexture_e82vm")
+color = Color(0.447059, 0.447059, 0.447059, 1)
+color_ramp = SubResource("GradientTexture1D_88p8p")
+color_initial_ramp = SubResource("GradientTexture1D_t3ntr")
+attractor_interaction_enabled = false
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aklpq"]
+transparency = 3
+alpha_hash_scale = 1.0
+alpha_antialiasing_mode = 0
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_c28lb")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_bdjvw"]
+material = SubResource("StandardMaterial3D_aklpq")
+
+[node name="DamageIndicator" type="Node3D"]
+
+[node name="Dice" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+material_override = SubResource("ShaderMaterial_q43ps")
+emitting = false
+amount = 1
+sub_emitter = NodePath("Dice Cloud")
+one_shot = true
+explosiveness = 1.0
+fixed_fps = 60
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_kf3ba")
+draw_pass_1 = ExtResource("3_sj76c")
+
+[node name="GPUParticlesCollisionBox3D" type="GPUParticlesCollisionBox3D" parent="Dice"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+size = Vector3(20, 1, 20)
+
+[node name="Dice Cloud" type="GPUParticles3D" parent="Dice"]
+emitting = false
+amount = 64
+lifetime = 0.25
+explosiveness = 1.0
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_ph8t3")
+draw_pass_1 = SubResource("QuadMesh_bdjvw")

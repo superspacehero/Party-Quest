@@ -4,7 +4,7 @@ class_name ThingInput
 var input
 var device_id: int = 0
 
-var is_player = true
+@export var is_player = true
 
 # AI Variables
 var action_coroutine = null

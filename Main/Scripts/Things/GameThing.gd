@@ -42,6 +42,44 @@ var thing_subtype : String
 @export var inventory_paths : Array[NodePath] = []
 var inventory : Array = []
 
+var can_occupy_current_point: bool = true
+
+func occupy_current_point():
+	if current_point:
+		AStarPathfinding.instance.occupy_point(current_point)
+
+func occupy_point(point):
+	if point:
+		AStarPathfinding.instance.occupy_point(point)
+
+func unoccupy_point(point):
+	if point:
+		AStarPathfinding.instance.unoccupy_point(point)
+
+var current_point:
+	get:
+		if not current_point:
+			current_point = AStarPathfinding.instance.astar.get_closest_point(self.position)
+		return current_point
+	set(value):
+		if can_occupy_current_point:
+			if current_point:
+				unoccupy_point(current_point)
+			current_point = value
+			occupy_point(current_point)
+		else:
+			current_point = value
+
+var thing_position: Vector3:
+	get:
+		if current_point:
+			return current_point
+		else:
+			return self.position
+	set(value):
+		current_point = AStarPathfinding.instance.astar.get_closest_point(value)
+		self.position = self.position
+
 var thing_top: Node3D = null:
 	get:
 		if thing_top == null:

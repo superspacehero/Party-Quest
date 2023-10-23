@@ -3,21 +3,22 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dp1tqm1up5cf4"
-path.s3tc="res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.s3tc.ctex"
+path.bptc="res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.bptc.ctex"
+path.astc="res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.astc.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://Main/Art/Models/Gameplay/Dice-Health.png"
-dest_files=["res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.s3tc.ctex"]
+dest_files=["res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.bptc.ctex", "res://.godot/imported/Dice-Health.png-59ba54a0fe7f804155e293fb44aa6256.astc.ctex"]
 
 [params]
 
 compress/mode=2
-compress/high_quality=false
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/normal_map=0

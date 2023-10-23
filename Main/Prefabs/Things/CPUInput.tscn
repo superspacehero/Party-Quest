@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://t067wjpw7ar"]
+
+[ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="1_xpuwn"]
+
+[node name="Input" instance=ExtResource("1_xpuwn")]
+is_player = false

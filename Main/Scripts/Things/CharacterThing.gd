@@ -25,6 +25,8 @@ enum control_level { NONE, MOVEMENT_ONLY, FULL }
 enum movement_rotation_behavior { NONE, FULL_ROTATION, LEFT_RIGHT_ROTATION, TOWARDS_CAMERA }
 @export var rotation_behavior = movement_rotation_behavior.LEFT_RIGHT_ROTATION
 
+var input: ThingInput = null
+
 var jump_input: bool = false
 var is_jumping: bool = false
 
