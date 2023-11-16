@@ -73,7 +73,7 @@ var pause_action: bool = false:
 			pause_action = value
 
 func _input(_event):
-	if is_player:
+	if input and is_player:
 		move_action = input.get_vector("move_left", "move_right", "move_up", "move_down")
 		
 		left_trigger_action = input.is_action_pressed("left_trigger")
