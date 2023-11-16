@@ -112,6 +112,7 @@ static func start_game(show_level_intro: bool):
 # The inputs
 var inputs: Array = []
 
+@export_category("Characters")
 # The player scene
 @export var character_scene: PackedScene
 
@@ -181,7 +182,7 @@ var current_character_index = 0
 # The current character
 static var current_character: CharacterThing = null:
 	get:
-		if instance == null or instance.level.characters.count <= 0:
+		if instance == null or not instance.characters or instance.characters.count <= 0:
 			return null
 
 		return instance.characters_in_current_team[instance.current_character_index]
@@ -190,6 +191,8 @@ static var current_character: CharacterThing = null:
 var characters: Array = []
 # The teams
 var teams: Array = []
+# The starting actions for the players
+@export var character_starting_actions: Array = []
 # The characters in the current team
 var characters_in_current_team: Array = []
 
@@ -219,7 +222,7 @@ static func set_players_controllable(controllable: bool):
 		input.controllable = controllable
 
 static func set_next_character(show_next_character_ui: bool = true):
-	if instance == null or instance.level.characters.count == 0:
+	if instance == null or not instance.characters or instance.characters.count == 0:
 		return
 
 	instance.current_character_index += 1
@@ -235,7 +238,7 @@ static func control_next_character():
 	if instance == null:
 		return
 		
-	if instance.player_starting_actions.count > 0:
+	if instance.character_starting_actions and instance.character_starting_actions.count > 0:
 		for input in instance.inputs:
 			for game_thing in input.inventory:
 				if game_thing is CharacterThing:
@@ -246,10 +249,10 @@ static func control_next_character():
 						character.override_starting_action.queue_free()
 
 					# Add the new override starting action
-					if instance.player_starting_actions.count > instance.inputs.index_of(input):
-						character.override_starting_action = instance.player_starting_actions[instance.inputs.index_of(input)].instance()
+					if instance.character_starting_actions.count > instance.inputs.index_of(input):
+						character.override_starting_action = instance.character_starting_actions[instance.inputs.index_of(input)].instance()
 					else:
-						character.override_starting_action = instance.player_starting_actions[instance.player_starting_actions.count - 1].instance()
+						character.override_starting_action = instance.character_starting_actions[instance.character_starting_actions.count - 1].instance()
 
 	for input in instance.inputs:
 		input.can_control = (current_character.input == input)
