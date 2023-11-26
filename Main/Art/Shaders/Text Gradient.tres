@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://dmqd3hraww3s7"]
+[gd_resource type="VisualShader" load_steps=9 format=3 uid="uid://dmqd3hraww3s7"]
 
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_k7pmw"]
 expanded_output_ports = [0]
@@ -18,10 +18,29 @@ op_type = 5
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_vhvis"]
 operator = 2
 
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_fsbf3"]
+expanded_output_ports = [0]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_hqoxn"]
+default_input_values = [0, false, 1, Quaternion(1, 1, 1, 1), 2, Quaternion(0, 0, 0, 0)]
+op_type = 5
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_vcq2n"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeBooleanParameter" id="VisualShaderNodeBooleanParameter_1xgu3"]
+parameter_name = "Additive"
+default_value_enabled = true
+default_value = true
+
 [resource]
 code = "shader_type canvas_item;
 render_mode blend_mix;
 
+uniform bool Additive = true;
 uniform vec4 Second_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 
 
@@ -32,14 +51,31 @@ void fragment() {
 	float n_out2p4 = n_out2p0.a;
 
 
+// BooleanParameter:9
+	bool n_out9p0 = Additive;
+
+
 // ColorParameter:3
 	vec4 n_out3p0 = Second_Color;
 	float n_out3p4 = n_out3p0.a;
 
 
+// VectorOp:8
+	vec4 n_out8p0 = n_out2p0 * n_out3p0;
+
+
+	vec4 n_out7p0;
+// Switch:7
+	n_out7p0 = mix(n_out2p0, n_out8p0, float(n_out9p0));
+
+
+// Input:6
+	vec2 n_out6p0 = SCREEN_UV;
+	float n_out6p2 = n_out6p0.g;
+
+
 // Mix:4
-	vec4 n_in4p2 = vec4(0.50000, 0.50000, 0.50000, 0.50000);
-	vec4 n_out4p0 = mix(n_out2p0, n_out3p0, n_in4p2);
+	vec4 n_out4p0 = mix(n_out2p0, n_out7p0, vec4(n_out6p2));
 
 
 // FloatOp:5
@@ -63,4 +99,12 @@ nodes/fragment/4/node = SubResource("VisualShaderNodeMix_0i5hb")
 nodes/fragment/4/position = Vector2(80, 160)
 nodes/fragment/5/node = SubResource("VisualShaderNodeFloatOp_vhvis")
 nodes/fragment/5/position = Vector2(-79.2132, 360.091)
-nodes/fragment/connections = PackedInt32Array(3, 0, 4, 1, 2, 0, 4, 0, 4, 0, 0, 0, 2, 4, 5, 0, 3, 4, 5, 1, 5, 0, 0, 1)
+nodes/fragment/6/node = SubResource("VisualShaderNodeInput_fsbf3")
+nodes/fragment/6/position = Vector2(-620, 0)
+nodes/fragment/7/node = SubResource("VisualShaderNodeSwitch_hqoxn")
+nodes/fragment/7/position = Vector2(-400, 140)
+nodes/fragment/8/node = SubResource("VisualShaderNodeVectorOp_vcq2n")
+nodes/fragment/8/position = Vector2(-580, 280)
+nodes/fragment/9/node = SubResource("VisualShaderNodeBooleanParameter_1xgu3")
+nodes/fragment/9/position = Vector2(-900, -80)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 4, 0, 0, 0, 2, 4, 5, 0, 3, 4, 5, 1, 5, 0, 0, 1, 3, 0, 8, 1, 2, 0, 8, 0, 2, 0, 7, 2, 8, 0, 7, 1, 9, 0, 7, 0, 7, 0, 4, 1, 6, 2, 4, 2)

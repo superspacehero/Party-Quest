@@ -1,0 +1,75 @@
+[gd_scene load_steps=8 format=3 uid="uid://cm08goxxxjjna"]
+
+[ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
+[ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="2_ntlie"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Default.theme" id="4_gv8y3"]
+[ext_resource type="PackedScene" uid="uid://cb1ytvjr8xgem" path="res://Main/Prefabs/UI/Menu.res" id="4_of8fh"]
+[ext_resource type="Shader" uid="uid://dmqd3hraww3s7" path="res://Main/Art/Shaders/Text Gradient.tres" id="4_pyghu"]
+[ext_resource type="Theme" uid="uid://c43iigu501h25" path="res://Main/Art/Themes/Title.theme" id="5_v1h4i"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_be4nk"]
+shader = ExtResource("4_pyghu")
+shader_parameter/Additive = true
+shader_parameter/Second_Color = Color(1, 0.74902, 0.74902, 1)
+
+[node name="Menus" type="Node3D"]
+
+[node name="Title" parent="." instance=ExtResource("2_ntlie")]
+
+[node name="Label" type="RichTextLabel" parent="Title/Safe Area" index="0"]
+material = SubResource("ShaderMaterial_be4nk")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+grow_horizontal = 2
+theme = ExtResource("5_v1h4i")
+bbcode_enabled = true
+text = "[center][wave amp=50]Party
+Quest[/wave]"
+
+[node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu", "starting_button") instance=ExtResource("4_of8fh")]
+next_menu = NodePath("../Main Menu")
+starting_button = NodePath("Button")
+
+[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0"]
+material = SubResource("ShaderMaterial_be4nk")
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -72.0
+grow_horizontal = 2
+theme = ExtResource("4_gv8y3")
+bbcode_enabled = true
+text = "[center][wave amp=50]Press any button[/wave]"
+fit_content = true
+scroll_active = false
+
+[node name="Button" type="Button" parent="Title Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_gv8y3")
+theme_type_variation = &"FlatButton"
+action_mode = 0
+flat = true
+
+[node name="Main Menu" parent="." instance=ExtResource("4_of8fh")]
+visible = false
+
+[node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
+
+[node name="Safe Area" parent="Game Manager/Canvas" index="1"]
+visible = false
+
+[connection signal="pressed" from="Title Menu/Button" to="Title Menu" method="select_next_menu"]
+
+[editable path="Title"]
+[editable path="Title Menu"]
+[editable path="Game Manager"]
+[editable path="Game Manager/Canvas"]
