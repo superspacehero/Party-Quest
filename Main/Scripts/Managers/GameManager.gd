@@ -191,8 +191,6 @@ static var current_character: CharacterThing = null:
 var characters: Array = []
 # The teams
 var teams: Array = []
-# The starting actions for the players
-@export var character_starting_actions: Array = []
 # The characters in the current team
 var characters_in_current_team: Array = []
 

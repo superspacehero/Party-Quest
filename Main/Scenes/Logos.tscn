@@ -1,10 +1,10 @@
 [gd_scene load_steps=10 format=3 uid="uid://tipmmutodp2y"]
 
-[ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas.res" id="1_x0deq"]
+[ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas - Circle Wipe.res" id="1_x0deq"]
 [ext_resource type="FontFile" uid="uid://bb0tegk8ae8b2" path="res://Main/Art/Fonts/Yulong-Regular.ttf" id="2_77wml"]
-[ext_resource type="PackedScene" uid="uid://ciatdywy3s4yc" path="res://Main/Scenes/Level.tscn" id="2_d737d"]
 [ext_resource type="Texture2D" uid="uid://dk4liom2p8hav" path="res://Main/Art/Sprites/UI/Logo.png" id="3_u7pm8"]
 [ext_resource type="Texture2D" uid="uid://dq1i4e3uy4lxu" path="res://Main/Art/Sprites/UI/reimagined-vertical-light.svg" id="4_3xgg8"]
+[ext_resource type="PackedScene" uid="uid://cm08goxxxjjna" path="res://Main/Scenes/Menus.tscn" id="5_1ds4l"]
 
 [sub_resource type="Theme" id="Theme_1ss11"]
 Label/colors/font_color = Color(1, 0.780392, 0.337255, 1)
@@ -142,6 +142,9 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
+[node name="Safe Area" parent="Canvas" index="1"]
+anchors_preset = 15
+
 [node name="Super Space Studio" type="Control" parent="Canvas/Safe Area" index="0"]
 layout_mode = 1
 anchors_preset = 15
@@ -234,12 +237,12 @@ grow_vertical = 2
 color = Color(0.0705882, 0, 0.219608, 0)
 
 [node name="Circle Wipe" parent="Canvas" index="2"]
-scene_to_load = ExtResource("2_d737d")
+scene_to_load = ExtResource("5_1ds4l")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "Logos"
 libraries = {
 "": SubResource("AnimationLibrary_k6e66")
 }
+autoplay = "Logos"
 
 [editable path="Canvas"]
