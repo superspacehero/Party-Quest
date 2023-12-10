@@ -93,6 +93,7 @@ func damage_effect(damage_amount: int, thing: GameThing, thing_height: float, da
 # Functions
 # -------------------------
 
+# Function to start the game
 static func start_game(show_level_intro: bool):
 	if instance == null:
 		return
@@ -104,6 +105,26 @@ static func start_game(show_level_intro: bool):
 		await instance.change_character_delay
 		set_next_character(false)
 		control_next_character()
+
+# Function to receive notifications
+func _notification(what):
+	if what == NOTIFICATION_WM_WINDOW_FOCUS_IN:
+		# If the game is paused, unpause it
+		if get_tree().paused:
+			get_tree().paused = false
+
+	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
+		# If the game is not paused, pause it
+		if !get_tree().paused:
+			get_tree().paused = true
+
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+
+		# Save the state of the game
+		instance.save_state()
+
+		# Quit the game
+		get_tree().quit()
 
 # -------------------------
 # Players
@@ -193,6 +214,8 @@ var characters: Array = []
 var teams: Array = []
 # The characters in the current team
 var characters_in_current_team: Array = []
+# The character starting actions
+@export var character_starting_actions: Array = []
 
 # The delay when changing characters
 var change_character_delay = 1.0
