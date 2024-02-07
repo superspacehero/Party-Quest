@@ -3,6 +3,8 @@ class_name InputManager
 
 static var instance: InputManager = null
 
+@export var allow_joining: bool = true
+
 # Resource to instantiate when a new device is detected
 @export var thing_input_prefab: PackedScene = null
 

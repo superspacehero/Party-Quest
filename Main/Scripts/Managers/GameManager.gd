@@ -130,6 +130,26 @@ func _notification(what):
 # Players
 # -------------------------
 
+# The player and character struct
+class PlayerAndCharacter:
+	# The device that the player is using
+	var player: int
+
+	# The character that the player is controlling
+	var character: CharacterInfo
+
+	# The team that the player is on
+	var team: int
+
+	func _init(player_input, player_character: CharacterInfo, player_team: int = 0):
+		# If the player input is null, then the player is a CPU
+		player = player_input if (player_input != null) else null
+		self.character = player_character
+		self.team = player_team
+
+# The list of players
+static var players: Array = []
+
 # The inputs
 var inputs: Array = []
 
@@ -145,20 +165,20 @@ func spawn_players():
 	for player_spawner in player_spawners:
 		player_spawners_list.append(player_spawner)
 
-	for input in inputs:
+	for player in players:
 		if player_spawners.size() > 0:
 			if player_spawners_list.size() > 0:
 				# Get a random player spawner
 				var player_spawner = player_spawners_list[randi() % player_spawners_list.size()]
 
 				# Spawn the player
-				spawn_player(input, player_spawner)
+				spawn_player(player, player_spawner)
 
 				# Remove the player spawner from the list
 				player_spawners_list.erase(player_spawner)
 		else:
 			# If there are no player spawners, spawn the player at the world position of cell (0, 0) in the tilemap
-			spawn_player(input, Vector3.ZERO)
+			spawn_player(player, Vector3.ZERO)
 
 # Spawn a player
 func spawn_player(input: ThingInput, position = null):
@@ -288,11 +308,10 @@ func _ready():
 
 	spawn_players()
 
-	instance.disable_touch_controls()
-
 	if game_mode == GameMode.PLAY:
 		GameplayCamera.instance.center_camera()
-		
+		instance.disable_touch_controls()
+
 	GameManager.start_game(game_mode == GameMode.PLAY)
 
 

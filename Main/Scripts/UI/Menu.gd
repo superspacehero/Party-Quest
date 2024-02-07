@@ -6,12 +6,10 @@ static var current_menu = null:
 		if current_menu:
 			current_menu.deselect()
 		current_menu = menu
-
-		if current_menu:
-			current_menu.visible = true
+		print("Current menu: ", current_menu)
 	get:
 		return current_menu
-		
+
 @export var previous_menu : Menu
 @export var next_menu : Menu
 
@@ -24,8 +22,10 @@ var selected = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if !hidden:
+	if visible:
 		select()
+	else:
+		deselect()
 
 func select_starting_button():
 	if starting_button:
@@ -35,9 +35,9 @@ func select():
 	if selected:
 		return
 
-	if not is_visible_in_tree():
+	if not visible:
 		visible = true
-		set_process_input(true)
+		process_mode = Node.PROCESS_MODE_INHERIT
 
 	if starting_button:
 		select_starting_button()
@@ -50,11 +50,10 @@ func deselect():
 		return
 
 	if disable_on_deselect:
-		set_process_input(false)
+		process_mode = Node.PROCESS_MODE_DISABLED
 		visible = false
 
 	selected = false
-	current_menu = null
 
 func select_next_menu():
 	if next_menu:

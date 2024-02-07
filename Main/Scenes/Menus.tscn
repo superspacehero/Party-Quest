@@ -1,11 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=14 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
 [ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="2_ntlie"]
-[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Default.theme" id="4_gv8y3"]
 [ext_resource type="PackedScene" uid="uid://cb1ytvjr8xgem" path="res://Main/Prefabs/UI/Menu.res" id="4_of8fh"]
 [ext_resource type="Shader" uid="uid://dmqd3hraww3s7" path="res://Main/Art/Shaders/Text Gradient.tres" id="4_pyghu"]
 [ext_resource type="Theme" uid="uid://c43iigu501h25" path="res://Main/Art/Themes/Title.theme" id="5_v1h4i"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="7_f1kcu"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Text.theme" id="7_yk5vp"]
+[ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="8_pifcb"]
+[ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="9_gwk6c"]
+[ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="9_tbh2v"]
+[ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="10_epfqg"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_be4nk"]
 shader = ExtResource("4_pyghu")
@@ -15,6 +21,9 @@ shader_parameter/Second_Color = Color(1, 0.74902, 0.74902, 1)
 [node name="Menus" type="Node3D"]
 
 [node name="Title" parent="." instance=ExtResource("2_ntlie")]
+
+[node name="Safe Area" parent="Title" index="1"]
+anchors_preset = -1
 
 [node name="Label" type="RichTextLabel" parent="Title/Safe Area" index="0"]
 material = SubResource("ShaderMaterial_be4nk")
@@ -28,9 +37,9 @@ bbcode_enabled = true
 text = "[center][wave amp=50]Party
 Quest[/wave]"
 
-[node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu", "starting_button") instance=ExtResource("4_of8fh")]
+[node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu") instance=ExtResource("4_of8fh")]
+theme = ExtResource("7_yk5vp")
 next_menu = NodePath("../Main Menu")
-starting_button = NodePath("Button")
 
 [node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0"]
 material = SubResource("ShaderMaterial_be4nk")
@@ -41,35 +50,174 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -72.0
 grow_horizontal = 2
-theme = ExtResource("4_gv8y3")
+theme = ExtResource("7_yk5vp")
 bbcode_enabled = true
 text = "[center][wave amp=50]Press any button[/wave]"
 fit_content = true
 scroll_active = false
 
-[node name="Button" type="Button" parent="Title Menu"]
+[node name="PressAnyButton" type="Node" parent="Title Menu"]
+script = ExtResource("6_sd88s")
+
+[node name="Main Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu", "starting_button") instance=ExtResource("4_of8fh")]
+visible = false
+theme = ExtResource("7_yk5vp")
+previous_menu = NodePath("../Title Menu")
+next_menu = NodePath("../Character Menu")
+starting_button = NodePath("Safe Area/Buttons/Button Fitter/Button Holder/Play Button")
+
+[node name="Safe Area" parent="Main Menu" index="1"]
+anchors_preset = -1
+
+[node name="Buttons" type="Control" parent="Main Menu/Safe Area" index="0"]
+layout_mode = 1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Button Fitter" type="AspectRatioContainer" parent="Main Menu/Safe Area/Buttons"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("4_gv8y3")
-theme_type_variation = &"FlatButton"
-action_mode = 0
-flat = true
+ratio = 1.7778
 
-[node name="Main Menu" parent="." instance=ExtResource("4_of8fh")]
-visible = false
+[node name="Button Holder" type="VBoxContainer" parent="Main Menu/Safe Area/Buttons/Button Fitter"]
+layout_mode = 2
+alignment = 1
+
+[node name="Play Button" type="Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+text = "Play"
+
+[node name="Bottom Buttons" type="HBoxContainer" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder"]
+layout_mode = 2
+theme = ExtResource("7_yk5vp")
+alignment = 1
+
+[node name="Options Button" type="Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Options"
+
+[node name="Quit Button" type="Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "Quit"
+
+[node name="Character Menu" parent="." node_paths=PackedStringArray("character_select_parent") instance=ExtResource("4_of8fh")]
+theme = ExtResource("7_yk5vp")
+script = ExtResource("7_f1kcu")
+character_select_parent = NodePath("Safe Area/AspectRatioContainer/Panel/Players")
+
+[node name="Panel" type="ColorRect" parent="Character Menu/Background" index="0"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.8)
+
+[node name="Safe Area" parent="Character Menu" index="1"]
+anchors_preset = -1
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Character Menu/Safe Area" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+ratio = 1.7778
+
+[node name="Panel" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer"]
+layout_mode = 2
+theme = ExtResource("8_pifcb")
+
+[node name="Title" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("8_pifcb")
+theme_override_styles/panel = ExtResource("9_tbh2v")
+
+[node name="Label" type="Label" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Title"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_yk5vp")
+text = "Who's Playing?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Players" type="GridContainer" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 88.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 4
+
+[node name="Player" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
+layout_mode = 2
+
+[node name="Player2" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
+layout_mode = 2
+
+[node name="Player3" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
+layout_mode = 2
+
+[node name="Player4" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
+layout_mode = 2
+
+[node name="Border" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_pifcb")
+theme_override_styles/panel = ExtResource("10_epfqg")
 
 [node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
+
+[node name="Canvas" parent="Game Manager" index="3"]
+visible = false
 
 [node name="Safe Area" parent="Game Manager/Canvas" index="1"]
 visible = false
 
-[connection signal="pressed" from="Title Menu/Button" to="Title Menu" method="select_next_menu"]
+[node name="Empty" parent="Game Manager/Canvas" index="4"]
+visible = false
+
+[connection signal="pressed" from="Title Menu/PressAnyButton" to="Title Menu" method="select_next_menu"]
+[connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Play Button" to="Main Menu" method="select_next_menu"]
 
 [editable path="Title"]
 [editable path="Title Menu"]
+[editable path="Main Menu"]
+[editable path="Character Menu"]
 [editable path="Game Manager"]
 [editable path="Game Manager/Canvas"]

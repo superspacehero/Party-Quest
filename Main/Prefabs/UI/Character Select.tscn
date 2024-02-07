@@ -1,0 +1,60 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcsa53pychfnh"]
+
+[ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="1_x6ldw"]
+[ext_resource type="StyleBox" uid="uid://b3xexm6fajkv6" path="res://Main/Art/Themes/Menu/Menu Panel/Player Panel.stylebox" id="2_nhkuu"]
+[ext_resource type="StyleBox" uid="uid://bfsjxmi4x1dca" path="res://Main/Art/Themes/Menu/Menu Panel/Player Name Panel.stylebox" id="3_50t8p"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Text.theme" id="4_u6cal"]
+
+[node name="Player" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_x6ldw")
+theme_override_styles/panel = ExtResource("2_nhkuu")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 32.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(800, 488)
+render_target_update_mode = 4
+
+[node name="Player Name" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_x6ldw")
+theme_override_styles/panel = ExtResource("3_50t8p")
+
+[node name="Label" type="Label" parent="Player Name"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("4_u6cal")
+text = "Player"
+horizontal_alignment = 1
+vertical_alignment = 1
