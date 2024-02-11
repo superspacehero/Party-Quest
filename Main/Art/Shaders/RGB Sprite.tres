@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=19 format=3 uid="uid://bwx2ckt8obyof"]
+[gd_resource type="VisualShader" load_steps=22 format=3 uid="uid://bwx2ckt8obyof"]
 
 [ext_resource type="Texture2D" uid="uid://cr5q0ak6i7n1t" path="res://Main/Art/Sprites/Parts/Body/Arm_Bent.png" id="1_a8kcj"]
 
@@ -72,6 +72,17 @@ operator = 2
 [sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_4gwuk"]
 input_name = "color"
 
+[sub_resource type="VisualShaderNodeDistanceFade" id="VisualShaderNodeDistanceFade_swpjt"]
+default_input_values = [0, 2.0, 1, 6.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_76b05"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_15vmp"]
+expanded_output_ports = [0]
+parameter_name = "FadeDistances"
+qualifier = 1
+
 [resource]
 code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx, depth_prepass_alpha;
@@ -80,6 +91,7 @@ uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000
 uniform sampler2D Texture2DParameter;
 uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+global uniform vec2 FadeDistances;
 
 
 
@@ -133,6 +145,20 @@ void fragment() {
 	vec4 n_out31p0 = n_out16p0 * n_out32p0;
 
 
+// Vector2Parameter:35
+	vec2 n_out35p0 = FadeDistances;
+	float n_out35p1 = n_out35p0.r;
+	float n_out35p2 = n_out35p0.g;
+
+
+// DistanceFade:33
+	float n_out33p0 = clamp(smoothstep(n_out35p1, n_out35p2,-VERTEX.z),0.0,1.0);
+
+
+// FloatOp:34
+	float n_out34p0 = n_out33p0 * n_out26p4;
+
+
 // FloatConstant:3
 	float n_out3p0 = 0.500000;
 
@@ -143,7 +169,7 @@ void fragment() {
 
 // Output:0
 	ALBEDO = vec3(n_out31p0.xyz);
-	ALPHA = n_out26p4;
+	ALPHA = n_out34p0;
 	EMISSION = vec3(n_out2p0.xyz);
 
 
@@ -186,4 +212,10 @@ nodes/fragment/31/node = SubResource("VisualShaderNodeVectorOp_ycph6")
 nodes/fragment/31/position = Vector2(2980, 3200)
 nodes/fragment/32/node = SubResource("VisualShaderNodeInput_4gwuk")
 nodes/fragment/32/position = Vector2(2620, 3340)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 17, 0, 16, 0, 24, 0, 16, 1, 26, 3, 16, 2, 22, 0, 17, 1, 19, 0, 17, 0, 26, 2, 17, 2, 20, 0, 19, 0, 26, 1, 19, 1, 21, 0, 22, 0, 26, 2, 22, 1, 23, 0, 24, 0, 26, 3, 24, 1, 27, 0, 26, 2, 26, 4, 0, 1, 28, 0, 30, 0, 30, 0, 29, 1, 16, 0, 31, 0, 31, 0, 29, 0, 32, 0, 31, 1, 31, 0, 2, 0, 31, 0, 0, 0)
+nodes/fragment/33/node = SubResource("VisualShaderNodeDistanceFade_swpjt")
+nodes/fragment/33/position = Vector2(2601.18, 2977.5)
+nodes/fragment/34/node = SubResource("VisualShaderNodeFloatOp_76b05")
+nodes/fragment/34/position = Vector2(2820, 3040)
+nodes/fragment/35/node = SubResource("VisualShaderNodeVec2Parameter_15vmp")
+nodes/fragment/35/position = Vector2(2300, 2800)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 17, 0, 16, 0, 24, 0, 16, 1, 26, 3, 16, 2, 22, 0, 17, 1, 19, 0, 17, 0, 26, 2, 17, 2, 20, 0, 19, 0, 26, 1, 19, 1, 21, 0, 22, 0, 26, 2, 22, 1, 23, 0, 24, 0, 26, 3, 24, 1, 27, 0, 26, 2, 28, 0, 30, 0, 30, 0, 29, 1, 16, 0, 31, 0, 31, 0, 29, 0, 32, 0, 31, 1, 31, 0, 2, 0, 31, 0, 0, 0, 26, 4, 34, 1, 33, 0, 34, 0, 34, 0, 0, 1, 35, 1, 33, 0, 35, 2, 33, 1)

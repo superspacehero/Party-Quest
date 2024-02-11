@@ -48,7 +48,7 @@ project/assembly_name="Party Quest"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/multiplayer_input/plugin.cfg")
+enabled=PackedStringArray("res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg")
 
 [input]
 
@@ -172,3 +172,10 @@ pause={
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
+
+[shader_globals]
+
+FadeDistances={
+"type": "vec2",
+"value": Vector2(0, 0.5)
+}

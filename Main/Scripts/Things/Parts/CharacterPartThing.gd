@@ -1,3 +1,4 @@
+@tool
 extends GameThing
 class_name CharacterPartThing
 

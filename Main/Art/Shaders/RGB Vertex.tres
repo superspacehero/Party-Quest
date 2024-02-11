@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=23 format=3 uid="uid://k4fj3uwt03qa"]
+[gd_resource type="VisualShader" load_steps=27 format=3 uid="uid://k4fj3uwt03qa"]
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_ryp2s"]
 
@@ -63,8 +63,22 @@ operator = 2
 expanded_output_ports = [0]
 input_name = "color"
 
+[sub_resource type="VisualShaderNodeDistanceFade" id="VisualShaderNodeDistanceFade_1en11"]
+default_input_values = [0, 2.0, 1, 6.0]
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_sr5w6"]
+expanded_output_ports = [0]
+parameter_name = "FadeDistances"
+qualifier = 1
+
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_5gxwj"]
-constant = 0.5
+constant = 0.25
+
+[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ptsiw"]
+constant = 1.0
+
+[sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_aywe3"]
+default_input_values = [2, false, 3, 4.0]
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_sdwfd"]
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
@@ -94,6 +108,7 @@ uniform float Color_Randomization : hint_range(0, 1) = 0.25;
 uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
+global uniform vec2 FadeDistances;
 
 
 
@@ -214,17 +229,39 @@ void fragment() {
 	vec4 n_out4p0 = vec4(n_out6p0) * n_out16p0;
 
 
+// Vector2Parameter:27
+	vec2 n_out27p0 = FadeDistances;
+	float n_out27p1 = n_out27p0.r;
+	float n_out27p2 = n_out27p0.g;
+
+
+// DistanceFade:26
+	float n_out26p0 = clamp(smoothstep(n_out27p1, n_out27p2,-VERTEX.z),0.0,1.0);
+
+
 // FloatConstant:3
-	float n_out3p0 = 0.500000;
+	float n_out3p0 = 0.250000;
 
 
 // VectorOp:2
 	vec4 n_out2p0 = n_out4p0 * vec4(n_out3p0);
 
 
+// Fresnel:32
+	float n_in32p3 = 4.00000;
+	float n_out32p0 = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), n_in32p3);
+
+
+// FloatConstant:31
+	float n_out31p0 = 1.000000;
+
+
 // Output:0
 	ALBEDO = vec3(n_out4p0.xyz);
+	ALPHA = n_out26p0;
 	EMISSION = vec3(n_out2p0.xyz);
+	RIM = n_out32p0;
+	ALPHA_HASH_SCALE = n_out31p0;
 
 
 }
@@ -273,4 +310,12 @@ nodes/fragment/24/node = SubResource("VisualShaderNodeVectorOp_h7qfw")
 nodes/fragment/24/position = Vector2(-620, 1260)
 nodes/fragment/25/node = SubResource("VisualShaderNodeInput_q15p0")
 nodes/fragment/25/position = Vector2(-1820, 1260)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 4, 0, 2, 0, 4, 0, 0, 0, 6, 0, 4, 0, 9, 0, 8, 0, 9, 0, 7, 2, 7, 0, 6, 0, 8, 0, 7, 1, 10, 0, 7, 0, 11, 0, 10, 0, 15, 0, 11, 4, 12, 0, 11, 0, 13, 0, 12, 0, 16, 0, 4, 1, 17, 0, 16, 0, 20, 0, 19, 0, 22, 0, 17, 1, 19, 0, 17, 0, 23, 0, 24, 0, 24, 0, 16, 1, 25, 1, 19, 1, 21, 0, 22, 0, 25, 2, 22, 1, 25, 2, 17, 2, 25, 3, 24, 1, 25, 3, 16, 2, 14, 0, 15, 0, 14, 0, 11, 3)
+nodes/fragment/26/node = SubResource("VisualShaderNodeDistanceFade_1en11")
+nodes/fragment/26/position = Vector2(160, 80)
+nodes/fragment/27/node = SubResource("VisualShaderNodeVec2Parameter_sr5w6")
+nodes/fragment/27/position = Vector2(-200, -180)
+nodes/fragment/31/node = SubResource("VisualShaderNodeFloatConstant_ptsiw")
+nodes/fragment/31/position = Vector2(200, 560)
+nodes/fragment/32/node = SubResource("VisualShaderNodeFresnel_aywe3")
+nodes/fragment/32/position = Vector2(120, 400)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 4, 0, 2, 0, 4, 0, 0, 0, 16, 0, 4, 1, 17, 0, 16, 0, 20, 0, 19, 0, 22, 0, 17, 1, 19, 0, 17, 0, 23, 0, 24, 0, 24, 0, 16, 1, 25, 1, 19, 1, 21, 0, 22, 0, 25, 2, 22, 1, 25, 2, 17, 2, 25, 3, 24, 1, 25, 3, 16, 2, 27, 1, 26, 0, 27, 2, 26, 1, 26, 0, 0, 1, 31, 0, 0, 20, 9, 0, 7, 2, 7, 0, 6, 0, 8, 0, 7, 1, 10, 0, 7, 0, 9, 0, 8, 0, 11, 0, 10, 0, 15, 0, 11, 4, 12, 0, 11, 0, 14, 0, 11, 3, 13, 0, 12, 0, 14, 0, 15, 0, 6, 0, 4, 0, 32, 0, 0, 11)
