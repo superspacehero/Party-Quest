@@ -61,6 +61,7 @@ operator = 2
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_qkw53"]
 parameter_name = "MainTex"
+texture_filter = 1
 
 [sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_1kuio"]
 expanded_output_ports = [0]
@@ -160,7 +161,7 @@ uniform float Color_Randomization : hint_range(0, 1) = 0.25;
 uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec2 Offset = vec2(0.000000, 0.000000);
 uniform vec2 Frames = vec2(1.000000, 1.000000);
-uniform sampler2D MainTex;
+uniform sampler2D MainTex : filter_nearest;
 uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 global uniform vec2 FadeDistances;
@@ -379,6 +380,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-3062.87, 465.523)
 nodes/fragment/0/position = Vector2(1000, 140)
 nodes/fragment/2/node = SubResource("VisualShaderNodeVectorOp_e7505")
 nodes/fragment/2/position = Vector2(60, 280)
