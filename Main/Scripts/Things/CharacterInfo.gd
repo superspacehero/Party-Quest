@@ -7,6 +7,9 @@ class_name CharacterInfo
 # The description of the character.
 @export var description: String
 
+# The portrait of the character.
+@export var portrait: Texture
+
 # The value of the character.
 @export var value: int
 
@@ -16,9 +19,18 @@ class_name CharacterInfo
 # A dictionary to store the variables.
 @export var variables: Dictionary
 
-# Methods to serialize and deserialize the data to/from JSON.
-func to_json() -> String:
-	return to_json()
+static func load_characters(character_category: String = "Player") -> Array:
+	check_character_directory()
 
-func from_json(json_string: String):
-	from_json(json_string)
+	var characters: Array = []
+
+	var character_files: PackedStringArray = DirAccess.get_files_at("user://Characters/" + character_category)
+	for character_file in character_files:
+		var character_info: CharacterInfo = load("user://Characters/" + character_category + "/" + character_file)
+		characters.append(character_info)
+
+	return characters
+
+static func check_character_directory() -> void:
+	if not DirAccess.dir_exists_absolute("user://Characters"):
+		DirAccess.make_dir_absolute("user://Characters")

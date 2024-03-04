@@ -20,6 +20,8 @@ var can_add_extra_players: bool = true
 
 var character: Node
 
+var extra_select: CharacterSelect
+
 var thing_input: ThingInput
 var new_character: CharacterInfo
 var characters: Array
@@ -41,45 +43,14 @@ var current_character: CharacterInfo
 
 func _ready():
     if CharacterSelectMenu.instance != null:
-        CharacterSelectMenu.instance.character_selects.append(self)
-
-    selected_character = null
-    add_player_button.visible = can_add_extra_players
-
-func _on_disabled():
-    if CharacterSelectMenu.instance != null:
-        CharacterSelectMenu.instance.character_selects.erase(self)
-
-func _start():
-    await initialize()
-
-func initialize():
-    if not characters_loaded:
-        characters_loaded = true
-
-        while characters == null:
-            LoadCharacters()
-
-            print("Found", characters.size(), "characters")
-
-            new_character = CharacterInfo.new()
-            new_character.name = new_character_name
-            new_character.sprite = new_character_sprite
-            characters.append(new_character)
-
-    await get_tree().process_frame
-
-    initialized = true
-    if thing_input != null:
-        thing_input.can_control = false
-
-    if CharacterSelectMenu.instance != null:
-        set_parent(CharacterSelectMenu.instance.character_select_parent, true)
+        var character_select_parent = CharacterSelectMenu.instance.character_select_parent
+        if character_select_parent != null:
+            character_select_parent.add_child(self)
 
     new_character_selected = characters.size() == 1
 
 func load_characters():
-    characters = CharacterThing.CharacterInfo.LoadCharacters("Player")
+    characters = CharacterInfo.load_characters("Player")
 
     if CharacterSelectMenu.instance != null:
         for character_select in CharacterSelectMenu.instance.character_selects:
@@ -90,7 +61,7 @@ func update_character_select():
         return
 
     if characters.size() > 0:
-        character_index = characters.index(current_character)
+        character_index = character_index % characters.size()
 
 func move(direction: Vector2):
     if direction.normalized().length() < input_deadzone:
@@ -99,7 +70,7 @@ func move(direction: Vector2):
     var new_input_direction = direction.round()
 
     if thing_input != null and thing_input.is_active():
-        if new_input_direction != input_direction:
+        if new_input_direction != direction:
             thing_input.move(new_input_direction)
     elif extra_select != null:
         extra_select.move(new_input_direction)
@@ -107,20 +78,20 @@ func move(direction: Vector2):
         if not characters_loaded or not initialized:
             return
 
-        if new_input_direction != input_direction:
-            input_direction = new_input_direction
+        if new_input_direction != direction:
+            direction = new_input_direction
 
             if selected_character != null:
                 return
 
-            if abs(input_direction.x) > abs(input_direction.y):
+            if abs(direction.x) > abs(direction.y):
                 if not new_character_selected:
-                    character_index += input_direction.x
-            elif abs(input_direction.x) < abs(input_direction.y):
+                    character_index += direction.x
+            elif abs(direction.x) < abs(direction.y):
                 if can_add_new_character:
-                    if input_direction.y > 0:
+                    if direction.y > 0:
                         new_character_selected = true
-                    elif input_direction.y < 0:
+                    elif direction.y < 0:
                         new_character_selected = false
 
 func move_horizontal(direction: int):
@@ -158,7 +129,7 @@ func primary(pressed: bool):
 
                 selected_characters.append(selected_character)
 
-                UpdateCharacterSelect()
+                update_character_select()
 
 func primary_press():
     primary(true)
@@ -176,7 +147,7 @@ func secondary(pressed: bool):
         if pressed:
             if selected_character != null:
                 if not new_character_selected:
-                    selected_characters.remove(selected_character)
+                    selected_characters.erase(selected_character)
 
                 selected_character = null
 
@@ -187,7 +158,7 @@ func secondary(pressed: bool):
                     looped_character_select = looped_character_select.extra_select
 
                 if CharacterSelectMenu.instance != null:
-                    CharacterSelectMenu.instance.character_selects.remove(looped_character_select)
+                    CharacterSelectMenu.instance.character_selects.erase(looped_character_select)
 
                 looped_character_select.character.queue_free()
                 looped_character_select.queue_free()
@@ -208,7 +179,7 @@ func tertiary(pressed: bool):
 
                 var character_select = extra_character_select_prefab.instance()
                 if character_select != null:
-                    character_select.player_input = player_input
+                    character_select.thing_input = thing_input
                     looped_character_select.extra_select = character_select
 
 func tertiary_press():
@@ -217,10 +188,10 @@ func tertiary_press():
 
 func update_arrow_states(showArrows: bool = true) -> void:
     if to_new_character_arrow != null:
-        to_new_character_arrow.visible = (showArrows and not _newCharacterSelected)
+        to_new_character_arrow.visible = (showArrows and not new_character_selected)
 
     if character_select_arrows != null:
-        character_select_arrows.set_active(showArrows and not _newCharacterSelected)
+        character_select_arrows.set_active(showArrows and not new_character_selected)
 
     if to_character_select_arrow != null:
-        to_character_select_arrow.set_active(showArrows and _newCharacterSelected)
+        to_character_select_arrow.set_active(showArrows and new_character_selected)

@@ -17,7 +17,7 @@ var character_name: String:
             character_name_text.text = character_info.name
         
         if character_portrait_image != null:
-            character_portrait_image.texture = string_from_int(character_info.portrait)
+            character_portrait_image.texture = character_info.portrait
 
         if character_value_text != null:
             character_value_text.text = String.num_int64(character_info.value)
@@ -31,9 +31,3 @@ var character_name: String:
 func _ready() -> void:
     if load_character_on_ready:
         character_name = character_name
-
-func string_from_int(value: string) -> Texture:
-    var image = Image.load_png_from_buffer(PackedByteArray.from_base64(value))
-
-    var texture = ImageTexture.create_from_image(image)
-    return texture

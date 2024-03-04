@@ -58,14 +58,14 @@ static func save_state():
 	packed_scene.pack(instance)
 
 	# Save the PackedScene to a file
-	ResourceSaver.save(packed_scene, "user://save_game.res")
+	ResourceSaver.save(packed_scene, "user://saves/save_game.res")
 
 static func load_state():
 	if instance:
 		instance.queue_free()
 
 	# Load the PackedScene from the file
-	var packed_scene = ResourceLoader.load("user://save_game.res")
+	var packed_scene = ResourceLoader.load("user://saves/save_game.res")
 	instance = packed_scene.instance()
 
 	# Add the instance to the scene tree

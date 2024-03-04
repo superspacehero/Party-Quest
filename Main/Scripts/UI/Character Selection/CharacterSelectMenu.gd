@@ -10,12 +10,6 @@ static var instance: CharacterSelectMenu = null
             character_select_parent = self
         return character_select_parent
 
-var player_input_manager: InputManager:
-    get:
-        if player_input_manager == null:
-            player_input_manager = InputManager.instance
-        return player_input_manager
-
 var character_selects: Array[CharacterSelect] = []
 
 var all_character_selects_ready: bool:
@@ -41,14 +35,16 @@ func select():
 
     instance = self
 
-    player_input_manager.allow_joining = true
+    if InputManager.instance != null:
+        InputManager.instance.allow_joining = true
 
 func deselect():
     super.deselect()
 
     instance = null
 
-    player_input_manager.allow_joining = false
+    if InputManager.instance != null:
+        InputManager.instance.allow_joining = false
 
     # Reset all character selects
     for character_select in character_selects:
