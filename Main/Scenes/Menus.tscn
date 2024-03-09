@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=13 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
 [ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="2_ntlie"]
@@ -9,7 +9,6 @@
 [ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="7_f1kcu"]
 [ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Text.theme" id="7_yk5vp"]
 [ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="8_pifcb"]
-[ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="9_gwk6c"]
 [ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="9_tbh2v"]
 [ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="10_epfqg"]
 
@@ -177,18 +176,6 @@ grow_horizontal = 2
 grow_vertical = 2
 columns = 4
 
-[node name="Player" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
-layout_mode = 2
-
-[node name="Player2" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
-layout_mode = 2
-
-[node name="Player3" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
-layout_mode = 2
-
-[node name="Player4" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Players" instance=ExtResource("9_gwk6c")]
-layout_mode = 2
-
 [node name="Border" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
 layout_mode = 1
 anchors_preset = -1
@@ -204,17 +191,14 @@ theme = ExtResource("8_pifcb")
 theme_override_styles/panel = ExtResource("10_epfqg")
 
 [node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
-touch_controls_menu = Object(Control,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":true,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":3,"anchors_preset":15,"anchor_left":0.0,"anchor_top":0.0,"anchor_right":1.0,"anchor_bottom":1.0,"offset_left":0.0,"offset_top":0.0,"offset_right":0.0,"offset_bottom":0.0,"grow_horizontal":2,"grow_vertical":2,"rotation":0.0,"scale":Vector2(1, 1),"pivot_offset":Vector2(576, 324),"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":0,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","script":Resource("res://Main/Scripts/UI/Menu.gd"),"previous_menu":null,"next_menu":null,"disable_on_deselect":true,"starting_button":null)
-
-empty_menu = Object(Control,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","visible":false,"modulate":Color(1, 1, 1, 1),"self_modulate":Color(1, 1, 1, 1),"show_behind_parent":false,"top_level":false,"clip_children":0,"light_mask":1,"visibility_layer":1,"z_index":0,"z_as_relative":true,"y_sort_enabled":false,"texture_filter":0,"texture_repeat":0,"material":null,"use_parent_material":false,"clip_contents":false,"custom_minimum_size":Vector2(0, 0),"layout_direction":0,"layout_mode":3,"anchors_preset":0,"anchor_left":0.0,"anchor_top":0.0,"anchor_right":0.0,"anchor_bottom":0.0,"offset_left":0.0,"offset_top":0.0,"offset_right":40.0,"offset_bottom":40.0,"grow_horizontal":1,"grow_vertical":1,"rotation":0.0,"scale":Vector2(1, 1),"pivot_offset":Vector2(0, 0),"size_flags_horizontal":1,"size_flags_vertical":1,"size_flags_stretch_ratio":1.0,"auto_translate":true,"localize_numeral_system":true,"tooltip_text":"","focus_neighbor_left":NodePath(""),"focus_neighbor_top":NodePath(""),"focus_neighbor_right":NodePath(""),"focus_neighbor_bottom":NodePath(""),"focus_next":NodePath(""),"focus_previous":NodePath(""),"focus_mode":0,"mouse_filter":0,"mouse_force_pass_scroll_events":true,"mouse_default_cursor_shape":0,"shortcut_context":null,"theme":null,"theme_type_variation":&"","script":Resource("res://Main/Scripts/UI/Menu.gd"),"previous_menu":null,"next_menu":null,"disable_on_deselect":true,"starting_button":null)
-
-dice_pool = Object(Node,"_import_path":NodePath(""),"unique_name_in_owner":false,"process_mode":0,"process_priority":0,"process_physics_priority":0,"process_thread_group":0,"editor_description":"","script":Resource("res://Main/Scripts/ObjectPool.gd"),"object_scene":null,"object_parent":null)
-
 
 [node name="Canvas" parent="Game Manager" index="4"]
 visible = false
 
 [node name="Safe Area" parent="Game Manager/Canvas" index="1"]
+visible = false
+
+[node name="Input" parent="Game Manager/Canvas" index="3"]
 visible = false
 
 [node name="Empty" parent="Game Manager/Canvas" index="4"]

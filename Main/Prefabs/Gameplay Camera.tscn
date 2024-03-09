@@ -1,8 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://5ofkl7upo5to"]
+[gd_scene load_steps=10 format=3 uid="uid://5ofkl7upo5to"]
 
 [ext_resource type="Script" path="res://Main/Scripts/GameplayCamera.gd" id="1_v48aj"]
 [ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="2_wngy4"]
 [ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas - Circle Wipe.res" id="3_nx70d"]
+[ext_resource type="Shader" path="res://Main/Art/Shaders/TextureSkybox.gdshader" id="4_q4gqg"]
+[ext_resource type="Texture2D" uid="uid://dh6k0tdqrk3lh" path="res://Main/Art/Textures/Backdrops/Backdrop_1.png" id="5_a6ih8"]
+[ext_resource type="Texture2D" uid="uid://bojuqoetd6val" path="res://Main/Art/Textures/Backdrops/Backdrop_1a.png" id="6_6lco7"]
+[ext_resource type="Texture2D" uid="uid://busqoduxxh0ue" path="res://Main/Art/Textures/Noise Textures/Gabor/Gabor 14 - 128x128.png" id="7_y6dnw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_aqwkf"]
+render_priority = 0
+shader = ExtResource("4_q4gqg")
+shader_parameter/lock_aspect = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/fov = Vector2(180, 90)
+shader_parameter/background_movement_pan = 0.0015
+shader_parameter/background_scroll_speed = 0.01
+shader_parameter/background_tiling = Vector2i(1, 1)
+shader_parameter/background_texture = ExtResource("5_a6ih8")
+shader_parameter/foreground_movement_pan = 0.002
+shader_parameter/foreground_scroll_speed = 0.0
+shader_parameter/foreground_tiling = Vector2i(1, 1)
+shader_parameter/foreground_texture = ExtResource("6_6lco7")
+shader_parameter/background_alpha_distortion = 1.0
+shader_parameter/background_noise_speed = Vector2(0.025, 0.025)
+shader_parameter/foreground_alpha_distortion = 0.0
+shader_parameter/foreground_noise_speed = Vector2(0.025, 0.025)
+shader_parameter/noise_texture = ExtResource("7_y6dnw")
+
+[sub_resource type="BoxMesh" id="BoxMesh_v2i48"]
+material = SubResource("ShaderMaterial_aqwkf")
+flip_faces = true
+size = Vector3(100, 100, 100)
 
 [node name="Gameplay Camera" type="Node3D" node_paths=PackedStringArray("camera", "camera_offset_node")]
 transform = Transform3D(1, 0, 0, 0, 0.980955, 0.194234, 0, -0.194234, 0.980955, 0, 0, 0)
@@ -23,5 +52,10 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
+
+[node name="Skybox" type="MeshInstance3D" parent="Camera3D"]
+sorting_offset = 100.0
+cast_shadow = 0
+mesh = SubResource("BoxMesh_v2i48")
 
 [editable path="Camera3D/Canvas"]

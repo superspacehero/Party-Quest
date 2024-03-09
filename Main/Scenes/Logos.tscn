@@ -143,7 +143,10 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Safe Area" parent="Canvas" index="1"]
-anchors_preset = 15
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="Super Space Studio" type="Control" parent="Canvas/Safe Area" index="0"]
 layout_mode = 1
