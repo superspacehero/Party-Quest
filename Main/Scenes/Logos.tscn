@@ -1,10 +1,24 @@
-[gd_scene load_steps=10 format=3 uid="uid://tipmmutodp2y"]
+[gd_scene load_steps=11 format=3 uid="uid://tipmmutodp2y"]
 
-[ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas - Circle Wipe.res" id="1_x0deq"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/LoadScene.gd" id="1_mm5kk"]
 [ext_resource type="FontFile" uid="uid://bb0tegk8ae8b2" path="res://Main/Art/Fonts/Yulong-Regular.ttf" id="2_77wml"]
+[ext_resource type="Script" path="res://addons/splash_screen_wizard/splash_screen.gd" id="3_3hx1x"]
 [ext_resource type="Texture2D" uid="uid://dk4liom2p8hav" path="res://Main/Art/Sprites/UI/Logo.png" id="3_u7pm8"]
-[ext_resource type="Texture2D" uid="uid://dq1i4e3uy4lxu" path="res://Main/Art/Sprites/UI/reimagined-vertical-light.svg" id="4_3xgg8"]
+[ext_resource type="Script" path="res://addons/splash_screen_wizard/splash_screen_slide.gd" id="4_jck4u"]
 [ext_resource type="PackedScene" uid="uid://cm08goxxxjjna" path="res://Main/Scenes/Menus.tscn" id="5_1ds4l"]
+[ext_resource type="Script" path="res://addons/splash_screen_wizard/transitions/slide_transition_fade.gd" id="5_2apb1"]
+
+[sub_resource type="Resource" id="Resource_wqg3l"]
+script = ExtResource("5_2apb1")
+fade_type = 0
+duration = 0.5
+transition_type = 0
+
+[sub_resource type="Resource" id="Resource_mcqtj"]
+script = ExtResource("5_2apb1")
+fade_type = 1
+duration = 0.5
+transition_type = 0
 
 [sub_resource type="Theme" id="Theme_1ss11"]
 Label/colors/font_color = Color(1, 0.780392, 0.337255, 1)
@@ -19,122 +33,11 @@ Label/font_sizes/font_size = 72
 Label/fonts/font = ExtResource("2_77wml")
 Label/styles/normal = null
 
-[sub_resource type="Animation" id="Animation_qdrly"]
-resource_name = "Logos"
-length = 4.5
-loop_mode = 2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Canvas/Safe Area/Fade:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.3, 2.8, 3, 3.5, 4.5),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 1), Color(0, 0, 0, 0), Color(0, 0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Canvas/Safe Area/Super Space Studio:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 2.8),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Canvas/Safe Area/Godot:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 2.8, 3),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [false, false, true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Canvas/Circle Wipe:load_scene")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(4.5),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-
-[sub_resource type="Animation" id="Animation_88iag"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Canvas/Safe Area/Fade:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0, 0, 0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Canvas/Safe Area/Super Space Studio:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Canvas/Safe Area/Godot:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Canvas/Circle Wipe:load_scene")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_k6e66"]
-_data = {
-"Logos": SubResource("Animation_qdrly"),
-"RESET": SubResource("Animation_88iag")
-}
-
 [node name="Logos" type="Node"]
+script = ExtResource("1_mm5kk")
+scene_path = ExtResource("5_1ds4l")
 
-[node name="Canvas" parent="." instance=ExtResource("1_x0deq")]
-
-[node name="ColorRect" type="ColorRect" parent="Canvas/Background" index="0"]
-layout_mode = 1
+[node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -142,110 +45,49 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="Safe Area" parent="Canvas" index="1"]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
+[node name="SplashScreen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_3hx1x")
+delay_between_slides = 0.0
+skip_input_action = &"primary"
 
-[node name="Super Space Studio" type="Control" parent="Canvas/Safe Area" index="0"]
+[node name="Super Space Studio" type="Control" parent="SplashScreen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("4_jck4u")
+transition_in = SubResource("Resource_wqg3l")
+transition_out = SubResource("Resource_mcqtj")
+duration = 2.0
 
-[node name="TextureRect" type="TextureRect" parent="Canvas/Safe Area/Super Space Studio"]
+[node name="Super Space Studio" type="VBoxContainer" parent="SplashScreen/Super Space Studio"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.75
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="SplashScreen/Super Space Studio/Super Space Studio"]
+layout_mode = 2
 texture = ExtResource("3_u7pm8")
-expand_mode = 2
+expand_mode = 5
 stretch_mode = 4
 
-[node name="Label" type="Label" parent="Canvas/Safe Area/Super Space Studio"]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.75
-anchor_right = 1.0
-anchor_bottom = 0.75
-offset_top = -36.0
-offset_bottom = 36.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="Label" type="Label" parent="SplashScreen/Super Space Studio/Super Space Studio"]
+layout_mode = 2
 theme = SubResource("Theme_1ss11")
-text = "
-Super Space Studio"
+text = "Super Space Studio"
 horizontal_alignment = 1
 
-[node name="Godot" type="Control" parent="Canvas/Safe Area" index="1"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="TextureRect" type="TextureRect" parent="Canvas/Safe Area/Godot"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_3xgg8")
-expand_mode = 2
-stretch_mode = 4
-
-[node name="Fade" type="ColorRect" parent="Canvas/Safe Area" index="2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0)
-
-[node name="Fade2" type="ColorRect" parent="Canvas/Safe Area" index="3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0705882, 0, 0.219608, 0)
-
-[node name="Fade3" type="ColorRect" parent="Canvas/Safe Area" index="4"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0705882, 0, 0.219608, 0)
-
-[node name="Fade4" type="ColorRect" parent="Canvas/Safe Area" index="5"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.0705882, 0, 0.219608, 0)
-
-[node name="Circle Wipe" parent="Canvas" index="2"]
-scene_to_load = ExtResource("5_1ds4l")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_k6e66")
-}
-autoplay = "Logos"
-
-[editable path="Canvas"]
+[connection signal="finished" from="SplashScreen" to="." method="load_scene"]

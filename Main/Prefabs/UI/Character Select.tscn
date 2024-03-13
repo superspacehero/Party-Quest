@@ -1,11 +1,132 @@
-[gd_scene load_steps=5 format=3 uid="uid://bcsa53pychfnh"]
+[gd_scene load_steps=20 format=3 uid="uid://bcsa53pychfnh"]
 
 [ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="1_x6ldw"]
 [ext_resource type="StyleBox" uid="uid://b3xexm6fajkv6" path="res://Main/Art/Themes/Menu/Menu Panel/Player Panel.stylebox" id="2_nhkuu"]
 [ext_resource type="StyleBox" uid="uid://bfsjxmi4x1dca" path="res://Main/Art/Themes/Menu/Menu Panel/Player Name Panel.stylebox" id="3_50t8p"]
-[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Text.theme" id="4_u6cal"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelect.gd" id="3_g5r7w"]
+[ext_resource type="Texture2D" uid="uid://d4am7w3uexf1x" path="res://Main/Art/Sprites/UI/Icons/System/arrow-drop-up-fill.svg" id="4_i1fpd"]
+[ext_resource type="Texture2D" uid="uid://c2ul5850ueyi7" path="res://Main/Art/Sprites/UI/Icons/System/arrow-go-back-fill.svg" id="4_q5ay3"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="4_u6cal"]
+[ext_resource type="Script" path="res://addons/texture_button_colored/texture_button_colored.gd" id="5_h2g5h"]
+[ext_resource type="Texture2D" uid="uid://bpv4wy2ip3dtd" path="res://Main/Art/Sprites/UI/Icons/System/arrow-drop-down-fill.svg" id="6_6lcdt"]
+[ext_resource type="Texture2D" uid="uid://d184e7m3rre5h" path="res://Main/Art/Sprites/UI/Icons/System/add-fill.svg" id="6_eeiov"]
+[ext_resource type="Texture2D" uid="uid://bssxjpdqgoeqh" path="res://Main/Art/Sprites/UI/Icons/System/arrow-drop-left-fill.svg" id="7_xnagm"]
+[ext_resource type="Texture2D" uid="uid://b3uomuy5kjsbi" path="res://Main/Art/Sprites/UI/Icons/System/arrow-drop-right-fill.svg" id="8_6cqku"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/CharacterUI.gd" id="12_5nb10"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterCreator.gd" id="14_ql6fm"]
+[ext_resource type="Resource" uid="uid://dqci7phxcwm4g" path="res://Main/Prefabs/Things/Parts/Character Part List.tres" id="15_l6y2w"]
+[ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="16_gd78h"]
 
-[node name="Player" type="Panel"]
+[sub_resource type="Animation" id="Animation_j3i6i"]
+resource_name = "Arrows"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_left")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 12.0, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:offset_top")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 16.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:offset_right")
+tracks/2/interp = 2
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -12.0, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:offset_bottom")
+tracks/3/interp = 2
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, -12.0, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_g1ae4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset_left")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:offset_top")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:offset_right")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:offset_bottom")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rohyg"]
+_data = {
+"Arrows": SubResource("Animation_j3i6i"),
+"RESET": SubResource("Animation_g1ae4")
+}
+
+[node name="Player" type="Panel" node_paths=PackedStringArray("character_creator", "character_ui", "add_player_button", "to_new_character_arrow", "character_select_arrows", "to_character_select_arrow")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -15,8 +136,17 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_x6ldw")
 theme_override_styles/panel = ExtResource("2_nhkuu")
+script = ExtResource("3_g5r7w")
+character_creator = NodePath("Character Creator")
+new_character_name = "New"
+new_character_texture = ExtResource("6_eeiov")
+character_ui = NodePath("Player Name")
+add_player_button = NodePath("Buttons/Add Button")
+to_new_character_arrow = NodePath("Buttons/Arrows/Up Arrow")
+character_select_arrows = NodePath("Buttons/Arrows/Horizontal Arrows")
+to_character_select_arrow = NodePath("Buttons/Arrows/Down Arrow")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="Player Portrait" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -25,15 +155,205 @@ offset_top = 32.0
 offset_bottom = -80.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Player Portrait"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 stretch = true
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Player Portrait/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(800, 488)
 render_target_update_mode = 4
 
-[node name="Player Name" type="Panel" parent="."]
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Back Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.4, 0.145, 0.1, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+offset_left = 32.0
+offset_top = 32.0
+offset_right = 272.0
+offset_bottom = 272.0
+scale = Vector2(0.15, 0.15)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("4_q5ay3")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="Add Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.4, 0.145, 0.1, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -272.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = 272.0
+grow_horizontal = 0
+scale = Vector2(0.15, 0.15)
+pivot_offset = Vector2(240, 0)
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("6_eeiov")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="Arrows" type="Control" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Up Arrow" type="TextureButton" parent="Buttons/Arrows"]
+modulate = Color(0.901961, 0.168627, 0, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -120.0
+offset_right = 120.0
+offset_bottom = 240.0
+grow_horizontal = 2
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(120, 0)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("4_i1fpd")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="Down Arrow" type="TextureButton" parent="Buttons/Arrows"]
+modulate = Color(0.901961, 0.168627, 0, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -240.0
+offset_right = 120.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(120, 240)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("6_6lcdt")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="Horizontal Arrows" type="Control" parent="Buttons/Arrows"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Left Arrow" type="TextureButton" parent="Buttons/Arrows/Horizontal Arrows"]
+modulate = Color(0.901961, 0.168627, 0, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -120.0
+offset_right = 240.0
+offset_bottom = 120.0
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(0, 120)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("7_xnagm")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="Right Arrow" type="TextureButton" parent="Buttons/Arrows/Horizontal Arrows"]
+modulate = Color(0.901961, 0.168627, 0, 1)
+self_modulate = Color(0.733333, 0.733333, 0.733333, 1)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -120.0
+offset_bottom = 120.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.4, 0.4)
+pivot_offset = Vector2(240, 120)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+texture_normal = ExtResource("8_6cqku")
+stretch_mode = 4
+script = ExtResource("5_h2g5h")
+theme_override_colors/icon_normal_color = Color(0.733333, 0.733333, 0.733333, 1)
+theme_override_colors/icon_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.6, 0.6, 0.6, 1)
+theme_override_colors/icon_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Buttons/Arrows"]
+libraries = {
+"": SubResource("AnimationLibrary_rohyg")
+}
+autoplay = "Arrows"
+
+[node name="Player Name" type="Panel" parent="." node_paths=PackedStringArray("character_name_text", "character_portrait_image")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -46,8 +366,11 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_x6ldw")
 theme_override_styles/panel = ExtResource("3_50t8p")
+script = ExtResource("12_5nb10")
+character_name_text = NodePath("Name Text")
+character_portrait_image = NodePath("../Player Portrait")
 
-[node name="Label" type="Label" parent="Player Name"]
+[node name="Name Text" type="LineEdit" parent="Player Name"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -55,6 +378,37 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("4_u6cal")
-text = "Player"
-horizontal_alignment = 1
-vertical_alignment = 1
+text = "Character"
+placeholder_text = "Character Name"
+alignment = 1
+editable = false
+context_menu_enabled = false
+caret_blink = true
+
+[node name="Character Creator" type="Control" parent="." node_paths=PackedStringArray("character_preview_image", "character_text", "character", "character_camera")]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("14_ql6fm")
+character_part_list = ExtResource("15_l6y2w")
+character_preview_image = NodePath("../Player Portrait")
+character_text = NodePath("../Player Name/Name Text")
+character = NodePath("Character")
+character_camera = NodePath("Camera3D")
+
+[node name="Camera3D" type="Camera3D" parent="Character Creator"]
+
+[node name="Character" parent="Character Creator" instance=ExtResource("16_gd78h")]
+gravity = 0.0
+can_control = 0
+can_move = false
+can_jump = false
+
+[connection signal="pressed" from="Buttons/Back Button" to="." method="secondary_press"]
+[connection signal="pressed" from="Buttons/Add Button" to="." method="secondary_press"]
+[connection signal="pressed" from="Buttons/Arrows/Up Arrow" to="." method="move_up"]
+[connection signal="pressed" from="Buttons/Arrows/Down Arrow" to="." method="move_down"]
+[connection signal="pressed" from="Buttons/Arrows/Horizontal Arrows/Left Arrow" to="." method="move_left"]
+[connection signal="pressed" from="Buttons/Arrows/Horizontal Arrows/Right Arrow" to="." method="move_right"]

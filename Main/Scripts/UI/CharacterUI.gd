@@ -5,13 +5,18 @@ var character_category: String = "Player"
 
 var character_name: String:
     get:
+        if character_info == null:
+            return ""
         return character_info.name
     set(value):
-        character_info = character_info.load_character(value, character_category)
+        character_info = CharacterInfo.load_character(value, character_category)
 
 @export var character_info: CharacterInfo:
     set(value):
         character_info = value
+
+        if character_info == null:
+            return
 
         if character_name_text != null:
             character_name_text.text = character_info.name
@@ -24,7 +29,9 @@ var character_name: String:
 
 @export var load_character_on_ready: bool = true
 
-@export var character_name_text: Label
+# Make this a generic text node so it can be a Label, RichTextLabel, TextEdit, etc.
+@export var character_name_text: Control
+
 @export var character_portrait_image: TextureRect
 @export var character_value_text: Label
 

@@ -1,26 +1,48 @@
 extends Node
 class_name InputManager
 
+# This is a singleton class that manages the input devices in the game.
 static var instance: InputManager = null
 
+# Whether new devices can join the game
 @export var allow_joining: bool = true
 
 # Resource to instantiate when a new device is detected
 @export var thing_input_prefab: PackedScene = null
 
+# Signals emitted when a  device is joined or unjoined
+signal device_joined
+signal device_unjoined
+
 # List of actions you want to explicitly process (whitelist)
 var allowed_actions: Array = [
 	"move_up", "move_down", "move_left", "move_right",
 	"left_trigger", "right_trigger",
-	"primary", "secondary", "tertiary", "quaternary", 
+	"primary", "secondary", "tertiary", "quaternary",
 	"pause"
 ]
 
 var connected_devices: Array[int]
 
 func _ready():
-	if not instance:
-		instance = self
+	if instance and instance != self:
+		instance.queue_free()
+	instance = self
+
+func get_inputs() -> Array:
+	var inputs = []
+	for child in self.get_children():
+		if child is ThingInput:
+			inputs.append(child)
+	return inputs
+
+func get_input(device: int) -> ThingInput:
+	for child in self.get_children():
+		if child is ThingInput:
+			var thing_input = child as ThingInput
+			if thing_input.device_id == device:
+				return thing_input
+	return null
 
 func is_device_joined(device: int) -> bool:
 	# We have to do this in a different way from find, as find will return -1 if the device is not found
@@ -30,8 +52,8 @@ func is_device_joined(device: int) -> bool:
 
 func unjoined_devices():
 	var valid_devices = Input.get_connected_joypads()
-	if !is_device_joined(-1):
-		valid_devices.append(-1) # also consider the keyboard player (device -1 for MultiplayerInput functions)
+	if !is_device_joined( - 1):
+		valid_devices.append( - 1) # also consider the keyboard player (device -1 for MultiplayerInput functions)
 	valid_devices = valid_devices.filter(func(device): return not is_device_joined(device))
 	# print("Valid devices: " + str(valid_devices))
 	return valid_devices
@@ -46,19 +68,23 @@ func _process(_delta):
 
 func register_thing_input(device_id: int = -1):
 	if thing_input_prefab:
-		var new_instance = thing_input_prefab.instantiate() 
+		var new_instance = thing_input_prefab.instantiate()
 		self.add_child(new_instance)
 
 		# Search for ThingInput in the children
-		var new_thing_input = new_instance.find_child("Input", true, false)
-		if new_thing_input:
-			new_thing_input.device_id = device_id
-			new_thing_input.input = DeviceInput.new(device_id)
+		if new_instance is ThingInput:
+			new_instance.device_id = device_id
+			new_instance.input = DeviceInput.new(device_id)
+
+			print("Device " + str(device_id) + " joined.")
 
 		# Register the device
 		connected_devices.append(device_id)
 
-	# print("Registered device: " + str(device_id))
+		# Emit signal
+		emit_signal("device_joined", device_id)
 
-func unregister_thing_input(device_id: int = -1):
+func unregister_thing_input(device_id: int=- 1):
 	connected_devices.erase(device_id)
+	get_input(device_id).queue_free()
+	emit_signal("device_unjoined", device_id)

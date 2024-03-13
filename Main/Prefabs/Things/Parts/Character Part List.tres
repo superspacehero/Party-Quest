@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CharacterPartList" load_steps=7 format=3 uid="uid://dqci7phxcwm4g"]
+
+[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/CharacterPartList.gd" id="1_6i4r1"]
+[ext_resource type="PackedScene" uid="uid://dtcnmiiru7k2s" path="res://Main/Prefabs/Things/Parts/Body/Body/Body_NarrowTop.tscn" id="1_vsrn5"]
+[ext_resource type="PackedScene" uid="uid://bdlfgfoe24lga" path="res://Main/Prefabs/Things/Parts/Body/Head/Head_Beanish.tscn" id="2_0ml2f"]
+[ext_resource type="PackedScene" uid="uid://lnua3j3fangd" path="res://Main/Prefabs/Things/Parts/Body/Arm/Arm.tscn" id="3_u1w1q"]
+[ext_resource type="PackedScene" uid="uid://8615dl21ubxf" path="res://Main/Prefabs/Things/Parts/Body/Head/Ear/Ear_Pointy.tscn" id="4_owrdw"]
+[ext_resource type="PackedScene" uid="uid://djjqojy55lexf" path="res://Main/Prefabs/Things/Parts/Body/Foot/Foot_Shoe_Boot.tscn" id="5_tqddl"]
+
+[resource]
+script = ExtResource("1_6i4r1")
+character_parts = Array[PackedScene]([ExtResource("1_vsrn5"), ExtResource("2_0ml2f"), ExtResource("3_u1w1q"), ExtResource("4_owrdw"), ExtResource("5_tqddl")])

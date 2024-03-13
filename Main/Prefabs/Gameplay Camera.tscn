@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://5ofkl7upo5to"]
+[gd_scene load_steps=9 format=3 uid="uid://5ofkl7upo5to"]
 
 [ext_resource type="Script" path="res://Main/Scripts/GameplayCamera.gd" id="1_v48aj"]
-[ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="2_wngy4"]
 [ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas - Circle Wipe.res" id="3_nx70d"]
 [ext_resource type="Shader" path="res://Main/Art/Shaders/TextureSkybox.gdshader" id="4_q4gqg"]
 [ext_resource type="Texture2D" uid="uid://dh6k0tdqrk3lh" path="res://Main/Art/Textures/Backdrops/Backdrop_1.png" id="5_a6ih8"]
@@ -13,7 +12,7 @@ render_priority = 0
 shader = ExtResource("4_q4gqg")
 shader_parameter/lock_aspect = true
 shader_parameter/aspect_ratio = 1.0
-shader_parameter/fov = Vector2(180, 90)
+shader_parameter/fov = Vector2(180, 60)
 shader_parameter/background_movement_pan = 0.0015
 shader_parameter/background_scroll_speed = 0.01
 shader_parameter/background_tiling = Vector2i(1, 1)
@@ -41,7 +40,6 @@ camera_rotation = Vector3(-11.25, 0, 0)
 camera_offset_node = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-environment = ExtResource("2_wngy4")
 current = true
 fov = 60.0
 

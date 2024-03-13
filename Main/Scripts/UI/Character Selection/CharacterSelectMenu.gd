@@ -4,11 +4,13 @@ class_name CharacterSelectMenu
 # Singleton
 static var instance: CharacterSelectMenu = null
 
-@export var character_select_parent: Control:
+@export var character_select_parent: Node:
     get:
         if character_select_parent == null:
             character_select_parent = self
         return character_select_parent
+
+@export var character_select_scene: PackedScene = null
 
 var character_selects: Array[CharacterSelect] = []
 
@@ -37,6 +39,8 @@ func select():
 
     if InputManager.instance != null:
         InputManager.instance.allow_joining = true
+        InputManager.instance.device_joined.connect(connect_to_device)
+        connect_to_all_inputs()
 
 func deselect():
     super.deselect()
@@ -45,9 +49,49 @@ func deselect():
 
     if InputManager.instance != null:
         InputManager.instance.allow_joining = false
+        if InputManager.instance.device_joined.get_connections().size() > 0:
+            InputManager.instance.device_joined.disconnect(connect_to_device)
 
     # Reset all character selects
     for character_select in character_selects:
         character_select.queue_free()
 
     character_selects.clear()
+
+func connect_to_all_inputs():
+    if InputManager.instance != null:
+        for input in InputManager.instance.get_inputs():
+            connect_to_input(input as ThingInput)
+    else:
+        print("InputManager is null")
+
+func connect_to_input(input: ThingInput):
+    if input != null:
+        if !input.inventory.has(self):
+            input.inventory.append(self)
+            # print("Inputs: " + str(input.inventory))
+
+func connect_to_device(device: int):
+    if InputManager.instance != null:
+        var input = InputManager.instance.get_input(device)
+        connect_to_input(input)
+
+func primary(pressed):
+    if pressed:
+        for input in InputManager.instance.get_inputs():
+            if input.primary_action:
+                for character_select in character_selects:
+                    if input.inventory.has(character_select):
+                        return
+
+                var new_character_select = character_select_scene.instantiate()
+                character_select_parent.add_child(new_character_select)
+                new_character_select = new_character_select as CharacterSelect
+                character_selects.append(new_character_select)
+                input.inventory.append(new_character_select)
+                print("Inputs: " + str(input.inventory))
+
+func secondary(pressed):
+    if pressed:
+        if character_selects.size() == 0:
+            select_previous_menu()

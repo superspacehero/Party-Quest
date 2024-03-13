@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://b75k6yma7gcae"]
+
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="1_rt6ym"]
+
+[node name="Button" type="Button"]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+mouse_default_cursor_shape = 2
+theme = ExtResource("1_rt6ym")
+text = "Button"
+
+[connection signal="mouse_entered" from="." to="." method="grab_focus"]

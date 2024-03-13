@@ -8,7 +8,7 @@ class_name CharacterInfo
 @export var description: String
 
 # The portrait of the character.
-@export var portrait: Texture
+@export var portrait: Texture2D
 
 # The value of the character.
 @export var value: int
@@ -30,6 +30,14 @@ static func load_characters(character_category: String = "Player") -> Array:
 		characters.append(character_info)
 
 	return characters
+
+static func load_character(character_name: String, character_category: String = "Player") -> CharacterInfo:
+	check_character_directory()
+
+	if character_name == "" or character_category == "":
+		return null
+	var character_info: CharacterInfo = load("user://Characters/" + character_category + "/" + character_name + ".tres")
+	return character_info
 
 static func check_character_directory() -> void:
 	if not DirAccess.dir_exists_absolute("user://Characters"):

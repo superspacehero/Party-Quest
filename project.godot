@@ -48,7 +48,7 @@ project/assembly_name="Party Quest"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg")
+enabled=PackedStringArray("res://addons/custom_theme_overrides/plugin.cfg", "res://addons/icon_explorer/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/splash_screen_wizard/plugin.cfg", "res://addons/texture_button_colored/plugin.cfg", "res://addons/timer/plugin.cfg")
 
 [input]
 
@@ -167,6 +167,15 @@ pause={
 
 3d/default_cell_size=1.0
 3d/default_cell_height=1.0
+
+[physics]
+
+3d/physics_engine="JoltPhysics3D"
+
+[plugins]
+
+icon_explorer/load_on_startup=true
+icon_explorer/preview_size_exp=6.0
 
 [rendering]
 

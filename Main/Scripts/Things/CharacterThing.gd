@@ -3,6 +3,7 @@ class_name CharacterThing
 
 # 1. Member Variables/Properties
 
+@export var character_part_list : CharacterPartList = null
 @export var character_body : CharacterBody3D = null
 @export var character_base : ThingSlot = null
 @export var character_collider : CollisionShape3D = null
@@ -162,26 +163,16 @@ func pause(_pressed):
 
 @export_category("Character Assembly")
 
-@export_file("*.tres") var character_info_path
 var parts: Array = [CharacterPartThing]
 var added_parts: Array = [Node3D]
 
 # 6. Character Assembly Functions
 
-func assemble_character(path: String = ""):
+func assemble_character():
 	clear_previous_parts()
-	if path == "":
-		path = character_info_path
-	var character_info_resource = load(path)
 	
-	if character_info_resource:
-		thing_name = character_info_resource.name
-		thing_description = character_info_resource.description
-		thing_value = character_info_resource.value
-
-		# print("Assembling character: " + thing_name)
-
-		for part in character_info_resource.character_parts:
+	if character_part_list:
+		for part in parts:
 			var part_instance = part.instantiate()
 			parts.append(part_instance)
 			# Set any properties on the part, such as color.
@@ -268,3 +259,14 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 
 	if !attached_part_success:
 		print("No part to attach to slot: " + slot.name)
+
+func get_thing_slots() -> Array:
+	var slots: Array = [character_base]
+
+	for part in parts:
+		if part.has_method("get_thing_slots"):
+			var part_slots = part.get_thing_slots()
+			for slot in part_slots:
+				slots.append(slot)
+
+	return slots

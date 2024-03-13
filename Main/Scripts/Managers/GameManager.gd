@@ -58,18 +58,24 @@ static func save_state():
 	packed_scene.pack(instance)
 
 	# Save the PackedScene to a file
-	ResourceSaver.save(packed_scene, "user://saves/save_game.res")
+	check_save_directory()
+	ResourceSaver.save(packed_scene, "user://Saves/save_game.res")
 
 static func load_state():
 	if instance:
 		instance.queue_free()
 
 	# Load the PackedScene from the file
-	var packed_scene = ResourceLoader.load("user://saves/save_game.res")
+	check_save_directory()
+	var packed_scene = ResourceLoader.load("user://Saves/save_game.res")
 	instance = packed_scene.instance()
 
 	# Add the instance to the scene tree
 	instance.get_tree().get_root().add_child(instance)
+
+static func check_save_directory() -> void:
+	if not DirAccess.dir_exists_absolute("user://Saves"):
+		DirAccess.make_dir_absolute("user://Saves")
 
 # -------------------------
 # Things
@@ -123,6 +129,10 @@ func _notification(what):
 		# Save the state of the game
 		instance.save_state()
 
+		# Quit the game
+		quit_game()
+
+func quit_game():
 		# Quit the game
 		get_tree().quit()
 
@@ -186,6 +196,8 @@ func spawn_player(input: ThingInput, position = null):
 		return
 
 	var player = character_scene.instance() as CharacterThing
+	if player == null:
+		return
 
 	if position is Vector3:
 		player.position = position
@@ -201,7 +213,7 @@ func spawn_player(input: ThingInput, position = null):
 var cpu_player_input: ThingInput:
 	get:
 		if cpu_player_input == null:
-			cpu_player_input = cpu_player_prefab.instance() as ThingInput
+			cpu_player_input = cpu_player_prefab.instantiate() as ThingInput
 
 		return cpu_player_input
 

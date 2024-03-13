@@ -43,6 +43,9 @@ var thing_subtype : String
 @export var inventory_paths : Array[NodePath] = []
 var inventory : Array = []
 
+func get_thing_slots():
+	return inventory
+
 var can_occupy_current_point: bool = true
 
 func occupy_current_point():
@@ -58,10 +61,6 @@ func unoccupy_point(point):
 		AStarPathfinding.instance.unoccupy_point(point)
 
 var current_point:
-	get:
-		if not current_point:
-			current_point = AStarPathfinding.instance.astar.get_closest_point(self.position)
-		return current_point
 	set(value):
 		if can_occupy_current_point:
 			if current_point:
