@@ -1,12 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://tipmmutodp2y"]
+[gd_scene load_steps=10 format=3 uid="uid://tipmmutodp2y"]
 
 [ext_resource type="Script" path="res://Main/Scripts/UI/LoadScene.gd" id="1_mm5kk"]
-[ext_resource type="FontFile" uid="uid://bb0tegk8ae8b2" path="res://Main/Art/Fonts/Yulong-Regular.ttf" id="2_77wml"]
 [ext_resource type="Script" path="res://addons/splash_screen_wizard/splash_screen.gd" id="3_3hx1x"]
 [ext_resource type="Texture2D" uid="uid://dk4liom2p8hav" path="res://Main/Art/Sprites/UI/Logo.png" id="3_u7pm8"]
 [ext_resource type="Script" path="res://addons/splash_screen_wizard/splash_screen_slide.gd" id="4_jck4u"]
 [ext_resource type="PackedScene" uid="uid://cm08goxxxjjna" path="res://Main/Scenes/Menus.tscn" id="5_1ds4l"]
 [ext_resource type="Script" path="res://addons/splash_screen_wizard/transitions/slide_transition_fade.gd" id="5_2apb1"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="7_xqcqx"]
 
 [sub_resource type="Resource" id="Resource_wqg3l"]
 script = ExtResource("5_2apb1")
@@ -19,19 +19,6 @@ script = ExtResource("5_2apb1")
 fade_type = 1
 duration = 0.5
 transition_type = 0
-
-[sub_resource type="Theme" id="Theme_1ss11"]
-Label/colors/font_color = Color(1, 0.780392, 0.337255, 1)
-Label/colors/font_outline_color = Color(0, 0, 0, 1)
-Label/colors/font_shadow_color = Color(0, 0, 0, 1)
-Label/constants/line_spacing = 0
-Label/constants/outline_size = 0
-Label/constants/shadow_offset_x = 0
-Label/constants/shadow_offset_y = 0
-Label/constants/shadow_outline_size = 0
-Label/font_sizes/font_size = 72
-Label/fonts/font = ExtResource("2_77wml")
-Label/styles/normal = null
 
 [node name="Logos" type="Node"]
 script = ExtResource("1_mm5kk")
@@ -86,7 +73,7 @@ stretch_mode = 4
 
 [node name="Label" type="Label" parent="SplashScreen/Super Space Studio/Super Space Studio"]
 layout_mode = 2
-theme = SubResource("Theme_1ss11")
+theme = ExtResource("7_xqcqx")
 text = "Super Space Studio"
 horizontal_alignment = 1
 

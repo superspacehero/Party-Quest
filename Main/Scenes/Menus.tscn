@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=20 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
+[ext_resource type="Material" uid="uid://csypr4klbsfch" path="res://Main/Art/Materials/UI/Text Gradient.tres" id="2_1rxph"]
 [ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="2_ntlie"]
+[ext_resource type="Script" path="res://addons/rich_text_label_ex/rich_text_label_ex.gd" id="3_4d0ol"]
 [ext_resource type="PackedScene" uid="uid://cb1ytvjr8xgem" path="res://Main/Prefabs/UI/Menu.res" id="4_of8fh"]
-[ext_resource type="Shader" uid="uid://dmqd3hraww3s7" path="res://Main/Art/Shaders/Text Gradient.tres" id="4_pyghu"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuTextDisplayer.gd" id="5_rg0xy"]
 [ext_resource type="Theme" uid="uid://c43iigu501h25" path="res://Main/Art/Themes/Title.theme" id="5_v1h4i"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
 [ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="7_7y88s"]
@@ -13,21 +15,19 @@
 [ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="9_tbh2v"]
 [ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="10_epfqg"]
 [ext_resource type="Shader" path="res://Main/Art/Shaders/UI/Blur.gdshader" id="10_u0flc"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="11_0ns2f"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuScaler.gd" id="12_c8y6c"]
 [ext_resource type="PackedScene" uid="uid://b75k6yma7gcae" path="res://Main/Prefabs/UI/Button.tscn" id="13_3hlfr"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_be4nk"]
-shader = ExtResource("4_pyghu")
-shader_parameter/Additive = true
-shader_parameter/Second_Color = Color(1, 0.74902, 0.74902, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hlb8h"]
 shader = ExtResource("10_u0flc")
-shader_parameter/blur_amount = 5.0
+shader_parameter/blur_amount = 2.5
 
 [node name="Menus" type="Node3D"]
 
 [node name="Title" parent="." instance=ExtResource("2_ntlie")]
 mouse_filter = 2
+theme = ExtResource("5_v1h4i")
 
 [node name="Background" parent="Title" index="0"]
 mouse_filter = 2
@@ -36,24 +36,42 @@ mouse_filter = 2
 anchors_preset = -1
 mouse_filter = 2
 
-[node name="Label" type="RichTextLabel" parent="Title/Safe Area" index="0"]
-material = SubResource("ShaderMaterial_be4nk")
+[node name="Party" type="RichTextLabel" parent="Title/Safe Area" index="0"]
+material = ExtResource("2_1rxph")
+use_parent_material = true
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_top = -32.0
+offset_right = -53.0
+offset_bottom = -36.0
 grow_horizontal = 2
-mouse_filter = 2
-theme = ExtResource("5_v1h4i")
+theme_override_font_sizes/normal_font_size = 192
 bbcode_enabled = true
-text = "[center][wave amp=50]Party
-Quest[/wave]"
+text = "[center][wave amp=50]Par[img]res://Main/Art/Sprites/Sword.png[/img]y[/wave]"
+scroll_active = false
+script = ExtResource("3_4d0ol")
+bbcode_enabled_deferred = true
+
+[node name="Quest" type="RichTextLabel" parent="Title/Safe Area" index="1"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 53.0
+offset_top = 128.0
+offset_bottom = 72.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[center][wave amp=50]Qu[/wave]e[wave amp=50]st[/wave]"
+scroll_active = false
 
 [node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu") instance=ExtResource("4_of8fh")]
 next_menu = NodePath("../Main Menu")
 
-[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0"]
-material = SubResource("ShaderMaterial_be4nk")
+[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
+material = ExtResource("2_1rxph")
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -66,6 +84,12 @@ bbcode_enabled = true
 text = "[center][wave amp=50]Press any button[/wave]"
 fit_content = true
 scroll_active = false
+visible_characters_behavior = 3
+script = ExtResource("5_rg0xy")
+menu = NodePath("../..")
+effect_delay = 1.0
+effect_time = 0.4
+effect_transition_type = 0
 
 [node name="PressAnyButton" type="Node" parent="Title Menu"]
 script = ExtResource("6_sd88s")
@@ -115,12 +139,14 @@ starting_button = NodePath("Safe Area/Buttons/Button Fitter/Button Holder/Play B
 [node name="Safe Area" parent="Main Menu" index="1"]
 anchors_preset = -1
 
-[node name="Buttons" type="Control" parent="Main Menu/Safe Area" index="0"]
+[node name="Buttons" type="Control" parent="Main Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
 layout_mode = 1
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
+script = ExtResource("12_c8y6c")
+menu = NodePath("../..")
 
 [node name="Button Fitter" type="AspectRatioContainer" parent="Main Menu/Safe Area/Buttons"]
 layout_mode = 1
@@ -161,17 +187,25 @@ character_select_parent = NodePath("Safe Area/AspectRatioContainer/Panel/Players
 character_select_scene = ExtResource("7_7y88s")
 previous_menu = NodePath("../Main Menu")
 
-[node name="Panel" type="ColorRect" parent="Character Menu/Background" index="0"]
+[node name="Panel" type="ColorRect" parent="Character Menu/Background" index="0" node_paths=PackedStringArray("menu")]
+modulate = Color(1, 1, 1, 0)
 material = SubResource("ShaderMaterial_hlb8h")
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.5, 0.5, 0.5, 1)
+color = Color(0.501961, 0.501961, 0.501961, 1)
+script = ExtResource("11_0ns2f")
+menu = NodePath("../..")
+effect_delay = null
+effect_time = null
+effect_transition_type = null
 
-[node name="Safe Area" parent="Character Menu" index="1"]
+[node name="Safe Area" parent="Character Menu" index="1" node_paths=PackedStringArray("menu")]
 anchors_preset = -1
+script = ExtResource("12_c8y6c")
+menu = NodePath("..")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="Character Menu/Safe Area" index="0"]
 layout_mode = 1

@@ -9,7 +9,7 @@ void vertex() {
 
 void fragment() {
 	// Called for every pixel the material is visible on.
-		COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, COLOR.a * blur_amount) * COLOR;
+		COLOR = textureLod(SCREEN_TEXTURE, SCREEN_UV, COLOR.a * blur_amount) * mix(vec4(1.0), COLOR, COLOR.a);
 		COLOR.a = 1.0;
 }
 

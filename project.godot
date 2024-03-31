@@ -37,7 +37,6 @@ MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
 
 window/size/viewport_width=800
 window/size/viewport_height=600
-window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=6
@@ -48,7 +47,7 @@ project/assembly_name="Party Quest"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/custom_theme_overrides/plugin.cfg", "res://addons/icon_explorer/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/splash_screen_wizard/plugin.cfg", "res://addons/texture_button_colored/plugin.cfg", "res://addons/timer/plugin.cfg")
+enabled=PackedStringArray("res://addons/custom_theme_overrides/plugin.cfg", "res://addons/icon_explorer/plugin.cfg", "res://addons/licenses/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/rich_text_label_ex/plugin.cfg", "res://addons/splash_screen_wizard/plugin.cfg", "res://addons/texture_button_colored/plugin.cfg", "res://addons/timer/plugin.cfg")
 
 [input]
 

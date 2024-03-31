@@ -1,0 +1,13 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://csypr4klbsfch"]
+
+[ext_resource type="Shader" path="res://Main/Art/Shaders/UI/Text Gradient.gdshader" id="1_0lt61"]
+
+[resource]
+shader = ExtResource("1_0lt61")
+shader_parameter/intensity = 7.5
+shader_parameter/x = false
+shader_parameter/color_horizontal_left = Color(1, 1, 1, 1)
+shader_parameter/color_horizontal_right = Color(1, 1, 1, 1)
+shader_parameter/y = true
+shader_parameter/color_vertical_top = Color(1, 1, 1, 1)
+shader_parameter/color_vertical_bottom = Color(0.878431, 0.454902, 0.219608, 1)

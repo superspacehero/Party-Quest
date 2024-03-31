@@ -77,7 +77,7 @@ func connect_to_device(device: int):
         connect_to_input(input)
 
 func primary(pressed):
-    if pressed:
+    if input_ready and pressed:
         for input in InputManager.instance.get_inputs():
             if input.primary_action:
                 for character_select in character_selects:
@@ -92,6 +92,6 @@ func primary(pressed):
                 print("Inputs: " + str(input.inventory))
 
 func secondary(pressed):
-    if pressed:
+    if input_ready and pressed:
         if character_selects.size() == 0:
             select_previous_menu()
