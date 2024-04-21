@@ -37,20 +37,10 @@ func select():
 
     instance = self
 
-    if InputManager.instance != null:
-        InputManager.instance.allow_joining = true
-        InputManager.instance.device_joined.connect(connect_to_device)
-        connect_to_all_inputs()
-
 func deselect():
     super.deselect()
 
     instance = null
-
-    if InputManager.instance != null:
-        InputManager.instance.allow_joining = false
-        if InputManager.instance.device_joined.get_connections().size() > 0:
-            InputManager.instance.device_joined.disconnect(connect_to_device)
 
     # Reset all character selects
     for character_select in character_selects:
@@ -58,25 +48,10 @@ func deselect():
 
     character_selects.clear()
 
-func connect_to_all_inputs():
-    if InputManager.instance != null:
-        for input in InputManager.instance.get_inputs():
-            connect_to_input(input as ThingInput)
-    else:
-        print("InputManager is null")
-
-func connect_to_input(input: ThingInput):
-    if input != null:
-        if !input.inventory.has(self):
-            input.inventory.append(self)
-            # print("Inputs: " + str(input.inventory))
-
-func connect_to_device(device: int):
-    if InputManager.instance != null:
-        var input = InputManager.instance.get_input(device)
-        connect_to_input(input)
-
 func primary(pressed):
+    # if first_press:
+    #     first_button_press()
+    #     return
     if input_ready and pressed:
         for input in InputManager.instance.get_inputs():
             if input.primary_action:
@@ -92,6 +67,9 @@ func primary(pressed):
                 print("Inputs: " + str(input.inventory))
 
 func secondary(pressed):
+    # if first_press:
+    #     first_button_press()
+    #     return
     if input_ready and pressed:
         if character_selects.size() == 0:
             select_previous_menu()

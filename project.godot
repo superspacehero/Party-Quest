@@ -32,11 +32,13 @@ boot_splash/default_cell_size=0.25
 [autoload]
 
 MultiplayerInput="*res://addons/multiplayer_input/multiplayer_input.gd"
+GeneralFunctions="*res://Main/Scripts/GeneralFunctions.gd"
 
 [display]
 
-window/size/viewport_width=800
-window/size/viewport_height=600
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 window/handheld/orientation=6
@@ -48,6 +50,10 @@ project/assembly_name="Party Quest"
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/custom_theme_overrides/plugin.cfg", "res://addons/icon_explorer/plugin.cfg", "res://addons/licenses/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multiplayer_input/plugin.cfg", "res://addons/rich_text_label_ex/plugin.cfg", "res://addons/splash_screen_wizard/plugin.cfg", "res://addons/texture_button_colored/plugin.cfg", "res://addons/timer/plugin.cfg")
+
+[filesystem]
+
+import/blender/enabled=false
 
 [input]
 

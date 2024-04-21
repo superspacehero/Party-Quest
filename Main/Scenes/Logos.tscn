@@ -37,6 +37,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 32.0
+offset_top = 32.0
+offset_right = -32.0
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_3hx1x")
@@ -55,26 +59,28 @@ transition_in = SubResource("Resource_wqg3l")
 transition_out = SubResource("Resource_mcqtj")
 duration = 2.0
 
-[node name="Super Space Studio" type="VBoxContainer" parent="SplashScreen/Super Space Studio"]
+[node name="Logo" type="TextureRect" parent="SplashScreen/Super Space Studio"]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.9
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
-
-[node name="TextureRect" type="TextureRect" parent="SplashScreen/Super Space Studio/Super Space Studio"]
-layout_mode = 2
 texture = ExtResource("3_u7pm8")
-expand_mode = 5
-stretch_mode = 4
+expand_mode = 2
+stretch_mode = 5
 
-[node name="Label" type="Label" parent="SplashScreen/Super Space Studio/Super Space Studio"]
-layout_mode = 2
+[node name="Label" type="RichTextLabel" parent="SplashScreen/Super Space Studio"]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -144.0
+grow_horizontal = 2
 theme = ExtResource("7_xqcqx")
-text = "Super Space Studio"
-horizontal_alignment = 1
+bbcode_enabled = true
+text = "[center][wave amp=50]Super Space Studio[/wave]"
 
 [connection signal="finished" from="SplashScreen" to="." method="load_scene"]

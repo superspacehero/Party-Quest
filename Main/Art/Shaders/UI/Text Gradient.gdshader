@@ -17,7 +17,7 @@ void fragment()
 	float alpha = COLOR.a;
 
 	COLOR.a = 1.0;
-	
+
 	vec2 uv = UV;
 
 	uv *= alpha;
@@ -38,7 +38,7 @@ void fragment()
 		}
 	}
 	else
-	{ 
+	{
 		COLOR = texture(TEXTURE, UV);
 	}
 }

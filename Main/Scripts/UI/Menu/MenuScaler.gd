@@ -12,7 +12,7 @@ func selected_effect():
 	center_pivot()
 
 	super.selected_effect()
-	tween.tween_interval(effect_delay)
+	delay_effect()
 	tween.tween_property(self, "menu_scale", 1.0, effect_time).set_trans(effect_transition_type)
 
 func deselected_effect():
@@ -20,7 +20,7 @@ func deselected_effect():
 	center_pivot()
 
 	super.deselected_effect()
-	tween.tween_interval(effect_delay)
+	delay_effect()
 	tween.tween_property(self, "menu_scale", 0.0, effect_time).set_trans(effect_transition_type)
 
 func center_pivot():

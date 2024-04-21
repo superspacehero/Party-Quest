@@ -1,12 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=19 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
-[ext_resource type="Material" uid="uid://csypr4klbsfch" path="res://Main/Art/Materials/UI/Text Gradient.tres" id="2_1rxph"]
-[ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="2_ntlie"]
-[ext_resource type="Script" path="res://addons/rich_text_label_ex/rich_text_label_ex.gd" id="3_4d0ol"]
+[ext_resource type="PackedScene" uid="uid://c13x05ptey0hp" path="res://Main/Art/Models/Logo.fbx" id="1_wmlvi"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnchorMover.gd" id="3_11d5n"]
 [ext_resource type="PackedScene" uid="uid://cb1ytvjr8xgem" path="res://Main/Prefabs/UI/Menu.res" id="4_of8fh"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnimator.gd" id="5_q4eui"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuTextDisplayer.gd" id="5_rg0xy"]
-[ext_resource type="Theme" uid="uid://c43iigu501h25" path="res://Main/Art/Themes/Title.theme" id="5_v1h4i"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
 [ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="7_7y88s"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="7_f1kcu"]
@@ -25,60 +24,68 @@ shader_parameter/blur_amount = 2.5
 
 [node name="Menus" type="Node3D"]
 
-[node name="Title" parent="." instance=ExtResource("2_ntlie")]
-mouse_filter = 2
-theme = ExtResource("5_v1h4i")
-
-[node name="Background" parent="Title" index="0"]
-mouse_filter = 2
-
-[node name="Safe Area" parent="Title" index="1"]
-anchors_preset = -1
-mouse_filter = 2
-
-[node name="Party" type="RichTextLabel" parent="Title/Safe Area" index="0"]
-material = ExtResource("2_1rxph")
-use_parent_material = true
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -32.0
-offset_right = -53.0
-offset_bottom = -36.0
-grow_horizontal = 2
-theme_override_font_sizes/normal_font_size = 192
-bbcode_enabled = true
-text = "[center][wave amp=50]Par[img]res://Main/Art/Sprites/Sword.png[/img]y[/wave]"
-scroll_active = false
-script = ExtResource("3_4d0ol")
-bbcode_enabled_deferred = true
-
-[node name="Quest" type="RichTextLabel" parent="Title/Safe Area" index="1"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = 53.0
-offset_top = 128.0
-offset_bottom = 72.0
-grow_horizontal = 2
-bbcode_enabled = true
-text = "[center][wave amp=50]Qu[/wave]e[wave amp=50]st[/wave]"
-scroll_active = false
-
 [node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu") instance=ExtResource("4_of8fh")]
 next_menu = NodePath("../Main Menu")
+disable_on_deselect = false
+delay_on_following_selects = false
 
-[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
-material = ExtResource("2_1rxph")
+[node name="Background" parent="Title Menu" index="0" node_paths=PackedStringArray("animator", "menu")]
+script = ExtResource("5_q4eui")
+animator = NodePath("SubViewportContainer/SubViewport/Root Scene/AnimationPlayer")
+selected_animation = "KeyAction"
+menu = NodePath("..")
+effect_delay = 1.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Title Menu/Background" index="0" node_paths=PackedStringArray("menu")]
 layout_mode = 1
 anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+script = ExtResource("3_11d5n")
+selected_anchors = Vector4(0, 0, 1, 0.9)
+deselected_anchors = Vector4(0, 0, 1, 0.5)
+menu = NodePath("../..")
+
+[node name="SubViewport" type="SubViewport" parent="Title Menu/Background/SubViewportContainer"]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="Root Scene" parent="Title Menu/Background/SubViewportContainer/SubViewport" instance=ExtResource("1_wmlvi")]
+
+[node name="Camera" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="0"]
+cull_mask = 2
+near = 0.1
+far = 5.0
+
+[node name="Text Light 1" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="1"]
+light_cull_mask = 4294967294
+sky_mode = 1
+
+[node name="Text Light 2" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="2"]
+transform = Transform3D(65.3853, -73.1665, 19.2724, 27.338, 46.5965, 84.1511, -70.5507, -49.7538, 50.4695, 0, 0, 0)
+light_cull_mask = 4294967294
+sky_mode = 1
+
+[node name="Text" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="3"]
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+layers = 2
+blend_shapes/Shrink = 1.0
+"blend_shapes/Spawn Sword" = 1.0
+
+[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
+layout_mode = 1
+anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -72.0
+offset_top = -129.0
 grow_horizontal = 2
+grow_vertical = 0
 mouse_filter = 2
 bbcode_enabled = true
 text = "[center][wave amp=50]Press any button[/wave]"
@@ -87,7 +94,7 @@ scroll_active = false
 visible_characters_behavior = 3
 script = ExtResource("5_rg0xy")
 menu = NodePath("../..")
-effect_delay = 1.0
+effect_delay = 2.0
 effect_time = 0.4
 effect_transition_type = 0
 
@@ -95,6 +102,9 @@ effect_transition_type = 0
 script = ExtResource("6_sd88s")
 
 [node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
+
+[node name="Camera3D" parent="Game Manager/Gameplay Camera" index="0"]
+cull_mask = 1
 
 [node name="Canvas" parent="Game Manager" index="4"]
 visible = false
@@ -165,10 +175,12 @@ alignment = 1
 
 [node name="Play Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder" instance=ExtResource("13_3hlfr")]
 layout_mode = 2
+size_flags_stretch_ratio = 1.5
 text = "Play"
 
 [node name="Bottom Buttons" type="HBoxContainer" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder"]
 layout_mode = 2
+size_flags_vertical = 3
 mouse_filter = 2
 alignment = 1
 
@@ -198,9 +210,6 @@ mouse_filter = 2
 color = Color(0.501961, 0.501961, 0.501961, 1)
 script = ExtResource("11_0ns2f")
 menu = NodePath("../..")
-effect_delay = null
-effect_time = null
-effect_transition_type = null
 
 [node name="Safe Area" parent="Character Menu" index="1" node_paths=PackedStringArray("menu")]
 anchors_preset = -1
@@ -226,7 +235,7 @@ theme = ExtResource("8_pifcb")
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
-offset_bottom = 80.0
+offset_bottom = 144.0
 grow_horizontal = 2
 mouse_filter = 2
 theme = ExtResource("8_pifcb")
@@ -250,7 +259,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = 88.0
+offset_top = 152.0
 offset_right = -16.0
 offset_bottom = -16.0
 grow_horizontal = 2
@@ -277,9 +286,11 @@ theme_override_styles/panel = ExtResource("10_epfqg")
 [connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Play Button" to="Main Menu" method="select_next_menu"]
 [connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons/Quit Button" to="Game Manager" method="quit_game"]
 
-[editable path="Title"]
 [editable path="Title Menu"]
+[editable path="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene"]
 [editable path="Game Manager"]
+[editable path="Game Manager/Gameplay Camera"]
+[editable path="Game Manager/Gameplay Camera/Camera3D/Canvas"]
 [editable path="Game Manager/Canvas"]
 [editable path="Main Menu"]
 [editable path="Character Menu"]

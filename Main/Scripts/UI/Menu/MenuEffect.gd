@@ -24,3 +24,7 @@ func selected_effect():
 
 func deselected_effect():
 	prepare_tween()
+
+func delay_effect():
+	if menu.will_delay():
+		tween.tween_interval(effect_delay)

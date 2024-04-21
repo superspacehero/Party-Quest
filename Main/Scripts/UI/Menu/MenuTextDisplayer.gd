@@ -7,7 +7,7 @@ func selected_effect():
 	
 	self.visible_characters_behavior = TextServer.VisibleCharactersBehavior.VC_GLYPHS_LTR
 
-	tween.tween_interval(effect_delay)
+	delay_effect()
 	tween.tween_property(self, "visible_ratio", 1, effect_time).set_trans(effect_transition_type)
 
 func deselected_effect():
