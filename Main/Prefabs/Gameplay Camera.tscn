@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://5ofkl7upo5to"]
+[gd_scene load_steps=8 format=3 uid="uid://5ofkl7upo5to"]
 
 [ext_resource type="Script" path="res://Main/Scripts/GameplayCamera.gd" id="1_v48aj"]
-[ext_resource type="PackedScene" uid="uid://b2jfa68xm3ieg" path="res://Main/Prefabs/UI/Canvas - Circle Wipe.res" id="3_nx70d"]
 [ext_resource type="Shader" path="res://Main/Art/Shaders/TextureSkybox.gdshader" id="4_q4gqg"]
 [ext_resource type="Texture2D" uid="uid://dh6k0tdqrk3lh" path="res://Main/Art/Textures/Backdrops/Backdrop_1.png" id="5_a6ih8"]
 [ext_resource type="Texture2D" uid="uid://bojuqoetd6val" path="res://Main/Art/Textures/Backdrops/Backdrop_1a.png" id="6_6lco7"]
@@ -40,20 +39,11 @@ camera_rotation = Vector3(-11.25, 0, 0)
 camera_offset_node = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]
+cull_mask = 1
 current = true
 fov = 60.0
-
-[node name="Canvas" parent="Camera3D" instance=ExtResource("3_nx70d")]
-
-[node name="Safe Area" parent="Camera3D/Canvas" index="1"]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
 
 [node name="Skybox" type="MeshInstance3D" parent="Camera3D"]
 sorting_offset = 100.0
 cast_shadow = 0
 mesh = SubResource("BoxMesh_v2i48")
-
-[editable path="Camera3D/Canvas"]

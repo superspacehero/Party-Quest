@@ -22,7 +22,7 @@ var can_add_extra_players: bool = true
 @export var to_character_select_arrow: Node
 
 var character: Node
-
+var input: ThingInput
 var extra_select: CharacterSelect
 
 static var characters: Array
@@ -100,7 +100,7 @@ func update_character_select():
     if characters.size() > 0:
         character_index = character_index % characters.size()
 
-func move(direction: Vector2):
+func move(direction):
     if direction.normalized().length() < input_deadzone:
         direction = Vector2.ZERO
 
@@ -156,7 +156,7 @@ func set_character_creator_visibility(visiblity: bool):
         update_arrow_states()
 
 
-func primary(pressed: bool):
+func primary(pressed):
     if character_creator != null and character_creator.is_visible():
         character_creator.primary(pressed)
     elif extra_select != null:
@@ -188,7 +188,7 @@ func primary_press():
     primary(true)
     primary(false)
 
-func secondary(pressed: bool):
+func secondary(pressed):
     if character_creator != null and character_creator.is_visible():
         character_creator.secondary(pressed)
     elif extra_select != null:
@@ -220,14 +220,14 @@ func secondary_press():
     secondary(true)
     secondary(false)
 
-func tertiary(pressed: bool):
-    if pressed and can_add_extra_players:
+func tertiary(pressed):
+    if initialized and pressed and can_add_extra_players:
         if CharacterSelectMenu.instance != null:
             var looped_character_select = self
             while looped_character_select.extra_select != null:
                 looped_character_select = looped_character_select.extra_select
 
-            var character_select = self.duplicate()
+            var character_select = CharacterSelectMenu.instance.add_character_select(input)
             if character_select != null:
                 looped_character_select.extra_select = character_select
 
@@ -235,7 +235,7 @@ func tertiary_press():
     tertiary(true)
     tertiary(false)
 
-func pause(pressed: bool):
+func pause(pressed):
     if character_creator != null and character_creator.is_visible():
         character_creator.pause(pressed)
     else:

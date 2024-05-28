@@ -38,7 +38,7 @@ func add_menu_effect(effect: MenuEffect):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if visible:
+	if is_visible_in_tree():
 		select()
 	else:
 		deselect()

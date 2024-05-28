@@ -24,8 +24,8 @@ static var instance = null
 static var game_mode = GameMode.OTHER
 
 # References to nodes for a touch controls "menu" and an empty "menu" to display when we don't want to show touch controls
-@export var touch_controls_menu : Menu
-@export var empty_menu : Menu
+@export var touch_controls_menu: Menu
+@export var empty_menu: Menu
 
 # Function to display the touch controls if we are on a mobile device
 static func enable_touch_controls():
@@ -151,7 +151,7 @@ class PlayerAndCharacter:
 	# The team that the player is on
 	var team: int
 
-	func _init(player_input, player_character: CharacterInfo, player_team: int = 0):
+	func _init(player_input, player_character: CharacterInfo, player_team: int=0):
 		# If the player input is null, then the player is a CPU
 		player = player_input if (player_input != null) else null
 		self.character = player_character
@@ -191,7 +191,7 @@ func spawn_players():
 			spawn_player(player, Vector3.ZERO)
 
 # Spawn a player
-func spawn_player(input: ThingInput, position = null):
+func spawn_player(input: ThingInput, position=null):
 	if character_scene == null:
 		return
 
@@ -223,7 +223,6 @@ func attach_cpu_player(character: CharacterThing):
 
 	cpu_player_input.inventory.append(character)
 	character.input = cpu_player_input
-
 
 # -------------------------
 # Characters
@@ -274,7 +273,7 @@ static func set_players_controllable(controllable: bool):
 	for input in instance.inputs:
 		input.controllable = controllable
 
-static func set_next_character(show_next_character_ui: bool = true):
+static func set_next_character(show_next_character_ui: bool=true):
 	if instance == null or not instance.characters or instance.characters.count == 0:
 		return
 
@@ -325,7 +324,6 @@ func _ready():
 		instance.disable_touch_controls()
 
 	GameManager.start_game(game_mode == GameMode.PLAY)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

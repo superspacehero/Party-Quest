@@ -7,6 +7,9 @@ static var instance: InputManager = null
 # Whether new devices can join the game
 @export var allow_joining: bool = true
 
+# The maximum number of devices that can join the game
+@export var max_devices: int = 8
+
 # Resource to instantiate when a new device is detected
 @export var thing_input_prefab: PackedScene = null
 

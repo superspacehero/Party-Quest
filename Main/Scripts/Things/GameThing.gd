@@ -120,6 +120,15 @@ func set_sorting_offset_to_position(offset: float = 0.0):
 		thing_visual.sorting_offset = offset + relative_sorting_offset
 		# print("Setting sorting offset for ", name, " to ", thing_visual.sorting_offset)
 
+func get_health():
+	return health
+
+func set_health(value, relative = false):
+	if relative:
+		health += value
+	else:
+		health = value
+
 func die():
 	print("Dying!")
 	# Destroy self

@@ -1,11 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=20 format=3 uid="uid://cm08goxxxjjna"]
 
-[ext_resource type="PackedScene" uid="uid://qkx43lw8ne6x" path="res://Main/Prefabs/Game Manager.res" id="1_a04pb"]
+[ext_resource type="PackedScene" uid="uid://bys7dfc5svqto" path="res://Main/Prefabs/Game Manager.tscn" id="1_a04pb"]
 [ext_resource type="PackedScene" uid="uid://c13x05ptey0hp" path="res://Main/Art/Models/Logo.fbx" id="1_wmlvi"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnchorMover.gd" id="3_11d5n"]
-[ext_resource type="PackedScene" uid="uid://cb1ytvjr8xgem" path="res://Main/Prefabs/UI/Menu.res" id="4_of8fh"]
+[ext_resource type="PackedScene" uid="uid://bcuf0o2bd2xjk" path="res://Main/Prefabs/UI/Menu.tscn" id="4_of8fh"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnimator.gd" id="5_q4eui"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuTextDisplayer.gd" id="5_rg0xy"]
+[ext_resource type="PackedScene" uid="uid://rl81m06ldq56" path="res://Main/Prefabs/UI/Circle Wipe.tscn" id="5_xnvqi"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
 [ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="7_7y88s"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="7_f1kcu"]
@@ -53,6 +54,8 @@ menu = NodePath("../..")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
+size_2d_override = Vector2i(350, 0)
+size_2d_override_stretch = true
 render_target_update_mode = 4
 
 [node name="Root Scene" parent="Title Menu/Background/SubViewportContainer/SubViewport" instance=ExtResource("1_wmlvi")]
@@ -101,10 +104,11 @@ effect_transition_type = 0
 [node name="PressAnyButton" type="Node" parent="Title Menu"]
 script = ExtResource("6_sd88s")
 
-[node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
+[node name="Circle Wipe" parent="Title Menu" node_paths=PackedStringArray("menu") instance=ExtResource("5_xnvqi")]
+layout_mode = 1
+menu = NodePath("..")
 
-[node name="Camera3D" parent="Game Manager/Gameplay Camera" index="0"]
-cull_mask = 1
+[node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
 
 [node name="Canvas" parent="Game Manager" index="4"]
 visible = false
@@ -112,7 +116,7 @@ visible = false
 [node name="Safe Area" parent="Game Manager/Canvas" index="1"]
 visible = false
 
-[node name="Input" parent="Game Manager/Canvas" index="3"]
+[node name="Input" parent="Game Manager/Canvas" index="2"]
 visible = false
 mouse_filter = 2
 
@@ -137,7 +141,7 @@ mouse_filter = 2
 [node name="Secondary Button" parent="Game Manager/Canvas/Input/Buttons/Button Group" index="1"]
 mouse_filter = 2
 
-[node name="Empty" parent="Game Manager/Canvas" index="4"]
+[node name="Empty" parent="Game Manager/Canvas" index="3"]
 visible = false
 
 [node name="Main Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu", "starting_button") instance=ExtResource("4_of8fh")]
@@ -289,8 +293,6 @@ theme_override_styles/panel = ExtResource("10_epfqg")
 [editable path="Title Menu"]
 [editable path="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene"]
 [editable path="Game Manager"]
-[editable path="Game Manager/Gameplay Camera"]
-[editable path="Game Manager/Gameplay Camera/Camera3D/Canvas"]
 [editable path="Game Manager/Canvas"]
 [editable path="Main Menu"]
 [editable path="Character Menu"]

@@ -29,33 +29,10 @@ func _on_dice_roll_finished(dice_value: int) -> void:
 	dice_roll_finished = true
 
 func run_action() -> void:
-	var number_of_dice_rolls: int = user.variables.get("movement", movement_range)
-	var sum_of_dice_rolls: int = 0
+	# Set the movement range based on the sum of dice rolls
+	movement_range = user.variables.get("movement", movement_range)
 
 	GameManager.enable_touch_controls()
-
-	# Roll the dice
-	for i in range(number_of_dice_rolls):
-		dice_roll_finished = false
-		var dice_instance: Dice = GameManager.instance.dice_pool.get_object_from_pool(user.thing_top.position)
-		user.attach_thing(dice_instance)
-		dice_instance.on_value_changed.connect(_on_dice_roll_finished, CONNECT_ONE_SHOT)
-
-		# Wait until the dice roll is finished
-		await dice_roll_finished
-
-		# Add the dice value to the sum
-		sum_of_dice_rolls += current_dice_value
-
-		# Update the counter
-		if Counter.instance:
-			Counter.instance.count = sum_of_dice_rolls
-
-		user.detach_thing(dice_instance)
-		GameManager.instance.dice_pool.return_object_to_pool(dice_instance)
-
-	# Set the movement range based on the sum of dice rolls
-	movement_range = sum_of_dice_rolls
 
 	# Enable movement control
 	if user is CharacterThing:

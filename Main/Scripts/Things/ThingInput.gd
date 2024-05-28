@@ -11,17 +11,16 @@ var action_coroutine = null
 var targets = [] # This should be an array of GameThing nodes
 var current_target_index = 0
 var can_control = false
-enum AIState { CHOOSING_ACTION, IDLING, MOVING, ATTACKING, HEALING, FLEEING, ENDING_TURN }
+enum AIState {CHOOSING_ACTION, IDLING, MOVING, ATTACKING, HEALING, FLEEING, ENDING_TURN}
 var action_delay = 1.0
 
 var move_action: Vector2 = Vector2.ZERO:
 	set(value):
 		if value != move_action:
+			move_action = value
 			for game_thing in inventory:
 				if game_thing.has_method("move"):
 					game_thing.move(value)
-					# print(game_thing.name + " movement: " + str(value))
-			move_action = value
 	get:
 		return move_action
 

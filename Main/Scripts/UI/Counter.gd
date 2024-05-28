@@ -13,7 +13,6 @@ var count: int = 0:
         await flip_number()
 
 func flip_number():
-    var time = 0.0
     var _rotate_time_half = rotate_time * 0.5
 
     var first_scale = Vector2.ONE
@@ -22,20 +21,12 @@ func flip_number():
     # var mid_rotation = rotation_variation * ((randf() * 2) - 1.0)
     # var last_rotation = rotation_variation * ((randf() * 2) - 1.0)
 
-    while time < 1.0:
-        # rotation_degrees = lerp(original_rotation, mid_rotation, time)
-        scale = first_scale.lerp(last_scale, time)
-        time += get_process_delta_time() / _rotate_time_half
-        await get_tree().process_frame
-
-    time = 0.0
+    var tween = Tween.new()
+    tween.interpolate_property(self, "scale", first_scale, last_scale, rotate_time, Tween.TRANS_QUAD)
+    
     draw_text()
 
-    while time < 1.0:
-        # rotation_degrees = lerp(last_rotation, original_rotation, time)
-        scale = last_scale.lerp(first_scale, time)
-        time += get_process_delta_time() / _rotate_time_half
-        await get_tree().process_frame
+    tween.interpolate_property(self, "scale", last_scale, first_scale, rotate_time, Tween.TRANS_QUAD)
 
 func draw_text():
     if count > 0:

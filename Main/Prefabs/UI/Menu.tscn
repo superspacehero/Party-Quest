@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcuf0o2bd2xjk"]
+
+[ext_resource type="PackedScene" uid="uid://bw5jymksxgot6" path="res://Main/Prefabs/UI/Canvas.res" id="1_e1m5i"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/Menu.gd" id="2_6atnw"]
+
+[node name="Menu" instance=ExtResource("1_e1m5i")]
+mouse_filter = 2
+script = ExtResource("2_6atnw")
+
+[node name="Background" parent="." index="0"]
+mouse_filter = 2
+
+[node name="Safe Area" parent="." index="1"]
+mouse_filter = 2
