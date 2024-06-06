@@ -24,6 +24,16 @@ var move_action: Vector2 = Vector2.ZERO:
 	get:
 		return move_action
 
+var right_action: Vector2 = Vector2.ZERO:
+	set(value):
+		if value != right_action:
+			right_action = value
+			for game_thing in inventory:
+				if game_thing.has_method("right"):
+					game_thing.right(value)
+	get:
+		return right_action
+
 var primary_action: bool = false:
 	set(value):
 		if value != primary_action:
@@ -83,6 +93,7 @@ var pause_action: bool = false:
 func _input(_event):
 	if input and is_player:
 		move_action = input.get_vector("move_left", "move_right", "move_up", "move_down")
+		right_action = input.get_vector("right_left", "right_right", "right_up", "right_down")
 		
 		left_trigger_action = input.is_action_pressed("left_trigger")
 		right_trigger_action = input.is_action_pressed("right_trigger")

@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://c37rhaoylxx2s"]
+
+[ext_resource type="Script" path="res://Main/Scripts/Managers/InputManager.gd" id="1_uvq3l"]
+[ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="2_awus8"]
+
+[node name="Input Manager" type="Node"]
+script = ExtResource("1_uvq3l")
+thing_input_prefab = ExtResource("2_awus8")

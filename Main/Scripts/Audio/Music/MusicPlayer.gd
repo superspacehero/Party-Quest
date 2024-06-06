@@ -1,24 +1,38 @@
 extends Node
 class_name MusicPlayer
 
+class Sample:
+    var clip: AudioStream
+    var start_note: String
+
+    func _init(clip: AudioStream, start_note: String):
+        self.clip = clip
+        self.start_note = start_note
+
 @export_multiline var song: String = """
-X:1
-T:Wicker Waltz
-R:waltz
-C:Charley Beller
-Q:1/4=100
+X:389
+T: Jupiter (From The Planets, Opus 32)
+C: Gustav Holst
+Q:1/2=40
 M:3/4
-L:1/4
-K:E
+L:1/8
+K:Eb
+V:LoopStart=0
 V:1
-%%Music/Instruments/Nylon Guitar
-G,>C E>B A>G|B2 A2 G2|G,>C E>B A>G|B2 c2 d2|F2 D2 D2|A2 F2 F2|
-A2- AB AG|F>G F>E D>B,|G,>C E>B A>G|B2 A2 G2|d2- de dc|B2 A2 G2|
-F2 D2 D2|A2 F2 E2|F2 G2 ^G2|A2 G2 F2||
-E3 F G2|D3 F G2|A2 G2 F2|G2 A2 B2|E3 F G2|D3 F G2|^C3 G eB|
-g2 f2 e2|f2 d2 ^c2|c2 G2 F2|E3 G g2|D3 G g2|A2 B2 F2|G2 D2 G2|
-E3 G g2|D3 G g2|^C3 G eA|g2 f2 e2|f2 d2 ^c2|c2 B2 A2||
+%%Music/Instruments/Tubular Bells
+G,B,| C2 CE D>B, | EF E2 D2 | CD C2B,2 | G,4 G,B,|\
+C2 CE D>B, | EF G2G2 | GF E2 F2 | E4 BG |
+  F2 F2 EG | F2B,2 BG | F2 F2 GB | c4 cd |\
+e2 d2 c2 | B2 e2 G2 | FEF2G2 | B4 GB |
+c2 ce d>B | ef e2d2 | cd c2 B2 | G4 GB |\
+c2 ce d>B | ef g2 g2 | gf e2 f2 | e4 BG |
+F2F2 EG | F2B,2 BG | F2 F2 GB | c4 cd |\
+e2d2c2 | B2 e2 G2 | FEF2G2 | B4 GB |
+c2 ce d>B | efe2d2 | cdc2B2 | G4 GB |\
+c2 ce d>B | ef g2 ">"g2 | ">"g">"f">"e2">"f2 | e6 |]
 """
+
+@export var play_on_ready: bool = true
 
 @export var debug: bool = false:
     set(value):
@@ -31,15 +45,28 @@ var parsed_notes = {}
 var beats_per_minute: float = 120.0 # Default BPM
 var loop_start_beat: float = 0.0 # Default loop start beat
 var loop: bool = true # Enable looping by default
-var is_playing: bool = true # Flag to control playback
+var is_playing: bool = false # Flag to control playback
+var key_signature: String = "C"
 
 func _ready():
-    parse_song_header(song)
-    parsed_notes = ABCParser.parse_abc(song)
+    if play_on_ready:
+        play()
+
+func play(song_string: String = "", loop: bool = true):
+    if song_string == "":
+        song_string = song
+    if debug:
+        print("Playing song:\n", song_string)  # Debugging print
+    parse_song_header(song_string)
+    parsed_notes = ABCParser.parse_abc(song_string)
     cache_samples()
+    apply_key_signature()
     var max_duration = calculate_max_duration(parsed_notes)
     var smallest_duration = get_smallest_duration(parsed_notes)
-    play_notes(parsed_notes, max_duration, smallest_duration)
+    play_notes(parsed_notes, max_duration, smallest_duration, loop)
+
+func stop():
+    is_playing = false
 
 func parse_song_header(song_string: String):
     var lines = song_string.strip_edges().split("\n")
@@ -51,6 +78,8 @@ func parse_song_header(song_string: String):
                 beats_per_minute = tempo_parts[1].to_float()
             else:
                 beats_per_minute = line.substr(2).to_float()
+        elif line.begins_with("K:"):
+            key_signature = line.substr(2).strip_edges()
         elif line.begins_with("V:LoopStart="):
             loop_start_beat = line.substr(12).to_float()
         elif line.begins_with("V:"):
@@ -79,12 +108,14 @@ func get_smallest_duration(notes_by_track):
     if smallest_duration == float('inf'):
         smallest_duration = 1.0 # Fallback to 1 if no valid duration found
         print("No valid duration found in notes")  # Debugging print
-    smallest_duration *= 0.25 # Convert to quarter notes
+    # smallest_duration *= 0.25 # Convert to quarter notes
     return smallest_duration
 
 func cache_samples():
+    instruments.clear()
+
     for track in parsed_notes.keys():
-        var samples = []
+        var samples: Array[Sample] = []
         var path = instruments_per_track.get(track, "Music/Instruments/Piano") # Default to "Piano" if not specified
         var directory_path = "res://Main/Art/Audio/" + path
         var dir = DirAccess.open(directory_path)
@@ -92,11 +123,12 @@ func cache_samples():
             dir.list_dir_begin()
             var file_name = dir.get_next()
             while file_name != "":
-                if dir.current_is_dir() == false and not file_name.ends_with(".import"):
+                if dir.current_is_dir() == false: # and not file_name.ends_with(".import"):
+                    file_name = file_name.replace(".import", "")
                     var note = get_note_from_file_name(file_name)
                     path = directory_path + "/" + file_name
                     var clip = load(path)
-                    samples.append({"clip": clip, "start_note": note})
+                    samples.append(Sample.new(clip, note))
                 file_name = dir.get_next()
             dir.list_dir_end()
             samples.sort_custom(_compare_samples)
@@ -106,11 +138,38 @@ func cache_samples():
         else:
             print("Directory not found: " + directory_path)
 
+func get_sample_for_note(samples: Array[Sample], note: String, audio_stream_player: AudioStreamPlayer) -> AudioStream:
+    if note == "z":
+        return null  # Return null for rests
+
+    var note_midi = note_to_midi(note)
+    if note_midi == -1:
+        print("Invalid note: ", note)  # Debugging print
+        return null  # Invalid note
+
+    if samples.size() == 0:
+        return null  # No samples found
+
+    var closest_sample = samples[0]
+    var closest_diff = abs(note_midi - note_to_midi(samples[0].start_note))
+
+    for sample in samples:
+        var sample_midi = note_to_midi(sample.start_note)
+        var diff = abs(note_midi - sample_midi)
+        if diff < closest_diff:
+            closest_diff = diff
+            closest_sample = sample
+
+    var closest_sample_midi = note_to_midi(closest_sample.start_note)
+    audio_stream_player.pitch_scale = pow(2, (note_midi - closest_sample_midi) / 12.0)
+
+    return closest_sample.clip
+
 func get_note_from_file_name(file_name: String) -> String:
     return file_name.split(".")[0]
 
-func _compare_samples(a: Dictionary, b: Dictionary) -> bool:
-    return is_note_lower_than(a["start_note"], b["start_note"])
+func _compare_samples(a: Sample, b: Sample) -> bool:
+    return is_note_lower_than(a.start_note, b.start_note)
 
 func is_note_lower_than(note1: String, note2: String) -> bool:
     var note1_midi = note_to_midi(note1)
@@ -162,31 +221,36 @@ func note_to_midi(note: String) -> int:
     note_value += accidental
     return (octave + 1) * 12 + note_value
 
-func get_sample_for_note(samples: Array, note: String, audio_stream_player: AudioStreamPlayer) -> AudioStream:
-    if note == "z":
-        return null  # Return null for rests
+func apply_key_signature():
+    var key_accidentals = get_key_signature_accidentals(key_signature)
+    for track in parsed_notes.keys():
+        for note in parsed_notes[track]:
+            if note["pitch"] in key_accidentals:
+                note["pitch"] = key_accidentals[note["pitch"]]
 
-    var note_midi = note_to_midi(note)
-    if note_midi == -1:
-        print("Invalid note: ", note)  # Debugging print
-        return null  # Invalid note
+func get_key_signature_accidentals(key: String) -> Dictionary:
+    var accidentals = {}
+    match key:
+        "C": accidentals = {}
+        "G": accidentals = {"F": "^F"}
+        "D": accidentals = {"F": "^F", "C": "^C"}
+        "A": accidentals = {"F": "^F", "C": "^C", "G": "^G"}
+        "E": accidentals = {"F": "^F", "C": "^C", "G": "^G", "D": "^D"}
+        "B": accidentals = {"F": "^F", "C": "^C", "G": "^G", "D": "^D", "A": "^A"}
+        "F#": accidentals = {"F": "^F", "C": "^C", "G": "^G", "D": "^D", "A": "^A", "E": "^E"}
+        "C#": accidentals = {"F": "^F", "C": "^C", "G": "^G", "D": "^D", "A": "^A", "E": "^E", "B": "^B"}
+        "F": accidentals = {"B": "_B"}
+        "Bb": accidentals = {"B": "_B", "E": "_E"}
+        "Eb": accidentals = {"B": "_B", "E": "_E", "A": "_A"}
+        "Ab": accidentals = {"B": "_B", "E": "_E", "A": "_A", "D": "_D"}
+        "Db": accidentals = {"B": "_B", "E": "_E", "A": "_A", "D": "_D", "G": "_G"}
+        "Gb": accidentals = {"B": "_B", "E": "_E", "A": "_A", "D": "_D", "G": "_G", "C": "_C"}
+        "Cb": accidentals = {"B": "_B", "E": "_E", "A": "_A", "D": "_D", "G": "_G", "C": "_C", "F": "_F"}
+        _: accidentals = {} # Default to no accidentals for unknown keys
+    return accidentals
 
-    var closest_sample = samples[0]
-    var closest_diff = abs(note_midi - note_to_midi(samples[0]["start_note"]))
-
-    for sample in samples:
-        var sample_midi = note_to_midi(sample["start_note"])
-        var diff = abs(note_midi - sample_midi)
-        if diff < closest_diff:
-            closest_diff = diff
-            closest_sample = sample
-
-    var closest_sample_midi = note_to_midi(closest_sample["start_note"])
-    audio_stream_player.pitch_scale = pow(2, (note_midi - closest_sample_midi) / 12.0)
-
-    return closest_sample["clip"]
-
-func play_notes(notes_by_track, max_duration, smallest_duration):
+func play_notes(notes_by_track, max_duration, smallest_duration, loop):
+    is_playing = true
     var note_events = []
     for track in notes_by_track.keys():
         var track_notes = []

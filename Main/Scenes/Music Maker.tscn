@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://cvonxaegewv2n"]
+
+[ext_resource type="Script" path="res://Main/Scripts/Audio/Music/ABCParser.gd" id="1_dew42"]
+[ext_resource type="Script" path="res://Main/Scripts/Audio/Music/MusicPlayer.gd" id="2_0fkn0"]
+[ext_resource type="Script" path="res://Main/Scripts/Audio/Music/InstrumentSampleRenamer.gd" id="3_1yfry"]
+[ext_resource type="PackedScene" uid="uid://c37rhaoylxx2s" path="res://Main/Prefabs/Input Manager.tscn" id="3_uj3g1"]
+[ext_resource type="PackedScene" uid="uid://1wujda7itbe3" path="res://Main/Prefabs/UI/Canvas.tscn" id="4_v1114"]
+[ext_resource type="PackedScene" uid="uid://rl81m06ldq56" path="res://Main/Prefabs/UI/Circle Wipe.tscn" id="5_ec8us"]
+[ext_resource type="Script" path="res://Main/Scripts/Audio/Music/MusicMaker.gd" id="5_wnmgg"]
+
+[node name="Level" type="Node"]
+
+[node name="ABCParser" type="Node" parent="."]
+script = ExtResource("1_dew42")
+
+[node name="MusicPlayer" type="Node" parent="."]
+script = ExtResource("2_0fkn0")
+play_on_ready = false
+
+[node name="InstrumentSampleRenamer" type="Node" parent="MusicPlayer"]
+script = ExtResource("3_1yfry")
+
+[node name="Input Manager" parent="." instance=ExtResource("3_uj3g1")]
+
+[node name="Canvas" parent="." node_paths=PackedStringArray("music_player") instance=ExtResource("4_v1114")]
+script = ExtResource("5_wnmgg")
+music_player = NodePath("../MusicPlayer")
+
+[node name="Circle Wipe" parent="Canvas" node_paths=PackedStringArray("menu") instance=ExtResource("5_ec8us")]
+layout_mode = 1
+menu = NodePath("..")
+
+[editable path="Canvas"]

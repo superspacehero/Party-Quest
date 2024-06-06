@@ -1,12 +1,11 @@
-[gd_scene load_steps=57 format=3 uid="uid://bys7dfc5svqto"]
+[gd_scene load_steps=56 format=3 uid="uid://bys7dfc5svqto"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Managers/GameManager.gd" id="1_t6bhp"]
 [ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="2_j6y75"]
 [ext_resource type="PackedScene" uid="uid://t067wjpw7ar" path="res://Main/Prefabs/Things/CPUInput.tscn" id="3_13g02"]
 [ext_resource type="Script" path="res://Main/Scripts/Audio/Music/ABCParser.gd" id="4_bfb34"]
-[ext_resource type="Script" path="res://Main/Scripts/Managers/InputManager.gd" id="5_0kqfu"]
 [ext_resource type="Script" path="res://Main/Scripts/Audio/Music/MusicPlayer.gd" id="5_m8ws3"]
-[ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="6_i3y5g"]
+[ext_resource type="PackedScene" uid="uid://c37rhaoylxx2s" path="res://Main/Prefabs/Input Manager.tscn" id="6_smorc"]
 [ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="7_7y21q"]
 [ext_resource type="PackedScene" uid="uid://5ofkl7upo5to" path="res://Main/Prefabs/Gameplay Camera.tscn" id="8_upk85"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Counter.gd" id="9_kyidq"]
@@ -223,9 +222,7 @@ script = ExtResource("4_bfb34")
 [node name="MusicPlayer" type="Node" parent="Music"]
 script = ExtResource("5_m8ws3")
 
-[node name="Input Manager" type="Node" parent="."]
-script = ExtResource("5_0kqfu")
-thing_input_prefab = ExtResource("6_i3y5g")
+[node name="Input Manager" parent="." instance=ExtResource("6_smorc")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource("7_7y21q")
