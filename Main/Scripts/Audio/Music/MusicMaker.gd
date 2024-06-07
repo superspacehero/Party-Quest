@@ -32,6 +32,7 @@ var current_note_index: int = 0:
 		print("Current Note Index: ", current_note_index)
 
 var blocks: Array = []
+var rests: Array = []
 var current_block_index: int = 0:
 	set(value):
 		current_block_index = value
@@ -73,6 +74,7 @@ func get_last_valid_note() -> int:
 
 func generate_blocks():
 	blocks.clear()
+	rests.clear()
 	for i in range(blocks_to_generate):
 		# Select a random note progression
 		var progression = note_progressions[randi() % note_progressions.size()].duplicate(true)
@@ -81,10 +83,19 @@ func generate_blocks():
 			for j in range(progression.size()):
 				progression[j] = -progression[j]
 		blocks.append(progression)
+
+		# Generate rests (1 for rest, 0 for no rest)
+		var rest_block: Array = []
+		for j in range(block_length):
+			if j == 0:
+				rest_block.append(false)
+			else:
+				rest_block.append(randi() % 4 == 0)  # 25% chance of being a rest
+		rests.append(rest_block)
 	preview_block()
 
 func add_block():
-	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length)
+	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index])
 	for note in current_block:
 		tracks[current_track_index].append(note)
 	generate_blocks()
@@ -94,16 +105,20 @@ func cycle_block(direction: int):
 	preview_block()
 
 func preview_block():
-	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length)
+	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index])
 	print("Current Block: ", current_block)
 	var abc_output = output_abc([current_block])
 	if music_player.is_playing:
 		music_player.stop()
 	music_player.play(abc_output, false)
 
-func apply_block_range_and_length(block: Array, note_range: int, length: int) -> Array:
+func apply_block_range_and_length(block: Array, note_range: int, length: int, rest_block: Array) -> Array:
 	var result_block: Array = []
 	var last_note = get_last_valid_note()
+
+	var track_has_notes = tracks[current_track_index].size() == 0
+	length = length if track_has_notes else length + 1
+
 	for j in range(length):
 		# Calculate the interpolation factor
 		var t = float(j) / (length - 1)
@@ -115,7 +130,12 @@ func apply_block_range_and_length(block: Array, note_range: int, length: int) ->
 		# Interpolate between the progression points
 		var step = lerp(block[start_index], block[end_index], local_t)
 
-		if step == null:
+		# Skip the first note if the track is empty
+		if j == 0 and not track_has_notes:
+			continue
+
+		# Apply rest if specified
+		if rest_block[j % rest_block.size()]:
 			result_block.append(null)
 			continue
 
@@ -129,14 +149,20 @@ func apply_block_range_and_length(block: Array, note_range: int, length: int) ->
 	return result_block
 
 func change_note(direction: int):
-	var current_note = tracks[current_track_index][current_note_index]
+	var current_note = starting_note
+	if current_note_index >= 0 and tracks[current_track_index][current_note_index] != null:
+		current_note = tracks[current_track_index][current_note_index]
 	current_note += direction
 	current_note = clamp(current_note, 0, 127)  # Ensure MIDI note is within valid range
-	tracks[current_track_index][current_note_index] = current_note
+	
+	if current_note_index >= 0:
+		tracks[current_track_index][current_note_index] = current_note
+	else:
+		starting_note = current_note
 	preview_note()
 
 func preview_note():
-	var abc_output = output_abc([[tracks[current_track_index][current_note_index]]])
+	var abc_output = output_abc([[tracks[current_track_index][current_note_index]]] if tracks[current_track_index].size() > 0 else [[starting_note]])
 	if music_player.is_playing:
 		music_player.stop()
 	music_player.play(abc_output, false)
@@ -151,15 +177,15 @@ func midi_to_note_name(midi) -> String:
 
 	var octave = int(midi / 12) - 1
 	var octave_string = ""
-	if note > 0:
-		if octave < 4:
-			while octave < 4:
-				octave_string += ","
-				octave += 1
-		elif octave > 4:
-			while octave > 4:
-				octave_string += "'"
-				octave -= 1
+	if octave < 4:
+		while octave < 4:
+			octave_string += ","
+			octave += 1
+	elif octave > 4:
+		while octave > 4:
+			octave_string += "'"
+			octave -= 1
+
 	return note_string + octave_string
 
 func output_abc(input: Array = []) -> String:
@@ -174,7 +200,7 @@ func output_abc(input: Array = []) -> String:
 			BLOCK:
 				# Append the current block to the end of the current track
 				var preview_input = tracks.duplicate(true)
-				for note in apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length):
+				for note in apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index]):
 					preview_input[current_track_index].append(note)
 				input = preview_input
 			NOTE:
@@ -202,12 +228,13 @@ func move(direction: Vector2):
 			BLOCK:
 				if direction.x > 0:
 					add_block()
-				elif direction.x < 0 and tracks[current_track_index].size() > 0:
+				elif direction.x < 0 and tracks[current_track_index].size() >= 0:
 					edit_state = NOTE
 					preview_note()
 			NOTE:
 				if direction.x < 0:
-					current_note_index = (int)(current_note_index + direction.x) % tracks[current_track_index].size()
+					if tracks[current_track_index].size() > 0:
+						current_note_index = (int)(current_note_index + direction.x) % tracks[current_track_index].size()
 				elif direction.x > 0:
 					current_note_index += 1
 				if current_note_index > tracks[current_track_index].size() - 1:
@@ -259,7 +286,14 @@ func secondary(pressed: bool):
 			BLOCK:
 				generate_blocks()
 			NOTE:
-				tracks[current_track_index][current_note_index] = -1
+				if tracks[current_track_index].size() > 0:
+					if tracks[current_track_index][current_note_index] != null:
+						tracks[current_track_index][current_note_index] = null
+					else:
+						tracks[current_track_index].pop_at(current_note_index)
+						if current_note_index > tracks[current_track_index].size() - 1:
+							current_note_index = tracks[current_track_index].size() - 1
+						preview_note()
 
 func tertiary(pressed: bool):
 	if input_ready and pressed:
