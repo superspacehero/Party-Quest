@@ -9,27 +9,138 @@ class Sample:
         self.clip = clip
         self.start_note = start_note
 
+const INSTRUMENT_PATH = "res://Main/Art/Audio/"
+
 @export_multiline var song: String = """
-X:389
-T: Jupiter (From The Planets, Opus 32)
-C: Gustav Holst
-Q:1/2=40
-M:3/4
-L:1/8
-K:Eb
-V:LoopStart=0
+X:1
+Q:1/4=178
+L:1/4
+M:4/4
+K:C clef=G2
 V:1
-%%Music/Instruments/Tubular Bells
-G,B,| C2 CE D>B, | EF E2 D2 | CD C2B,2 | G,4 G,B,|\
-C2 CE D>B, | EF G2G2 | GF E2 F2 | E4 BG |
-  F2 F2 EG | F2B,2 BG | F2 F2 GB | c4 cd |\
-e2 d2 c2 | B2 e2 G2 | FEF2G2 | B4 GB |
-c2 ce d>B | ef e2d2 | cd c2 B2 | G4 GB |\
-c2 ce d>B | ef g2 g2 | gf e2 f2 | e4 BG |
-F2F2 EG | F2B,2 BG | F2 F2 GB | c4 cd |\
-e2d2c2 | B2 e2 G2 | FEF2G2 | B4 GB |
-c2 ce d>B | efe2d2 | cdc2B2 | G4 GB |\
-c2 ce d>B | ef g2 ">"g2 | ">"g">"f">"e2">"f2 | e6 |]
+%%Music/Instruments/Piano
+z16|z16|z16|z16|
+z16|z16|a4a4a2e2a4|a4^d2^d2a4a4|
+^d4b4b4b2^d2|a4a4a2e2a4|a4^d2^d2a4a4|^d4b4b4b2^d2|
+^c4^c8^g4|^g4^c2e2a4a4|^d2^d2b4^g4b2^d2|a4a4a2e2a4|
+a4^d2^d2a4a4|^d4b4b4b2^d2|a4e6a2z4|z4b2e2z4^d4|
+a2a2b4^g6e2|^d4a4^d2^d2^f4|^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|
+a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|^d4a4^d2^d2^f4|
+^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|a4a4a2e2a4|a4^d2^d2a4a4|
+^d4b4b4b2^d2|a4a4a2e2a4|a4^d2^d2a4a4|^d4b4b4b2^d2|
+e4e4^c2a2z4|^d4a2^f2a4a4-|a2^d2^d4^f4^d2b2|e4e4^c2a2z4|
+^d4a2^f2a4a4-|a2^d2^d4^f4^d2b2|a4a4a2e2a4|a4^d2^d2a4a4|
+^d4b4b4b2^d2|a4a4a2e2a4|a4^d2^d2a4a4|^d4b4b4b2^d2|
+^c4^c8^g4|^g4^c2e2a4a4|^d2^d2b4^g4b2^d2|a4a4a2e2a4|
+a4^d2^d2a4a4|^d4b4b4b2^d2|a4e6a2z4|z4b2e2z4^d4|
+a2a2b4^g6e2|a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|
+^c4e4e4b4|e4e2b2^f4a4|a2^f2b4e4e2b2|a4e6a2z4|
+z4b2e2z4^d4|a2a2b4^g6e2|a4e6a2z4|z4b2e2z4^d4|
+a2a2b4^g6e2|^d4a4^d2^d2^f4|^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|
+a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|^d4a4^d2^d2^f4|
+^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|z2^c2^c6a2z2^g2|^g6e2z2^d2^d2^g2|
+^g2^g2z2^g2^g2b2b2^d2|z2^c2^c6a2z2^g2|^g6e2z2^d2^d2^g2|^g2^g2z2^g2^g2b2b2^d2|
+z2^c2^c2e2e2^g2z2a2-|a2^c6z2^c2^c2e2-|e2a2z4^g2b4^d2|z2^c2^c6a2z2^g2|
+^g6e2z2^d2^d2^g2|^g2^g2z2^g2^g2b2b2^d2|a4e6a2z4|z4b2e2z4^d4|
+a2a2b4^g6e2|^d4a4^d2^d2^f4|^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|
+a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|^d4a4^d2^d2^f4|
+^c4^f2a2b4^g4|b2e2^g4e4^g2^c2|a4e6a2z4|z4b2e2z4^d4|
+a2a2b4^g6e2|a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|
+^f4^c6a2^d4|b4^d2^f2b4^f4|b2b2^d4b4^d2^f2|^f4^c6a2^d4|
+b4^d2^f2b4^f4|b2b2^d4b4^d2^f2|^C16-|^C16|
+V:2
+%%Music/Instruments/Piano
+A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|
+^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|
+^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|
+^C,,2^C,,8^C,,2^C,,2^C,,2-|^C,,8^D,,2^D,,6-|^D,,2^D,,2^G,,2^G,,8^G,,2|A,,2A,,8A,,2^D,,2^D,,2-|
+^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|
+^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|
+A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|
+^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|A,,2A,,6A,,2A,,2^D,,2^D,,2-|^D,,6^D,,2^D,,2^D,,6-|
+^D,,2^D,,2B,,2B,,8B,,2|A,,2A,,6A,,2A,,2^D,,2^D,,2-|^D,,6^D,,2^D,,2^D,,6-|^D,,2^D,,2B,,2B,,8B,,2|
+A,,2A,,2A,,2A,,4A,,2^D,,2^D,,2|^D,,2^D,,2^D,,2^D,,2^D,,2^D,,2^D,,4|^D,,2^D,,2B,,2B,,2B,,2B,,2B,,2B,,2|A,,2A,,2A,,2A,,4A,,2^D,,2^D,,2|
+^D,,2^D,,2^D,,2^D,,2^D,,2^D,,2^D,,4|^D,,2^D,,2B,,2B,,2B,,2B,,2B,,2B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|
+^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|
+^C,,2^C,,8^C,,2^C,,2^C,,2-|^C,,8^D,,2^D,,6-|^D,,2^D,,2^G,,2^G,,8^G,,2|A,,2A,,8A,,2^D,,2^D,,2-|
+^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,8-A,,2A,,2E,,2E,,2-|E,,8^D,,2^D,,6-|
+^D,,2^D,,2E,,2E,,8E,,2|A,,8-A,,2A,,2E,,2E,,2-|E,,8^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|
+A,,2A,,2A,,4A,,2A,,2E,,2E,,2|E,,4E,,2E,,2^D,,2^D,,2^D,,4-|^D,,2^D,,2E,,2E,,2E,,4E,,2E,,2|A,,8-A,,2A,,2E,,2E,,2-|
+E,,8^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|
+^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|
+A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|
+^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|^F,,2^F,,8^F,,2^C,,2^C,,2-|^C,,6^C,,2^G,,2^G,,6-|
+^G,,2^G,,2^G,,2^G,,8^G,,2|^F,,2^F,,8^F,,2^C,,2^C,,2-|^C,,6^C,,2^G,,2^G,,6-|^G,,2^G,,2^G,,2^G,,8^G,,2|
+^C,,2^C,,6^C,,2^C,,2^F,,2^F,,2-|^F,,4^F,,2^F,,2z2A,,6-|A,,4^G,,2^G,,8^G,,2|^F,,2^F,,8^F,,2^C,,2^C,,2-|
+^C,,6^C,,2^G,,2^G,,6-|^G,,2^G,,2^G,,2^G,,8^G,,2|A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|
+^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|
+A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4^D,,2^F,,2^F,,2-|
+^F,,6^F,,2E,,2E,,6-|E,,2E,,2^C,,2^C,,8^C,,2|A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|
+^D,,2^D,,2E,,2E,,8E,,2|A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|
+^F,,2^F,,8^F,,2B,,2B,,2-|B,,6B,,2B,,2B,,6-|B,,2B,,2B,,2B,,8B,,2|^F,,2^F,,8^F,,2B,,2B,,2-|
+B,,6B,,2B,,2B,,6-|B,,2B,,2B,,2B,,8B,,2|^C,,16-|^C,,16|
+V:3
+%%Music/Instruments/Piano
+z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|
+A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|
+^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|
+z2^C2^C2^C2E,2E,2z2^G,2|^G,2^G,2^C,2^C,2z2^D2^D2^D2|^F,2^F,2z2B,,2B,,2B,,2^D,,2^D,,2|z2E,2E,2E,2A,,2A,,2z2A,2|
+A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|
+[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|
+z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|
+[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|z2[A^CE]2[A,^CE,]2[A,^CE,]2[E,,E,]2[E,,E,]2z2[^D^F,A,]2|[^D^F,A,]2[^D,^F,A,]2[^D,,^D,]2[^D,,^D,]2z2[^D,^F,A,,]2[^D,^F,A,]2[^D,^F,A,,]2|
+[^F,,^F,]2[^F,,^F,]2z2[B^D^F]2[B,^D^F]2[B^D^F]2[B,,B,]2[B,,B,]2|z2[A^CE]2[A,^CE,]2[A,^CE,]2[E,,E,]2[E,,E,]2z2[^D^F,A,]2|[^D^F,A,]2[^D,^F,A,]2[^D,,^D,]2[^D,,^D,]2z2[^D,^F,A,,]2[^D,^F,A,]2[^D,^F,A,,]2|[^F,,^F,]2[^F,,^F,]2z2[B^D^F]2[B,^D^F]2[B^D^F]2[B,,B,]2[B,,B,]2|
+z2^C,2^C,2^C,2E,,2E,,2z2A,2|A,2A,2^D,2^D,2z2^F,2^F,2^F,2|A,,2A,,2z2^D,2^D,2^D,2^F,,2^F,,2|z2^C,2^C,2^C,2E,,2E,,2z2A,2|
+A,2A,2^D,2^D,2z2^F,2^F,2^F,2|A,,2A,,2z2^D,2^D,2^D,2^F,,2^F,,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|
+^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|
+z2^C2^C2^C2E,2E,2z2^G,2|^G,2^G,2^C,2^C,2z2^D2^D2^D2|^F,2^F,2z2B,,2B,,2B,,2^D,,2^D,,2|z2E,2E,2E,2A,,2A,,2z2A,2|
+A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z4E,8z4|^G,8z4A,4-|
+A,4z4^G,8|z4E,8z4|^G,8z4A,4-|A,4z4^G,8|
+z4[A,^CE,]8z4|[E,^G,B,]8z4[^D,-^F,-A,-]4|[^D,^F,A,]4z4[E,^G,B,]8|z4E,8z4|
+^G,8z4A,4-|A,4z4^G,8|z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|
+[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|
+z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|
+[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|[^F,A,^C,]12[^C,-E,-^G,,-]4|[^C,E,^G,,]8[^G-B,-^D-]8|
+[^GB,^D]4[^GB,^D]12|[^F,A,^C,]12[^C,-E,-^G,,-]4|[^C,E,^G,,]8[^G-B,-^D-]8|[^GB,^D]4[^GB,^D]12|
+[^C,E,^G,]12[^F-A,-^C-]4|[^FA,^C]8[A,-^C-E-]8|[A,^CE]4[^G,B,^D]12|[^F,A,^C,]12[^C,-E,-^G,,-]4|
+[^C,E,^G,,]8[^G-B,-^D-]8|[^GB,^D]4[^GB,^D]12|z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|
+[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|
+z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|[^D,^F,A,,]4z4[E^G,B,]8|z4[^D^F,A,]8z4|
+[^FA,^C]8z4[E,-^G,-B,-]4|[E,^G,B,]4z4[^C,E,^G,,]8|z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|
+[^D,^F,A,,]4z4[E^G,B,]8|z4[A,^CE,]8z4|[E^G,B,]8z4[^D,-^F,-A,,-]4|[^D,^F,A,,]4z4[E^G,B,]8|
+z4[^F,A,^C,]8z4|[B,^D^F,]8z4[B,-^D-^F-]4|[B,^D^F]4z4[B^D^F]8|z4[^F,A,^C,]8z4|
+[B,^D^F,]8z4[B,-^D-^F-]4|[B,^D^F]4z4[B^D^F]8|[^C,-E,-^G,-]16|[^C,E,^G,]16|
+V:4
+%%Music/Instruments/Percussion
+z16|z16|z16|D,,2z2D,,2D,,2D,,2z4D,,2|
+z4D,,2D,,2D,,2z4D,,2|D,,2D,,2D,,2D,,2D,,2D,,2D,,2D,,2|C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|
+z4C,,2z2[C,,D,,]2z2C,,2D,,2|C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|z4C,,2z2[C,,D,,]2z2C,,2D,,2|
+C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|z4C,,2z2[C,,D,,]2z2C,,2D,,2|C,,2[C,,D,,]2z2C,,2D,,2z2C,,2z2|
+C,,2z2C,,2D,,2[C,,D,,]2[C,,D,,]2D,,2C,,2|z4[C,,D,,]2z2[C,,D,,]2D,,2[C,,D,,]2D,,2|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|
+[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|
+[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|
+[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,zC,,2^G,,zC,,2^G,,z|C,,2C,,2C,,2^G,,z[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,z|
+C,,2^G,,zC,,2^G,,zC,,2C,,2C,,2^G,,z|[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,zC,,2^G,,zC,,2^G,,z|C,,2C,,2C,,2^G,,z[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,z|C,,2^G,,zC,,2^G,,zC,,2C,,2C,,2^G,,z|
+[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,zC,,2^G,,zC,,2^G,,z|C,,2C,,2C,,2^G,,z[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,z|C,,2^G,,zC,,2^G,,zC,,2C,,2C,,2^G,,z|[C,,-^G,,][C,,]z2[C,,-D,,-^G,,][C,,D,,]^G,,zC,,2^G,,z[C,,D,,]2[D,,-^G,,][D,,]|
+C,,2C,,2C,,2^G,,z[C,,-^G,,][C,,]D,,2[C,,-D,,-^G,,][C,,D,,]^G,,z|C,,2^G,,z[C,,D,,]2[D,,-^G,,][D,,][C,,D,,]2[C,,D,,]2[C,,D,,]2[D,,-^G,,][D,,]|C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|
+z4C,,2z2[C,,D,,]2z2C,,2D,,2|C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|z4C,,2z2[C,,D,,]2z2C,,2D,,2|
+C,,2C,,2z2[C,,D,,]2z4C,,2z2|[C,,D,,]2z2C,,2D,,2C,,2C,,2z2[C,,D,,]2|z4C,,2z2[C,,D,,]2z2C,,2D,,2|C,,2[C,,D,,]2z2C,,2D,,2z2C,,2z2|
+C,,2z2C,,2D,,2[C,,D,,]2[C,,D,,]2D,,2C,,2|z4[C,,D,,]2z2[C,,D,,]2D,,2[C,,D,,]2D,,2|C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,][C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,z|C,,2[D,,-^G,,][D,,][C,,D,,]2z2C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,]|
+[C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,zC,,2[D,,-^G,,][D,,][C,,D,,]2z2|C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,][C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,z|C,,2[D,,-^G,,][D,,][C,,D,,]2z2C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,]|[C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,zC,,2[D,,-^G,,][D,,][C,,D,,]2z2|
+C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,][C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,z|C,,2[D,,-^G,,][D,,][C,,D,,]2z2C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,]|[C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,]C,,2^G,,zC,,2[D,,-^G,,][D,,][C,,D,,]2z2|C,,2z2[C,,-^G,,][C,,][C,,-^G,,][C,,][C,,-^G,,][C,,][C,,-D,,-^G,,][C,,D,,]C,,2[D,,-^G,,][D,,]|
+[C,,D,,]2^G,,zC,,2z2[C,,D,,]2z2[C,,-D,,-^G,,][C,,D,,][C,,-D,,-^G,,][C,,D,,]|[C,,-D,,-^G,,][C,,D,,][C,,-^G,,][C,,][C,,D,,]2[D,,-^G,,][D,,][C,,D,,]2[D,,-^G,,][D,,][C,,D,,]2D,,2|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|
+[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|
+[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|
+[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|C,,2C,,2C,,2[C,,D,,]2[C,,D,,]2D,,2C,,2D,,2|z2D,,2C,,2C,,2C,,2C,,2C,,2[C,,D,,]2|
+[C,,D,,]2D,,2C,,2D,,2z2D,,2C,,2C,,2|C,,2C,,2C,,2[C,,D,,]2[C,,D,,]2D,,2C,,2D,,2|z2D,,2C,,2C,,2C,,2C,,2C,,2[C,,D,,]2|[C,,D,,]2D,,2C,,2D,,2z2D,,2C,,2C,,2|
+C,,2C,,2C,,2[C,,D,,]2[C,,D,,]2D,,2C,,2D,,2|z2D,,2C,,2C,,2C,,2C,,2C,,2[C,,D,,]2|[C,,D,,]2D,,2C,,2D,,2z2D,,2C,,2C,,2|C,,2[C,,D,,]2C,,2C,,2C,,2z2C,,2z2|
+z2D,,2C,,2C,,2C,,2[C,,D,,]2[C,,D,,]2[C,,D,,]2|[C,,D,,]2D,,2[C,,D,,]2D,,2D,,2D,,2[C,,D,,]2[C,,D,,]2|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|
+[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|
+[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|
+[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|
+[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|
+[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,][C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,]|[D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z[C,,-^G,,][C,,][C,,D,,]2[C,,-^G,,][C,,][D,,-^G,,][D,,]|[C,,D,,]2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-^G,,][C,,][D,,-^G,,][D,,][C,,-^G,,][C,,]^G,,z^G,,z|[C,,-^G,,][C,,]C,,2[C,,-^G,,][C,,][D,,-^G,,][D,,]C,,2z2[C,,-^G,,^C,][C,,][C,,-^G,,][C,,]|
+^G,,z[C,,-^G,,][C,,]^G,,z[D,,-^G,,][D,,][C,,-D,,-^G,,][C,,D,,]C,,2[C,,-D,,-^G,,][C,,D,,][D,,-^G,,][D,,]|C,,2z2[C,,-D,,-^G,,^C,][C,,D,,][C,,-D,,-^G,,][C,,D,,]^G,,z[C,,-D,,-^G,,][C,,D,,][D,,-^G,,][D,,][D,,-^G,,][D,,]|[C,,-D,,-^G,,^C,][C,,D,,]
 """
 
 @export var play_on_ready: bool = true
@@ -117,7 +228,7 @@ func cache_samples():
     for track in parsed_notes.keys():
         var samples: Array[Sample] = []
         var path = instruments_per_track.get(track, "Music/Instruments/Piano") # Default to "Piano" if not specified
-        var directory_path = "res://Main/Art/Audio/" + path
+        var directory_path = INSTRUMENT_PATH + path
         var dir = DirAccess.open(directory_path)
         if dir:
             dir.list_dir_begin()
@@ -150,20 +261,38 @@ func get_sample_for_note(samples: Array[Sample], note: String, audio_stream_play
     if samples.size() == 0:
         return null  # No samples found
 
-    var closest_sample = samples[0]
-    var closest_diff = abs(note_midi - note_to_midi(samples[0].start_note))
-
-    for sample in samples:
-        var sample_midi = note_to_midi(sample.start_note)
-        var diff = abs(note_midi - sample_midi)
-        if diff < closest_diff:
-            closest_diff = diff
-            closest_sample = sample
+    # Find the sample with the closest start note to the requested note 
+    var closest_sample = get_closest_sample(samples, note)
 
     var closest_sample_midi = note_to_midi(closest_sample.start_note)
     audio_stream_player.pitch_scale = pow(2, (note_midi - closest_sample_midi) / 12.0)
 
+    print("Note: ", note, " Closest sample: ", closest_sample.start_note, " Pitch scale: ", audio_stream_player.pitch_scale)  # Debugging print
+
     return closest_sample.clip
+
+func get_closest_sample(samples: Array[Sample], note: String) -> Sample:
+    var note_midi = note_to_midi(note)
+    if note_midi == -1:
+        print("Invalid note: ", note)  # Debugging print
+        return null  # Invalid note
+
+    if samples.size() == 0:
+        return null  # No samples found
+
+    # Find the sample with the closest start note to the requested note 
+    var closest_sample = samples[-1]
+    var closest_sample_midi = note_to_midi(closest_sample.start_note)
+    var closest_sample_diff = abs(note_midi - closest_sample_midi)
+
+    for sample in samples:
+        var sample_midi = note_to_midi(sample.start_note)
+        var sample_diff = abs(note_midi - sample_midi)
+        if sample_diff < closest_sample_diff:
+            closest_sample = sample
+            closest_sample_diff = sample_diff
+
+    return closest_sample
 
 func get_note_from_file_name(file_name: String) -> String:
     return file_name.split(".")[0]
