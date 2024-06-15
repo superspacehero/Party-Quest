@@ -295,7 +295,32 @@ func get_closest_sample(samples: Array[Sample], note: String) -> Sample:
     return closest_sample
 
 func get_note_from_file_name(file_name: String) -> String:
-    return file_name.split(".")[0]
+    # Remove the file extension
+    var note = file_name.split(".")[0]
+    
+    # Parse the octave from the note
+    var octave_string = ""
+    var i = note.length() - 1
+    while i >= 0 and note[i].is_valid_int():
+        octave_string = note[i] + octave_string
+        i -= 1
+    if octave_string == "":
+        octave_string = "4" # Default to middle octave if not specified
+    var octave = int(octave_string)
+
+    # Remove the octave from the note
+    note = note.replace(octave_string, "")
+    
+    # Convert the octave to the ABC notation
+    var abc_note = note
+    if octave < 4:
+        for o in range(4 - octave):
+            abc_note = abc_note.to_lower() + ","
+    elif octave > 4:
+        for o in range(octave - 4):
+            abc_note = abc_note.to_upper() + "'"
+
+    return abc_note
 
 func _compare_samples(a: Sample, b: Sample) -> bool:
     return is_note_lower_than(a.start_note, b.start_note)
