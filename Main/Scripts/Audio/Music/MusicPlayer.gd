@@ -18,7 +18,7 @@ L:1/4
 M:4/4
 K:C clef=G2
 V:1
-%%Music/Instruments/Piano
+%%Music/Instruments/Ethereal Horn
 z16|z16|z16|z16|
 z16|z16|a4a4a2e2a4|a4^d2^d2a4a4|
 ^d4b4b4b2^d2|a4a4a2e2a4|a4^d2^d2a4a4|^d4b4b4b2^d2|
@@ -49,7 +49,7 @@ a2a2b4^g6e2|a4e6a2z4|z4b2e2z4^d4|a2a2b4^g6e2|
 ^f4^c6a2^d4|b4^d2^f2b4^f4|b2b2^d4b4^d2^f2|^f4^c6a2^d4|
 b4^d2^f2b4^f4|b2b2^d4b4^d2^f2|^C16-|^C16|
 V:2
-%%Music/Instruments/Piano
+%%Music/Instruments/Nylon Guitar
 A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|
 ^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|
 ^D,,4B,,2B,,8B,,2|A,,2A,,8A,,2^D,,2^D,,2-|^D,,2^D,,4^D,,2^D,,8-|^D,,4B,,2B,,8B,,2|
@@ -80,7 +80,7 @@ A,,2A,,8A,,2E,,2E,,2-|E,,6E,,2^D,,2^D,,6-|^D,,2^D,,2E,,2E,,8E,,2|^D,,2^D,,4^D,,4
 ^F,,2^F,,8^F,,2B,,2B,,2-|B,,6B,,2B,,2B,,6-|B,,2B,,2B,,2B,,8B,,2|^F,,2^F,,8^F,,2B,,2B,,2-|
 B,,6B,,2B,,2B,,6-|B,,2B,,2B,,2B,,8B,,2|^C,,16-|^C,,16|
 V:3
-%%Music/Instruments/Piano
+%%Music/Instruments/Nylon Guitar
 z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|
 A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|
 ^F,2^F,2z2B,2B,2B,2^D,2^D,2|z2E,2E,2E,2A,,2A,,2z2A,2|A,2A,2^D,2^D,2z2^D2^D2^D2|^F,2^F,2z2B,2B,2B,2^D,2^D,2|
@@ -266,8 +266,6 @@ func get_sample_for_note(samples: Array[Sample], note: String, audio_stream_play
 
     var closest_sample_midi = note_to_midi(closest_sample.start_note)
     audio_stream_player.pitch_scale = pow(2, (note_midi - closest_sample_midi) / 12.0)
-
-    print("Note: ", note, " Closest sample: ", closest_sample.start_note, " Pitch scale: ", audio_stream_player.pitch_scale)  # Debugging print
 
     return closest_sample.clip
 

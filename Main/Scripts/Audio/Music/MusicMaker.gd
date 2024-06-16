@@ -65,15 +65,54 @@ var current_block_index: int = 0:
 		# print("Current Block Index: ", current_block_index, "\nBlock: ", blocks[current_block_index])
 
 var note_progressions = [
-	[0.0, 0.0], # Sustain
-	[0.0, 1.0], # Ascend
-	[1.0, 0.0], # Descend
-	[0.0, 0.5, -0.5, -1.0], # Ascend, Descend
-	[1.0, 0.5, -0.5, 0.0], # Descend, Ascend
-	[0.5, -0.5, 0.5, -0.5], # Random progression 1
-	[0.25, -0.5, 0.75, -1.0], # Random progression 2
-	[0.0, 1.0, -0.5, 0.75, -0.25] # Random progression 3
+	# Common Chord Progressions
+	# I - IV - V - I
+	[0.0, 0.6, 0.8, 0.0], 
+	# I - V - vi - IV
+	[0.0, 0.8, 1.0, 0.6], 
+	# I - vi - IV - V
+	[0.0, 1.0, 0.6, 0.8], 
+	# ii - V - I
+	[0.2, 0.8, 0.0], 
+	# vi - IV - I - V
+	[1.0, 0.6, 0.0, 0.8], 
+	# I - IV - vi - V
+	[0.0, 0.6, 1.0, 0.8], 
+	# IV - I - V - I
+	[0.6, 0.0, 0.8, 0.0],
+	# IV - V - IV - I
+	[0.6, 0.8, 0.6, 0.0],
+	# I - V - IV - V
+	[0.0, 0.8, 0.6, 0.8],
+	# V - IV - V - I
+	[0.8, 0.6, 0.8, 0.0],
+	# Additional Progressions
+	# I - ii - V - I
+	[0.0, 0.2, 0.8, 0.0],
+	# I - vi - ii - V
+	[0.0, 1.0, 0.2, 0.8],
+	# vi - V - IV - iii
+	[1.0, 0.8, 0.6, 0.4],
+	# I - iii - IV - V
+	[0.0, 0.4, 0.6, 0.8],
+	# ii - V - vi - IV
+	[0.2, 0.8, 1.0, 0.6],
+	# I - V - iii - vi
+	[0.0, 0.8, 0.4, 1.0],
+	# IV - I - ii - V
+	[0.6, 0.0, 0.2, 0.8],
+	# iii - vi - ii - V
+	[0.4, 1.0, 0.2, 0.8],
+	# I - IV - I - V
+	[0.0, 0.6, 0.0, 0.8],
+	# vi - IV - I - ii
+	[1.0, 0.6, 0.0, 0.2]
 ]
+
+var motifs: Array = []
+var current_motif: Array = []
+var max_blocks_in_motif: int = 4
+var blocks_in_current_motif: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -135,7 +174,7 @@ func generate_blocks():
 		if randi() % 2 == 0:
 			for j in range(progression.size()):
 				progression[j] = -progression[j]
-		blocks.append(progression)
+		blocks.append({"progression": progression, "is_motif": false})
 
 		# Generate rests (1 for rest, 0 for no rest)
 		var rest_block: Array = []
@@ -145,12 +184,38 @@ func generate_blocks():
 			else:
 				rest_block.append(randi() % 4 == 0) # 25% chance of being a rest
 		rests.append(rest_block)
+
+	# Replace some blocks with motifs
+	var num_motifs_to_use = min(randi() % (blocks_to_generate + 1), motifs.size())
+	for i in range(num_motifs_to_use):
+		var motif_index = randi() % motifs.size()
+		var block_index = randi() % blocks.size()
+		blocks[block_index] = {"progression": motifs[motif_index], "is_motif": true}
+	
 	preview_block()
 
 func add_block():
-	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index])
+	if blocks[current_block_index]["is_motif"]:
+		current_motif = blocks[current_block_index]["progression"]
+		blocks_in_current_motif = 1
+		print("Motif changed to: ", current_motif)
+	else:
+		if blocks_in_current_motif > 0 and blocks_in_current_motif < max_blocks_in_motif:
+			current_motif += blocks[current_block_index]["progression"]
+			blocks_in_current_motif += 1
+			print("Motif updated to: ", current_motif)
+		else:
+			current_motif = []
+			blocks_in_current_motif = 0
+
+	var current_block = apply_block_range_and_length(blocks[current_block_index]["progression"], block_note_range, block_length, rests[current_block_index], blocks[current_block_index]["is_motif"])
 	for note in current_block:
 		tracks[current_track_index].notes.append(note)
+
+	if blocks_in_current_motif == max_blocks_in_motif:
+		motifs.append(current_motif)
+		print("Motif added: ", current_motif)
+
 	generate_blocks()
 
 func cycle_block(direction: int):
@@ -160,10 +225,11 @@ func cycle_block(direction: int):
 func cycle_instrument(direction: int):
 	if instruments.size() > 0:
 		tracks[current_track_index].instrument = instruments[(instruments.find(tracks[current_track_index].instrument) + direction + instruments.size()) % instruments.size()]
+	print("Instrument: ", tracks[current_track_index].instrument)
 	preview_track(tracks[current_track_index])
 
 func preview_block():
-	var current_block = apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index])
+	var current_block = apply_block_range_and_length(blocks[current_block_index]["progression"], block_note_range, block_length, rests[current_block_index], blocks[current_block_index]["is_motif"])
 	print("Current Block: ", current_block)
 	var abc_output = output_abc(current_block, tracks[current_track_index].instrument)
 	if music_player.is_playing:
@@ -176,8 +242,11 @@ func preview_track(track: Track):
 		music_player.stop()
 	music_player.play(abc_output, false)
 
-func apply_block_range_and_length(block: Array, note_range: int, length: int, rest_block: Array) -> Array:
+func apply_block_range_and_length(block: Array, note_range: int, length: int, rest_block: Array, is_motif: bool) -> Array:
 	var result_block: Array = []
+	if is_motif:
+		return block.duplicate(true)
+
 	var last_note = get_last_valid_note()
 
 	var track_has_notes = tracks[current_track_index].notes.size() == 0
@@ -207,7 +276,7 @@ func apply_block_range_and_length(block: Array, note_range: int, length: int, re
 		step *= note_range
 
 		var new_note = last_note + step
-		new_note = clamp(new_note, 0, 127) # Ensure MIDI note is within valid range
+		new_note = clamp(new_note, 12, 127) # Ensure MIDI note is within valid range
 		result_block.append(new_note)
 		last_note = new_note
 	return result_block
@@ -217,7 +286,7 @@ func change_note(direction: int):
 	if current_note_index >= 0 and tracks[current_track_index].notes[current_note_index] != null:
 		current_note = tracks[current_track_index].notes[current_note_index]
 	current_note += direction
-	current_note = clamp(current_note, 0, 127) # Ensure MIDI note is within valid range
+	current_note = clamp(current_note, 12, 127) # Ensure MIDI note is within valid range
 	
 	if current_note_index >= 0:
 		tracks[current_track_index].notes[current_note_index] = current_note
@@ -319,7 +388,7 @@ func output_abc(input: Array=[], instrument: String="Music/Instruments/Piano") -
 				for track in tracks:
 					preview_input.append(Track.new(track.instrument, track.notes.duplicate(true)))
 
-				for note in apply_block_range_and_length(blocks[current_block_index], block_note_range, block_length, rests[current_block_index]):
+				for note in apply_block_range_and_length(blocks[current_block_index]["progression"], block_note_range, block_length, rests[current_block_index], blocks[current_block_index]["is_motif"]):
 					preview_input[current_track_index].notes.append(note)
 				input = preview_input
 			_:
