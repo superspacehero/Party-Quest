@@ -1,0 +1,302 @@
+[gd_scene load_steps=17 format=3 uid="uid://d4ndober5pceq"]
+
+[ext_resource type="PackedScene" uid="uid://bcuf0o2bd2xjk" path="res://Main/Prefabs/UI/Menu.tscn" id="1_wp6cy"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="2_1dn2e"]
+[ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="3_3a80o"]
+[ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="4_sj62p"]
+[ext_resource type="Material" uid="uid://b3fpwd3vvghvy" path="res://Main/Art/Materials/UI/Blur.tres" id="5_f4uip"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="5_mjorg"]
+[ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="6_ix78j"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuScaler.gd" id="6_pjqt6"]
+[ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="7_xqfq0"]
+[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="8_af8pj"]
+[ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="9_6oipd"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/CenteredControl.gd" id="9_8eoel"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7xof"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(0, 0, 0, 0.501961)
+border_color = Color(0.58, 0.58, 0.58, 1)
+corner_radius_top_left = 32
+corner_radius_top_right = 32
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 32
+shadow_color = Color(0, 0, 0, 0.25098)
+
+[sub_resource type="Animation" id="Animation_8oci4"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBoxContainer/Press Text:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VBoxContainer/Ready Text:visible_ratio")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="Animation" id="Animation_h6cbm"]
+resource_name = "Ready"
+length = 0.4
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("VBoxContainer:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(2, 2), Vector2(0.9, 0.9), Vector2(1.05, 1.05), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("VBoxContainer:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [1.5708, -0.383972, 0.197222, 0.0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("VBoxContainer/Press Text:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.05, 0.35),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("VBoxContainer/Ready Text:visible_ratio")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_iw06c"]
+_data = {
+"RESET": SubResource("Animation_8oci4"),
+"Ready": SubResource("Animation_h6cbm")
+}
+
+[node name="Character Select Menu" node_paths=PackedStringArray("character_select_parent", "characters_selected_animator") instance=ExtResource("1_wp6cy")]
+script = ExtResource("2_1dn2e")
+character_select_parent = NodePath("Safe Area/AspectRatioContainer/Panel/Players")
+character_category = "Player"
+character_select_scene = ExtResource("3_3a80o")
+character_scene = ExtResource("4_sj62p")
+characters_selected_animator = NodePath("Safe Area/AspectRatioContainer/Panel/Ready/AnimationPlayer")
+characters_selected_animation = "Ready"
+
+[node name="Panel" type="ColorRect" parent="Background" index="0" node_paths=PackedStringArray("menu")]
+modulate = Color(1, 1, 1, 0)
+material = ExtResource("5_f4uip")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0.501961, 0.501961, 0.501961, 1)
+script = ExtResource("5_mjorg")
+menu = NodePath("../..")
+
+[node name="Safe Area" parent="." index="1" node_paths=PackedStringArray("menu")]
+script = ExtResource("6_pjqt6")
+menu = NodePath("..")
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Safe Area" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+ratio = 1.7778
+
+[node name="Panel" type="Panel" parent="Safe Area/AspectRatioContainer" index="0"]
+layout_mode = 2
+mouse_filter = 2
+theme = ExtResource("6_ix78j")
+
+[node name="Players" type="GridContainer" parent="Safe Area/AspectRatioContainer/Panel" index="0"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 152.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+columns = 4
+
+[node name="Ready" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="1"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("6_ix78j")
+theme_override_styles/panel = SubResource("StyleBoxFlat_j7xof")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Safe Area/AspectRatioContainer/Panel/Ready" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(213.5, 162.5)
+alignment = 1
+script = ExtResource("9_8eoel")
+
+[node name="Ready Text" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Ready/VBoxContainer" index="0"]
+layout_mode = 2
+theme = ExtResource("8_af8pj")
+theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
+theme_override_font_sizes/font_size = 240
+text = "Ready"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Press Text" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Ready/VBoxContainer" index="1"]
+layout_mode = 2
+theme = ExtResource("8_af8pj")
+theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
+theme_override_font_sizes/font_size = 80
+text = "Press to continue"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Safe Area/AspectRatioContainer/Panel/Ready" index="1"]
+libraries = {
+"": SubResource("AnimationLibrary_iw06c")
+}
+
+[node name="Title" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_bottom = 144.0
+grow_horizontal = 2
+mouse_filter = 2
+theme = ExtResource("6_ix78j")
+theme_override_styles/panel = ExtResource("7_xqfq0")
+
+[node name="Label" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Title" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_af8pj")
+text = "Who's Playing?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Border" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("6_ix78j")
+theme_override_styles/panel = ExtResource("9_6oipd")

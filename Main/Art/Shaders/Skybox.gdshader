@@ -145,7 +145,7 @@ void sky()
 		float _stars_value = texture( voronoi_texture, _stars_uv ).r;
 
 		_stars_value = smoothstep( 0.97, 0.98, _stars_value ) * -LIGHT0_DIRECTION.y;
-		
+
 		// Hiding stars behind the moon
 		_stars_value *= 1.0 - _moon_amount;
 		COLOR += _stars_value;
@@ -168,7 +168,7 @@ void sky()
 
 	// float _clouds_amount = _noise_main + _noise_edges;
 	// _clouds_amount = smoothstep( 0.0, 2.5, _clouds_amount );
-	
+
 	// // Fading clouds near the horizon
 	// _clouds_amount += 1.0 - clamp( (EYEDIR.y - (clouds_fade_point - 1.0)) / clouds_blur, 0.0, 1.0 );
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=13 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://bys7dfc5svqto" path="res://Main/Prefabs/Game Manager.tscn" id="1_a04pb"]
 [ext_resource type="PackedScene" uid="uid://c13x05ptey0hp" path="res://Main/Art/Models/Logo.fbx" id="1_wmlvi"]
@@ -8,20 +8,10 @@
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuTextDisplayer.gd" id="5_rg0xy"]
 [ext_resource type="PackedScene" uid="uid://rl81m06ldq56" path="res://Main/Prefabs/UI/Circle Wipe.tscn" id="5_xnvqi"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
-[ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="7_7y88s"]
-[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="7_f1kcu"]
-[ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="7_yk5vp"]
-[ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="8_pifcb"]
-[ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="9_tbh2v"]
-[ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="10_epfqg"]
-[ext_resource type="Shader" path="res://Main/Art/Shaders/UI/Blur.gdshader" id="10_u0flc"]
-[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="11_0ns2f"]
+[ext_resource type="PackedScene" uid="uid://d4ndober5pceq" path="res://Main/Prefabs/UI/Character Select Menu.tscn" id="11_gpt0s"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuScaler.gd" id="12_c8y6c"]
+[ext_resource type="PackedScene" uid="uid://bbt7wouuyut8o" path="res://Main/Prefabs/UI/Load Scene Menu.tscn" id="12_k24u3"]
 [ext_resource type="PackedScene" uid="uid://b75k6yma7gcae" path="res://Main/Prefabs/UI/Button.tscn" id="13_3hlfr"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_hlb8h"]
-shader = ExtResource("10_u0flc")
-shader_parameter/blur_amount = 2.5
 
 [node name="Menus" type="Node3D"]
 
@@ -147,7 +137,7 @@ visible = false
 [node name="Main Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu", "starting_button") instance=ExtResource("4_of8fh")]
 visible = false
 previous_menu = NodePath("../Title Menu")
-next_menu = NodePath("../Character Menu")
+next_menu = NodePath("../Character Select Menu")
 starting_button = NodePath("Safe Area/Buttons/Button Fitter/Button Holder/Play Button")
 
 [node name="Safe Area" parent="Main Menu" index="1"]
@@ -196,95 +186,12 @@ text = "Options"
 layout_mode = 2
 text = "Quit"
 
-[node name="Character Menu" parent="." node_paths=PackedStringArray("character_select_parent", "previous_menu") instance=ExtResource("4_of8fh")]
+[node name="Character Select Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu") instance=ExtResource("11_gpt0s")]
 visible = false
-script = ExtResource("7_f1kcu")
-character_select_parent = NodePath("Safe Area/AspectRatioContainer/Panel/Players")
-character_select_scene = ExtResource("7_7y88s")
 previous_menu = NodePath("../Main Menu")
+next_menu = NodePath("../Load Scene Menu")
 
-[node name="Panel" type="ColorRect" parent="Character Menu/Background" index="0" node_paths=PackedStringArray("menu")]
-modulate = Color(1, 1, 1, 0)
-material = SubResource("ShaderMaterial_hlb8h")
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color(0.501961, 0.501961, 0.501961, 1)
-script = ExtResource("11_0ns2f")
-menu = NodePath("../..")
-
-[node name="Safe Area" parent="Character Menu" index="1" node_paths=PackedStringArray("menu")]
-anchors_preset = -1
-script = ExtResource("12_c8y6c")
-menu = NodePath("..")
-
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Character Menu/Safe Area" index="0"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-ratio = 1.7778
-
-[node name="Panel" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme = ExtResource("8_pifcb")
-
-[node name="Title" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-offset_bottom = 144.0
-grow_horizontal = 2
-mouse_filter = 2
-theme = ExtResource("8_pifcb")
-theme_override_styles/panel = ExtResource("9_tbh2v")
-
-[node name="Label" type="Label" parent="Character Menu/Safe Area/AspectRatioContainer/Panel/Title"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("7_yk5vp")
-text = "Who's Playing?"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Players" type="GridContainer" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 16.0
-offset_top = 152.0
-offset_right = -16.0
-offset_bottom = -16.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-columns = 4
-
-[node name="Border" type="Panel" parent="Character Menu/Safe Area/AspectRatioContainer/Panel"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("8_pifcb")
-theme_override_styles/panel = ExtResource("10_epfqg")
+[node name="Load Scene Menu" parent="." instance=ExtResource("12_k24u3")]
 
 [connection signal="pressed" from="Title Menu/PressAnyButton" to="Title Menu" method="select_next_menu"]
 [connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Play Button" to="Main Menu" method="select_next_menu"]
@@ -295,4 +202,3 @@ theme_override_styles/panel = ExtResource("10_epfqg")
 [editable path="Game Manager"]
 [editable path="Game Manager/Canvas"]
 [editable path="Main Menu"]
-[editable path="Character Menu"]

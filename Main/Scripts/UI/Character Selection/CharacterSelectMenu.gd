@@ -10,18 +10,50 @@ static var instance: CharacterSelectMenu = null
 			character_select_parent = self
 		return character_select_parent
 
+@export var character_category: String = "Player"
 @export var character_select_scene: PackedScene = null
+@export var character_scene: PackedScene = null
+
+@export_category("Animation")
+@export var characters_selected_animator: AnimationPlayer
+@export var characters_selected_animation: String = "Ready"
 
 var character_selects: Array[CharacterSelect] = []
 
+var characters = null
+
 var all_character_selects_ready: bool:
 	get:
-		all_character_selects_ready = true
-		for character_select in character_selects:
-			if character_select.selected_character == null:
-				all_character_selects_ready = false
-				break
-		return all_character_selects_ready
+		if character_selects.size() > 0:
+			for character_select in character_selects:
+				if character_select.selected_character == null:
+					return false
+			return true
+		return false
+var previous_character_selects_ready: bool = false
+
+
+func check_all_character_selects_ready():
+	var all_ready = all_character_selects_ready
+	if characters_selected_animator != null and all_ready != previous_character_selects_ready:
+		if all_ready:
+			characters_selected_animator.play(characters_selected_animation)
+		else:
+			characters_selected_animator.play_backwards(characters_selected_animation)
+
+	print("All character selects ready: " + str(all_ready))
+	
+	previous_character_selects_ready = all_ready
+
+func load_characters():
+	var character: CharacterThing = character_scene.instantiate()
+	characters = GameThing.load_things("user://" + character.get_thing_type() + "s/" + character_category)
+	if CharacterSelectMenu.instance != null:
+		for character_select in CharacterSelectMenu.instance.character_selects:
+			character_select.update_character_select()
+	character.queue_free()
+
+	print("Found " + str(characters.size()) + " characters")
 
 func select_next_menu():
 	# Save all players and their selected characters
@@ -37,6 +69,9 @@ func select():
 
 	instance = self
 
+	if characters == null:
+		load_characters()
+
 func deselect():
 	super.deselect()
 
@@ -49,10 +84,10 @@ func deselect():
 	character_selects.clear()
 
 func primary(pressed):
-	# if first_press:
-	#     first_button_press()
-	#     return
 	if input_ready and pressed:
+		if all_character_selects_ready:
+			select_next_menu()
+
 		for input in InputManager.instance.get_inputs():
 			if input.primary_action:
 				for character_select in character_selects:
@@ -62,14 +97,16 @@ func primary(pressed):
 				add_character_select(input)
 
 func add_character_select(input: ThingInput) -> CharacterSelect:
-	if input != null and character_selects.size() < InputManager.instance.max_devices:
+	if character_selects.size() < InputManager.instance.max_devices:
 		var character_select = character_select_scene.instantiate()
 		character_select_parent.add_child(character_select)
 		character_select = character_select as CharacterSelect
 
-		character_select.input = input
 		character_selects.append(character_select)
-		input.inventory.append(character_select)
+
+		if input != null:
+			character_select.input = input
+			input.inventory.append(character_select)
 
 		return character_select
 	return null
@@ -81,9 +118,6 @@ func connect_to_input(input: ThingInput):
 			# print("Inputs: " + str(input.inventory))
 
 func secondary(pressed):
-	# if first_press:
-	#     first_button_press()
-	#     return
 	if input_ready and pressed:
 		if character_selects.size() == 0:
 			select_previous_menu()

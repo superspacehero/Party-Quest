@@ -1,4 +1,4 @@
-extends UnsavedThing
+extends GameThing
 class_name CharacterThing
 
 # 1. Member Variables/Properties
@@ -47,7 +47,6 @@ func _ready():
 	super()
 
 	assemble_character()
-	GameplayCamera.instance.set_camera_object(self, 0.5, true)
 	character_body.velocity = Vector3.ZERO
 	
 	rotate_base(Vector3.FORWARD if rotation_behavior != movement_rotation_behavior.LEFT_RIGHT_ROTATION else Vector3.RIGHT)

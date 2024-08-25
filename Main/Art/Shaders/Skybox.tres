@@ -115,8 +115,8 @@ render_mode blend_mix, depth_draw_never, cull_back, diffuse_lambert, specular_sc
 
 
 // Varyings
-varying vec2 BG_COORDS;
-varying vec2 BG_SCALE;
+varying vec2 var_BG_COORDS;
+varying vec2 var_BG_SCALE;
 
 uniform bool Lock_Aspect_Ratio;
 uniform float Aspect_Ratio = 1.77799999713898;
@@ -190,10 +190,10 @@ void vertex() {
 
 
 // VaryingSetter:4
-	BG_SCALE = n_out18p0;
+	var_BG_SCALE = n_out18p0;
 
 
-	BG_COORDS = vec2(0.0);
+	var_BG_COORDS = vec2(0.0);
 }
 
 void fragment() {
@@ -220,7 +220,7 @@ void fragment() {
 
 
 // VaryingGetter:8
-	vec2 n_out8p0 = BG_SCALE;
+	vec2 n_out8p0 = var_BG_SCALE;
 
 
 // VectorOp:7
@@ -228,7 +228,7 @@ void fragment() {
 
 
 // VaryingGetter:10
-	vec2 n_out10p0 = BG_COORDS;
+	vec2 n_out10p0 = var_BG_COORDS;
 
 
 // VectorOp:9

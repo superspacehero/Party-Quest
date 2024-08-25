@@ -1,11 +1,13 @@
 extends Control
 class_name CharacterCreator
 
-@export var character_part_list : CharacterPartList
-@export var character_preview_image : TextureRect
-@export var character_text : Control
+@export var character_part_list: CharacterPartList
+@export var character_text: Control
+@export var character_select: CharacterSelect
 
-@export var character : CharacterThing
+var character: CharacterThing:
+    get:
+        return character_select.thing as CharacterThing
 
 var categorized_parts = {}
 var selected_parts = []
@@ -13,17 +15,7 @@ var available_slots = []
 var current_slot_index = 0
 
 var character_preview_texture
-@export var character_camera : Camera3D
-
-func _ready():
-    categorize_character_parts()
-    if character == null:
-        print("CharacterThing is null")
-        return
-    available_slots = character.get_thing_slots()
-    initialize_selected_parts()
-    character_preview_image.texture = character_preview_texture
-    set_text()
+@export var character_camera: Camera3D
 
 func _exit_tree():
     if character != null:
@@ -67,12 +59,6 @@ func update_character():
     character.assemble_character()
     available_slots = character.get_character_part_slots()
     update_selected_parts_list()
-    get_node("CharacterUI").character_info = character.character_info
-    if character_camera != null:
-        character_preview_image.visible = true
-        character_camera.target_texture = character_preview_texture
-    else:
-        character_preview_image.visible = false
     set_text()
 
 func move(direction: Vector2):
@@ -90,15 +76,13 @@ func move(direction: Vector2):
 func primary(pressed: bool):
     if pressed:
         if character_camera != null:
-            var character_info = character.character_info
-            character_info.portrait = str(character_camera.target_texture)
-            character.character_info = character_info
+            character.thing_portrait = character_camera.get_viewport().get_texture()
 
         # Save the character
-        character.save_character("Player")
+        character.save_thing("Player")
 
         # Load the characters
-        CharacterSelect.load_characters()
+        character_select.get_characters()
 
         # Return to the character selection screen
         visible = false
@@ -107,3 +91,15 @@ func secondary(pressed: bool):
     if pressed:
         # Return to the character selection screen
         visible = false
+
+func _on_visibility_changed() -> void:
+    if visible:
+        character.thing_name = character_select.new_character_name
+        categorize_character_parts()
+        if character == null:
+            print("CharacterThing is null")
+            return
+
+        available_slots = character.get_thing_slots()
+        initialize_selected_parts()
+        set_text()

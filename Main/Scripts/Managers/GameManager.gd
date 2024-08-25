@@ -146,12 +146,12 @@ class PlayerAndCharacter:
 	var player: int
 
 	# The character that the player is controlling
-	var character: CharacterInfo
+	var character: CharacterThing
 
 	# The team that the player is on
 	var team: int
 
-	func _init(player_input, player_character: CharacterInfo, player_team: int=0):
+	func _init(player_input, player_character: CharacterThing, player_team: int=0):
 		# If the player input is null, then the player is a CPU
 		player = player_input if (player_input != null) else null
 		self.character = player_character

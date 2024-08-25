@@ -17,14 +17,14 @@ func _ready():
 	# set_sorting_offset_to_position()
 
 # Variables
-@export var thing_root : Node3D:
+@export var thing_root: Node3D:
 	get:
 		if not thing_root:
 			thing_root = self
 			
 		return thing_root
 
-@export var thing_visual : VisualInstance3D
+@export var thing_visual: VisualInstance3D
 @export var relative_sorting_offset: float = 0.0:
 	set(value):
 		relative_sorting_offset = value
@@ -33,15 +33,21 @@ func _ready():
 	get:
 		return relative_sorting_offset
 
-@export var thing_name : String
-@export var thing_description : String = ""
-@export var thing_value : int = 0
+@export_category("Info")
+@export var thing_name: String
+@export var thing_description: String = ""
+@export var thing_value: int = 0
+@export var thing_portrait: Texture2D
 
-var thing_type : String
-var thing_subtype : String
-
-@export var inventory_paths : Array[NodePath] = []
-var inventory : Array = []
+@export var inventory_paths: Array[NodePath] = []
+var inventory: Array = []:
+	get:
+		for item in inventory:
+			if item == null:
+				inventory.erase(item)
+		return inventory
+	set(value):
+		inventory = value
 
 func get_thing_slots():
 	return inventory
@@ -110,6 +116,41 @@ var max_health: int = 100
 @export var variables: Dictionary
 
 # Functions
+func save_thing(category: String = "Game"):
+	var save_path: String = "user://" + get_thing_type() + "s/" + category + "/" + get_thing_type().to_lower() + "_" + thing_name + ".tscn"
+
+	# Create the directory if it doesn't exist
+	if not DirAccess.dir_exists_absolute("user://" + get_thing_type() + "s/" + category):
+		DirAccess.make_dir_recursive_absolute("user://" + get_thing_type() + "s/" + category)
+
+	# Save the thing's scene to the path
+	var save_scene: PackedScene = PackedScene.new()
+	save_scene.pack(self)
+	var error = ResourceSaver.save(save_scene, save_path, ResourceSaver.FLAG_NONE)
+	if error != OK:
+		print("Error saving ", get_thing_type(), " to ", save_path, ": ", error_string(error))
+	else:
+		print("Saved ", get_thing_type(), " to ", save_path)
+
+static func load_thing(thing_path: String) -> GameThing:
+	var load_path: String = thing_path
+	var load_scene: PackedScene = ResourceLoader.load(load_path)
+	if load_scene:
+		var thing: GameThing = load_scene.instantiate()
+		return thing
+	else:
+		push_error("Error loading thing from ", load_path)
+		return null
+
+static func load_things(thing_directory: String) -> Array:
+	var things: Array = []
+	var thing_files: PackedStringArray = DirAccess.get_files_at(thing_directory)
+	for thing_file in thing_files:
+		var thing: GameThing = load_thing(thing_directory + "/" + thing_file)
+		if thing:
+			things.append(thing)
+	return things
+
 func get_thing_type() -> String:
 	return "Game"
 func get_thing_subtype() -> String:

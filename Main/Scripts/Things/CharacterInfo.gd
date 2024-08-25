@@ -19,14 +19,16 @@ class_name CharacterInfo
 # A dictionary to store the variables.
 @export var variables: Dictionary
 
+const CHARACTER_PATH = "user://Characters/" 
+
 static func load_characters(character_category: String = "Player") -> Array:
-	check_character_directory()
+	check_character_directory(character_category)
 
 	var characters: Array = []
 
-	var character_files: PackedStringArray = DirAccess.get_files_at("user://Characters/" + character_category)
+	var character_files: PackedStringArray = DirAccess.get_files_at(CHARACTER_PATH + character_category)
 	for character_file in character_files:
-		var character_info: CharacterInfo = load("user://Characters/" + character_category + "/" + character_file)
+		var character_info: CharacterInfo = load(CHARACTER_PATH + character_category + "/" + character_file)
 		characters.append(character_info)
 
 	return characters
@@ -36,9 +38,11 @@ static func load_character(character_name: String, character_category: String = 
 
 	if character_name == "" or character_category == "":
 		return null
-	var character_info: CharacterInfo = load("user://Characters/" + character_category + "/" + character_name + ".tres")
+	var character_info: CharacterInfo = load(CHARACTER_PATH + character_category + "/" + character_name + ".tres")
 	return character_info
 
-static func check_character_directory() -> void:
-	if not DirAccess.dir_exists_absolute("user://Characters"):
-		DirAccess.make_dir_absolute("user://Characters")
+static func check_character_directory(character_category: String = "Player") -> void:
+	if not DirAccess.dir_exists_absolute(CHARACTER_PATH):
+		DirAccess.make_dir_absolute(CHARACTER_PATH)
+	if not DirAccess.dir_exists_absolute(CHARACTER_PATH + character_category):
+		DirAccess.make_dir_absolute(CHARACTER_PATH + character_category)

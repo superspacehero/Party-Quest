@@ -236,7 +236,7 @@ void fragment() {
 
 
 // DistanceFade:26
-	float n_out26p0 = clamp(smoothstep(n_out27p1, n_out27p2,-VERTEX.z),0.0,1.0);
+	float n_out26p0 = clamp(smoothstep(n_out27p1, n_out27p2, length(VERTEX)), 0.0, 1.0);
 
 
 // FloatConstant:3

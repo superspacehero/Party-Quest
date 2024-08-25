@@ -75,7 +75,7 @@ func select():
 	selected = true
 	current_menu = self
 
-	emit_signal("on_select")
+	emit_signal(on_select.get_name())
 
 	set_buttons_disabled(true)
 
@@ -91,6 +91,8 @@ func select():
 		InputManager.instance.device_joined.connect(connect_to_device)
 		connect_to_all_inputs()
 
+	print("Selected: ", self.get_name())
+
 func deselect():
 	if not selected:
 		return
@@ -105,7 +107,7 @@ func deselect():
 		if InputManager.instance.device_joined.get_connections().size() > 0:
 			InputManager.instance.device_joined.disconnect(connect_to_device)
 
-	emit_signal("on_deselect")
+	emit_signal(on_deselect.get_name())
 
 	if disable_on_deselect:
 		# Disable the menu after the delay
