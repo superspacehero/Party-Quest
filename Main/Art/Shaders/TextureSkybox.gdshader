@@ -1,24 +1,35 @@
 shader_type spatial;
-render_mode unshaded;
+render_mode unshaded, fog_disabled;
 
 group_uniforms general;
 	uniform bool lock_aspect = true;
 	uniform float aspect_ratio = 1.0;
-	uniform vec2 fov = vec2(180.0, 90.0);
+	uniform vec2 fov = vec2(180.0, 60.0);
+    uniform float vertical_offset = 0.6;
+	uniform sampler2D screen_texture : hint_screen_texture;
+
+// Sky information
+group_uniforms sky;
+	uniform sampler2D sky_time_gradient : source_color, repeat_disable;
+    uniform float sky_time : hint_range(0.0, 1.0) = 0.5;
 
 // First texture (background)
 group_uniforms background;
+    uniform vec4 background_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 	uniform sampler2D background_texture : source_color;
 	uniform float background_movement_pan = 0.0015;
 	uniform float background_scroll_speed = 0.01;
 	uniform ivec2 background_tiling = ivec2(1, 1);
+    uniform int background_blend_mode : hint_range(0, 3) = 0;
 
 // Second texture (foreground)
 group_uniforms foreground;
+    uniform vec4 foreground_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 	uniform sampler2D foreground_texture : source_color;
 	uniform float foreground_movement_pan = 0.002;
 	uniform float foreground_scroll_speed = 0.0;
 	uniform ivec2 foreground_tiling = ivec2(1, 1);
+    uniform int foreground_blend_mode : hint_range(0, 3) = 0;
 
 group_uniforms noise;
     uniform sampler2D noise_texture : source_color;
@@ -39,7 +50,7 @@ void vertex() {
 
     //Map rotation to screen space
     BG_COORDS = vec4(y * 0.5, -x, y * 0.5, -x) * -(1.0 / PI);
-    BG_COORDS.yw += 0.5;
+    BG_COORDS.yw += vertical_offset;
 
     BG_SCALE.y = fov.y * (1.0 / 180.0);
     BG_SCALE.x = !lock_aspect ?
@@ -64,24 +75,45 @@ float alpha_distortion(float input_alpha, vec2 uv, float amount, vec2 speed) {
     return input_alpha * clamp(mix(input_alpha, input_alpha * distortion, -amount * distortion), 0.0, 1.0);
 }
 
-void fragment() {
-    vec2 noise_uv = SCREEN_UV * BG_SCALE;
+vec4 blend_texture(vec4 texture, int blend_mode, vec4 color) {
+    switch (blend_mode) {
+        case 0: // Mix
+            return mix(color, texture, texture.a);
+        case 1: // Add
+            return color + texture;
+        case 2: // Subtract
+            return color - texture;
+        case 3: // Multiply
+            return color * texture;
+    }
+}
 
+void fragment() {
+    vec2 noise_uv = SCREEN_UV;
+	// noise_uv.x *= VIEWPORT_SIZE.x / VIEWPORT_SIZE.y;
+    vec4 color = texture(screen_texture, SCREEN_UV);
+
+    // Background texture calculations
     vec2 uv = (SCREEN_UV) * BG_SCALE + BG_COORDS.xy;
     uv *= vec2(background_tiling);
-    vec4 color_background = texture(background_texture, uv).rgba;
-    color_background.a = alpha_distortion(color_background.a, noise_uv,
+    vec4 texture_vector = texture(background_texture, uv).rgba;
+    texture_vector.a = alpha_distortion(texture_vector.a, noise_uv,
         background_alpha_distortion, background_noise_speed);
+    texture_vector *= background_color;
+    color = blend_texture(texture_vector, background_blend_mode, color);
 
-    // Second texture calculations
-    vec2 uv2 = (SCREEN_UV) * BG_SCALE + BG_COORDS.zw;
-    uv2 *= vec2(foreground_tiling);
-    vec4 color_foreground = texture(foreground_texture, uv2).rgba;
-    color_foreground.a = alpha_distortion(color_foreground.a, noise_uv,
+    // Foreground texture calculations
+    uv = (SCREEN_UV) * BG_SCALE + BG_COORDS.zw;
+    uv *= vec2(foreground_tiling);
+    texture_vector = texture(foreground_texture, uv).rgba;
+    texture_vector.a = alpha_distortion(texture_vector.a, noise_uv,
         foreground_alpha_distortion, foreground_noise_speed);
+    texture_vector *= foreground_color;
+    color = blend_texture(texture_vector, foreground_blend_mode, color);
 
-    // Combine the two textures
-    // Note: You might want to adjust the blending based on your specific needs
-	ALBEDO = mix(color_background.rgb, color_foreground.rgb, color_foreground.a);
-	ALPHA = clamp(color_background.a + color_foreground.a, 0.0, 1.0);
+    // Sky color calculations
+    color *= texture(sky_time_gradient, vec2(sky_time, sky_time)).rgba;
+
+	ALBEDO = color.rgb;
+	ALPHA = color.a;
 }

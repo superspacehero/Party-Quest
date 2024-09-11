@@ -1,7 +1,7 @@
 shader_type sky;
 render_mode use_quarter_res_pass;
 
-// Originaly based on https://godotshaders.com/shader/stylized-sky-shader-with-clouds/ but there's not much left
+// Originally based on https://godotshaders.com/shader/stylized-sky-shader-with-clouds/ but there's not much left
 
 group_uniforms sky;
 	uniform vec3 day_top_color : source_color = vec3( 0.1, 0.6, 1.0 );
@@ -150,40 +150,4 @@ void sky()
 		_stars_value *= 1.0 - _moon_amount;
 		COLOR += _stars_value;
 	}
-
-	//////////////////// CLOUDS ////////////////////////////////////////////////////////////////
-	// Clouds UV movement direction
-	// float _clouds_speed = time * clouds_speed * 0.01;
-	// float _sin_x = sin( clouds_direction * PI * 0.5 );
-	// float _cos_y = cos( clouds_direction * PI );
-
-	// // The speed of movement (and direction a little) is different for the illusion of the changing shape of the clouds.
-	// vec2 _clouds_movement = vec2( _sin_x * _clouds_speed, 0.0 );
-	// float _noise_main = texture(voronoi_texture, (_sky_uv + _clouds_movement) * clouds_density).r;
-	// _noise_main = smoothstep( 0.0, 0.5, _noise_main );
-
-	// _clouds_movement = vec2( 0.0, _cos_y * _clouds_speed );
-	// float _noise_edges = texture(voronoi_texture, (_sky_uv + _clouds_movement) * clouds_density * clouds_roughness).r;
-	// _noise_edges = 1.0 - smoothstep( 0.0, 2.0, 1.0 - _noise_edges );
-
-	// float _clouds_amount = _noise_main + _noise_edges;
-	// _clouds_amount = smoothstep( 0.0, 2.5, _clouds_amount );
-
-	// // Fading clouds near the horizon
-	// _clouds_amount += 1.0 - clamp( (EYEDIR.y - (clouds_fade_point - 1.0)) / clouds_blur, 0.0, 1.0 );
-
-	// // Posterize the clouds
-	// float _posterize_amount = 3.0;
-	// _clouds_amount = floor(_clouds_amount * _posterize_amount) / (_posterize_amount - 1.0);
-
-	// vec3 _clouds_color = mix( COLOR, clouds_color, _clouds_amount );
-
-	// // The sun passing through the clouds effect
-	// _clouds_color = mix( _clouds_color, clamp( sun_color, 0.0, 1.0 ), pow( 1.0 - clamp( _sun_distance, 0.0, 1.0 ), 5 ));
-	// // Color combined with sunset condition
-	// _clouds_color = mix( _clouds_color, sunset_bottom_color, _sunset_amount * 0.75 );
-	// // Color depending on the "progress" of the night.
-	// _clouds_color = mix( _clouds_color, _sky_color, clamp( _night_amount, 0.0, 0.98 ));
-	// _clouds_color = mix( _clouds_color, vec3( 0.0 ), clouds_weight * 0.9 );
-	// COLOR = mix( COLOR, _clouds_color, _clouds_amount );
 }

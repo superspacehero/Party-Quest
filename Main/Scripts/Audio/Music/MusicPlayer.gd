@@ -214,7 +214,9 @@ func get_smallest_duration(notes_by_track):
 				smallest_duration = note["duration"]
 	if smallest_duration == float('inf'):
 		smallest_duration = 1.0 # Fallback to 1 if no valid duration found
-		print("No valid duration found in notes") # Debugging print
+
+		if debug:
+			push_error("No valid duration found in notes") # Debugging print
 	return smallest_duration
 
 func cache_samples():
@@ -242,32 +244,40 @@ func cache_samples():
 			if debug:
 				print("Loaded samples for track ", track, ": ", samples) # Debugging print
 		else:
-			print("Directory not found: " + directory_path)
+			push_error("Directory not found: " + directory_path)
 
-func get_sample_for_note(samples: Array[Sample], note: String, audio_stream_player: AudioStreamPlayer) -> AudioStream:
-	if note == "z":
+func get_sample_for_note(samples: Array[Sample], note: Dictionary, stream: AudioStreamPlayer) -> AudioStream:
+	if note["pitch"] in ABCParser.REST_SYMBOLS:
 		return null # Return null for rests
 
-	var note_midi = note_to_midi(note)
+	var note_midi = note_to_midi(note["pitch"])
 	if note_midi == -1:
-		print("Invalid note: ", note) # Debugging print
+		push_error("Invalid note: ", note) # Debugging print
 		return null # Invalid note
 
 	if samples.size() == 0:
 		return null # No samples found
 
 	# Find the sample with the closest start note to the requested note 
-	var closest_sample = get_closest_sample(samples, note)
+	var closest_sample = get_closest_sample(samples, note["pitch"])
 
 	var closest_sample_midi = note_to_midi(closest_sample.start_note)
-	audio_stream_player.pitch_scale = pow(2, (note_midi - closest_sample_midi) / 12.0)
+
+	var midi = note_midi - closest_sample_midi
+	stream.pitch_scale = get_pitch(midi)
+	note["midi"] = midi
 
 	return closest_sample.clip
+
+func get_pitch(midi_note: int) -> float:
+	# Calculate pitch scale based on MIDI note difference
+	var pitch = pow(2, (midi_note) / 12.0)
+	return pitch
 
 func get_closest_sample(samples: Array[Sample], note: String) -> Sample:
 	var note_midi = note_to_midi(note)
 	if note_midi == -1:
-		print("Invalid note: ", note) # Debugging print
+		push_error("Invalid note: ", note) # Debugging print
 		return null # Invalid note
 
 	if samples.size() == 0:
@@ -376,9 +386,12 @@ func get_key_signature_accidentals(key: String) -> Dictionary:
 		_: accidentals = {} # Default to no accidentals for unknown keys
 	return accidentals
 
+var last_played_notes: Dictionary = {}
+
 func play_notes(notes_by_track: Dictionary, max_duration: float, smallest_duration: float, loop: bool):
 	is_playing = true
 	var streams: Array = [] # List of audio stream players per channel
+	var note_time: float = smallest_duration * (60.0 / beats_per_minute)  # Time per smallest note in seconds
 
 	# Prepare audio stream players for each track/channel
 	for track in notes_by_track.keys():
@@ -398,9 +411,10 @@ func play_notes(notes_by_track: Dictionary, max_duration: float, smallest_durati
 			var stream = streams[track.to_int() - 1]
 			play_note_async(note, track, stream)
 
-		await get_tree().create_timer(smallest_duration * (60.0 / beats_per_minute)).timeout
+		await get_tree().create_timer(note_time, true).timeout
 		index += 1
 
+		# Handle looping
 		if not loop and index >= max_index:
 			is_playing = false
 			break
@@ -414,33 +428,51 @@ func play_notes(notes_by_track: Dictionary, max_duration: float, smallest_durati
 	if debug:
 		print("Playback ended")
 
+var last_played_midi: Dictionary = {} # To store the last played note's MIDI value for each track
+
 func play_note_async(note: Dictionary, track: String, stream: AudioStreamPlayer) -> void:
 	match note["pitch"]:
-		"z":
+		# Handle rests
+		ABCParser.REST_SYMBOLS[0], ABCParser.REST_SYMBOLS[1]:
 			stream.stop()
-			return  # Don't play rests
-		ABCParser.HOLD_NOTE[0], ABCParser.HOLD_NOTE[1]:
-			# Handle hold notes
-			if note.has("bend"):
-				stream.pitch_scale = pow(2, note["bend"] / 12.0)
-			if note.has("velocity"):
-				stream.volume_db = linear_to_db(note["velocity"])
-			stream.play()
 			return
+
+		# Handle hold notes
+		ABCParser.HOLD_SYMBOLS[0], ABCParser.HOLD_SYMBOLS[1]:
+			# Use the last played note's midi value and modify it with the bend
+			if last_played_midi.has(track):
+				note["midi"] = last_played_midi[track]
+			note_velocity_pitch(stream, note, false)
+			return
+		
 		_:
 			# Otherwise, play a new note
-			var sample = get_sample_for_note(instruments[track], note["pitch"], stream)
+			var sample = get_sample_for_note(instruments[track], note, stream)
 			if sample:
 				stream.stream = sample
 
-				# Initialize pitch and velocity values
-				var start_pitch = stream.pitch_scale
-				var current_velocity = 1.0
-
-				if note.has("velocity"):
-					current_velocity = note["velocity"]
-					stream.volume_db = linear_to_db(current_velocity)
+				note_velocity_pitch(stream, note, true)
 
 				stream.play()
+
+				# Store the MIDI value for the track
+				last_played_midi[track] = note["midi"]
 			else:
 				push_error("Sample not found for note: " + note["pitch"] + " in track: " + track)
+
+func note_velocity_pitch(stream: AudioStreamPlayer, note: Dictionary, set_initial_pitch: bool):
+	# Set the initial pitch using the midi value
+	if set_initial_pitch and note.has("midi"):
+		stream.pitch_scale = get_pitch(note["midi"])
+
+	# Adjust the pitch using the midi and bend values
+	if note.has("midi") and note.has("bend") and note["bend"] != 0:
+		var target_pitch = get_pitch(note["midi"] + note["bend"])
+		var tween = create_tween()
+		tween.tween_property(stream, "pitch_scale", target_pitch, note["duration"])
+	
+	# Adjust the velocity if specified
+	if note.has("velocity"):
+		var target_volume_db = linear_to_db(clamp(note["velocity"], 0.01, 1.0))
+		var tween = create_tween()
+		tween.tween_property(stream, "volume_db", target_volume_db, note["duration"])

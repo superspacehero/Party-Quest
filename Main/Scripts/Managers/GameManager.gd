@@ -114,21 +114,9 @@ static func start_game(show_level_intro: bool):
 
 # Function to receive notifications
 func _notification(what):
-	if what == NOTIFICATION_WM_WINDOW_FOCUS_IN:
-		# If the game is paused, unpause it
-		if get_tree().paused:
-			get_tree().paused = false
-
-	if what == NOTIFICATION_WM_WINDOW_FOCUS_OUT:
-		# If the game is not paused, pause it
-		if !get_tree().paused:
-			get_tree().paused = true
-
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-
 		# Save the state of the game
 		instance.save_state()
-
 		# Quit the game
 		quit_game()
 

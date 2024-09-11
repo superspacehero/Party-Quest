@@ -1,0 +1,48 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=3 uid="uid://ca2x3qqt0pqn0"]
+
+[ext_resource type="Shader" path="res://Main/Art/Shaders/TextureSkybox.gdshader" id="1_r8otd"]
+[ext_resource type="Texture2D" uid="uid://dh6k0tdqrk3lh" path="res://Main/Art/Textures/Backdrops/Backdrop_1.png" id="2_pxna4"]
+[ext_resource type="Texture2D" uid="uid://bojuqoetd6val" path="res://Main/Art/Textures/Backdrops/Backdrop_1a.png" id="3_dygfu"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_43rw4"]
+noise_type = 3
+frequency = 0.05
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tknwq"]
+seamless = true
+seamless_blend_skirt = 0.25
+noise = SubResource("FastNoiseLite_43rw4")
+
+[sub_resource type="Gradient" id="Gradient_b4iwb"]
+offsets = PackedFloat32Array(0, 0.4, 0.5, 0.7)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.964706, 0.792157, 0.623529, 1, 0.185, 0.23225, 0.5, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_esquo"]
+gradient = SubResource("Gradient_b4iwb")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_r8otd")
+shader_parameter/lock_aspect = true
+shader_parameter/aspect_ratio = 1.0
+shader_parameter/fov = Vector2(180, 60)
+shader_parameter/vertical_offset = 0.6
+shader_parameter/sky_time = 0.0
+shader_parameter/sky_time_gradient = SubResource("GradientTexture1D_esquo")
+shader_parameter/background_color = Color(1, 1, 1, 1)
+shader_parameter/background_movement_pan = 0.0015
+shader_parameter/background_scroll_speed = 0.01
+shader_parameter/background_tiling = Vector2i(1, 1)
+shader_parameter/background_blend_mode = 0
+shader_parameter/background_texture = ExtResource("2_pxna4")
+shader_parameter/foreground_color = Color(1, 1, 1, 1)
+shader_parameter/foreground_movement_pan = 0.002
+shader_parameter/foreground_scroll_speed = 0.0
+shader_parameter/foreground_tiling = Vector2i(1, 1)
+shader_parameter/foreground_blend_mode = 0
+shader_parameter/foreground_texture = ExtResource("3_dygfu")
+shader_parameter/background_alpha_distortion = 1.0
+shader_parameter/background_noise_speed = Vector2(0.025, 0.025)
+shader_parameter/foreground_alpha_distortion = 0.0
+shader_parameter/foreground_noise_speed = Vector2(0.025, 0.025)
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_tknwq")

@@ -2,12 +2,12 @@
 extends Node
 class_name ABCParser
 
-const ABC_NOTES = ["C", "D", "E", "F", "G", "A", "B"]
-const ABC_ACCIDENTALS = ["^", "-", "_"]
-const ABC_REST = "Z"
-const HOLD_NOTE = ["-", "+"]
+const NOTES = ["C", "D", "E", "F", "G", "A", "B"]
+const ACCIDENTALS = ["^", "-", "_"]
+const REST_SYMBOLS = ["Z", "z"]
+const HOLD_SYMBOLS = ["-", "+"]
 
-var note: Dictionary = {
+var notes: Dictionary = {
 	"A": 9, "B": 11, "C": 0, "D": 2, "E": 4, "F": 5, "G": 7
 }
 
@@ -19,7 +19,9 @@ static func parse_abc(abc_string: String) -> Dictionary:
 	var parsed_data = {}
 	var lines = abc_string.strip_edges().split("\n")
 	var current_track = ""
-	var default_note_length = 1.0 / 8.0 # Default to eighth note length (if not specified)
+	var default_note_length = 1.0 / 8.0  # Default to eighth note length (if not specified)
+	var last_rest = null  # To store the last rest details
+	var next_hold_bend = 0  # To store the next hold's bend
 
 	for line in lines:
 		line = line.strip_edges()
@@ -48,90 +50,80 @@ static func parse_abc(abc_string: String) -> Dictionary:
 				continue
 
 			var note_pitch = ""
-			var velocity_value = 1.0 # Default to max velocity
+			var velocity_value = 1.0  # Default to max velocity
+			var pitch_bend = 0
 
 			match token[1]:
-				HOLD_NOTE[0], HOLD_NOTE[1]:
-					# Handle note hold by extending the previous note
-					if current_track != "" and current_track in parsed_data and parsed_data[current_track].size() > 0:
-						var last_note = parsed_data[current_track][-1]
-						last_note["duration"] += default_note_length
+				REST_SYMBOLS[0], REST_SYMBOLS[1]:
+					# If it's a rest, store its properties to apply to the next note
+					last_rest = {
+						"velocity": parse_velocity(token, 0),
+						"pitch": token[1],
+						"bend": parse_bend(token)
+					}
 
-						# Store bend or velocity for later hold adjustments
-						if not last_note.has("hold_bend"):
-							last_note["hold_bend"] = 0 # Initialize bend if not present
-						if not last_note.has("hold_velocity"):
-							last_note["hold_velocity"] = velocity_value # Initialize velocity if not present
-
-						# Check if the hold contains bend or velocity adjustments
-						if token.length() > 2 and token[2] in HOLD_NOTE: # Hold contains a bend or velocity adjustment
-							last_note["hold_bend"] += parse_bend(token, 2) # Incrementally apply bend during hold
-							last_note["hold_velocity"] = parse_velocity(token, 0) # Apply velocity change on hold
-					# Continue to the next token
-					continue
-				ABC_REST:
-					note_pitch = "z" # Represent rest as "z"
+					velocity_value = last_rest["velocity"]  # Set velocity to the rest's velocity
+					note_pitch = last_rest["pitch"]  # Add rest note
+					pitch_bend = last_rest["bend"]  # Set pitch bend to the rest's bend
+				HOLD_SYMBOLS[0], HOLD_SYMBOLS[1]:
+					velocity_value = parse_velocity(token, 0)  # Parse velocity
+					note_pitch = token[1]  # Add hold note
+					pitch_bend = parse_bend(token) + next_hold_bend  # Set pitch bend to the hold's bend
+					next_hold_bend = pitch_bend  # Store the hold's bend for the next hold
 				_:
-					var i = 0
-
 					# Handle accidental or rest
-					if token[i] in ABC_ACCIDENTALS:
-						if token[i] != "-": # "-" is no accidental, so skip adding it
-							note_pitch += token[i]
-						i += 1
-
+					if token[0] in ACCIDENTALS:
+						if token[0] != "-":  # "-" is no accidental, so skip adding it
+							note_pitch += token[0]
 					# Read the note letter
-					if i < token.length() and token[i].to_upper() in ABC_NOTES:
-						note_pitch += token[i].to_upper()
-						i += 1
+					if token[1].to_upper() in NOTES:
+						note_pitch += token[1].to_upper()
+					# Read the octave number
+					if token[2].is_valid_int():
+						note_pitch += token[2]
 
-						# Read the octave number
-						if i < token.length() and token[i].is_valid_int():
-							note_pitch += token.substr(i)
-							i += token.substr(i).length()
-
-			if debug:
-				print("Parsed note:", note_pitch) # Debugging print
-
-			# Add the parsed note to the track
+			# Add the parsed note to the track, applying last rest's properties if present
 			if current_track != "" and current_track in parsed_data:
 				if note_pitch != "":
-					parsed_data[current_track].append({
+					var note_data = {
 						"pitch": note_pitch,
 						"duration": default_note_length,
-						"start_time": 0.0,					# Initialize start_time
-						"bend": 0,							# Initialize bend
-						"velocity": velocity_value,			# Initialize velocity
-						"hold_bend": 0,					# Initialize hold bend
-						"hold_velocity": velocity_value,	# Initialize hold velocity
-					})
+						"bend": pitch_bend,  # Initialize bend
+						"velocity": velocity_value,  # Initialize velocity
+					}
+					
+					# Apply the last rest's properties if there was a rest
+					if last_rest and note_data["pitch"] not in REST_SYMBOLS:
+						if debug:
+							print("Applied rest:", last_rest, " to note:", note_data) # Debug print
+						note_data["velocity"] = last_rest["velocity"]
+						note_data["bend"] += last_rest["bend"] * (-1 if last_rest["pitch"] == REST_SYMBOLS[0] else 1)
+						next_hold_bend = note_data["bend"]  # Store the rest's bend for the next hold
+						last_rest = null  # Clear after applying
 
-	# Calculate start times for each note
-	for track in parsed_data.keys():
-		var current_time = 0.0
-		for note in parsed_data[track]:
-			note["start_time"] = current_time
-			current_time += note["duration"]
-			if debug:
-				print("Note start time calculated: ", note) # Debugging print
+					if debug:
+						print("Parsed note:", note_data) # Debug print
+					
+					parsed_data[current_track].append(note_data)
 
 	return parsed_data
 
 # Parse the bend value (e.g., -+3 or --3)
-static func parse_bend(token: String, i: int) -> int:
-	if not token[i].is_valid_hex_number():
-		return 0 # Default to no bend
+static func parse_bend(token: String) -> int:
+	if not token[2].is_valid_hex_number():
+		return 0  # Default to no bend
 
-	var direction = 1 if token[i] == "+" else -1
-	return direction * token[i].to_int() # E.g., -+3 -> 3, --3 -> -3
+	var direction = 1 if token[1] == "+" else -1
+	var hex_val = token[2].hex_to_int()
+	return direction * hex_val  # E.g., -+3 -> 3, --3 -> -3
 
 # Parse the velocity (e.g., 0-- or F--)
 static func parse_velocity(token: String, i: int) -> float:
 	if not token[i].is_valid_hex_number():
-		return 1.0 # Default to max velocity
+		return 1.0  # Default to max velocity
 
 	var hex_val = token[i].hex_to_int()
-	return hex_val / 15.0 # Normalize from 0 to 1
+	return hex_val / 15.0  # Normalize from 0 to 1
 
 static func eval_length(length_str: String) -> float:
 	if "/" in length_str:
@@ -161,6 +153,10 @@ static func eval_length(length_str: String) -> float:
 
 func convert_tracker_to_abc_string(tracker_music: String) -> String:
 	var rows = tracker_music.strip_edges().split("\n")
+	var song_name = "Converted Tracker Song"
+	var tempo = 120
+	var note_length = "1/8"
+	var key_signature = "C"
 	
 	# Parse the columns and get the tracker width (number of vertical channels)
 	var num_channels = 0
@@ -168,6 +164,63 @@ func convert_tracker_to_abc_string(tracker_music: String) -> String:
 		if row.contains("|"): # Find the first row with columns to determine the number of channels
 			num_channels = row.split("|").size()
 			break
+
+	# Pop up a window to get the tempo value
+	var popup: Popup = Popup.new()
+	popup.set_title("Enter Tempo Value")
+	popup.borderless = false
+
+	var vbox: VBoxContainer = VBoxContainer.new()
+
+	var label: Label = Label.new()
+	label.set_text("Enter the tempo value (e.g., 120):")
+	vbox.add_child(label)
+
+	var value: LineEdit = LineEdit.new()
+	value.set_text("")
+	vbox.add_child(value)
+
+	var button: Button = Button.new()
+	button.set_text("OK")
+	button.pressed.connect(popup.hide)
+	vbox.add_child(button)
+
+	popup.add_child(vbox)
+	popup.theme = transpose_window_theme
+	get_tree().get_root().add_child(popup)
+	popup.popup_centered()
+
+	# Select the tempo line edit for the user to enter the value
+	value.grab_focus()
+	while popup.is_visible():
+		await get_tree().process_frame
+	tempo = value.text.to_int()
+	if tempo == 0:
+		tempo = 120
+	
+	# Make a popup window for the user to enter the note length
+	popup.set_title("Enter Note Length")
+	label.set_text("Enter the note length (e.g., 1/8):")
+	value.set_text("")
+	popup.popup_centered()
+	value.grab_focus()
+	while popup.is_visible():
+		await get_tree().process_frame
+	note_length = value.text
+	if note_length == "":
+		note_length = "1/8"
+
+	# Make a popup window for the user to enter the key signature
+	popup.set_title("Enter Key Signature")
+	label.set_text("Enter the key signature (e.g., C):")
+	value.set_text("")
+	popup.popup_centered()
+	value.grab_focus()
+	while popup.is_visible():
+		await get_tree().process_frame
+	key_signature = value.text
+	if key_signature == "":
+		key_signature = "C"
 	
 	# Initialize a list to store the converted rows for each channel (each as a separate instrument)
 	var converted_rows: Array = []
@@ -177,57 +230,41 @@ func convert_tracker_to_abc_string(tracker_music: String) -> String:
 		var transposed_column = null
 		
 		# Make a popup window for the user to enter the column's transposal value
-		var popup: Popup = Popup.new()
 		popup.set_title("Enter Transpose Value for Channel " + str(i))
-		popup.borderless = false
-
-		var vbox: VBoxContainer = VBoxContainer.new()
-		
-		var label: Label = Label.new()
 		label.set_text("Enter the transposition value for channel " + str(i) + ":")
-		vbox.add_child(label)
-		
-		var transposition: LineEdit = LineEdit.new()
-		transposition.set_text("")
-		vbox.add_child(transposition)
-
-		var button: Button = Button.new()
-		button.set_text("OK")
-		button.pressed.connect(popup.hide)
-		vbox.add_child(button)
-
-		popup.add_child(vbox)
-		popup.theme = transpose_window_theme
-		get_tree().get_root().add_child(popup)
+		value.set_text("")
 		popup.popup_centered()
 
 		# Select the transposition line edit for the user to enter the value
-		transposition.grab_focus()
+		value.grab_focus()
 
 		while popup.is_visible():
 			await get_tree().process_frame
 
-		if transposition.text == "":
-			transposed_column = 0
-
-		transposed_column = transposition.text.to_int()
+		if value.text == "":
+			transposed_column = -1
+		else:
+			transposed_column = value.text.to_int() - 1
 
 		transposed_columns.append(transposed_column)
 
 	# Process each column (channel) vertically
 	for row in rows:
+		if row.begins_with("Name:"):
+			song_name = row.split("Name: ")[1].strip_edges()
+
 		if not row.contains("|"): # Skip tracker headers and empty rows
 			continue
 
 		var columns = row.split("|")
-		for channel_idx in range(columns.size()):
+		for channel_idx in range(1, columns.size()):
 			var col = columns[channel_idx].strip_edges()
 
 			# Skip empty columns
 			if col == "":
 				continue
 			
-			# Check for hold, rest, or note
+			# Check for hold, rest, or notes
 			if col.begins_with("==="): # Rest
 				if channel_idx < converted_rows.size():
 					converted_rows[channel_idx].append("-Z-")
@@ -241,6 +278,8 @@ func convert_tracker_to_abc_string(tracker_music: String) -> String:
 
 	# Convert the vertically collected data into separate instrument lines
 	var output_lines = []
+	output_lines.append("X:1\nT:" + song_name + "\nQ:" + note_length + "=" + str(tempo) + "\nK:" + key_signature + "\n") # ABC header
+
 	for channel_idx in range(num_channels):
 		# Start each instrument with "V:" and a newline
 		output_lines.append("\nV:" + str(channel_idx) + "\n%%Music/Instruments/Piano\n")
@@ -248,7 +287,7 @@ func convert_tracker_to_abc_string(tracker_music: String) -> String:
 		# Add notes with bar separators and new lines after the specified number of notes
 		var note_count = 0
 		for i in range(converted_rows[channel_idx].size()):
-			# Ensure first note in a bar isn't a hold, convert it to a rest if necessary
+			# Ensure first notes in a bar isn't a hold, convert it to a rest if necessary
 			if note_count % notes_per_bar == 0:
 				if converted_rows[channel_idx][i] == "---":
 					converted_rows[channel_idx][i] = "-Z-"

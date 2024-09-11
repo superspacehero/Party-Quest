@@ -1,4 +1,7 @@
-[gd_resource type="VisualShader" load_steps=27 format=3 uid="uid://k4fj3uwt03qa"]
+[gd_resource type="VisualShader" load_steps=38 format=3 uid="uid://k4fj3uwt03qa"]
+
+[ext_resource type="Script" path="res://addons/shaderV/uv/scaleUV.gd" id="1_lj32i"]
+[ext_resource type="Script" path="res://addons/shaderV/rgba/noise/worley2x2.gd" id="2_lmfiu"]
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_ryp2s"]
 
@@ -74,16 +77,50 @@ qualifier = 1
 [sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_5gxwj"]
 constant = 0.25
 
-[sub_resource type="VisualShaderNodeFloatConstant" id="VisualShaderNodeFloatConstant_ptsiw"]
-constant = 1.0
-
 [sub_resource type="VisualShaderNodeFresnel" id="VisualShaderNodeFresnel_aywe3"]
 default_input_values = [2, false, 3, 4.0]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7iuc6"]
+input_name = "screen_uv"
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_af6s3"]
+default_input_values = [1, Vector3(1, 1, 0), 2, Vector3(0.5, 0.5, 0)]
+initialized = true
+script = ExtResource("1_lj32i")
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_4da2d"]
+default_input_values = [0, 0.0, 1, 1.0, 2, 0.0]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_yuhdw"]
+expanded_output_ports = [0]
+input_name = "viewport_size"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_rhx6p"]
+operator = 3
 
 [sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_sdwfd"]
 default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
 op_type = 2
 operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_4uvv0"]
+input_name = "view_matrix"
+
+[sub_resource type="VisualShaderNodeVectorFunc" id="VisualShaderNodeVectorFunc_du30l"]
+function = 2
+
+[sub_resource type="VisualShaderNodeTransformDecompose" id="VisualShaderNodeTransformDecompose_vin3p"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_irhwf"]
+parameter_name = "Noise_Scale"
+default_value_enabled = true
+default_value = 8.0
+
+[sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_awhyr"]
+default_input_values = [1, Vector3(0, 0, 0), 2, 5.0, 3, 0.0]
+initialized = true
+script = ExtResource("2_lmfiu")
 
 [sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_30obu"]
 default_input_values = [0, 0.0, 1, 1.0]
@@ -109,6 +146,7 @@ uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000
 uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 global uniform vec2 FadeDistances;
+uniform float Noise_Scale = 8;
 
 
 
@@ -119,6 +157,30 @@ vec3 hash_noise_range( vec3 p ) {
 	return 2.0 * fract(fract(p)*4375.55) -1.;
 }
 
+// ScaleUV
+vec2 _scaleUV(vec2 _scale_uv, vec2 _scale_vect, vec2 _pivot_vect) {
+	return (_scale_uv - _pivot_vect) * _scale_vect + _pivot_vect;
+}
+// WorleyNoise2x2
+float _cellular2x2NoiseFunc(vec2 P, float _jitter_w2x2) {
+	float K = 0.142857142857; // 1/7
+	float K2 = 0.0714285714285; // K/2
+	
+	vec2 Pi = floor(P) - floor(floor(P) * (1.0 / 289.0)) * 289.0;
+	vec2 Pf = fract(P);
+	vec4 Pfx = Pf.x + vec4(-0.5, -1.5, -0.5, -1.5);
+	vec4 Pfy = Pf.y + vec4(-0.5, -0.5, -1.5, -1.5);
+	vec4 p = ((34.0*(Pi.x + vec4(0.0, 1.0, 0.0, 1.0))+1.0)*(Pi.x + vec4(0.0, 1.0, 0.0, 1.0)))-floor(((34.0*(Pi.x + vec4(0.0, 1.0, 0.0, 1.0))+1.0)*(Pi.x + vec4(0.0, 1.0, 0.0, 1.0)))*(1.0/289.0))*289.0;
+	p = ((34.0*(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0))+1.0)*(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0)))-floor(((34.0*(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0))+1.0)*(p + Pi.y + vec4(0.0, 0.0, 1.0, 1.0)))*(1.0/289.0))*289.0;
+	vec4 ox = (p - floor(p * (1.0 / 7.0)) * 7.0)*K+K2;
+	vec4 oy = (floor(p*K) - floor(floor(p*K) * (1.0 / 7.0)) * 7.0)*K+K2;
+	vec4 dx = Pfx + _jitter_w2x2*ox;
+	vec4 dy = Pfy + _jitter_w2x2*oy;
+	vec4 d = dx * dx + dy * dy;
+	d.xy = min(d.xy, d.zw);
+	d.x = min(d.x, d.y);
+	return sqrt(d.x);
+}
 
 void fragment() {
 // BooleanParameter:13
@@ -252,8 +314,58 @@ void fragment() {
 	float n_out32p0 = pow(1.0 - clamp(dot(NORMAL, VIEW), 0.0, 1.0), n_in32p3);
 
 
-// FloatConstant:31
-	float n_out31p0 = 1.000000;
+// Input:34
+	vec2 n_out34p0 = SCREEN_UV;
+
+
+// Input:38
+	vec2 n_out38p0 = VIEWPORT_SIZE;
+	float n_out38p1 = n_out38p0.r;
+	float n_out38p2 = n_out38p0.g;
+
+
+// FloatOp:39
+	float n_out39p0 = n_out38p1 / n_out38p2;
+
+
+// VectorCompose:37
+	float n_in37p1 = 1.00000;
+	vec2 n_out37p0 = vec2(n_out39p0, n_in37p1);
+
+
+	vec3 n_out36p0;
+// ScaleUV:36
+	vec3 n_in36p2 = vec3(0.50000, 0.50000, 0.00000);
+	{
+		n_out36p0.xy = _scaleUV(vec3(n_out34p0, 0.0).xy, vec3(n_out37p0, 0.0).xy, n_in36p2.xy);
+	}
+
+
+// Input:42
+	mat4 n_out42p0 = VIEW_MATRIX;
+
+
+// TransformDecompose:44
+	vec3 n_out44p0 = n_out42p0[0].xyz;
+	vec3 n_out44p1 = n_out42p0[1].xyz;
+	vec3 n_out44p2 = n_out42p0[2].xyz;
+	vec3 n_out44p3 = n_out42p0[3].xyz;
+
+
+// VectorFunc:43
+	vec3 n_out43p0 = -(n_out44p3);
+
+
+// FloatParameter:46
+	float n_out46p0 = Noise_Scale;
+
+
+	float n_out48p0;
+// WorleyNoise2x2:48
+	float n_in48p3 = 0.00000;
+	{
+		n_out48p0 = _cellular2x2NoiseFunc((n_out36p0.xy+n_out43p0.xy)*n_out46p0, min(max(n_in48p3, 0.0), 1.0));
+	}
 
 
 // Output:0
@@ -261,7 +373,7 @@ void fragment() {
 	ALPHA = n_out26p0;
 	EMISSION = vec3(n_out2p0.xyz);
 	RIM = n_out32p0;
-	ALPHA_HASH_SCALE = n_out31p0;
+	ALPHA_SCISSOR_THRESHOLD = n_out48p0;
 
 
 }
@@ -312,11 +424,29 @@ nodes/fragment/24/position = Vector2(-620, 1260)
 nodes/fragment/25/node = SubResource("VisualShaderNodeInput_q15p0")
 nodes/fragment/25/position = Vector2(-1820, 1260)
 nodes/fragment/26/node = SubResource("VisualShaderNodeDistanceFade_1en11")
-nodes/fragment/26/position = Vector2(160, 80)
+nodes/fragment/26/position = Vector2(180, 80)
 nodes/fragment/27/node = SubResource("VisualShaderNodeVec2Parameter_sr5w6")
 nodes/fragment/27/position = Vector2(-200, -180)
-nodes/fragment/31/node = SubResource("VisualShaderNodeFloatConstant_ptsiw")
-nodes/fragment/31/position = Vector2(200, 560)
 nodes/fragment/32/node = SubResource("VisualShaderNodeFresnel_aywe3")
-nodes/fragment/32/position = Vector2(120, 400)
-nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 4, 0, 2, 0, 4, 0, 0, 0, 16, 0, 4, 1, 17, 0, 16, 0, 20, 0, 19, 0, 22, 0, 17, 1, 19, 0, 17, 0, 23, 0, 24, 0, 24, 0, 16, 1, 25, 1, 19, 1, 21, 0, 22, 0, 25, 2, 22, 1, 25, 2, 17, 2, 25, 3, 24, 1, 25, 3, 16, 2, 27, 1, 26, 0, 27, 2, 26, 1, 26, 0, 0, 1, 31, 0, 0, 20, 9, 0, 7, 2, 7, 0, 6, 0, 8, 0, 7, 1, 10, 0, 7, 0, 9, 0, 8, 0, 11, 0, 10, 0, 15, 0, 11, 4, 12, 0, 11, 0, 14, 0, 11, 3, 13, 0, 12, 0, 14, 0, 15, 0, 6, 0, 4, 0, 32, 0, 0, 11)
+nodes/fragment/32/position = Vector2(180, 440)
+nodes/fragment/34/node = SubResource("VisualShaderNodeInput_7iuc6")
+nodes/fragment/34/position = Vector2(-280, 800)
+nodes/fragment/36/node = SubResource("VisualShaderNodeCustom_af6s3")
+nodes/fragment/36/position = Vector2(100, 740)
+nodes/fragment/37/node = SubResource("VisualShaderNodeVectorCompose_4da2d")
+nodes/fragment/37/position = Vector2(-180, 640)
+nodes/fragment/38/node = SubResource("VisualShaderNodeInput_yuhdw")
+nodes/fragment/38/position = Vector2(-760, 600)
+nodes/fragment/39/node = SubResource("VisualShaderNodeFloatOp_rhx6p")
+nodes/fragment/39/position = Vector2(-420, 600)
+nodes/fragment/42/node = SubResource("VisualShaderNodeInput_4uvv0")
+nodes/fragment/42/position = Vector2(-320, 960)
+nodes/fragment/43/node = SubResource("VisualShaderNodeVectorFunc_du30l")
+nodes/fragment/43/position = Vector2(140, 960)
+nodes/fragment/44/node = SubResource("VisualShaderNodeTransformDecompose_vin3p")
+nodes/fragment/44/position = Vector2(-60, 960)
+nodes/fragment/46/node = SubResource("VisualShaderNodeFloatParameter_irhwf")
+nodes/fragment/46/position = Vector2(140, 1180)
+nodes/fragment/48/node = SubResource("VisualShaderNodeCustom_awhyr")
+nodes/fragment/48/position = Vector2(520, 980)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 5, 3, 0, 2, 1, 4, 0, 2, 0, 4, 0, 0, 0, 16, 0, 4, 1, 17, 0, 16, 0, 20, 0, 19, 0, 22, 0, 17, 1, 19, 0, 17, 0, 23, 0, 24, 0, 24, 0, 16, 1, 25, 1, 19, 1, 21, 0, 22, 0, 25, 2, 22, 1, 25, 2, 17, 2, 25, 3, 24, 1, 25, 3, 16, 2, 27, 1, 26, 0, 27, 2, 26, 1, 26, 0, 0, 1, 9, 0, 7, 2, 7, 0, 6, 0, 8, 0, 7, 1, 10, 0, 7, 0, 9, 0, 8, 0, 11, 0, 10, 0, 15, 0, 11, 4, 12, 0, 11, 0, 14, 0, 11, 3, 13, 0, 12, 0, 14, 0, 15, 0, 6, 0, 4, 0, 32, 0, 0, 11, 34, 0, 36, 0, 37, 0, 36, 1, 38, 1, 39, 0, 38, 2, 39, 1, 39, 0, 37, 0, 42, 0, 44, 0, 44, 3, 43, 0, 48, 0, 0, 19, 46, 0, 48, 2, 43, 0, 48, 1, 36, 0, 48, 0)

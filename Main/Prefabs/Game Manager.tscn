@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=4 uid="uid://bys7dfc5svqto"]
+[gd_scene load_steps=59 format=4 uid="uid://bys7dfc5svqto"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Managers/GameManager.gd" id="1_t6bhp"]
 [ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="2_j6y75"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c37rhaoylxx2s" path="res://Main/Prefabs/Input Manager.tscn" id="6_smorc"]
 [ext_resource type="Environment" uid="uid://c1gtifviquixv" path="res://Main/Art/Environments/Default Environment.tres" id="7_7y21q"]
 [ext_resource type="PackedScene" uid="uid://5ofkl7upo5to" path="res://Main/Prefabs/Gameplay Camera.tscn" id="8_upk85"]
+[ext_resource type="Material" uid="uid://ca2x3qqt0pqn0" path="res://Main/Art/Materials/Skybox.tres" id="9_i8ck6"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Counter.gd" id="9_kyidq"]
 [ext_resource type="PackedScene" uid="uid://1wujda7itbe3" path="res://Main/Prefabs/UI/Canvas.tscn" id="9_onanu"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/Menu.gd" id="10_dwx6p"]
@@ -19,6 +20,7 @@
 [ext_resource type="Script" path="res://Main/Scripts/ObjectPool.gd" id="16_2mt5r"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/Dice.gd" id="17_5oxdg"]
 [ext_resource type="Shader" uid="uid://f5li13bfu5gp" path="res://Main/Art/Shaders/RGB Texture.tres" id="18_bk6wq"]
+[ext_resource type="Script" path="res://Main/Scripts/Environment/LightingSetter.gd" id="18_hhpdw"]
 [ext_resource type="Texture2D" uid="uid://dty36irjm6dp8" path="res://Main/Art/Models/Gameplay/Dice-Diffuse.png" id="19_wrgqr"]
 [ext_resource type="Texture2D" uid="uid://b2ojyhsgubnm4" path="res://Main/Art/Models/Gameplay/Dice-Normal.png" id="20_6t6je"]
 [ext_resource type="ArrayMesh" uid="uid://d2jyuqe0snhip" path="res://Main/Art/Models/Parts/Hemisphere.obj" id="21_01owo"]
@@ -224,7 +226,6 @@ transpose_window_theme = SubResource("Theme_sywud")
 
 [node name="MusicPlayer" type="Node" parent="Music"]
 script = ExtResource("5_m8ws3")
-debug = true
 
 [node name="Input Manager" parent="." instance=ExtResource("6_smorc")]
 
@@ -233,6 +234,9 @@ environment = ExtResource("7_7y21q")
 camera_attributes = SubResource("CameraAttributesPractical_qqysl")
 
 [node name="Gameplay Camera" parent="." instance=ExtResource("8_upk85")]
+
+[node name="Skybox" parent="Gameplay Camera/Camera3D" index="0"]
+material_override = ExtResource("9_i8ck6")
 
 [node name="Canvas" parent="." instance=ExtResource("9_onanu")]
 
@@ -372,8 +376,11 @@ point_display = NodePath("Node Displays")
 [node name="Node Displays" type="Node" parent="GridMap/AStarPathfinding"]
 script = ExtResource("16_2mt5r")
 
-[node name="Environmental Lights" type="Node3D" parent="."]
-transform = Transform3D(0.923879, -0.270598, 0.270598, 0, 0.707107, 0.707107, -0.382683, -0.653281, 0.653281, 0, 0, 0)
+[node name="Environmental Lights" type="Node3D" parent="." node_paths=PackedStringArray("skybox_mesh")]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+script = ExtResource("18_hhpdw")
+skybox_mesh = NodePath("../Gameplay Camera/Camera3D/Skybox")
+sky_time = 0.25
 
 [node name="Sun" type="Node3D" parent="Environmental Lights"]
 
@@ -563,4 +570,5 @@ transform = Transform3D(0.965926, 5.39753e-09, -0.258819, -5.58794e-09, 1, 0, 0.
 mesh = ExtResource("36_oye71")
 surface_material_override/0 = SubResource("ShaderMaterial_tuk2c")
 
+[editable path="Gameplay Camera"]
 [editable path="Canvas"]
