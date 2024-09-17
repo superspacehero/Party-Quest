@@ -50,7 +50,8 @@ void vertex() {
 
     //Map rotation to screen space
     BG_COORDS = vec4(y * 0.5, -x, y * 0.5, -x) * -(1.0 / PI);
-    BG_COORDS.yw += vertical_offset;
+    // Whatever vertical_offset is set to, lerp from it to 0.5 the closer to straight up/down the camera looks
+    BG_COORDS.yw += mix(0.5, vertical_offset, CAMERA_DIRECTION_WORLD.z);
 
     BG_SCALE.y = fov.y * (1.0 / 180.0);
     BG_SCALE.x = !lock_aspect ?
@@ -75,16 +76,16 @@ float alpha_distortion(float input_alpha, vec2 uv, float amount, vec2 speed) {
     return input_alpha * clamp(mix(input_alpha, input_alpha * distortion, -amount * distortion), 0.0, 1.0);
 }
 
-vec4 blend_texture(vec4 texture, int blend_mode, vec4 color) {
+vec4 blend_texture(vec4 base_texture, vec4 new_texture, int blend_mode) {
     switch (blend_mode) {
         case 0: // Mix
-            return mix(color, texture, texture.a);
+            return mix(base_texture, new_texture, new_texture.a);
         case 1: // Add
-            return color + texture;
+            return base_texture + new_texture;
         case 2: // Subtract
-            return color - texture;
+            return base_texture - new_texture;
         case 3: // Multiply
-            return color * texture;
+            return base_texture * new_texture;
     }
 }
 
@@ -100,7 +101,7 @@ void fragment() {
     texture_vector.a = alpha_distortion(texture_vector.a, noise_uv,
         background_alpha_distortion, background_noise_speed);
     texture_vector *= background_color;
-    color = blend_texture(texture_vector, background_blend_mode, color);
+    color = blend_texture(color, texture_vector, background_blend_mode);
 
     // Foreground texture calculations
     uv = (SCREEN_UV) * BG_SCALE + BG_COORDS.zw;
@@ -109,7 +110,7 @@ void fragment() {
     texture_vector.a = alpha_distortion(texture_vector.a, noise_uv,
         foreground_alpha_distortion, foreground_noise_speed);
     texture_vector *= foreground_color;
-    color = blend_texture(texture_vector, foreground_blend_mode, color);
+    color = blend_texture(color, texture_vector, foreground_blend_mode);
 
     // Sky color calculations
     color *= texture(sky_time_gradient, vec2(sky_time, sky_time)).rgba;

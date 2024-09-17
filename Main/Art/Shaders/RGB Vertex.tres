@@ -113,9 +113,9 @@ function = 2
 [sub_resource type="VisualShaderNodeTransformDecompose" id="VisualShaderNodeTransformDecompose_vin3p"]
 
 [sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_irhwf"]
-parameter_name = "Noise_Scale"
-default_value_enabled = true
-default_value = 8.0
+parameter_name = "Fade_Noise_Scale"
+qualifier = 1
+default_value = 32.0
 
 [sub_resource type="VisualShaderNodeCustom" id="VisualShaderNodeCustom_awhyr"]
 default_input_values = [1, Vector3(0, 0, 0), 2, 5.0, 3, 0.0]
@@ -146,7 +146,7 @@ uniform vec4 Red_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000
 uniform vec4 Green_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 uniform vec4 Blue_Color : source_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
 global uniform vec2 FadeDistances;
-uniform float Noise_Scale = 8;
+global uniform float Fade_Noise_Scale;
 
 
 
@@ -357,7 +357,7 @@ void fragment() {
 
 
 // FloatParameter:46
-	float n_out46p0 = Noise_Scale;
+	float n_out46p0 = Fade_Noise_Scale;
 
 
 	float n_out48p0;
@@ -378,6 +378,7 @@ void fragment() {
 
 }
 "
+graph_offset = Vector2(-617.455, 1049.91)
 nodes/fragment/0/position = Vector2(760, 160)
 nodes/fragment/2/node = SubResource("VisualShaderNodeVectorOp_e7505")
 nodes/fragment/2/position = Vector2(180, 220)
