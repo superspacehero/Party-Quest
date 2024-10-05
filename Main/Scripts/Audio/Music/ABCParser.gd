@@ -284,14 +284,13 @@ func convert_tracker_to_abc_string(tracker_music: String) -> String:
 		# Start each instrument with "V:" and a newline
 		output_lines.append("\nV:" + str(channel_idx) + "\n%%Music/Instruments/Piano\n")
 
+		# Add an initial rest if the first note is a hold
+		if converted_rows[channel_idx].size() > 0 and converted_rows[channel_idx][0] == "---":
+			converted_rows[channel_idx][0] = "-Z-"
+
 		# Add notes with bar separators and new lines after the specified number of notes
 		var note_count = 0
 		for i in range(converted_rows[channel_idx].size()):
-			# Ensure first notes in a bar isn't a hold, convert it to a rest if necessary
-			if note_count % notes_per_bar == 0:
-				if converted_rows[channel_idx][i] == "---":
-					converted_rows[channel_idx][i] = "-Z-"
-
 			output_lines.append(converted_rows[channel_idx][i])
 			note_count += 1
 
