@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://drkhl3cx3ta3x"]
+
+[ext_resource type="PackedScene" uid="uid://dhfswy610alwd" path="res://Main/Art/Models/Characters/Monsters/Unhatchling.fbx" id="1_3gth4"]
+[ext_resource type="Script" path="res://addons/so_fluffy/so_fluffy.gd" id="3_shuoc"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_30hqb"]
+frequency = 0.0095
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ty63f"]
+as_normal_map = true
+noise = SubResource("FastNoiseLite_30hqb")
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_t3vqn"]
+as_normal_map = true
+noise = SubResource("FastNoiseLite_30hqb")
+
+[sub_resource type="Gradient" id="Gradient_dd58s"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.8)
+colors = PackedColorArray(0.883333, 0.883333, 0.883333, 1, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+metadata/_snap_count = 25
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_o8hyg"]
+gradient = SubResource("Gradient_dd58s")
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="Unhatchling" instance=ExtResource("1_3gth4")]
+
+[node name="Fur" type="Node" parent="Unhatchling/Unhatchling_Head" index="0"]
+script = ExtResource("3_shuoc")
+lod_enabled = true
+lod_max_distance = 1.0
+density = 0.125
+seed = 32314
+scruffiness = 1.0
+thickness_scale = 4.0
+turbulence_texture = SubResource("NoiseTexture2D_ty63f")
+turbulence_strength = 0.0
+jitter_texture = SubResource("NoiseTexture2D_t3vqn")
+jitter_strength = 1.0
+height_gradient = SubResource("GradientTexture2D_o8hyg")
+albedo_color = Color(1, 0.635294, 0.0784314, 1)
+damping = 1.0
+stiffness = 0.0

@@ -10,7 +10,7 @@ case "$first_letter" in
         $godot $project_path & code . & $github &
         ;;
     "b")
-        $godot $project_path & flatpak run org.blender.Blender & $github &
+        $godot $project_path & flatpak run de.bforartists.Bforartists & $github &
         ;;
     "a")
         $godot $project_path & flatpak run org.gimp.GIMP & $github &

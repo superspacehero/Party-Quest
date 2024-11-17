@@ -56,11 +56,14 @@ near = 0.1
 far = 5.0
 
 [node name="Text Light 1" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="1"]
+transform = Transform3D(92.388, 28.1217, 25.9545, -38.2683, 67.8918, 62.6597, 0, -67.8224, 73.4855, 0, 0, 0)
+light_color = Color(0.929412, 0.462745, 0.0784314, 1)
 light_cull_mask = 4294967294
 sky_mode = 1
 
 [node name="Text Light 2" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="2"]
-transform = Transform3D(65.3853, -73.1665, 19.2724, 27.338, 46.5965, 84.1511, -70.5507, -49.7538, 50.4695, 0, 0, 0)
+transform = Transform3D(65.3853, -73.1665, 19.2724, 27.338, 46.5965, 84.1511, -70.5507, -49.7537, 50.4695, 0, 0, 0)
+visible = false
 light_cull_mask = 4294967294
 sky_mode = 1
 
@@ -200,5 +203,6 @@ next_menu = NodePath("../Load Scene Menu")
 [editable path="Title Menu"]
 [editable path="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene"]
 [editable path="Game Manager"]
+[editable path="Game Manager/Gameplay Camera"]
 [editable path="Game Manager/Canvas"]
 [editable path="Main Menu"]

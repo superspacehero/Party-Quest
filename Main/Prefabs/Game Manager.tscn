@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=4 uid="uid://bys7dfc5svqto"]
+[gd_scene load_steps=34 format=4 uid="uid://bys7dfc5svqto"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Managers/GameManager.gd" id="1_t6bhp"]
 [ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="2_j6y75"]
@@ -23,22 +23,6 @@
 [ext_resource type="Script" path="res://Main/Scripts/Environment/LightingSetter.gd" id="18_hhpdw"]
 [ext_resource type="Texture2D" uid="uid://dty36irjm6dp8" path="res://Main/Art/Models/Gameplay/Dice-Diffuse.png" id="19_wrgqr"]
 [ext_resource type="Texture2D" uid="uid://b2ojyhsgubnm4" path="res://Main/Art/Models/Gameplay/Dice-Normal.png" id="20_6t6je"]
-[ext_resource type="ArrayMesh" uid="uid://d2jyuqe0snhip" path="res://Main/Art/Models/Parts/Hemisphere.obj" id="21_01owo"]
-[ext_resource type="Shader" uid="uid://x7x1a4jikskh" path="res://Main/Art/Shaders/RGB Character.tres" id="22_jj7va"]
-[ext_resource type="ArrayMesh" uid="uid://djiv3essdss80" path="res://Main/Art/Models/Parts/Arm.obj" id="23_tl6il"]
-[ext_resource type="ArrayMesh" uid="uid://cl8fts6wpp6r4" path="res://Main/Art/Models/Parts/Hand2.obj" id="24_js8lr"]
-[ext_resource type="ArrayMesh" uid="uid://cf5v4vewn66gi" path="res://Main/Art/Models/Parts/Ear_Round.obj" id="25_5a5ve"]
-[ext_resource type="ArrayMesh" uid="uid://dhmnw4v0epb2i" path="res://Main/Art/Models/Parts/Eyes.obj" id="26_rd1q7"]
-[ext_resource type="Texture2D" uid="uid://cluxn7sg566wu" path="res://Main/Art/Sprites/Parts/Body/Eye_White_TwoThirdsDome_1.png" id="27_k72k0"]
-[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/FacialPartThing.gd" id="28_kwjeg"]
-[ext_resource type="Texture2D" uid="uid://drd5sm6mpsx1o" path="res://Main/Art/Sprites/Parts/Body/Eye_Dot_Thin_1.png" id="29_o2wo1"]
-[ext_resource type="ArrayMesh" uid="uid://bq4pl20efyxba" path="res://Main/Art/Models/Parts/Eyebrows.obj" id="30_t1e6u"]
-[ext_resource type="Texture2D" uid="uid://c12b72t3gnga6" path="res://Main/Art/Sprites/Parts/Body/Eyebrow_Outline.png" id="31_eyuss"]
-[ext_resource type="ArrayMesh" uid="uid://2131md46pxx1" path="res://Main/Art/Models/Parts/Mouth.obj" id="32_ehdtb"]
-[ext_resource type="Texture2D" uid="uid://dxwwtse8shaj4" path="res://Main/Art/Sprites/Parts/Body/Mouth_Creased_1.png" id="33_f64gb"]
-[ext_resource type="ArrayMesh" uid="uid://676140dgroiq" path="res://Main/Art/Models/Parts/Nose.obj" id="34_6tdug"]
-[ext_resource type="ArrayMesh" uid="uid://c0mhq0k8a7yik" path="res://Main/Art/Models/Parts/Pompadour.obj" id="35_ybnri"]
-[ext_resource type="ArrayMesh" uid="uid://cywod12l64euj" path="res://Main/Art/Models/Parts/Boot.obj" id="36_oye71"]
 
 [sub_resource type="Theme" id="Theme_sywud"]
 
@@ -129,89 +113,6 @@ _bundled = {
 "version": 3
 }
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6wjcr"]
-render_priority = 0
-shader = ExtResource("22_jj7va")
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(0.658824, 0.447059, 0.254902, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dl455"]
-render_priority = 0
-shader = ExtResource("22_jj7va")
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(0.478431, 0.133333, 0.0941176, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_5p73i"]
-render_priority = 0
-shader = ExtResource("22_jj7va")
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(0.26, 0.148373, 0.0208, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3itju"]
-render_priority = 0
-shader = ExtResource("18_bk6wq")
-shader_parameter/Integer_Positions = false
-shader_parameter/Color_Randomization = 0.0
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Offset = Vector2(0, 0)
-shader_parameter/Frames = Vector2(1, 3)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 0)
-shader_parameter/MainTex = ExtResource("27_k72k0")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_b5xf3"]
-render_priority = 0
-shader = ExtResource("18_bk6wq")
-shader_parameter/Integer_Positions = false
-shader_parameter/Color_Randomization = 0.0
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Offset = Vector2(0, 0)
-shader_parameter/Frames = Vector2(1, 1)
-shader_parameter/Green_Color = Color(0, 0.0313726, 1, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 0)
-shader_parameter/MainTex = ExtResource("29_o2wo1")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_cotly"]
-render_priority = 0
-shader = ExtResource("18_bk6wq")
-shader_parameter/Integer_Positions = false
-shader_parameter/Color_Randomization = 0.0
-shader_parameter/Red_Color = Color(0.196078, 0.196078, 0.196078, 1)
-shader_parameter/Offset = Vector2(0, 0)
-shader_parameter/Frames = Vector2(4, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 1)
-shader_parameter/MainTex = ExtResource("31_eyuss")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_01031"]
-render_priority = 0
-shader = ExtResource("18_bk6wq")
-shader_parameter/Integer_Positions = false
-shader_parameter/Color_Randomization = 0.0
-shader_parameter/Red_Color = Color(0.658824, 0.447059, 0.254902, 1)
-shader_parameter/Offset = Vector2(0, 0)
-shader_parameter/Frames = Vector2(2, 3)
-shader_parameter/Green_Color = Color(0.529412, 0, 0, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 1)
-shader_parameter/MainTex = ExtResource("33_f64gb")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3mimb"]
-render_priority = 0
-shader = ExtResource("22_jj7va")
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(0.1, 0.1, 0.1, 1)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tuk2c"]
-render_priority = 0
-shader = ExtResource("22_jj7va")
-shader_parameter/Red_Color = Color(0.458824, 0.188235, 0.0588235, 1)
-shader_parameter/Green_Color = Color(0.796078, 0.360784, 0.160784, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 1)
-
 [node name="Game Manager" type="Node3D"]
 script = ExtResource("1_t6bhp")
 level_scene = "res://Main/Scenes/Level.tscn"
@@ -226,6 +127,192 @@ transpose_window_theme = SubResource("Theme_sywud")
 
 [node name="MusicPlayer" type="Node" parent="Music"]
 script = ExtResource("5_m8ws3")
+song = "
+X:1
+T:Donut Plains
+Q:1/8=138
+K:C
+
+V:1
+%%Music/Instruments/Nylon Guitar
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- ---|--- --- -Z- ---|-D3 --- --- ---|--- --- -Z- ---|
+-G1 --- --- ---|--- --- -Z- ---|-G2 --- --- ---|--- --- -Z- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- -Z-|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+^C2 --- --- ---|--- --- --- ---|--- --- --- ---|--- -Z- --- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- ---|--- --- -Z- ---|-D3 --- --- ---|--- --- -Z- ---|
+-G1 --- --- ---|--- --- -Z- ---|-G2 --- --- ---|--- --- -Z- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:2
+%%Music/Instruments/Nylon Guitar
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- ---|--- --- -Z- ---|-D3 --- --- ---|--- --- -Z- ---|
+-G1 --- --- ---|--- --- -Z- ---|-G2 --- --- ---|--- --- -Z- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- -Z-|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+^C2 --- --- ---|--- --- --- ---|--- --- --- ---|--- -Z- --- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+-D2 --- --- ---|--- --- -Z- ---|-D3 --- --- ---|--- --- -Z- ---|
+-G1 --- --- ---|--- --- -Z- ---|-G2 --- --- ---|--- --- -Z- ---|
+-C2 --- --- ---|--- --- -Z- ---|-C3 --- --- ---|--- --- -Z- ---|
+-A1 --- --- ---|--- --- -Z- ---|-A2 --- --- ---|--- --- -Z- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:3
+%%Music/Instruments/Marimba
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -D5 --- -Z-|-C6 --- -D5 ---|--- -C6 --- ---|
+-Z- --- --- ---|--- --- --- ---|-B5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-C6 -Z- --- ---|--- -A5 --- -Z-|--- --- --- -F5|--- -Z- --- ---|
+-E5 --- --- ---|--- --- --- -Z-|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -D5 --- -Z-|-C6 --- -D5 ---|--- -C6 --- ---|
+-Z- --- --- ---|--- --- --- ---|-B5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-D5 -Z- --- ---|--- -E5 -Z- ---|-F5 -Z- --- ---|--- -G5 --- -Z-|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:4
+%%Music/Instruments/Pan Flute
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -D5 --- -Z-|-C6 --- -D5 ---|--- -C6 --- ---|
+-Z- --- --- ---|--- --- --- ---|-B5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-C6 -Z- --- ---|--- -A5 --- -Z-|--- --- --- -F5|--- -Z- --- ---|
+-E5 --- --- ---|--- --- --- -Z-|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -D5 --- -Z-|-C6 --- -D5 ---|--- -C6 --- ---|
+-Z- --- --- ---|--- --- --- ---|-B5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- -C5 --- -Z-|-B5 --- -C5 ---|--- -B5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- --- ---|--- --- --- ---|
+-D5 -Z- --- ---|--- -E5 -Z- ---|-F5 -Z- --- ---|--- -G5 --- -Z-|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:5
+%%Music/Instruments/Piccolo
+-Z- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- -G6 -A6 -G6|--- --- --- ---|--- -Z- --- ---|
+V:6
+%%Music/Instruments/Marimba
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-F5 --- -Z- ---|--- -F5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-F5 --- --- ---|--- --- --- ---|--- -Z- --- ---|--- --- --- ---|
+-F4 --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- -Z-|
+--- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-F5 --- -Z- ---|--- -F5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:7
+%%Music/Instruments/Pan Flute
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-F5 --- -Z- ---|--- -F5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-F5 --- --- ---|--- --- --- ---|--- -Z- --- ---|--- --- --- ---|
+-F4 --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- -Z-|
+--- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-F5 --- -Z- ---|--- -F5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-D5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- -Z- ---|--- -E5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-C5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:8
+%%Music/Instruments/Marimba
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- -Z- ---|--- -A5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-A5 --- --- ---|--- --- --- ---|--- -Z- --- ---|--- --- --- ---|
+-B4 --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- -Z-|
+--- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- -Z- ---|--- -A5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:9
+%%Music/Instruments/Pan Flute
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- -Z- ---|--- -A5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-A5 --- --- ---|--- --- --- ---|--- -Z- --- ---|--- --- --- ---|
+-B4 --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- -Z-|
+--- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-A5 --- -Z- ---|--- -A5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|-G5 --- -Z- ---|--- -G5 --- ---|
+-Z- --- --- ---|--- --- --- ---|-E5 --- --- ---|--- --- --- ---|
+-Z- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+--- --- --- ---|--- --- --- ---|--- --- --- ---|--- --- --- ---|
+V:10
+%%Music/Instruments/Percussion
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- --- --- ---|^F2 --- ^F2 ---|-Z- ^F2 --- ^G2|
+--- -Z- --- ---|--- --- --- ---|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- ^F2 --- -Z-|^G2 --- -Z- ---|--- --- --- ---|
+^F2 --- -Z- ---|--- --- --- ---|^F2 --- ^F2 ---|-Z- ^F2 --- ^G2|
+--- -Z- --- ---|--- --- --- ---|^G2 --- -Z- ---|--- --- --- ---|"
 
 [node name="Input Manager" parent="." instance=ExtResource("6_smorc")]
 
@@ -399,6 +486,7 @@ sky_mode = 1
 
 [node name="Moon" type="Node3D" parent="Environmental Lights"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+visible = false
 
 [node name="Light_Moon1" type="DirectionalLight3D" parent="Environmental Lights/Moon"]
 transform = Transform3D(0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, 0, 0, 0)
@@ -418,157 +506,6 @@ sky_mode = 1
 [node name="Dice" type="Node" parent="Pools"]
 script = ExtResource("16_2mt5r")
 object_scene = SubResource("PackedScene_hl3s3")
-
-[node name="Base" type="Node3D" parent="."]
-transform = Transform3D(1, -8.74228e-08, 0, 8.74228e-08, 1, 0, 0, 0, 0.1, 0.5, 0, 0.5)
-visible = false
-
-[node name="Rotator" type="Node3D" parent="Base"]
-transform = Transform3D(-0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 0, 0, 0)
-
-[node name="Body" type="CSGMesh3D" parent="Base/Rotator"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0)
-mesh = ExtResource("21_01owo")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Body2" type="CSGMesh3D" parent="Base/Rotator/Body"]
-transform = Transform3D(-1, 2.64243e-07, 0, -1.50996e-07, -1.75, 0, 0, 0, 1, 0, 0, 0)
-mesh = ExtResource("21_01owo")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Shirt" type="Node3D" parent="Base/Rotator/Body"]
-transform = Transform3D(1, -4.15238e-07, 0, 4.15238e-07, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Shirt" type="MeshInstance3D" parent="Base/Rotator/Body/Shirt"]
-transform = Transform3D(1.05, 8.30477e-07, 0, 4.36e-07, -2, 0, 0, 0, 1.05, 0, 0, 0)
-mesh = ExtResource("21_01owo")
-surface_material_override/0 = SubResource("ShaderMaterial_dl455")
-
-[node name="Pants" type="Node3D" parent="Base/Rotator/Body"]
-transform = Transform3D(1, -4.15238e-07, 0, 4.15238e-07, 1, 0, 0, 0, 1, 0, 0, 0)
-
-[node name="Pants" type="MeshInstance3D" parent="Base/Rotator/Body/Pants"]
-transform = Transform3D(1.025, 2.84217e-14, 0, -2.84217e-14, 1, 0, 0, 0, 1.025, 0, 0, 0)
-mesh = ExtResource("21_01owo")
-surface_material_override/0 = SubResource("ShaderMaterial_5p73i")
-
-[node name="Arm - Left" type="Node3D" parent="Base/Rotator/Body"]
-transform = Transform3D(0.939692, 0.34202, 0, -0.296198, 0.813798, 0.5, 0.17101, -0.469846, 0.866025, -0.25, 0.4, 0)
-
-[node name="Sleeve" type="MeshInstance3D" parent="Base/Rotator/Body/Arm - Left"]
-transform = Transform3D(-0.4, -5.96046e-08, 2.98023e-08, -7.45058e-09, -0.984807, -0.0694593, 0, -0.173648, 0.393923, 0, -0.15, -0.025)
-mesh = ExtResource("21_01owo")
-surface_material_override/0 = SubResource("ShaderMaterial_dl455")
-
-[node name="Arm - Left" type="CSGMesh3D" parent="Base/Rotator/Body/Arm - Left"]
-transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
-mesh = ExtResource("23_tl6il")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Hand - Left" type="CSGMesh3D" parent="Base/Rotator/Body/Arm - Left/Arm - Left"]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.37, -0.105)
-mesh = ExtResource("24_js8lr")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Arm - Right" type="Node3D" parent="Base/Rotator/Body"]
-transform = Transform3D(0.939693, -0.34202, 0, 0.296198, 0.813798, 0.5, -0.17101, -0.469846, 0.866025, 0.25, 0.4, 0)
-
-[node name="Sleeve" type="MeshInstance3D" parent="Base/Rotator/Body/Arm - Right"]
-transform = Transform3D(-0.4, -1.48144e-07, -6.4689e-09, 5.94807e-08, -0.984808, -0.0694593, 3.91937e-09, -0.173648, 0.393923, 0, -0.15, -0.025)
-mesh = ExtResource("21_01owo")
-surface_material_override/0 = SubResource("ShaderMaterial_dl455")
-
-[node name="Arm - Right" type="CSGMesh3D" parent="Base/Rotator/Body/Arm - Right"]
-transform = Transform3D(1, -1.49012e-08, 0, 1.49012e-08, 1, 2.6077e-08, 2.98023e-08, -5.58794e-08, 1, 0, 0, 0)
-mesh = ExtResource("23_tl6il")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Hand - Right" type="CSGMesh3D" parent="Base/Rotator/Body/Arm - Right/Arm - Right"]
-transform = Transform3D(1, 0, -1.19209e-07, 1.49012e-08, 0.707106, -0.707106, 2.98023e-08, 0.707106, 0.707107, 0, -0.37, -0.105)
-mesh = ExtResource("24_js8lr")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Head" type="Node3D" parent="Base/Rotator/Body"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.05)
-
-[node name="EarRound - Left" type="MeshInstance3D" parent="Base/Rotator/Body/Head"]
-transform = Transform3D(-0.0871558, 0, -0.996195, 0, 1, 0, -0.996195, 0, 0.0871558, -0.31, 0, 0.1)
-mesh = ExtResource("25_5a5ve")
-surface_material_override/0 = SubResource("ShaderMaterial_6wjcr")
-
-[node name="EarRound - Right" type="MeshInstance3D" parent="Base/Rotator/Body/Head"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0.29, 0, -0.125)
-mesh = ExtResource("25_5a5ve")
-surface_material_override/0 = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Head" type="CSGMesh3D" parent="Base/Rotator/Body/Head"]
-transform = Transform3D(1.1, 0, 0, 0, 1, 0, 0, 0, 1.1, 0, 0, 0)
-mesh = ExtResource("21_01owo")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Head2" type="CSGMesh3D" parent="Base/Rotator/Body/Head/Head"]
-transform = Transform3D(-1, 2.24229e-07, 0, -1.50996e-07, -1.485, 0, 0, 0, 1, 0, 0, 0)
-mesh = ExtResource("21_01owo")
-material = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Eyes" type="MeshInstance3D" parent="Base/Rotator/Body/Head/Head/Head2" node_paths=PackedStringArray("face_mesh", "thing_root")]
-transform = Transform3D(-1.01, -1.49012e-07, 5.96046e-08, 1.50874e-07, -1.01, 7.45058e-09, 0, 7.45058e-09, 1.01, 0, 0, 0)
-mesh = ExtResource("26_rd1q7")
-surface_material_override/0 = SubResource("ShaderMaterial_3itju")
-script = ExtResource("28_kwjeg")
-face_frames = Vector2i(1, 3)
-face_mesh = NodePath(".")
-thing_root = NodePath(".")
-
-[node name="Eyes" type="MeshInstance3D" parent="Base/Rotator/Body/Head/Head/Head2/Eyes"]
-transform = Transform3D(1.01, 3.55272e-15, 8.9407e-08, -3.55271e-15, 1.01, -1.77636e-15, -8.9407e-08, 1.77636e-15, 1.01, 0, 0, 0)
-mesh = ExtResource("26_rd1q7")
-surface_material_override/0 = SubResource("ShaderMaterial_b5xf3")
-
-[node name="Eyebrows" type="MeshInstance3D" parent="Base/Rotator/Body/Head/Head/Head2" node_paths=PackedStringArray("face_mesh", "thing_root")]
-transform = Transform3D(-1.02, -1.54016e-07, -8.93982e-08, 1.54016e-07, -1.02, 1.88273e-14, -8.93982e-08, 5.32854e-15, 1.02, 0, 0, 0)
-mesh = ExtResource("30_t1e6u")
-surface_material_override/0 = SubResource("ShaderMaterial_cotly")
-script = ExtResource("28_kwjeg")
-face_frames = Vector2i(4, 1)
-face_mesh = NodePath(".")
-thing_root = NodePath(".")
-
-[node name="Mouth" type="MeshInstance3D" parent="Base/Rotator/Body/Head/Head" node_paths=PackedStringArray("face_mesh", "thing_root")]
-transform = Transform3D(1.11, -4.39692e-16, 5.96046e-08, 0, 1.01, 7.45058e-09, -6.55061e-08, -7.45058e-09, 1.01, 0, 0, 0)
-mesh = ExtResource("32_ehdtb")
-surface_material_override/0 = SubResource("ShaderMaterial_01031")
-script = ExtResource("28_kwjeg")
-face_frames = Vector2i(2, 3)
-face_mesh = NodePath(".")
-thing_root = NodePath(".")
-
-[node name="Nose" type="Node3D" parent="Base/Rotator/Body/Head"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.3)
-
-[node name="Nose" type="MeshInstance3D" parent="Base/Rotator/Body/Head/Nose"]
-mesh = ExtResource("34_6tdug")
-surface_material_override/0 = SubResource("ShaderMaterial_6wjcr")
-
-[node name="Pompadour" type="MeshInstance3D" parent="Base/Rotator/Body/Head"]
-transform = Transform3D(-1.125, 1.21105e-07, -2.1145e-07, 1.58588e-07, 1.16698, -0.537552, -1.08994e-07, 0.44796, 1.40037, 2.38419e-07, 0.401579, -0.0192394)
-mesh = ExtResource("35_ybnri")
-skeleton = NodePath("../../../../..")
-surface_material_override/0 = SubResource("ShaderMaterial_3mimb")
-
-[node name="Boot - Left" type="Node3D" parent="Base/Rotator"]
-transform = Transform3D(0.965926, 3.60948e-09, 0.258819, -3.73681e-09, 1, 0, -0.258819, -9.67158e-10, 0.965926, -0.15, 0, 0)
-
-[node name="Boot - Left" type="MeshInstance3D" parent="Base/Rotator/Boot - Left"]
-mesh = ExtResource("36_oye71")
-surface_material_override/0 = SubResource("ShaderMaterial_tuk2c")
-
-[node name="Boot - Right" type="Node3D" parent="Base/Rotator"]
-transform = Transform3D(0.965926, 5.39753e-09, -0.258819, -5.58794e-09, 1, 0, 0.258819, 1.44626e-09, 0.965926, 0.15, 0, 0)
-
-[node name="Boot - Right" type="MeshInstance3D" parent="Base/Rotator/Boot - Right"]
-mesh = ExtResource("36_oye71")
-surface_material_override/0 = SubResource("ShaderMaterial_tuk2c")
 
 [editable path="Gameplay Camera"]
 [editable path="Canvas"]

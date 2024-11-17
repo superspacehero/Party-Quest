@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://mesflqkfbxce"]
+
+[ext_resource type="PackedScene" uid="uid://dhg2y0yfit5fo" path="res://Main/Art/Models/Characters/Moominoids/Moominoid.fbx" id="1_3mo0e"]
+
+[node name="Moomin" node_paths=PackedStringArray("thing_root") instance=ExtResource("1_3mo0e")]
+collider_dimensions = Vector2(0.667, 1.5)
+thing_root = NodePath(".")
+
+[node name="Skeleton3D" parent="." index="1"]
+bones/1/rotation = Quaternion(0.0132589, 9.86653e-09, 1.01317e-08, 0.999912)
+bones/3/rotation = Quaternion(2.31216e-06, 2.27287e-06, 0.00173337, 0.999999)
+bones/6/rotation = Quaternion(2.32213e-06, -2.25286e-06, -0.00173337, 0.999999)

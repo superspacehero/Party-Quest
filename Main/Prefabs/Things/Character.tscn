@@ -1,22 +1,71 @@
-[gd_scene load_steps=5 format=3 uid="uid://di2fygscjm4on"]
+[gd_scene load_steps=15 format=3 uid="uid://di2fygscjm4on"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Things/CharacterThing.gd" id="1_gisi8"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="2_ghhq8"]
+[ext_resource type="PackedScene" uid="uid://mesflqkfbxce" path="res://Main/Prefabs/Things/Characters/Moominoids/Moominoid.tscn" id="3_7ufjv"]
 [ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="3_shpkp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ck771"]
 
-[node name="Character" type="Node3D" node_paths=PackedStringArray("character_body", "character_base", "character_collider", "nav_agent", "thing_root")]
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q48ye"]
+animation = &"Pain"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_2gs2a"]
+animation = &"Blink"
+
+[sub_resource type="AnimationNodeAdd2" id="AnimationNodeAdd2_cispg"]
+sync = true
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_oh14j"]
+animation = &"Idle"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_nkehj"]
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_shngx"]
+fadein_time = 0.1
+fadeout_time = 0.1
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_8ggl4"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_py225"]
+animation = &"Walk"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rx5rj"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_q48ye")
+nodes/Animation/position = Vector2(100, 360)
+nodes/Blink/node = SubResource("AnimationNodeAnimation_2gs2a")
+nodes/Blink/position = Vector2(-220, 380)
+nodes/Body-Eyes/node = SubResource("AnimationNodeAdd2_cispg")
+nodes/Body-Eyes/position = Vector2(100, 120)
+nodes/Idle/node = SubResource("AnimationNodeAnimation_oh14j")
+nodes/Idle/position = Vector2(-220, 40)
+nodes/Movement/node = SubResource("AnimationNodeBlend2_nkehj")
+nodes/Movement/position = Vector2(-60, 20)
+nodes/Pain/node = SubResource("AnimationNodeOneShot_shngx")
+nodes/Pain/position = Vector2(260, 120)
+nodes/Walk/node = SubResource("AnimationNodeAnimation_py225")
+nodes/Walk/position = Vector2(-380, 200)
+"nodes/Walk Speed/node" = SubResource("AnimationNodeTimeScale_8ggl4")
+"nodes/Walk Speed/position" = Vector2(-220, 200)
+nodes/output/position = Vector2(420, 140)
+node_connections = [&"Body-Eyes", 0, &"Movement", &"Body-Eyes", 1, &"Blink", &"Movement", 0, &"Idle", &"Movement", 1, &"Walk Speed", &"Pain", 0, &"Body-Eyes", &"Pain", 1, &"Animation", &"Walk Speed", 0, &"Walk", &"output", 0, &"Pain"]
+
+[node name="Character" type="Node3D" node_paths=PackedStringArray("character_body", "character_base", "character_collider", "nav_agent", "animator")]
 script = ExtResource("1_gisi8")
 character_body = NodePath("CharacterBody3D")
-character_base = NodePath("CharacterBody3D/Base")
+character_base = NodePath("CharacterBody3D/Base/Rotator")
 character_collider = NodePath("CharacterBody3D/CollisionShape3D")
 nav_agent = NodePath("CharacterBody3D/NavigationAgent3D")
-thing_root = NodePath("CharacterBody3D")
+animator = NodePath("Animator")
+part_prefabs = [ExtResource("3_7ufjv")]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
 [node name="Base" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="Rotator" type="Node3D" parent="CharacterBody3D/Base"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 script = ExtResource("2_ghhq8")
 thing_type = "Body"
 
@@ -29,3 +78,12 @@ shape = SubResource("CapsuleShape3D_ck771")
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="CharacterBody3D"]
 path_postprocessing = 1
 avoidance_enabled = true
+
+[node name="Animator" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeBlendTree_rx5rj")
+parameters/Body-Eyes/add_amount = 1.0
+parameters/Movement/blend_amount = 0.0
+parameters/Pain/active = false
+parameters/Pain/internal_active = false
+parameters/Pain/request = 0
+"parameters/Walk Speed/scale" = 1.0

@@ -3,11 +3,11 @@ class_name CharacterThing
 
 # 1. Member Variables/Properties
 
-@export var character_part_list : CharacterPartList = null
 @export var character_body : CharacterBody3D = null
 @export var character_base : ThingSlot = null
 @export var character_collider : CollisionShape3D = null
 @export var nav_agent : NavigationAgent3D = null
+@export var animator : AnimationTree = null
 
 @export_category("Movement")
 @export var character_speed : float = 4  # The speed at which the character moves.
@@ -57,10 +57,10 @@ func _physics_process(delta):
 	velocity.z = movement_vector.z
 
 	# if movement.z != 0:
-	set_sorting_offset_to_position(character_body.position.z)
-	for part in parts:
-		var found_part = find_part_in_children(part)
-		found_part.set_sorting_offset_to_position(character_body.position.z)
+	# set_sorting_offset_to_position(character_body.position.z)
+	# for part in parts:
+	# 	var found_part = find_part_in_children(part)
+	# 	found_part.set_sorting_offset_to_position(character_body.position.z)
 
 	if character_body.is_on_floor():
 		if !jump_input:
@@ -86,9 +86,12 @@ func _process(delta):
 func calculate_movement_direction() -> Vector3:
 	var direction = Vector3.ZERO
 
-	direction += Plane(GameplayCamera.instance.basis.x,character_body.basis.y.z).normalized().normal * movement.x
-	direction += Plane(GameplayCamera.instance.basis.z,character_body.basis.y.z).normalized().normal * movement.z
-	direction.y = 0
+	if GameplayCamera.instance != null:
+		direction += Plane(GameplayCamera.instance.basis.x,character_body.basis.y.z).normalized().normal * movement.x
+		direction += Plane(GameplayCamera.instance.basis.z,character_body.basis.y.z).normalized().normal * movement.z
+		direction.y = 0
+	else:
+		direction = movement
 
 	direction = direction.normalized()
 	
@@ -113,8 +116,9 @@ func rotate_base(direction: Vector3):
 			
 			if direction.x == 0:
 				direction.x = rotation_direction.x
-			
-			direction.z *= 0.5
+
+			direction.z = -1 if direction.z >= 0 else 1
+
 		movement_rotation_behavior.TOWARDS_CAMERA:
 			direction = -GameplayCamera.instance.basis.z
 
@@ -134,9 +138,9 @@ func move(direction):
 	
 	movement.x = direction.x
 	movement.z = direction.y
-	
-	# print("move: " + str(direction))
-	
+
+	animator.get("parameters/Movement").value = movement.length()
+
 func primary(pressed):
 	jump_input = pressed
 
@@ -162,6 +166,7 @@ func pause(_pressed):
 
 @export_category("Character Assembly")
 
+@export var part_prefabs: Array = [CharacterPartThing]
 var parts: Array = [CharacterPartThing]
 var added_parts: Array = [Node3D]
 
@@ -170,14 +175,15 @@ var added_parts: Array = [Node3D]
 func assemble_character():
 	clear_previous_parts()
 	
-	if character_part_list:
-		for part in parts:
-			var part_instance = part.instantiate()
-			parts.append(part_instance)
-			# Set any properties on the part, such as color.
+	for part in part_prefabs:
+		var part_instance = part.instantiate()
+		parts.append(part_instance)
+		# Set any properties on the part, such as color.
 
-		# Attach parts to other parts.
-		attach_part_to_slot(character_base)
+	print("Assembling character with " + str(parts.size()) + " parts.")
+
+	# Attach parts to other parts.
+	attach_part_to_slot(character_base)
 
 	thing_top = thing_top
 
@@ -200,6 +206,8 @@ func find_part_in_children(node: Node) -> CharacterPartThing:
 			var result = find_part_in_children(child)
 			if result:
 				return result
+	if node is CharacterPartThing:
+		return node as CharacterPartThing
 	return null
 
 func attach_part(part: CharacterPartThing, parent: ThingSlot):
@@ -217,6 +225,7 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 			thing_top = part.thing_top
 		elif part is BodyThing:
 			var body_thing: BodyThing = part as BodyThing
+			animator.anim_player = animator.get_path_to(body_thing.animation_player)
 			character_collider.position.y = body_thing.collider_dimensions.y * 0.5
 			if character_collider.shape is CapsuleShape3D:
 				var capsule = character_collider.shape as CapsuleShape3D
@@ -232,7 +241,7 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 
 		attach_parts_to_part(part)
 
-		# print("Attached part: " + part.name + " to " + parent.name)
+		print("Attached part: " + part.name + " to " + parent.name)
 
 func attach_parts_to_part(part: CharacterPartThing):
 	for slot in part.inventory:
@@ -255,9 +264,13 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 			attached_part_success = true
 			# print("Attached part: " + found_part.name + " to " + slot.name)
 			# break
+		elif found_part and found_part.get_thing_type() != slot.thing_type:
+			print("Part " + part.name + " is not a " + slot.thing_type + ". It is a " + found_part.get_thing_type())
+		elif !found_part:
+			print("Part " + part.name + " not found in children.")
 
 	if !attached_part_success:
-		print("No part to attach to slot: " + slot.name)
+		print("No part to attach to slot: " + slot.name + ". Needs: " + slot.thing_type)
 
 func get_thing_slots() -> Array:
 	var slots: Array = [character_base]
