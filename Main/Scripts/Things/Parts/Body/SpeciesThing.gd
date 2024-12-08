@@ -1,5 +1,5 @@
 extends CharacterPartThing
-class_name BodyThing
+class_name SpeciesThing
 
 @export var collider_dimensions: Vector2 = Vector2(1, 2)
 
@@ -8,4 +8,4 @@ var animation_player: AnimationPlayer:
         return $AnimationPlayer
 
 func get_thing_subtype() -> String:
-    return "Body"
+    return "Species"

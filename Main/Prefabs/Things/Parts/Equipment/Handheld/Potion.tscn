@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0jaj3eg22mxa"]
+
+[ext_resource type="PackedScene" uid="uid://c0coooo7uhw1d" path="res://Main/Art/Models/Parts/Equipment/Potion.fbx" id="1_72opi"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/Liquid.gd" id="2_tpref"]
+[ext_resource type="Shader" uid="uid://bdq01nkut467l" path="res://Main/Art/Shaders/RGB Liquid.tres" id="2_uhxgs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2mvim"]
+render_priority = 0
+shader = ExtResource("2_uhxgs")
+shader_parameter/wobble = Vector2(0, 0)
+shader_parameter/Integer_Positions = true
+shader_parameter/Color_Randomization = 0.0
+shader_parameter/Red_Color = Color(0.917647, 0.196078, 0.235294, 1)
+shader_parameter/Green_Color = Color(0.783, 0.8149, 0.87, 1)
+shader_parameter/Blue_Color = Color(0.74902, 0.435294, 0.290196, 1)
+shader_parameter/liquid_height = 0.5
+shader_parameter/origin_ratio = 0.5
+
+[node name="Potion" instance=ExtResource("1_72opi")]
+
+[node name="Potion_Mesh" parent="Potion" index="0"]
+material_override = SubResource("ShaderMaterial_2mvim")
+script = ExtResource("2_tpref")
+liquid_height = 0.5

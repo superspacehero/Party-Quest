@@ -1,12 +1,51 @@
-[gd_scene load_steps=2 format=3 uid="uid://mesflqkfbxce"]
+[gd_scene load_steps=3 format=3 uid="uid://mesflqkfbxce"]
 
 [ext_resource type="PackedScene" uid="uid://dhg2y0yfit5fo" path="res://Main/Art/Models/Characters/Moominoids/Moominoid.fbx" id="1_3mo0e"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="2_cj6fy"]
 
-[node name="Moomin" node_paths=PackedStringArray("thing_root") instance=ExtResource("1_3mo0e")]
+[node name="Moominoid" instance=ExtResource("1_3mo0e")]
 collider_dimensions = Vector2(0.667, 1.5)
-thing_root = NodePath(".")
+inventory_paths = Array[NodePath]([NodePath("Armature/Skeleton3D/Hand_L"), NodePath("Armature/Skeleton3D/Hand_R")])
 
-[node name="Skeleton3D" parent="." index="1"]
-bones/1/rotation = Quaternion(0.0132589, 9.86653e-09, 1.01317e-08, 0.999912)
-bones/3/rotation = Quaternion(2.31216e-06, 2.27287e-06, 0.00173337, 0.999999)
-bones/6/rotation = Quaternion(2.32213e-06, -2.25286e-06, -0.00173337, 0.999999)
+[node name="Skeleton3D" parent="Armature" index="0"]
+bones/1/position = Vector3(-1.66942e-09, 0.0088965, 4.91058e-05)
+bones/1/rotation = Quaternion(0.0132589, 1.05195e-08, 1.05195e-08, 0.999912)
+bones/3/position = Vector3(0.00176205, 0.00525558, 0.000133569)
+bones/3/rotation = Quaternion(-0.492486, -0.494181, -0.507463, 0.505692)
+bones/3/scale = Vector3(1, 1, 1)
+bones/4/position = Vector3(1.61625e-11, 0.00249041, -6.57475e-10)
+bones/4/rotation = Quaternion(2.31233e-06, 2.27301e-06, 0.00173337, 0.999999)
+bones/4/scale = Vector3(1, 1, 1)
+bones/5/position = Vector3(1.03744e-11, 0.00150675, 9.29822e-10)
+bones/5/rotation = Quaternion(-3.60298e-05, -1.08592e-06, -0.707107, 0.707107)
+bones/5/scale = Vector3(1, 1, 1)
+bones/7/position = Vector3(-0.00176206, 0.00525558, 0.000133569)
+bones/7/rotation = Quaternion(-0.492486, 0.494181, 0.507463, 0.505692)
+bones/7/scale = Vector3(1, 1, 1)
+bones/8/position = Vector3(-8.62485e-12, 0.00249041, 9.11591e-10)
+bones/8/rotation = Quaternion(2.32097e-06, -2.2497e-06, -0.00173337, 0.999999)
+bones/8/scale = Vector3(1, 1, 1)
+bones/9/position = Vector3(-1.06877e-11, 0.00150675, -5.96055e-10)
+bones/9/rotation = Quaternion(-3.60305e-05, 1.08537e-06, 0.707107, 0.707107)
+bones/9/scale = Vector3(1, 1, 1)
+bones/12/position = Vector3(-1.49636e-13, 0.0016874, 8.49366e-11)
+bones/12/rotation = Quaternion(-0.0152271, 3.93788e-05, -4.44056e-05, 0.999884)
+bones/15/position = Vector3(1.49636e-13, 0.0016874, 8.49366e-11)
+bones/15/rotation = Quaternion(-0.0152271, -3.93788e-05, 4.44056e-05, 0.999884)
+
+[node name="Moominoid" parent="Armature/Skeleton3D" index="0"]
+"blend_shapes/Jiggle Angle" = -0.125
+
+[node name="Hand_R" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(-1, -1.4669e-07, -7.78898e-05, 1.01724e-07, -1, -2.41592e-05, -7.78451e-05, -2.40954e-05, 1, -0.0057592, 0.000479891, 0.00759064)
+bone_name = "Hand.R"
+bone_idx = 9
+script = ExtResource("2_cj6fy")
+thing_type = "Handheld"
+
+[node name="Hand_L" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(-1, 1.0431e-07, 7.79483e-05, -5.91175e-08, -1, -2.4204e-05, 7.79036e-05, -2.41404e-05, 1, 0.0057592, 0.000479891, 0.00759064)
+bone_name = "Hand.L"
+bone_idx = 5
+script = ExtResource("2_cj6fy")
+thing_type = "Handheld"

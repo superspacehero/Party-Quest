@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="CharacterPartList" load_steps=3 format=3 uid="uid://dqci7phxcwm4g"]
+[gd_resource type="Resource" script_class="CharacterPartList" load_steps=4 format=3 uid="uid://dqci7phxcwm4g"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Things/Parts/CharacterPartList.gd" id="1_6i4r1"]
 [ext_resource type="PackedScene" uid="uid://mesflqkfbxce" path="res://Main/Prefabs/Things/Characters/Moominoids/Moominoid.tscn" id="1_k81jp"]
+[ext_resource type="PackedScene" uid="uid://b0jaj3eg22mxa" path="res://Main/Prefabs/Things/Parts/Equipment/Handheld/Potion.tscn" id="2_bs8kv"]
 
 [resource]
 script = ExtResource("1_6i4r1")
-character_parts = Array[PackedScene]([ExtResource("1_k81jp")])
+character_parts = Array[PackedScene]([ExtResource("1_k81jp"), ExtResource("2_bs8kv")])

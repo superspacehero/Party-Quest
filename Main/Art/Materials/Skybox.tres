@@ -6,9 +6,11 @@
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_43rw4"]
 noise_type = 3
-frequency = 0.05
+frequency = 0.005
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_tknwq"]
+width = 256
+height = 256
 seamless = true
 seamless_blend_skirt = 0.25
 noise = SubResource("FastNoiseLite_43rw4")
@@ -19,14 +21,15 @@ colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 0.964706, 0.792157, 0.623529, 
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_esquo"]
 gradient = SubResource("Gradient_b4iwb")
+width = 64
 
 [resource]
-render_priority = 0
+render_priority = -1
 shader = ExtResource("1_r8otd")
 shader_parameter/lock_aspect = true
 shader_parameter/aspect_ratio = 1.0
 shader_parameter/fov = Vector2(180, 60)
-shader_parameter/vertical_offset = 0.6
+shader_parameter/vertical_offset = 0.7
 shader_parameter/sky_time = 0.25
 shader_parameter/sky_time_gradient = SubResource("GradientTexture1D_esquo")
 shader_parameter/background_color = Color(1, 1, 1, 1)

@@ -1,5 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://baonggjhiemxk"]
+[gd_scene load_steps=4 format=3 uid="uid://baonggjhiemxk"]
 
 [ext_resource type="PackedScene" uid="uid://884otvfca8po" path="res://Main/Art/Models/Characters/Moominoids/Mouse.fbx" id="1_1bhkh"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="2_b3fhr"]
+[ext_resource type="Script" path="res://Main/Scripts/Things/Parts/Body/BodyThing.gd" id="2_txvhv"]
 
 [node name="Mouse" instance=ExtResource("1_1bhkh")]
+script = ExtResource("2_txvhv")
+inventory_paths = Array[NodePath]([NodePath("Armature/Skeleton3D/Hand_L"), NodePath("Armature/Skeleton3D/Hand_R")])
+
+[node name="Hand_L" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="1"]
+transform = Transform3D(-0.197685, 0.538944, 0.818816, -0.974082, -0.201674, -0.102429, 0.109931, -0.817843, 0.564844, 0.00400371, 0.000533884, 0.00434938)
+bone_name = "Hand.L"
+bone_idx = 5
+script = ExtResource("2_b3fhr")
+thing_type = "Handheld"
+
+[node name="Hand_R" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.197685, -0.538944, -0.818816, 0.974082, -0.201674, -0.102428, -0.109931, -0.817843, 0.564844, -0.00400371, 0.000533884, 0.00434938)
+bone_name = "Hand.R"
+bone_idx = 9
+script = ExtResource("2_b3fhr")
+thing_type = "Handheld"

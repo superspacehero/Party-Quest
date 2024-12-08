@@ -3,27 +3,27 @@ class_name CharacterThing
 
 # 1. Member Variables/Properties
 
-@export var character_body : CharacterBody3D = null
-@export var character_base : ThingSlot = null
-@export var character_collider : CollisionShape3D = null
-@export var nav_agent : NavigationAgent3D = null
-@export var animator : AnimationTree = null
+@export var character_body: CharacterBody3D = null
+@export var character_base: ThingSlot = null
+@export var character_collider: CollisionShape3D = null
+@export var nav_agent: NavigationAgent3D = null
+@export var animator: AnimationTree = null
 
 @export_category("Movement")
-@export var character_speed : float = 4  # The speed at which the character moves.
-@export var jump_height: float = 1  # The height of the character's jump.
-@export var jump_offset: float = 0.15  # The offset of the character's jump.
-@export var gravity: float = 50  # The gravity of the character.
+@export var character_speed: float = 4 # The speed at which the character moves.
+@export var jump_height: float = 1 # The height of the character's jump.
+@export var jump_offset: float = 0.15 # The offset of the character's jump.
+@export var gravity: float = 50 # The gravity of the character.
 
 @onready var jump_full_height: float = jump_height + jump_offset
 @onready var jump_velocity: float = sqrt(2 * gravity * jump_full_height)
 
-enum control_level { NONE, MOVEMENT_ONLY, FULL }
+enum control_level {NONE, MOVEMENT_ONLY, FULL}
 @export var can_control: control_level = control_level.FULL
 @export var can_move: bool = true
 @export var can_jump: bool = true
 
-enum movement_rotation_behavior { NONE, FULL_ROTATION, LEFT_RIGHT_ROTATION, TOWARDS_CAMERA }
+enum movement_rotation_behavior {NONE, FULL_ROTATION, LEFT_RIGHT_ROTATION, TOWARDS_CAMERA}
 @export var rotation_behavior = movement_rotation_behavior.LEFT_RIGHT_ROTATION
 
 var input: ThingInput = null
@@ -31,7 +31,7 @@ var input: ThingInput = null
 var jump_input: bool = false
 var is_jumping: bool = false
 
-var velocity : Vector3 = Vector3.ZERO
+var velocity: Vector3 = Vector3.ZERO
 var goto_rotation: float
 var rotation_time: float = 0.25
 
@@ -87,8 +87,8 @@ func calculate_movement_direction() -> Vector3:
 	var direction = Vector3.ZERO
 
 	if GameplayCamera.instance != null:
-		direction += Plane(GameplayCamera.instance.basis.x,character_body.basis.y.z).normalized().normal * movement.x
-		direction += Plane(GameplayCamera.instance.basis.z,character_body.basis.y.z).normalized().normal * movement.z
+		direction += Plane(GameplayCamera.instance.basis.x, character_body.basis.y.z).normalized().normal * movement.x
+		direction += Plane(GameplayCamera.instance.basis.z, character_body.basis.y.z).normalized().normal * movement.z
 		direction.y = 0
 	else:
 		direction = movement
@@ -223,8 +223,8 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 		
 		if part is HeadThing:
 			thing_top = part.thing_top
-		elif part is BodyThing:
-			var body_thing: BodyThing = part as BodyThing
+		elif part is SpeciesThing:
+			var body_thing: SpeciesThing = part as SpeciesThing
 			animator.anim_player = animator.get_path_to(body_thing.animation_player)
 			character_collider.position.y = body_thing.collider_dimensions.y * 0.5
 			if character_collider.shape is CapsuleShape3D:
@@ -257,7 +257,7 @@ func attach_part_to_slot(slot: ThingSlot, slot_part: GameThing = null):
 		if found_part and not slot.thing and (found_part.get_thing_type() == slot.thing_type or found_part.get_thing_subtype() == slot.thing_type) and !added_parts.has(found_part):
 			# Set the thing's visual's sorting offset, if a VisualInstance3D has been set
 			if slot_part and !added_parts.has(part):
-				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + (slot.sorting_offset  * 0.35)
+				found_part.relative_sorting_offset = slot_part.relative_sorting_offset + (slot.sorting_offset * 0.35)
 				found_part.set_sorting_offset_to_position()
 
 			attach_part(found_part, slot)

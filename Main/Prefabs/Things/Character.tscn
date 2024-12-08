@@ -1,8 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://di2fygscjm4on"]
+[gd_scene load_steps=14 format=3 uid="uid://di2fygscjm4on"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Things/CharacterThing.gd" id="1_gisi8"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="2_ghhq8"]
-[ext_resource type="PackedScene" uid="uid://mesflqkfbxce" path="res://Main/Prefabs/Things/Characters/Moominoids/Moominoid.tscn" id="3_7ufjv"]
 [ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="3_shpkp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ck771"]
@@ -57,7 +56,6 @@ character_base = NodePath("CharacterBody3D/Base/Rotator")
 character_collider = NodePath("CharacterBody3D/CollisionShape3D")
 nav_agent = NodePath("CharacterBody3D/NavigationAgent3D")
 animator = NodePath("Animator")
-part_prefabs = [ExtResource("3_7ufjv")]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 

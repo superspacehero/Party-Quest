@@ -51,7 +51,7 @@ void vertex() {
     //Map rotation to screen space
     BG_COORDS = vec4(y * 0.5, -x, y * 0.5, -x) * -(1.0 / PI);
     // Whatever vertical_offset is set to, lerp from it to 0.5 the closer to straight up/down the camera looks
-    BG_COORDS.yw += mix(0.5, vertical_offset, CAMERA_DIRECTION_WORLD.z);
+    BG_COORDS.yw += mix(vertical_offset, 0.5, CAMERA_DIRECTION_WORLD.y);
 
     BG_SCALE.y = fov.y * (1.0 / 180.0);
     BG_SCALE.x = !lock_aspect ?

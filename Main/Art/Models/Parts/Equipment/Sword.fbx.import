@@ -3,20 +3,20 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://dhfswy610alwd"
-path="res://.godot/imported/Unhatchling.fbx-b497f61bf7d1380961f37f9317502402.scn"
+uid="uid://bkidtugl5l63j"
+path="res://.godot/imported/Sword.fbx-d17179e1d2190fd5a4abfe31201ab06f.scn"
 
 [deps]
 
-source_file="res://Main/Art/Models/Characters/Monsters/Unhatchling.fbx"
-dest_files=["res://.godot/imported/Unhatchling.fbx-b497f61bf7d1380961f37f9317502402.scn"]
+source_file="res://Main/Art/Models/Parts/Equipment/Sword.fbx"
+dest_files=["res://.godot/imported/Sword.fbx-d17179e1d2190fd5a4abfe31201ab06f.scn"]
 
 [params]
 
-nodes/root_type="SpeciesThing"
+nodes/root_type="HandheldThing"
 nodes/root_name=""
 nodes/apply_root_scale=true
-nodes/root_scale=1.0
+nodes/root_scale=0.01
 nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
 meshes/generate_lods=true
@@ -35,7 +35,7 @@ _subresources={
 "materials": {
 "Skin": {
 "use_external/enabled": true,
-"use_external/path": "res://Main/Art/Materials/Skin_Unhatchling.material"
+"use_external/path": "res://Main/Art/Materials/Sword.material"
 }
 }
 }
