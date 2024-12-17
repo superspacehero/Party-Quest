@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d4ndober5pceq"]
+[gd_scene load_steps=16 format=3 uid="uid://d4ndober5pceq"]
 
 [ext_resource type="PackedScene" uid="uid://bcuf0o2bd2xjk" path="res://Main/Prefabs/UI/Menu.tscn" id="1_wp6cy"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="2_1dn2e"]
@@ -7,10 +7,9 @@
 [ext_resource type="Material" uid="uid://b3fpwd3vvghvy" path="res://Main/Art/Materials/UI/Blur.tres" id="5_f4uip"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="5_mjorg"]
 [ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="6_ix78j"]
-[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuScaler.gd" id="6_pjqt6"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnchorMover.gd" id="7_dd11e"]
 [ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="7_xqfq0"]
 [ext_resource type="Theme" uid="uid://cfb477d7vf0h6" path="res://Main/Art/Themes/Menu.theme" id="8_af8pj"]
-[ext_resource type="StyleBox" uid="uid://dae6r8ouxw26g" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Border.stylebox" id="9_6oipd"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/CenteredControl.gd" id="9_8eoel"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7xof"]
@@ -20,10 +19,6 @@ content_margin_right = 16.0
 content_margin_bottom = 16.0
 bg_color = Color(0, 0, 0, 0.501961)
 border_color = Color(0.58, 0.58, 0.58, 1)
-corner_radius_top_left = 32
-corner_radius_top_right = 32
-corner_radius_bottom_right = 32
-corner_radius_bottom_left = 32
 shadow_color = Color(0, 0, 0, 0.25098)
 
 [sub_resource type="Animation" id="Animation_8oci4"]
@@ -162,11 +157,11 @@ _data = {
 
 [node name="Character Select Menu" node_paths=PackedStringArray("character_select_parent", "characters_selected_animator") instance=ExtResource("1_wp6cy")]
 script = ExtResource("2_1dn2e")
-character_select_parent = NodePath("Safe Area/AspectRatioContainer/Panel/Players")
+character_select_parent = NodePath("Safe Area/Panel/Players")
 character_category = "Player"
 character_select_scene = ExtResource("3_3a80o")
 character_scene = ExtResource("4_sj62p")
-characters_selected_animator = NodePath("Safe Area/AspectRatioContainer/Panel/Ready/AnimationPlayer")
+characters_selected_animator = NodePath("Safe Area/Panel/Ready/AnimationPlayer")
 characters_selected_animation = "Ready"
 
 [node name="Panel" type="ColorRect" parent="Background" index="0" node_paths=PackedStringArray("menu")]
@@ -182,10 +177,17 @@ script = ExtResource("5_mjorg")
 menu = NodePath("../..")
 
 [node name="Safe Area" parent="." index="1" node_paths=PackedStringArray("menu")]
-script = ExtResource("6_pjqt6")
+anchors_preset = -1
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+script = ExtResource("7_dd11e")
+selected_anchors = Vector4(0, 0, 1, 1)
+deselected_anchors = Vector4(0, -1, 1, 0)
 menu = NodePath("..")
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="Safe Area" index="0"]
+[node name="Panel" type="Control" parent="Safe Area" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -193,14 +195,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-ratio = 1.7778
-
-[node name="Panel" type="Panel" parent="Safe Area/AspectRatioContainer" index="0"]
-layout_mode = 2
-mouse_filter = 2
 theme = ExtResource("6_ix78j")
 
-[node name="Players" type="GridContainer" parent="Safe Area/AspectRatioContainer/Panel" index="0"]
+[node name="Players" type="GridContainer" parent="Safe Area/Panel" index="0"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -214,34 +211,30 @@ grow_vertical = 2
 mouse_filter = 2
 columns = 4
 
-[node name="Ready" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="1"]
+[node name="Ready" type="Panel" parent="Safe Area/Panel" index="1"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("6_ix78j")
-theme_override_styles/panel = SubResource("StyleBoxFlat_j7xof")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Safe Area/AspectRatioContainer/Panel/Ready" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(213.5, 162.5)
+mouse_filter = 2
+theme = ExtResource("6_ix78j")
+theme_override_styles/panel = SubResource("StyleBoxFlat_j7xof")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Safe Area/Panel/Ready" index="0"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
 alignment = 1
 script = ExtResource("9_8eoel")
 
-[node name="Ready Text" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Ready/VBoxContainer" index="0"]
+[node name="Ready Text" type="Label" parent="Safe Area/Panel/Ready/VBoxContainer" index="0"]
 layout_mode = 2
 theme = ExtResource("8_af8pj")
 theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
@@ -250,7 +243,7 @@ text = "Ready"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Press Text" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Ready/VBoxContainer" index="1"]
+[node name="Press Text" type="Label" parent="Safe Area/Panel/Ready/VBoxContainer" index="1"]
 layout_mode = 2
 theme = ExtResource("8_af8pj")
 theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
@@ -259,12 +252,12 @@ text = "Press to continue"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Safe Area/AspectRatioContainer/Panel/Ready" index="1"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Safe Area/Panel/Ready" index="1"]
 libraries = {
 "": SubResource("AnimationLibrary_iw06c")
 }
 
-[node name="Title" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="2"]
+[node name="Title" type="Panel" parent="Safe Area/Panel" index="2"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -274,7 +267,7 @@ mouse_filter = 2
 theme = ExtResource("6_ix78j")
 theme_override_styles/panel = ExtResource("7_xqfq0")
 
-[node name="Label" type="Label" parent="Safe Area/AspectRatioContainer/Panel/Title" index="0"]
+[node name="Label" type="Label" parent="Safe Area/Panel/Title" index="0"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -285,18 +278,3 @@ theme = ExtResource("8_af8pj")
 text = "Who's Playing?"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="Border" type="Panel" parent="Safe Area/AspectRatioContainer/Panel" index="3"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme = ExtResource("6_ix78j")
-theme_override_styles/panel = ExtResource("9_6oipd")
