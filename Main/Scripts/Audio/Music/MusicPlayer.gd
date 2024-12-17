@@ -11,6 +11,8 @@ class Sample:
 
 const INSTRUMENT_PATH = "res://Main/Art/Audio/"
 
+@export var bus_name: String = "Music"
+
 @export var play_song: bool = false:
 	set(value):
 		play_song = value
@@ -396,6 +398,7 @@ func play_notes(notes_by_track: Dictionary, max_duration: float, smallest_durati
 	# Prepare audio stream players for each track/channel
 	for track in notes_by_track.keys():
 		var stream = AudioStreamPlayer.new()
+		stream.bus = bus_name
 		add_child(stream)
 		streams.append(stream)
 
