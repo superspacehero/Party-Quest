@@ -1,12 +1,9 @@
-[gd_resource type="ShaderMaterial" load_steps=3 format=3 uid="uid://cxmgj0mkvgsmt"]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cxmgj0mkvgsmt"]
 
-[ext_resource type="Shader" uid="uid://bwx2ckt8obyof" path="res://Main/Art/Shaders/RGB Sprite.tres" id="1_ck4kh"]
-[ext_resource type="Texture2D" uid="uid://cr5q0ak6i7n1t" path="res://Main/Art/Sprites/Parts/Body/Arm_Bent.png" id="2_jg3xh"]
+[ext_resource type="Shader" path="res://addons/PaletteTools/Shaders/rainbow_shader.gdshader" id="1_kjhc1"]
 
 [resource]
-render_priority = 0
-shader = ExtResource("1_ck4kh")
-shader_parameter/Red_Color = Color(1, 1, 1, 1)
-shader_parameter/Green_Color = Color(1, 1, 1, 1)
-shader_parameter/Blue_Color = Color(1, 1, 1, 1)
-shader_parameter/Texture2DParameter = ExtResource("2_jg3xh")
+shader = ExtResource("1_kjhc1")
+shader_parameter/strength = 0.5
+shader_parameter/speed = 0.5
+shader_parameter/angle = 0.0

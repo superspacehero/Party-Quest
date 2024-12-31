@@ -10,12 +10,13 @@ static var instance: GameplayCamera = null
 @export var camera_sensitivity = 1.5
 
 var camera_rotation_amount: Vector2 = Vector2.ZERO
-@export var camera_offset = Vector3(0, 0, 7)
-@export var camera_rotation = Vector3(22.5, 0, 0)
+@export var camera_offset = Vector3(0, 0, 3.5)
+@export var camera_rotation = Vector3(-11.25, 0, 0)
 @export var rotation_limits = Vector2(-60, 60)
 var current_rotation = Vector2.ZERO
 
-@export var camera_object: GameThing = null
+var camera_objects: Array[GameThing] = []
+
 @export var camera_offset_node: Node3D = null
 
 # Interpolation related variables
@@ -30,46 +31,69 @@ func _ready():
 	instance = self
 
 	camera_offset_node.position = camera_offset
-	# Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func _process(delta):
 	if camera_rotation_amount.length() > 0:
-		if (camera_rotation_amount.length() > 1):
+		if camera_rotation_amount.length() > 1:
 			camera_rotation_amount = camera_rotation_amount.normalized()
 		rotate_camera(camera_rotation_amount)
 
 	if interpolating:
 		center_camera_interpolation(delta)
 
-# Rotate the camera based on mouse input
-func rotate_camera(relative: Vector2):
-	current_rotation.x += relative.x * camera_sensitivity
-	current_rotation.y += relative.y * camera_sensitivity
-	current_rotation.x = clamp(current_rotation.x, rotation_limits.x, rotation_limits.y)
-	self.rotation_degrees.x = -current_rotation.x
-	self.rotation_degrees.y = -current_rotation.y
+static func rotate_camera(relative: Vector2):
+	if instance == null:
+		return
+	instance.current_rotation.x = clamp(instance.current_rotation.x + relative.x * instance.camera_sensitivity, instance.rotation_limits.x, instance.rotation_limits.y)
+	instance.current_rotation.y += relative.y * instance.camera_sensitivity
+	instance.rotation_degrees.x = -instance.current_rotation.x
+	instance.rotation_degrees.y = -instance.current_rotation.y
 
-# Set the camera's attachment to a GameThing object
-func set_camera_object(game_thing: GameThing, camera_height: float = 0.5, immediate: bool = false):
-	if self.get_parent() != game_thing.thing_root:
-		self.reparent(game_thing.thing_root)
-	start_position = self.global_position
-	target_position = lerp(game_thing.thing_root.global_position, game_thing.thing_top.global_position, camera_height)
+static func set_interpolating():
+	if instance == null:
+		return
+	instance.elapsed_time = 0.0
+	instance.start_position = instance.global_position
+	instance.interpolating = instance.camera_objects.size() > 0
 
-	if immediate:
-		self.global_position = target_position
-		elapsed_time = camera_adjust_time
-	else:
-		elapsed_time = 0.0
-		interpolating = true
+static func clear_camera_objects():
+	if instance == null:
+		return
+	instance.camera_objects.clear()
+	set_interpolating()
 
-# Handle the interpolation of the camera towards the target
+static func add_camera_object(game_thing: GameThing):
+	if instance == null:
+		return
+	instance.camera_objects.append(game_thing)
+	set_interpolating()
+
+static func remove_camera_object(game_thing: GameThing):
+	if instance == null:
+		return
+	instance.camera_objects.erase(game_thing)
+	set_interpolating()
+
+static func set_camera_object(game_thing: GameThing):
+	clear_camera_objects()
+	add_camera_object(game_thing)
+
 func center_camera_interpolation(delta):
-	elapsed_time += delta
-	if elapsed_time < camera_adjust_time:
-		var ratio = elapsed_time / camera_adjust_time
-		self.global_position = start_position.lerp(target_position, ratio)
-		# Additional logic to interpolate the rotation if needed
+	if camera_objects.size() == 0:
+		interpolating = false
+		return
+
+	elapsed_time += delta / camera_adjust_time
+	var sum_pos = Vector3.ZERO
+	for obj in camera_objects:
+		sum_pos += obj.thing_root.global_position + (Vector3.UP * obj.thing_height * 0.5)
+	var center = sum_pos / float(camera_objects.size())
+
+	var adjusted_target = center + camera_offset
+
+	if elapsed_time < 1.0:
+		var ratio = elapsed_time
+		self.global_position = start_position.lerp(adjusted_target, ratio)
 	else:
 		interpolating = false
-		self.global_position = target_position
+		self.global_position = adjusted_target

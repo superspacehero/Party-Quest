@@ -1,7 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://di2fygscjm4on"]
+[gd_scene load_steps=18 format=3 uid="uid://di2fygscjm4on"]
 
 [ext_resource type="Script" path="res://Main/Scripts/Things/CharacterThing.gd" id="1_gisi8"]
 [ext_resource type="Script" path="res://Main/Scripts/Things/ThingSlot.gd" id="2_ghhq8"]
+[ext_resource type="PackedScene" uid="uid://mesflqkfbxce" path="res://Main/Prefabs/Things/Characters/Moominoids/Moominoid.tscn" id="3_7ufjv"]
+[ext_resource type="PackedScene" uid="uid://dsoa1tghodpku" path="res://Main/Prefabs/Things/Parts/Equipment/Handheld/Sword.tscn" id="3_rlel1"]
 [ext_resource type="PackedScene" uid="uid://cfsnpgnsbandx" path="res://Main/Prefabs/Things/ThingInput.tscn" id="3_shpkp"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ck771"]
@@ -49,6 +51,17 @@ nodes/Walk/position = Vector2(-380, 200)
 nodes/output/position = Vector2(420, 140)
 node_connections = [&"Body-Eyes", 0, &"Movement", &"Body-Eyes", 1, &"Blink", &"Movement", 0, &"Idle", &"Movement", 1, &"Walk Speed", &"Pain", 0, &"Body-Eyes", &"Pain", 1, &"Animation", &"Walk Speed", 0, &"Walk", &"output", 0, &"Pain"]
 
+[sub_resource type="Gradient" id="Gradient_1j7yi"]
+offsets = PackedFloat32Array(0, 0.5, 0.7, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.878431, 0, 0, 0, 0.585621, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ncucf"]
+gradient = SubResource("Gradient_1j7yi")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
 [node name="Character" type="Node3D" node_paths=PackedStringArray("character_body", "character_base", "character_collider", "nav_agent", "animator")]
 script = ExtResource("1_gisi8")
 character_body = NodePath("CharacterBody3D")
@@ -56,6 +69,7 @@ character_base = NodePath("CharacterBody3D/Base/Rotator")
 character_collider = NodePath("CharacterBody3D/CollisionShape3D")
 nav_agent = NodePath("CharacterBody3D/NavigationAgent3D")
 animator = NodePath("Animator")
+part_prefabs = [ExtResource("3_7ufjv"), ExtResource("3_rlel1")]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="."]
 
@@ -65,7 +79,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 0.1, 0, 0, 0)
 [node name="Rotator" type="Node3D" parent="CharacterBody3D/Base"]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 0, 0)
 script = ExtResource("2_ghhq8")
-thing_type = "Body"
+thing_type = "Species"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -85,3 +99,10 @@ parameters/Pain/active = false
 parameters/Pain/internal_active = false
 parameters/Pain/request = 0
 "parameters/Walk Speed/scale" = 1.0
+
+[node name="Decal" type="Decal" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
+size = Vector3(1, 1, 1)
+texture_albedo = SubResource("GradientTexture2D_ncucf")
+upper_fade = 0.5
+lower_fade = 0.5

@@ -139,7 +139,7 @@ class PlayerAndCharacter:
 	# The team that the player is on
 	var team: int
 
-	func _init(player_input, player_character: CharacterThing, player_team: int=0):
+	func _init(player_input, player_character: CharacterThing, player_team: int = 0):
 		# If the player input is null, then the player is a CPU
 		player = player_input if (player_input != null) else null
 		self.character = player_character
@@ -179,7 +179,7 @@ func spawn_players():
 			spawn_player(player, Vector3.ZERO)
 
 # Spawn a player
-func spawn_player(input: ThingInput, position=null):
+func spawn_player(input: ThingInput, position = null):
 	if character_scene == null:
 		return
 
@@ -261,7 +261,7 @@ static func set_players_controllable(controllable: bool):
 	for input in instance.inputs:
 		input.controllable = controllable
 
-static func set_next_character(show_next_character_ui: bool=true):
+static func set_next_character(show_next_character_ui: bool = true):
 	if instance == null or not instance.characters or instance.characters.count == 0:
 		return
 
@@ -269,7 +269,7 @@ static func set_next_character(show_next_character_ui: bool=true):
 	if instance.current_character_index >= instance.characters_in_current_team.count:
 		instance.current_team_index += 1
 
-	GameplayCamera.instance.set_camera_object(current_character)
+	GameplayCamera.set_camera_object(current_character)
 	
 	if show_next_character_ui:
 		instance.next_character_ui.show()

@@ -92,13 +92,20 @@ var thing_top: Node3D = null:
 			thing_top = find_child("Top", true, true)
 
 			if thing_top == null:
-				# print("No thing_top found for ", name, ". Setting to transform.")
+				print("THING_TOP: no thing_top found for ", name, ". Setting to transform.")
 				thing_top = self
-			# else:
-			# 	print("thing_top found for ", name, ": ", thing_top)
+			else:
+				print_debug("THING_TOP: thing_top found for ", name, ": ", thing_top)
 		return thing_top
 	set(value):
 		thing_top = value
+
+var thing_height: float:
+	get:
+		if thing_top:
+			return thing_top.global_transform.origin.distance_to(global_position)
+		else:
+			return 0.0
 
 var health: int = 0:
 	set(value):

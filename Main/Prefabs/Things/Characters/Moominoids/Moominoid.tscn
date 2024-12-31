@@ -49,3 +49,10 @@ bone_name = "Hand.L"
 bone_idx = 5
 script = ExtResource("2_cj6fy")
 thing_type = "Handheld"
+
+[node name="Top" type="BoneAttachment3D" parent="Armature/Skeleton3D" index="3"]
+transform = Transform3D(1, -2.11497e-14, 2.30926e-14, 2.30926e-14, 7.07805e-08, -1, 2.11497e-14, 1, 7.07805e-08, 2.00578e-15, 0.000669499, 0.0161288)
+bone_name = "Head_end"
+bone_idx = 2
+script = ExtResource("2_cj6fy")
+thing_type = "Headgear"

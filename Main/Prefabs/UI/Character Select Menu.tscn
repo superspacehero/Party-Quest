@@ -1,11 +1,10 @@
-[gd_scene load_steps=16 format=3 uid="uid://d4ndober5pceq"]
+[gd_scene load_steps=15 format=3 uid="uid://d4ndober5pceq"]
 
 [ext_resource type="PackedScene" uid="uid://bcuf0o2bd2xjk" path="res://Main/Prefabs/UI/Menu.tscn" id="1_wp6cy"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectMenu.gd" id="2_1dn2e"]
 [ext_resource type="PackedScene" uid="uid://bcsa53pychfnh" path="res://Main/Prefabs/UI/Character Select.tscn" id="3_3a80o"]
 [ext_resource type="PackedScene" uid="uid://di2fygscjm4on" path="res://Main/Prefabs/Things/Character.tscn" id="4_sj62p"]
 [ext_resource type="Material" uid="uid://b3fpwd3vvghvy" path="res://Main/Art/Materials/UI/Blur.tres" id="5_f4uip"]
-[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="5_mjorg"]
 [ext_resource type="Theme" uid="uid://bv8txgd2qns8m" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Panel.theme" id="6_ix78j"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuAnchorMover.gd" id="7_dd11e"]
 [ext_resource type="StyleBox" uid="uid://b1stybtyj8s15" path="res://Main/Art/Themes/Menu/Menu Panel/Menu Title.stylebox" id="7_xqfq0"]
@@ -83,6 +82,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [1.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../../../Background/Panel:color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.5, 0.5, 0.5, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_h6cbm"]
 resource_name = "Ready"
@@ -148,6 +159,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [0.0, 1.0]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../../../Background/Panel:color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.5, 0.5, 0.5, 0), Color(0.5, 0.5, 0.5, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_iw06c"]
 _data = {
@@ -155,16 +178,16 @@ _data = {
 "Ready": SubResource("Animation_h6cbm")
 }
 
-[node name="Character Select Menu" node_paths=PackedStringArray("character_select_parent", "characters_selected_animator") instance=ExtResource("1_wp6cy")]
+[node name="Character Select Menu" node_paths=PackedStringArray("characters_selected_animator") instance=ExtResource("1_wp6cy")]
 script = ExtResource("2_1dn2e")
-character_select_parent = NodePath("Safe Area/Panel/Players")
 character_category = "Player"
 character_select_scene = ExtResource("3_3a80o")
 character_scene = ExtResource("4_sj62p")
 characters_selected_animator = NodePath("Safe Area/Panel/Ready/AnimationPlayer")
 characters_selected_animation = "Ready"
+character_select_move_time = 0.2
 
-[node name="Panel" type="ColorRect" parent="Background" index="0" node_paths=PackedStringArray("menu")]
+[node name="Panel" type="ColorRect" parent="Background" index="0"]
 modulate = Color(1, 1, 1, 0)
 material = ExtResource("5_f4uip")
 layout_mode = 1
@@ -172,9 +195,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-color = Color(0.501961, 0.501961, 0.501961, 1)
-script = ExtResource("5_mjorg")
-menu = NodePath("../..")
+color = Color(0.5, 0.5, 0.5, 0)
 
 [node name="Safe Area" parent="." index="1" node_paths=PackedStringArray("menu")]
 anchors_preset = -1
@@ -239,7 +260,7 @@ layout_mode = 2
 theme = ExtResource("8_af8pj")
 theme_override_colors/font_color = Color(0.964706, 0.792157, 0.623529, 1)
 theme_override_font_sizes/font_size = 240
-text = "Ready"
+text = "Ready?"
 horizontal_alignment = 1
 vertical_alignment = 1
 

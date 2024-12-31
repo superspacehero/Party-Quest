@@ -35,7 +35,7 @@ var velocity: Vector3 = Vector3.ZERO
 var goto_rotation: float
 var rotation_time: float = 0.25
 
-var rotation_direction: Vector3 = Vector3.FORWARD
+var rotation_direction: Vector3 = Vector3(1, 0, 1)
 var movement: Vector3 = Vector3.ZERO
 
 # 2. Built-in Functions
@@ -50,6 +50,9 @@ func _ready():
 	character_body.velocity = Vector3.ZERO
 	
 	rotate_base(Vector3.FORWARD if rotation_behavior != movement_rotation_behavior.LEFT_RIGHT_ROTATION else Vector3.RIGHT)
+
+func _exit_tree():
+	GameplayCamera.remove_camera_object(self)
 
 func _physics_process(delta):
 	var movement_vector = calculate_movement_direction() * character_speed
@@ -113,7 +116,7 @@ func rotate_base(direction: Vector3):
 				direction.x = sign(direction.x)
 
 			direction = round(direction)
-			
+
 			if direction.x == 0:
 				direction.x = rotation_direction.x
 
@@ -221,12 +224,14 @@ func attach_part(part: CharacterPartThing, parent: ThingSlot):
 
 		variables.merge(part.variables)
 		
-		if part is HeadThing:
-			thing_top = part.thing_top
-		elif part is SpeciesThing:
+		if part is SpeciesThing:
 			var body_thing: SpeciesThing = part as SpeciesThing
 			animator.anim_player = animator.get_path_to(body_thing.animation_player)
 			character_collider.position.y = body_thing.collider_dimensions.y * 0.5
+
+			# Set the thing_top to the top of the character.
+			thing_top = part.thing_top
+
 			if character_collider.shape is CapsuleShape3D:
 				var capsule = character_collider.shape as CapsuleShape3D
 				if capsule:

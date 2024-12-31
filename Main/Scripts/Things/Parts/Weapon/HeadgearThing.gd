@@ -1,5 +1,5 @@
 extends CharacterPartThing
-class_name WeaponThing
+class_name HeadgearThing
 
 func get_thing_type() -> String:
-    return "Weapon"
+    return "Headgear"

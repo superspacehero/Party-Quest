@@ -17,10 +17,6 @@ var current_slot_index = 0
 var character_preview_texture
 @export var character_camera: Camera3D
 
-func _exit_tree():
-    if character != null:
-        character.queue_free()
-
 func set_text():
     if character_text != null:
         character_text.text = "%s - %d/%d" % [available_slots[current_slot_index].thing_type, current_slot_index + 1, len(available_slots)]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://cm08goxxxjjna"]
+[gd_scene load_steps=15 format=3 uid="uid://cm08goxxxjjna"]
 
 [ext_resource type="PackedScene" uid="uid://bys7dfc5svqto" path="res://Main/Prefabs/Game Manager.tscn" id="1_a04pb"]
 [ext_resource type="PackedScene" uid="uid://c13x05ptey0hp" path="res://Main/Art/Models/Logo.fbx" id="1_wmlvi"]
@@ -8,6 +8,8 @@
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuTextDisplayer.gd" id="5_rg0xy"]
 [ext_resource type="PackedScene" uid="uid://rl81m06ldq56" path="res://Main/Prefabs/UI/Circle Wipe.tscn" id="5_xnvqi"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/PressAnyButton.gd" id="6_sd88s"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuFader.gd" id="7_fks0w"]
+[ext_resource type="Script" path="res://Main/Scripts/UI/Character Selection/CharacterSelectSpawnThing.gd" id="9_asrts"]
 [ext_resource type="PackedScene" uid="uid://d4ndober5pceq" path="res://Main/Prefabs/UI/Character Select Menu.tscn" id="11_gpt0s"]
 [ext_resource type="Script" path="res://Main/Scripts/UI/Menu/MenuScaler.gd" id="12_c8y6c"]
 [ext_resource type="PackedScene" uid="uid://bbt7wouuyut8o" path="res://Main/Prefabs/UI/Load Scene Menu.tscn" id="12_k24u3"]
@@ -15,19 +17,29 @@
 
 [node name="Menus" type="Node3D"]
 
-[node name="Title Menu" parent="." node_paths=PackedStringArray("next_menu") instance=ExtResource("4_of8fh")]
+[node name="Main Menus" parent="." instance=ExtResource("4_of8fh")]
+
+[node name="MenuScaler" type="Control" parent="Main Menus/Background" index="0" node_paths=PackedStringArray("menu")]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_c8y6c")
+menu = NodePath("../..")
+
+[node name="Title Menu" parent="Main Menus" node_paths=PackedStringArray("next_menu") instance=ExtResource("4_of8fh")]
+layout_mode = 1
 next_menu = NodePath("../Main Menu")
 disable_on_deselect = false
 delay_on_following_selects = false
 
-[node name="Background" parent="Title Menu" index="0" node_paths=PackedStringArray("animator", "menu")]
+[node name="Background" parent="Main Menus/Title Menu" index="0" node_paths=PackedStringArray("animator", "menu")]
 script = ExtResource("5_q4eui")
 animator = NodePath("SubViewportContainer/SubViewport/Root Scene/AnimationPlayer")
 selected_animation = "KeyAction"
 menu = NodePath("..")
 effect_delay = 1.0
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="Title Menu/Background" index="0" node_paths=PackedStringArray("menu")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Main Menus/Title Menu/Background" index="0" node_paths=PackedStringArray("menu")]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -40,40 +52,37 @@ selected_anchors = Vector4(0, 0, 1, 0.9)
 deselected_anchors = Vector4(0, 0, 1, 0.5)
 menu = NodePath("../..")
 
-[node name="SubViewport" type="SubViewport" parent="Title Menu/Background/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="Main Menus/Title Menu/Background/SubViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
-size_2d_override = Vector2i(350, 0)
-size_2d_override_stretch = true
-render_target_update_mode = 4
 
-[node name="Root Scene" parent="Title Menu/Background/SubViewportContainer/SubViewport" instance=ExtResource("1_wmlvi")]
+[node name="Root Scene" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport" instance=ExtResource("1_wmlvi")]
 
-[node name="Camera" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="0"]
+[node name="Camera" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="0"]
 cull_mask = 2
 near = 0.1
 far = 5.0
 
-[node name="Text Light 1" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="1"]
+[node name="Text Light 1" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="1"]
 transform = Transform3D(92.388, 28.1217, 25.9545, -38.2683, 67.8918, 62.6597, 0, -67.8224, 73.4855, 0, 0, 0)
 light_color = Color(0.929412, 0.462745, 0.0784314, 1)
 light_cull_mask = 4294967294
 sky_mode = 1
 
-[node name="Text Light 2" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="2"]
+[node name="Text Light 2" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="2"]
 transform = Transform3D(65.3853, -73.1665, 19.2724, 27.338, 46.5965, 84.1511, -70.5507, -49.7537, 50.4695, 0, 0, 0)
 visible = false
 light_cull_mask = 4294967294
 sky_mode = 1
 
-[node name="Text" parent="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="3"]
+[node name="Text" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport/Root Scene/RootNode" index="3"]
 transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 layers = 2
 blend_shapes/Shrink = 1.0
 "blend_shapes/Spawn Sword" = 1.0
 
-[node name="Label" type="RichTextLabel" parent="Title Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
+[node name="Label" type="RichTextLabel" parent="Main Menus/Title Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
@@ -94,14 +103,75 @@ effect_delay = 2.0
 effect_time = 0.4
 effect_transition_type = 0
 
-[node name="PressAnyButton" type="Node" parent="Title Menu"]
+[node name="PressAnyButton" type="Node" parent="Main Menus/Title Menu"]
 script = ExtResource("6_sd88s")
 
-[node name="Circle Wipe" parent="Title Menu" node_paths=PackedStringArray("menu") instance=ExtResource("5_xnvqi")]
+[node name="Scaler" type="Control" parent="Main Menus/Title Menu" node_paths=PackedStringArray("menu")]
+anchors_preset = 0
+script = ExtResource("7_fks0w")
+menu = NodePath("..")
+
+[node name="Circle Wipe" parent="Main Menus/Title Menu" node_paths=PackedStringArray("menu") instance=ExtResource("5_xnvqi")]
 layout_mode = 1
 menu = NodePath("..")
 
+[node name="Main Menu" parent="Main Menus" node_paths=PackedStringArray("previous_menu", "next_menu", "starting_button") instance=ExtResource("4_of8fh")]
+visible = false
+layout_mode = 1
+previous_menu = NodePath("../Title Menu")
+next_menu = NodePath("../../Character Select Menu")
+starting_button = NodePath("Safe Area/Buttons/Button Fitter/Button Holder/Play Button")
+
+[node name="Safe Area" parent="Main Menus/Main Menu" index="1"]
+anchors_preset = -1
+
+[node name="Buttons" type="Control" parent="Main Menus/Main Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
+layout_mode = 1
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("12_c8y6c")
+menu = NodePath("../..")
+
+[node name="Button Fitter" type="AspectRatioContainer" parent="Main Menus/Main Menu/Safe Area/Buttons"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+ratio = 1.7778
+
+[node name="Button Holder" type="VBoxContainer" parent="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter"]
+layout_mode = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="Play Button" parent="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder" instance=ExtResource("13_3hlfr")]
+layout_mode = 2
+size_flags_stretch_ratio = 1.5
+text = "Play"
+
+[node name="Bottom Buttons" type="HBoxContainer" parent="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder"]
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 2
+alignment = 1
+
+[node name="Options Button" parent="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons" instance=ExtResource("13_3hlfr")]
+layout_mode = 2
+text = "Options"
+
+[node name="Quit Button" parent="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons" instance=ExtResource("13_3hlfr")]
+layout_mode = 2
+text = "Quit"
+
 [node name="Game Manager" parent="." instance=ExtResource("1_a04pb")]
+
+[node name="Gameplay Camera" parent="Game Manager" index="3"]
+camera_offset = Vector3(0, 0.333, 1.75)
 
 [node name="Canvas" parent="Game Manager" index="4"]
 visible = false
@@ -137,72 +207,38 @@ mouse_filter = 2
 [node name="Empty" parent="Game Manager/Canvas" index="3"]
 visible = false
 
-[node name="Main Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu", "starting_button") instance=ExtResource("4_of8fh")]
-visible = false
-previous_menu = NodePath("../Title Menu")
-next_menu = NodePath("../Character Select Menu")
-starting_button = NodePath("Safe Area/Buttons/Button Fitter/Button Holder/Play Button")
+[node name="CharacterSelectSpawnThing" type="Node3D" parent="Game Manager/GridMap" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0.5, 0.5)
+script = ExtResource("9_asrts")
 
-[node name="Safe Area" parent="Main Menu" index="1"]
-anchors_preset = -1
+[node name="CharacterSelectSpawnThing2" type="Node3D" parent="Game Manager/GridMap" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.5, -0.5)
+script = ExtResource("9_asrts")
 
-[node name="Buttons" type="Control" parent="Main Menu/Safe Area" index="0" node_paths=PackedStringArray("menu")]
-layout_mode = 1
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-script = ExtResource("12_c8y6c")
-menu = NodePath("../..")
+[node name="CharacterSelectSpawnThing3" type="Node3D" parent="Game Manager/GridMap" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, -1.5)
+script = ExtResource("9_asrts")
 
-[node name="Button Fitter" type="AspectRatioContainer" parent="Main Menu/Safe Area/Buttons"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-ratio = 1.7778
-
-[node name="Button Holder" type="VBoxContainer" parent="Main Menu/Safe Area/Buttons/Button Fitter"]
-layout_mode = 2
-mouse_filter = 2
-alignment = 1
-
-[node name="Play Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder" instance=ExtResource("13_3hlfr")]
-layout_mode = 2
-size_flags_stretch_ratio = 1.5
-text = "Play"
-
-[node name="Bottom Buttons" type="HBoxContainer" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder"]
-layout_mode = 2
-size_flags_vertical = 3
-mouse_filter = 2
-alignment = 1
-
-[node name="Options Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons" instance=ExtResource("13_3hlfr")]
-layout_mode = 2
-text = "Options"
-
-[node name="Quit Button" parent="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons" instance=ExtResource("13_3hlfr")]
-layout_mode = 2
-text = "Quit"
+[node name="CharacterSelectSpawnThing4" type="Node3D" parent="Game Manager/GridMap" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0.5, -2.5)
+script = ExtResource("9_asrts")
 
 [node name="Character Select Menu" parent="." node_paths=PackedStringArray("previous_menu", "next_menu") instance=ExtResource("11_gpt0s")]
 visible = false
-previous_menu = NodePath("../Main Menu")
+previous_menu = NodePath("../Main Menus/Main Menu")
 next_menu = NodePath("../Load Scene Menu")
 
 [node name="Load Scene Menu" parent="." instance=ExtResource("12_k24u3")]
 
-[connection signal="pressed" from="Title Menu/PressAnyButton" to="Title Menu" method="select_next_menu"]
-[connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Play Button" to="Main Menu" method="select_next_menu"]
-[connection signal="pressed" from="Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons/Quit Button" to="Game Manager" method="quit_game"]
+[connection signal="pressed" from="Main Menus/Title Menu/PressAnyButton" to="Main Menus/Title Menu" method="select_next_menu"]
+[connection signal="pressed" from="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Play Button" to="Main Menus/Main Menu" method="select_next_menu"]
+[connection signal="pressed" from="Main Menus/Main Menu/Safe Area/Buttons/Button Fitter/Button Holder/Bottom Buttons/Quit Button" to="Game Manager" method="quit_game"]
 
-[editable path="Title Menu"]
-[editable path="Title Menu/Background/SubViewportContainer/SubViewport/Root Scene"]
+[editable path="Main Menus"]
+[editable path="Main Menus/Title Menu"]
+[editable path="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport/Root Scene"]
+[editable path="Main Menus/Main Menu"]
 [editable path="Game Manager"]
 [editable path="Game Manager/Gameplay Camera"]
 [editable path="Game Manager/Canvas"]
-[editable path="Main Menu"]
+[editable path="Character Select Menu"]

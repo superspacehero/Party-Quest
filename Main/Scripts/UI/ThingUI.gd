@@ -1,4 +1,4 @@
-extends Control
+extends Node
 class_name ThingUI
 
 @export var thing: GameThing:
@@ -16,6 +16,11 @@ class_name ThingUI
 
         if thing_value_text != null:
             thing_value_text.text = String.num_int64(thing.thing_value)
+
+        other_thing_set_functions()
+
+func other_thing_set_functions() -> void:
+    pass
 
 @export var load_thing_on_ready: bool = true
 

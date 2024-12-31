@@ -3,12 +3,15 @@ class_name Menu
 
 static var current_menu = null:
 	set(menu):
-		if current_menu:
-			current_menu.deselect()
+		for other_menu in menus:
+			if other_menu != menu and not other_menu.is_ancestor_of(menu):
+				other_menu.deselect()
 		current_menu = menu
 		print("Current menu: ", current_menu)
 	get:
 		return current_menu
+
+static var menus: Array = []
 
 @export var previous_menu: Menu
 @export var next_menu: Menu
@@ -38,6 +41,9 @@ func add_menu_effect(effect: MenuEffect):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	menus.append(self)
+	sort_menus()
+
 	if is_visible_in_tree():
 		select()
 	else:
@@ -48,6 +54,24 @@ func _ready():
 		if child.get_class().find("Button") != - 1:
 			buttons.append(child)
 
+# Called when the node is removed from the scene tree.
+func _exit_tree():
+	menus.erase(self)
+	sort_menus()
+
+# Called to sort the menus by hierarchical ranking
+func sort_menus():
+	menus.sort_custom(
+		func compare(a, b):
+			if a.is_ancestor_of(b):
+				return -1
+			elif b.is_ancestor_of(a):
+				return 1
+			else:
+				return 0
+	)
+
+# 
 func select_starting_button():
 	if starting_button:
 		starting_button.grab_focus()
@@ -66,6 +90,9 @@ func select():
 
 	if not visible:
 		enable()
+
+	if get_parent() is Menu and not (get_parent() as Menu).selected:
+		(get_parent() as Menu).select()
 
 	if starting_button:
 		select_starting_button()

@@ -21,10 +21,14 @@ var initialized: bool
 @export var selected_checkmark: Node
 @export var add_player_button: Node
 
-@export_category("Arrows")
+@export_category("UI")
+@export var character_select_base: Control
 @export var to_new_character_arrow: Node
-@export var character_select_arrows: Node
+@export var horizontal_arrows: Node
 @export var to_character_select_arrow: Node
+@export var character_select_resolution: int = 640
+
+@onready var sub_viewport: SubViewport = $SubViewport
 
 var input: ThingInput
 var extra_select: CharacterSelect
@@ -88,9 +92,16 @@ var current_character: CharacterThing:
             current_character = value
 
 func _ready():
+    # Create a character
     new_character = CharacterSelectMenu.instance.character_scene.instantiate()
     new_character.thing_name = new_character_name
     new_character.thing_portrait = new_character_texture
+    # Set the character's CharacterBody3D to not collide with anything
+    new_character.character_body.collision_layer = 0
+    add_child(new_character)
+    GameplayCamera.add_camera_object(new_character)
+
+    thing = new_character
 
     await get_tree().process_frame
 
@@ -98,6 +109,17 @@ func _ready():
     new_character_selected = characters.size() <= 0
 
     update_character_select()
+
+func _physics_process(_delta: float) -> void:
+    if thing != null:
+        thing.position = Vector3.ZERO
+
+func other_thing_set_functions() -> void:
+    sub_viewport.size = Vector2(character_select_resolution, character_select_resolution * thing.thing_height)
+    self.offset.y = sub_viewport.size.y * 0.5
+
+    self.pixel_size = 2.0 / sub_viewport.size.y
+    print_debug("Pixel size: ", self.pixel_size)
 
 func update_character_select():
     if not characters_loaded:
@@ -182,8 +204,8 @@ func primary(pressed):
         if not characters_loaded or not initialized:
             return
 
-        if not is_visible():
-            show()
+        if not character_select_base.is_visible():
+            character_select_base.show()
             return
 
         if pressed:
@@ -286,18 +308,17 @@ func update_arrow_states(show_arrows: bool = true) -> void:
     print("CharacterSelect.update_arrow_states: " + str(show_arrows))
 
     if to_new_character_arrow != null:
-        to_new_character_arrow.visible = character_creator.visible or (show_arrows and not new_character_selected)
+        to_new_character_arrow.visible = show_arrows and (character_creator.visible or not new_character_selected)
 
-    if character_select_arrows != null:
-        character_select_arrows.visible = character_creator.visible or (show_arrows and not new_character_selected)
+    if horizontal_arrows != null:
+        horizontal_arrows.visible = show_arrows and (character_creator.visible or not new_character_selected)
 
     if to_character_select_arrow != null:
-        to_character_select_arrow.visible = character_creator.visible or (show_arrows and new_character_selected)
+        to_character_select_arrow.visible = show_arrows and (character_creator.visible or new_character_selected)
 
 func destroy():
     if selected_character != null:
         selected_character = null
     else:
         if CharacterSelectMenu.instance != null:
-            CharacterSelectMenu.instance.character_selects.erase(self)
-        queue_free()
+            CharacterSelectMenu.instance.remove_character_select(self)

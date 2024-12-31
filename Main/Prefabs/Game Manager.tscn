@@ -113,9 +113,11 @@ _bundled = {
 "version": 3
 }
 
-[node name="Game Manager" type="Node3D"]
+[node name="Game Manager" type="Node3D" node_paths=PackedStringArray("touch_controls_menu", "empty_menu")]
 script = ExtResource("1_t6bhp")
 level_scene = "res://Main/Scenes/Level.tscn"
+touch_controls_menu = NodePath("Canvas/Input")
+empty_menu = NodePath("Canvas/Empty")
 character_scene = ExtResource("2_j6y75")
 cpu_player_prefab = ExtResource("3_13g02")
 

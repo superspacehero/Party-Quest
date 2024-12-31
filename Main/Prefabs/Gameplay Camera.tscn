@@ -12,7 +12,6 @@ size = Vector3(100, 100, 100)
 transform = Transform3D(1, 0, 0, 0, 0.980955, 0.194234, 0, -0.194234, 0.980955, 0, 0, 0)
 script = ExtResource("1_v48aj")
 camera = NodePath("Camera3D")
-camera_rotation = Vector3(-11.25, 0, 0)
 camera_offset_node = NodePath("Camera3D")
 
 [node name="Camera3D" type="Camera3D" parent="."]

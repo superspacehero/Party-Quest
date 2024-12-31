@@ -2,7 +2,9 @@
 
 [sub_resource type="AudioEffectReverb" id="AudioEffectReverb_pwcr7"]
 resource_name = "Reverb"
-room_size = 0.4
+room_size = 0.05
+damping = 0.0
+wet = 0.35
 
 [resource]
 bus/1/name = &"SFX"

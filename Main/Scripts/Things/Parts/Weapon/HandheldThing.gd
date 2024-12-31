@@ -1,4 +1,4 @@
-extends WeaponThing
+extends CharacterPartThing
 class_name HandheldThing
 
 func get_thing_type() -> String:

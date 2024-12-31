@@ -4,12 +4,6 @@ class_name CharacterSelectMenu
 # Singleton
 static var instance: CharacterSelectMenu = null
 
-@export var character_select_parent: Node:
-	get:
-		if character_select_parent == null:
-			character_select_parent = self
-		return character_select_parent
-
 @export var character_category: String = "Player"
 @export var character_select_scene: PackedScene = null
 @export var character_scene: PackedScene = null
@@ -17,7 +11,12 @@ static var instance: CharacterSelectMenu = null
 @export_category("Animation")
 @export var characters_selected_animator: AnimationPlayer
 @export var characters_selected_animation: String = "Ready"
+@export var character_select_move_time: float = 0.2
 
+var interpolating: bool = false
+var elapsed_time: float = 0.0
+
+var spawners: Array = []
 var character_selects: Array[CharacterSelect] = []
 
 var characters = null
@@ -31,7 +30,6 @@ var all_character_selects_ready: bool:
 			return true
 		return false
 var previous_character_selects_ready: bool = false
-
 
 func check_all_character_selects_ready():
 	var all_ready = all_character_selects_ready
@@ -72,6 +70,26 @@ func select():
 	if characters == null:
 		load_characters()
 
+	# Get all spawners
+	spawners = GeneralFunctions.find_all_by_type(get_tree().root, "CharacterSelectSpawn")
+	# Sort spawners by x position
+	spawners.sort_custom(
+		func(a, b):
+			return a.global_position.x < b.global_position.x
+	)
+
+func _process(delta: float) -> void:
+	if interpolating:
+		elapsed_time += delta / character_select_move_time
+
+		for character_select in character_selects:
+			character_select.position = character_select.position.lerp(Vector3.ZERO, elapsed_time)
+
+		if elapsed_time >= 1.0:
+			interpolating = false
+			for character_select in character_selects:
+				character_select.position = Vector3.ZERO
+
 func deselect():
 	super.deselect()
 
@@ -97,19 +115,46 @@ func primary(pressed):
 				add_character_select(input)
 
 func add_character_select(input: ThingInput) -> CharacterSelect:
-	if character_selects.size() < InputManager.instance.max_devices:
-		var character_select = character_select_scene.instantiate()
-		character_select_parent.add_child(character_select)
-		character_select = character_select as CharacterSelect
+	var index = character_selects.size()
+	if index < InputManager.instance.max_devices:
+		var character_select = character_select_scene.instantiate() as CharacterSelect
 
 		character_selects.append(character_select)
+		print_debug("Added character select for input " + str(input.device_id) + ". Character selects: " + str(character_selects))
 
 		if input != null:
 			character_select.input = input
 			input.inventory.append(character_select)
 
+		update_character_select_spawners()
+
 		return character_select
 	return null
+
+func remove_character_select(character_select: Node):
+	character_selects.erase(character_select)
+	
+	print_debug("Removed character select. Character selects: " + str(character_selects))
+
+	character_select.queue_free()
+	update_character_select_spawners()
+
+func update_character_select_spawners():
+	# Distribute character selects to spawners
+	for i in range(character_selects.size()):
+		var character_select = character_selects[i]
+		if spawners.size() > 0:
+			var spawner_index = i % spawners.size()
+			if character_select.get_parent():
+				character_select.reparent(spawners[spawner_index], true)
+			else:
+				spawners[spawner_index].add_child(character_select)
+			
+			# Start interpolation for this character select
+			interpolating = true
+			elapsed_time = 0.0
+		else:
+			print_debug("No spawners found for character select")
 
 func connect_to_input(input: ThingInput):
 	if input != null:
