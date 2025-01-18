@@ -466,7 +466,7 @@ point_display = NodePath("Node Displays")
 script = ExtResource("16_2mt5r")
 
 [node name="Environmental Lights" type="Node3D" parent="." node_paths=PackedStringArray("skybox_mesh")]
-transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
+transform = Transform3D(0.992546, 0.0861747, -0.0861747, 0, 0.707107, 0.707107, 0.121869, -0.701836, 0.701836, 0, 0, 0)
 script = ExtResource("18_hhpdw")
 skybox_mesh = NodePath("../Gameplay Camera/Camera3D/Skybox")
 sky_time = 0.25

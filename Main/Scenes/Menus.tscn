@@ -56,6 +56,7 @@ menu = NodePath("../..")
 transparent_bg = true
 handle_input_locally = false
 size = Vector2i(1920, 1080)
+render_target_update_mode = 4
 
 [node name="Root Scene" parent="Main Menus/Title Menu/Background/SubViewportContainer/SubViewport" instance=ExtResource("1_wmlvi")]
 
@@ -228,6 +229,11 @@ visible = false
 previous_menu = NodePath("../Main Menus/Main Menu")
 next_menu = NodePath("../Load Scene Menu")
 
+[node name="Character Select Menu2" parent="." node_paths=PackedStringArray("previous_menu", "next_menu") instance=ExtResource("11_gpt0s")]
+visible = false
+previous_menu = NodePath("../Main Menus/Main Menu")
+next_menu = NodePath("../Load Scene Menu")
+
 [node name="Load Scene Menu" parent="." instance=ExtResource("12_k24u3")]
 
 [connection signal="pressed" from="Main Menus/Title Menu/PressAnyButton" to="Main Menus/Title Menu" method="select_next_menu"]
@@ -242,3 +248,4 @@ next_menu = NodePath("../Load Scene Menu")
 [editable path="Game Manager/Gameplay Camera"]
 [editable path="Game Manager/Canvas"]
 [editable path="Character Select Menu"]
+[editable path="Character Select Menu2"]
